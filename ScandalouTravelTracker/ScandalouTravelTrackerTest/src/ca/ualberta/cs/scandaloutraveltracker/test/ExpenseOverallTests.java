@@ -6,8 +6,10 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+//JUnit tests for User Cases 4
 public class ExpenseOverallTests extends TestCase {
-	//use case UC 04.01.01 
+	//Test for AddExpense
+	//Test if expenses can be added to a claim successfully
 	public void testCreateExpense() {
 		//can change date type later since Date is deprecated
 		Date date = new Date(2014,01,01);
@@ -28,7 +30,8 @@ public class ExpenseOverallTests extends TestCase {
 		
 	}
 	
-	//use case UC 04.02.01 
+	//Test for AddExpenseCategory and EditExpenseCategory
+	//Test to see if expense category is one of the specified categories
 	public void testExpenseCategories() {
 		List<String> categoryList = 
 				Arrays.asList("Air Fare", "Ground Transport", "Vehicle Rental", 
@@ -45,9 +48,14 @@ public class ExpenseOverallTests extends TestCase {
 		
 		Expense testExpense = new Expense(date, category, description, cost, currencyType);
 		assertTrue("category not one previously defined", categoryList.contains(testExpense.getCategory()));
+		
+		testExpense.setCategory("Fuel");
+		assertTrue("category not one previously defined", categoryList.contains(testExpense.getCategory()));
+		assertTrue("category not edited correctly", testExpense.getCategory().equals("Fuel"));
 	}
 	
-	//use case UC 04.03.01 
+	//Test for AddExpenseCurrency and EditExpenseCurrency
+	//Test to see if expense currency is one of specified categories
 	public void testExpenseCurrency() {
 		List<String> currencyList = Arrays.asList("CAD", "USD", "EUR", "GBP", "CHF", "JPY", "CNY");
 		//can change date type later since Date is deprecated
@@ -61,11 +69,15 @@ public class ExpenseOverallTests extends TestCase {
 		
 		Expense testExpense = new Expense(date, category, description, cost, currencyType);
 		assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCurrency()));
+		
+		testExpense.setCurrency("CHF");
+		assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCategory()));
+		assertTrue("currency not edited correctly", testExpense.getCurrency().equals("CHF"));
 	}
 	
-	//use case UC 04.04.01 
+	//Test for FlagExpense
+	//Test to see if flag setting works correctly
 	public void testExpenseFlag() {
-		List<String> currencyList = Arrays.asList("CAD", "USD", "EUR", "GBP", "CHF", "JPY", "CNY");
 		//can change date type later since Date is deprecated
 		Date date = new Date(2014,01,01);
 		String category = "Air Fare";
@@ -81,7 +93,8 @@ public class ExpenseOverallTests extends TestCase {
 		
 	}
 	
-	//use case UC 04.05.01 - 04.05.02
+	//Test for ListExpenseDetails and SpecificTestDetails
+	//Test to see if expense details are converted directly to be displayed
 	public void testExpenseDetails() {
 		Date date = new Date(2014,01,01);
 		String category = "Air Fare";
@@ -98,7 +111,8 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("The details aren't being returned properly for displaying", details.equals(actualDetails));
 	}
 	
-	//use case UC 04.06.01
+	//Test for EditExpense
+	//Test if editing expense elements work correctly
 	public void testExpenseEdit() {
 		Date date = new Date(2014,01,01);
 		String category = "Air Fare";
@@ -123,7 +137,8 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("Currency edit unsuccessful", testExpense.getCurrency().equals("USD"));
 	}
 	
-	//use case UC 04.07.01 
+	//Test for DeleteExpense
+	//Test if deleting an expense from a claim works
 	public void testExpenseDelete() {
 		Date date = new Date(2014,01,01);
 		String category = "Air Fare";
@@ -140,8 +155,9 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("Expense deletion unsuccessful", (testClaim.getExpenses() == 0));
 	}
 	
-	//use case UC 04.08.01
+	//Test for MinNavigationAddExpense
+	//Test if navigation to add an expense is 2 clicks
 	public void testExpenseNavigation() {
-		
+		//manually test if expense add screen can be added in 2 clicks when app starts up
 	}
 }
