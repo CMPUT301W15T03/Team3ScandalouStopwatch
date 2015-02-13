@@ -3,11 +3,13 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 import junit.framework.TestCase;
 
 public class ClaimListTest extends TestCase {
+	//Tests for US02.01.01
+	//create an empty claim list
 	public void testEmptyClaimList(){
 		ClaimList claimlist=new ClaimList();
 		assertTrue("Empty claim list", claimlist.size()==0);
 		}
-	
+	//create a claim list with a claim and get claims
 	public void testGetClaims(){
 		ClaimList claimlist = new ClaimList();
 		String claimName="A claim";
@@ -18,7 +20,8 @@ public class ClaimListTest extends TestCase {
 		assertTrue("Test Claim not contained", claims.contains(testClaim));
 	
 	}
-	
+	//Test for US02.02.01
+	//sort claims
 	public void testSortClaim(){
 		ClaimList claimlist = new ClaimList();
 		String claimName="A claim";
@@ -32,7 +35,8 @@ public class ClaimListTest extends TestCase {
 		Collection<Claim> claims= claimList.getClaims().sort();
 		assertTrue("Student list is not sorted",)
 	}
-	
+	//test for US02.01.01 and US02.02.01
+	//updates the claim list in the listview using listeners
 	boolean updated=false;
 	public void testNotifyListeners(){
 		ClaimList claimlist = new ClaimList();
