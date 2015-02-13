@@ -51,56 +51,27 @@ public class ClaimsApprovalTest extends TestCase {
 		claimList1.addClaim(claim1);
 		
 		// Carry out the tests
-		assertTrue("claim1 should have claimantName1", 
-				claimList1.get(0).getClaimantName().equals(claimGenerator.getClaimantName(1)));
-		assertTrue("claim1 should have a startDate of startMonth1/startDay1/startYear1", 
-				claimList1.get(0).getStartMDY().equals(claimGenerator.getStartDate(1)));
-		assertTrue("claim1 should have two destinations", 
-				claimList1.get(0).getDestinations.size() == 2);
-		assertTrue("claim1's first destination should be destination1", 
-				claimList1.get(0).getDestinations().get(0).equals(claimGenerator.getDestination1(1)));
-		assertTrue("claim1's second destination should be destination2", 
-				claimList1.get(0).getDestinations().get(1).equals(claimGenerator.getDestination2(1)));
-		assertTrue("claim1 should have status1", 
-				claimList1.get(0).getStatus().equals(claimGenerator.getStatus()));
-		assertTrue("claim1 should have two currency amounts", 
-				claimList1.get(0).getTotals().size() == 2);
-		assertTrue("claim1 should have currency1 equal to amount1", 
-				claimList1.get(0).getTotals.get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
-		assertTrue("claim1 should have currency2 equal to amount2", 
-				claimList1.get(0).getTotals.get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
-		assertTrue("claim1 should have approverName1.", 
-				claimList1.get(0).getApproverName().equals(claimG		// Create a claim list
-						ClaimList claimList1 = new ClaimList();
-
-				// Create a claim
-				ClaimGenerator claimGenerator = new ClaimGenerator();
-				Claim claim1 = claimGenerator.generateClaim(1, "Submitted");
-				
-				// Populate the claim list
-				claimList1.addClaim(claim1);
-				
-				// Carry out the tests
-				assertTrue("claim1 should have claimantName1", 
-						claimList1.get(0).getClaimantName().equals(claimGenerator.getClaimantName(1)));
-				assertTrue("claim1 should have a startDate of startMonth1/startDay1/startYear1", 
-						claimList1.get(0).getStartMDY().equals(claimGenerator.getStartDate(1)));
-				assertTrue("claim1 should have two destinations", 
-						claimList1.get(0).getDestinations.size() == 2);
-				assertTrue("claim1's first destination should be destination1", 
-						claimList1.get(0).getDestinations().get(0).equals(claimGenerator.getDestination1(1)));
-				assertTrue("claim1's second destination should be destination2", 
-						claimList1.get(0).getDestinations().get(1).equals(claimGenerator.getDestination2(1)));
-				assertTrue("claim1 should have status1", 
-						claimList1.get(0).getStatus().equals(claimGenerator.getStatus()));
-				assertTrue("claim1 should have two currency amounts", 
-						claimList1.get(0).getTotals().size() == 2);
-				assertTrue("claim1 should have currency1 equal to amount1", 
-						claimList1.get(0).getTotals.get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
-				assertTrue("claim1 should have currency2 equal to amount2", 
-						claimList1.get(0).getTotals.get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
-				assertTrue("claim1 should have approverName1.", 
-						claimList1.get(0).getApproverName().equals(claimGenerator.getApproverName(1)));	enerator.getApproverName(1)));		
+		assertTrue("claim1 should have the generated claimant name.", 
+				claim1.getClaimantName().equals(claimGenerator.getClaimantName(1)));
+		assertTrue("claim1 should have the generated start date.", 
+				claim1.getStartMDY().equals(claimGenerator.getStartDate(1)));
+		assertTrue("claim1 should have two destinations.", 
+				claim1.getDestinations.size() == 2);
+		assertTrue("claim1's first destination should be the generated destination1.", 
+				claim1.getDestinations().get(0).equals(claimGenerator.getDestination1(1)));
+		assertTrue("claim1's second destination should be the generated destination2.", 
+				claim1.getDestinations().get(1).equals(claimGenerator.getDestination2(1)));
+		assertTrue("claim1 should have the generated status", 
+				claim1.getStatus().equals(claimGenerator.getStatus()));
+		assertTrue("claim1 should have two currency amounts.", 
+				claim1.getTotals().size() == 2);
+		assertTrue("claim1 should have the first generated currency amount", 
+				claim1.getTotals.get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
+		assertTrue("claim1 should have the second generated currency amount", 
+				claim1.getTotals.get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
+		assertTrue("claim1 should have the generated approver name.", 
+				claim1.getApproverName().equals(claimGenerator.getApproverName()));
+		
 	}
 	
 	// Test Case (TC) 08.03
@@ -137,26 +108,28 @@ public class ClaimsApprovalTest extends TestCase {
 		Claim claim1 = claimGenerator.generateClaim(1);
 		
 		// Carry out the tests
-		assertTrue("claim1 should have claimantName1", 
+		assertTrue("claim1 should have the generated claimant name.", 
 				claim1.getClaimantName().equals(claimGenerator.getClaimantName(1)));
-		assertTrue("claim1 should have a startDate of startMonth1/startDay1/startYear1", 
+		assertTrue("claim1 should have the generated start date.", 
 				claim1.getStartMDY().equals(claimGenerator.getStartDate(1)));
-		assertTrue("claim1 should have two destinations", 
+		assertTrue("claim1 should have the generated end date.", 
+				claim1.getStartMDY().equals(claimGenerator.getEndDate(1)));		
+		assertTrue("claim1 should have two destinations.", 
 				claim1.getDestinations.size() == 2);
-		assertTrue("claim1's first destination should be destination1", 
+		assertTrue("claim1's first destination should be the generated destination1.", 
 				claim1.getDestinations().get(0).equals(claimGenerator.getDestination1(1)));
-		assertTrue("claim1's second destination should be destination2", 
+		assertTrue("claim1's second destination should be the generated destination2.", 
 				claim1.getDestinations().get(1).equals(claimGenerator.getDestination2(1)));
-		assertTrue("claim1 should have status1", 
+		assertTrue("claim1 should have the generated status", 
 				claim1.getStatus().equals(claimGenerator.getStatus()));
-		assertTrue("claim1 should have two currency amounts", 
+		assertTrue("claim1 should have two currency amounts.", 
 				claim1.getTotals().size() == 2);
-		assertTrue("claim1 should have currency1 equal to amount1", 
+		assertTrue("claim1 should have the first generated currency amount", 
 				claim1.getTotals.get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
-		assertTrue("claim1 should have currency2 equal to amount2", 
+		assertTrue("claim1 should have the second generated currency amount", 
 				claim1.getTotals.get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
-		assertTrue("claim1 should have approverName1.", 
-				claim1.getApproverName().equals(claimGenerator.getApproverName(1)));
+		assertTrue("claim1 should have the generated approver name.", 
+				claim1.getApproverName().equals(claimGenerator.getApproverName()));
 		
 	}
 	
