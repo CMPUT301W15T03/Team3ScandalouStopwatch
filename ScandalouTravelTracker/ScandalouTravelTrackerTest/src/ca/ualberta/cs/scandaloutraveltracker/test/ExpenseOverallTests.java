@@ -26,8 +26,9 @@ import junit.framework.TestCase;
 
 //JUnit tests for User Cases 4
 public class ExpenseOverallTests extends TestCase {
-	//Test for UC 04.01.01  - AddExpense
-	//Test if expenses can be added to a claim successfully
+	
+	// Test UC 04.01.01
+	// Test if expenses can be added to a claim successfully
 	public void testCreateExpense() {
 		//can change date type later since Date is deprecated
 		Date date = new Date(2014,01,01);
@@ -48,8 +49,8 @@ public class ExpenseOverallTests extends TestCase {
 		
 	}
 	
-	//Test for UC 04.02.01 and UC 04.03.01
-	//Test to see if expense category is one of the specified categories
+	// Test UC 04.02.01, UC 04.02.02
+	// Test to see if expense category is one of the specified categories
 	public void testExpenseCategories() {
 		List<String> categoryList = 
 				Arrays.asList("Air Fare", "Ground Transport", "Vehicle Rental", 
@@ -72,8 +73,8 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("category not edited correctly", testExpense.getCategory().equals("Fuel"));
 	}
 	
-	//Test for UC 04.04.01 and UC 04.05.01
-	//Test to see if expense currency is one of specified categories
+	// Test UC 04.03.01, UC 04.03.02
+	// Test to see if expense currency is one of specified categories
 	public void testExpenseCurrency() {
 		List<String> currencyList = Arrays.asList("CAD", "USD", "EUR", "GBP", "CHF", "JPY", "CNY");
 		//can change date type later since Date is deprecated
@@ -93,8 +94,8 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("currency not edited correctly", testExpense.getCurrency().equals("CHF"));
 	}
 	
-	//Test for UC 04.06.01
-	//Test to see if flag setting works correctly
+	// Test UC 04.04.01
+	// Test to see if flag setting works correctly
 	public void testExpenseFlag() {
 		//can change date type later since Date is deprecated
 		Date date = new Date(2014,01,01);
@@ -111,8 +112,8 @@ public class ExpenseOverallTests extends TestCase {
 		
 	}
 	
-	//Test for UC 04.07.01 and UC 04.08.01 
-	//Test to see if expense details are converted directly to be displayed
+	// Test UC 04.05.01, UC 04.05.02
+	// Test to see if expense details are converted directly to be displayed
 	public void testExpenseDetails() {
 		Date date = new Date(2014,01,01);
 		String category = "Air Fare";
@@ -129,8 +130,8 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("The details aren't being returned properly for displaying", details.equals(actualDetails));
 	}
 	
-	//Test for UC 04.09.01
-	//Test if editing expense elements work correctly
+	// Test UC 04.06.01
+	// Test if editing expense elements work correctly
 	public void testExpenseEdit() {
 		Date date = new Date(2014,01,01);
 		String category = "Air Fare";
@@ -155,8 +156,8 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("Currency edit unsuccessful", testExpense.getCurrency().equals("USD"));
 	}
 	
-	//Test for UC 04.10.01
-	//Test if deleting an expense from a claim works
+	// Test for UC 04.07.01
+	// Test if deleting an expense from a claim works
 	public void testExpenseDelete() {
 		Date date = new Date(2014,01,01);
 		String category = "Air Fare";
@@ -173,8 +174,8 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("Expense deletion unsuccessful", (testClaim.getExpenses() == 0));
 	}
 	
-	//Test for UC 04.11.01
-	//Test if navigation to add an expense is 2-3 screen/clicks
+	// Test UC 04.08.01
+	// Test if navigation to add an expense is 2-3 screen/clicks
 	public void testExpenseNavigation() {
 		//manually test if expense add screen can be added in 2-3 screens/clicks when app starts up
 		//when UI made will make intent test
