@@ -21,7 +21,7 @@ import java.io.File;
 import junit.framework.TestCase;
 
 public class ExpenseReceiptsTest extends TestCase {
-	
+	//User Story 06.01.01
 	//Test Case 6.1
 	public void testAttachPhoto() {
 		File photo = new File("TestPhoto1.jpg");	//a test photo that complies with the size limit
@@ -29,7 +29,7 @@ public class ExpenseReceiptsTest extends TestCase {
 		expense.addPhoto(photo);
 		assertTrue("Attach failed", (expense.getPhoto() == photo));
 	}
-	
+	//User Story 6.02.01
 	//Test Case 6.2
 	public void testViewPhoto() {
 		File photo = new File("TestPhoto1.jpg");	//a test photo that complies with the size limit
@@ -37,7 +37,7 @@ public class ExpenseReceiptsTest extends TestCase {
 		expense.addPhoto(photo);
 		assertTrue("View failed", (expense.getPhoto() != null));
 	}
-	
+	//User Story 6.03.01
 	//Test Case 6.3
 	public void testDeletePhoto() {
 		File photo = new File("TestPhoto1.jpg");	//a test photo that complies with the size limit
@@ -47,7 +47,7 @@ public class ExpenseReceiptsTest extends TestCase {
 		assertTrue("Delete failed", (expense.getPhoto() == null));
 		assertFalse("Photo still exists", photo.exists());
 	}
-	
+	//User Story 6.04.01
 	//Test Case 6.4
 	public void testPhotoSizeLimit() {
 		File badPhoto = new File("TestPhoto2.jpg");	//a test photo that doesn't comply with the size limit
