@@ -4,5 +4,10 @@
     <string name="app_name">ScandalouTravelTracker</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_view_claim">ViewClaimActivity</string>
+    <string name="title_activity_edit_claim">EditClaimActivity</string>
+    <string name="title_activity_view_expense">ViewExpenseActivity</string>
+    <string name="title_activity_edit_expense">EditExpenseActivity</string>
+    <string name="title_activity_expense_list">ExpenseListActivity</string>
 
 </resources>
