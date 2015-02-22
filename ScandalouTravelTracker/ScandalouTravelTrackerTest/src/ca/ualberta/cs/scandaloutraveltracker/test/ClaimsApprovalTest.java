@@ -25,12 +25,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 public class ClaimsApprovalTest extends TestCase {
-
-	public void testEmptyClaimList(){
-		
-		ClaimList claimList1 = new ClaimList();
-		assertTrue("The claim list should be empty.", claimList1.size() == 0);
-	}
 	
 	// Test UC 08.01.01
 	public void testGetSubmittedClaims(){
@@ -294,7 +288,7 @@ public class ClaimsApprovalTest extends TestCase {
 	}
 	
 	// Test UC 08.07.01, UC 08.08.01	
-	public void testApproverOrReturnMyClaim(){
+	public void testApproveOrReturnMyClaim(){
 
 		// Create a claim
 		ClaimGenerator claimGenerator = new ClaimGenerator();
