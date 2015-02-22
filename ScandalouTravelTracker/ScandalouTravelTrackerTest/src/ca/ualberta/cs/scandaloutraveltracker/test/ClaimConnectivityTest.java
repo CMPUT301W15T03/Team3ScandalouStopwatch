@@ -23,6 +23,7 @@ import android.test.ActivityInstrumentationTestCase2;
 public class ClaimConnectivityTest extends
 		ActivityInstrumentationTestCase2<Connection> {
 
+	// Test UC 09.01.01
 	public void testDataPush() {
 	    String text = "Charles";
 	    Date sDate = new Date(123);

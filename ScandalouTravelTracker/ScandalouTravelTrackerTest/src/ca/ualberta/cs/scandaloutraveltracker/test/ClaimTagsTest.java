@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 public class ClaimTagsTest extends TestCase {
 	
-	//Test Case 3.1
+	// Test UC 03.01.01
 	public void testTagClaim() {
 		Claim claim = new Claim();
 		Tag tag1 = new Tag("Tag1");
@@ -33,7 +33,7 @@ public class ClaimTagsTest extends TestCase {
 		assertTrue("Tag2 not added to claim", (claim.getTags().size() == 2));
 	}
 	
-	//Test Case 3.2a
+	// Test UC 03.02.01
 	public void testViewTags() {
 		Tag tag1 = new Tag("Tag1");
 		Tag tag2 = new Tag("Tag2");
@@ -45,7 +45,7 @@ public class ClaimTagsTest extends TestCase {
 		}
 	}
 	
-	//Test Case 3.2b
+	// Test UC 03.02.02
 	public void testAddTag() {
 		Tag tag1 = new Tag("Tag1");
 		ArrayList<Tag> tags = Tag.getAllInstances();
@@ -53,7 +53,7 @@ public class ClaimTagsTest extends TestCase {
 		assertTrue("Wrong tag", (tags.get(0) == tag1));
 	}
 	
-	//Test Case 3.2c
+	// Test UC 03.02.03
 	public void testRenameTag() {
 		Tag tag1 = new Tag("Tag1");
 		String rename = "Renamed tag";
@@ -61,14 +61,14 @@ public class ClaimTagsTest extends TestCase {
 		assertTrue("Rename failed", (tag1.getName().equals(rename)));
 	}
 	
-	//Test Case 3.2d
+	// Test UC 03.02.04
 	public void testDeleteTag() {
 		Tag tag1 = new Tag("Tag1");
 		tag1.delete();
 		assertTrue("Delete failed", (Tag.getAllInstances().size() == 0));
 	}
 	
-	//Test Case 3.3
+	// Test UC 03.03.01
 	public void testFilterClaims() {
 		Claim claim1 = new Claim();
 		Claim claim2 = new Claim();

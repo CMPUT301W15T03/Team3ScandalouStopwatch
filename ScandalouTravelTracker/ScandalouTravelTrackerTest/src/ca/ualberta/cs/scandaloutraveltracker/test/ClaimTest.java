@@ -22,6 +22,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	
+	// Test UC 01.01.01
 	public void testNewClaim() {
 	    String name = "test";
 	    Date sDate = new Date(123)
@@ -32,6 +33,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    assertTrue("End date should match", newClaim.getEndDate().equals(eDate));
 	}
 	
+	// Test UC 01.02.01
 	public void testAddDestinaion() {
 	    Claim newClaim = new Claim();
 	    String l1 = "Place";
@@ -46,6 +48,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    assertTrue("Reason should match", newDesination.getReason.equals(r2));
 	}
 	
+	// Test UC 01.03.01
 	public void testClaimDisplayed() {
 	    ViewClaimActivity activity = startWithClaim();
 	    View allViews = activity.getWindow().getDecorView();
@@ -57,6 +60,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    ViewAsserts.assertOnScreen(allViews, (View) endDate);
 	}
 	
+	// Test UC 01.04.01
 	public void testCantEditClaim() {
 	    String name = "test";
 	    Date sDate = new Date(123);
@@ -74,6 +78,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	                newClaim.getEndDate.equals(eDate));
 	}
 
+	// Test UC 01.04.01
 	public void testCanEditClaim() {
 	    String name = "test";
 	    Date sDate = new Date(123);
@@ -90,7 +95,8 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    assertTrue("End date should not have changed", 
 	                newClaim.getEndDate.equals(eDate));
 	}
-	
+
+	// Test UC 01.05.01	
 	public void testCantDeleteClaim() {
 	    String name = "test";
 	    Date sDate = new Date(123);
@@ -103,6 +109,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    assertEquals("Count should still be one", claimsList.getCount(), 1);
 	}
 
+	// Test UC 01.05.01
 	public void testCanDeleteClaim() {
 	    String name = "test";
 	    Date sDate = new Date(123);
@@ -115,6 +122,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    assertEquals("Count should be zero", claimsList.getCount(), 0);
 	}
 	
+	// Test UC 01.06.01
 	public void testSavedData() {
 	    String name = "Justin";
 	    Date sDate = new Date(123);

@@ -23,8 +23,7 @@ import android.test.ActivityInstrumentationTestCase2;
 public class ExpenseListTest extends
 		ActivityInstrumentationTestCase2<ExpenseList> {
 
-	// Test Case (TC) 05.01
-	// Tests UC 05.01.01
+	// Test UC 05.01.01
 	public void testExpenseDisplayed() {
 	    Date date = new Date(123);
 	    String cat = "Category1";

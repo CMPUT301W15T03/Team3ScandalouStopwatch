@@ -32,8 +32,7 @@ public class ClaimsApprovalTest extends TestCase {
 		assertTrue("The claim list should be empty.", claimList1.size() == 0);
 	}
 	
-	// Test Case (TC) 08.01
-	// Tests UC 08.01.01
+	// Test UC 08.01.01
 	public void testGetSubmittedClaims(){
 		
 		// Create a claim list
@@ -54,8 +53,7 @@ public class ClaimsApprovalTest extends TestCase {
 		assertTrue("claims1 should contain claim1", claims1.contains(claim1));
 	}
 	
-	// Test case 08.02
-	// Tests UC 08.01.02
+	// Test UC 08.01.02
 	public void testShowClaimDetailsInList(){
 		
 		// Create a claim list
@@ -92,8 +90,7 @@ public class ClaimsApprovalTest extends TestCase {
 		
 	}
 	
-	// Test Case (TC) 08.03
-	// Tests UC 08.02.01
+	// Test UC 08.02.01
 	public void testClaimListOrder(){
 		
 		// Create a claim list
@@ -117,8 +114,7 @@ public class ClaimsApprovalTest extends TestCase {
 				claims1.get(0).getName().equals(claim1.getName()));
 	}
 	
-	// Test Case (TC) 08.04
-	// Tests UC 08.03.01
+	// Test UC 08.03.01
 	public void testShowClaim(){
 
 		// Create a claim
@@ -151,8 +147,7 @@ public class ClaimsApprovalTest extends TestCase {
 		
 	}
 	
-	// Test Case (TC) 08.05
-	// Tests UC 08.04.01
+	// Test UC 08.04.01
 	public void testGetExpenses(){
 
 		// Create a expense list
@@ -179,8 +174,7 @@ public class ClaimsApprovalTest extends TestCase {
 		
 	}
 	
-	// Test Case (TC) 08.06
-	// Tests UC 08.04.02
+	// Test UC 08.04.02
 	public void testShowExpenseDetailsInList(){
 
 		// Create a expense list
@@ -206,14 +200,12 @@ public class ClaimsApprovalTest extends TestCase {
 				expenseList1.get(0).getReceiptYN().equals(expenseGenerator.getReceiptYN()));		
 	}
 	
-	// Test Case (TC) 08.07
-	// Tests UC 08.05.01
+	// Test UC 08.05.01
 	public void testShowReceipt(){
 		// Will add an intent test when we make the UI	
 	}	
 	
-	// Test Case (TC) 08.08
-	// Tests UC 08.06.01
+	// Test UC 08.06.01
 	public void testAddApproverComment(){
 		
 		// Create a claim
@@ -231,8 +223,7 @@ public class ClaimsApprovalTest extends TestCase {
 		
 	}
 	
-	// Test Case (TC) 08.09
-	// Tests UC 08.06.02
+	// Test UC 08.06.02
 	public void testEditApproverComment(){
 		
 		// Create a claim
@@ -256,8 +247,7 @@ public class ClaimsApprovalTest extends TestCase {
 		
 	}
 	
-	// Test Case (TC) 08.10
-	// Tests UC 08.06.01, UC 08.06.02
+	// Test UC 08.06.01, UC 08.06.02
 	public void testCommentMyClaim(){
 		
 		// Create a claim
@@ -277,8 +267,7 @@ public class ClaimsApprovalTest extends TestCase {
 		
 	}	
 	
-	// Test Case (TC) 08.11
-	// Tests UC 08.07.01, UC 08.08.01
+	// Test UC 08.07.01, UC 08.08.01
 	public void testApproveOrReturnClaim(){
 		
 		// Create claims
@@ -304,8 +293,7 @@ public class ClaimsApprovalTest extends TestCase {
 		
 	}
 	
-	// Test Case (TC) 08.12
-	// Tests UC 08.07.01, UC 08.08.01	
+	// Test UC 08.07.01, UC 08.08.01	
 	public void testApproverOrReturnMyClaim(){
 
 		// Create a claim

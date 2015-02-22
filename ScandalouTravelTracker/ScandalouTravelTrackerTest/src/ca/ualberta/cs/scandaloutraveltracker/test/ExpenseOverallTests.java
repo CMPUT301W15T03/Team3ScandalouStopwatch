@@ -156,7 +156,7 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("Currency edit unsuccessful", testExpense.getCurrency().equals("USD"));
 	}
 	
-	// Test for UC 04.07.01
+	// Test UC 04.07.01
 	// Test if deleting an expense from a claim works
 	public void testExpenseDelete() {
 		Date date = new Date(2014,01,01);
