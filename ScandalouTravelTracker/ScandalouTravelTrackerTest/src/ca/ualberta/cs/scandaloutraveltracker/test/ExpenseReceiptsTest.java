@@ -18,6 +18,8 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.io.File;
 
+import ca.ualberta.cs.scandaloutraveltracker.Expense;
+
 import junit.framework.TestCase;
 
 public class ExpenseReceiptsTest extends TestCase {

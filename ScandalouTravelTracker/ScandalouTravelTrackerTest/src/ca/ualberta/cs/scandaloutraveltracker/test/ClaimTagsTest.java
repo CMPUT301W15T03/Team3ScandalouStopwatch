@@ -18,6 +18,9 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
 
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+
 import junit.framework.TestCase;
 
 public class ClaimTagsTest extends TestCase {

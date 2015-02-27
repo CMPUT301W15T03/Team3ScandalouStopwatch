@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.Expense;
+
 import junit.framework.TestCase;
 
 public class ClaimsApprovalTest extends TestCase {

@@ -23,7 +23,9 @@ import java.util.Date;
 import junit.framework.TestCase;
 
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.ViewClaimActivity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;

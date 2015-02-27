@@ -18,6 +18,11 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
+import java.util.Date;
+
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+
 import android.test.ActivityInstrumentationTestCase2;
 
 public class ClaimConnectivityTest extends

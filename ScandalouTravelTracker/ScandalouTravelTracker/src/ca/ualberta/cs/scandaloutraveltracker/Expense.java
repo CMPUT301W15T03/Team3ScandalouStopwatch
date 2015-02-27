@@ -18,6 +18,7 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -29,6 +30,7 @@ public class Expense {
 	private Double cost;
 	private String currencyType;
 	private boolean flag;
+	private File photo;
 	
 	public Expense() {
 		//empty constructor, for testing right now
@@ -89,6 +91,14 @@ public class Expense {
 
 	public void setFlag(boolean flag) {
 		this.flag = flag;
+	}
+	
+	public File getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(File photo) {
+		this.photo = photo;
 	}
 	
 	@Override
