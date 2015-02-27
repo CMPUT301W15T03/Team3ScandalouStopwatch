@@ -65,7 +65,7 @@ public class Expense {
 		this.currencyType = currencyType;
 	}
 	
-	public boolean isFlag() {
+	public boolean getFlag() {
 		return flag;
 	}
 

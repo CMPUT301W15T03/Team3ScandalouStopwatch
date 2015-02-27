@@ -9,8 +9,8 @@ public class Claim {
 	private String description;
 	private Date startDate;
 	private Date endDate; 
-	//private ArrayList<Expense> expenses;
-	//private ArrayList<Destination> destinations;
+	private ArrayList<Expense> expenses;
+	private ArrayList<Destination> destinations;
 	private ArrayList<String> tags; 
 	private HashMap<String, Double> total;
 	private Boolean canEdit;
@@ -53,12 +53,12 @@ public class Claim {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-/*	public ArrayList<Expense> getExpenses() {
+	public ArrayList<Expense> getExpenses() {
 		return expenses;
 	}
 	public void setExpenses(ArrayList<Expense> expenses) {
 		this.expenses = expenses;
-	}*/
+	}
 	public ArrayList<String> getTags() {
 		return tags;
 	}

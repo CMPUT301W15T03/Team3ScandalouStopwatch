@@ -1,6 +1,7 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -17,7 +18,7 @@ public class ClaimList {
 	public Collection<Claim> getClaims(){
 		return claimList;
 	}
-	public ArrayList<Claims> searchTag(String tag){
+	public ArrayList<Claim> searchTag(String tag){
 		
 		return null;
 	}
@@ -43,7 +44,7 @@ public class ClaimList {
 		}
 	}
 	public void addListener(Listener l){
-		listeners.add(l)
+		listeners.add(l);
 	}
 	public void removeListener(Listener l){
 		listeners.remove(l);
