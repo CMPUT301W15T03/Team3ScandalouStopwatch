@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.test;*/
 
+import java.util.Collection;
+
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import junit.framework.TestCase;
 
 public class ClaimListTest extends TestCase {

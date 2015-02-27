@@ -13,7 +13,7 @@ public class Expense {
 	private boolean flag;
 	
 	public Expense() {
-		
+		//empty constructor, for testing right now
 	}
 	
 	public Expense(Date date, String category, String description, Double cost, String currencyType) {
