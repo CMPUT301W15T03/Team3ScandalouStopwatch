@@ -10,6 +10,7 @@ public class Claim {
 	private Date startDate;
 	private Date endDate; 
 	private ArrayList<Expense> expenses;
+	private ArrayList<Destination> destinations;
 	private ArrayList<String> tags; 
 	private HashMap<String, Double> total;
 	
