@@ -18,15 +18,29 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
-import android.test.ActivityInstrumentationTestCase2;
+import java.util.Date;
 
-public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
+import junit.framework.TestCase;
+
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.ViewClaimActivity;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.ViewAsserts;
+import android.view.View;
+import android.widget.TextView;
+
+public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivity> {
+	
+	public ClaimTest() {
+		super(ClaimListActivity.class);
+	}
 	
 	// Test UC 01.01.01
 	public void testNewClaim() {
 	    String name = "test";
-	    Date sDate = new Date(123)
-	    Date eDate = new Date(456)
+	    Date sDate = new Date(123);
+	    Date eDate = new Date(456);
 	    Claim newClaim = new Claim(name, sDate, eDate);
 	    assertTrue("Names should match", newClaim.getName().equals(name));
 	    assertTrue("Start date should match", newClaim.getStartDate().equals(sDate));
@@ -39,7 +53,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    String l1 = "Place";
 	    String r1 = "Reason";
 	    String l2 = "Place 2";
-	    Stirng r2 = "Reason 2";
+	    String r2 = "Reason 2";
 	    Destination newDestination = new (l1, r1);
 	    Destination secDestination = new (l2, r2);
 	    assertFalse("The two destinations should be different", 
@@ -60,6 +74,11 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    ViewAsserts.assertOnScreen(allViews, (View) endDate);
 	}
 	
+	private ViewClaimActivity startWithClaim() {
+		// TODO Give a Claim for the test to start with
+		return null;
+	}
+
 	// Test UC 01.04.01
 	public void testCantEditClaim() {
 	    String name = "test";
@@ -71,11 +90,11 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    newClaim.setCanEdit(false);
 	    newClaim.setName(diffName);
 	    newClaim.setStartDate(diffSDate);
-	    assertTrue("Name should not have changed", newClaim.getName.equals(name));
+	    assertTrue("Name should not have changed", newClaim.getName().equals(name));
 	    assertTrue("Start date should not have changed", 
-	                newClaim.getStartDate.equals(sDate);
+	                newClaim.getStartDate().equals(sDate));
 	    assertTrue("End date should not have changed", 
-	                newClaim.getEndDate.equals(eDate));
+	                newClaim.getEndDate().equals(eDate));
 	}
 
 	// Test UC 01.04.01
@@ -89,11 +108,11 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<Claim> {
 	    newClaim.setCanEdit(true);
 	    newClaim.setName(diffName);
 	    newClaim.setStartDate(diffSDate);
-	    assertTrue("Name should have changed", newClaim.getName.equals(diffName));
+	    assertTrue("Name should have changed", newClaim.getName().equals(diffName));
 	    assertTrue("Start date should have changed", 
-	                newClaim.getStartDate.equals(diffSDate);
+	                newClaim.getStartDate().equals(diffSDate));
 	    assertTrue("End date should not have changed", 
-	                newClaim.getEndDate.equals(eDate));
+	                newClaim.getEndDate().equals(eDate));
 	}
 
 	// Test UC 01.05.01	
