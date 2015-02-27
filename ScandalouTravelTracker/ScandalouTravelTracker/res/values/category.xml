@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="Air_Fare" type="string"/>
+    <item name="Ground_Transport" type="string"/>
+    <item name="Vehicle_Rental" type="string"/>
+    <item name="Private_Automobile" type="string"/>
+    <item name="Fuel" type="string"/>
+    <item name="Parking" type="string"/>
+    <item name="Registration" type="string"/>
+    <item name="Accomodation" type="string"/>
+    <item name="Meal" type="string"/>
+    <item name="Supplies" type="string"/>
+    
+</resources>

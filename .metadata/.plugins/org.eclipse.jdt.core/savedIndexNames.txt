@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/cshome/miguel1/Team3ScandalouStopwatch/.metadata/.plugins/org.eclipse.jdt.core
+190144338.index
+508398038.index
+783748879.index

@@ -1,22 +1,51 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class ClaimList extends Activity {
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_claim_list);
+public class ClaimList {
+	protected static ArrayList<Claim> claimList;
+    protected ArrayList<Listener> listeners;
+    	
+	public ClaimList(){
+		claimList= new ArrayList<Claim>();
+		listeners= new ArrayList<Listener>();
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.claim_list, menu);
-		return true;
+	public Collection<Claim> getClaims(){
+		return claimList;
 	}
-
+	public ArrayList<Claims> searchTag(String tag){
+		
+		return null;
+	}
+	public void addClaim(Claim string){
+		/*claimList.add(string);
+		if (claimList.size()>1){
+			Collections.sort(claimList, new CustomComparator())
+		}
+		ClaimListgetClaims
+		*/
+	}
+	
+	public void deleteClaim(Claim removeclaim){
+		claimList.remove(removeclaim);
+		notifyListeners();
+	}
+	public static boolean isEmpty(){
+		return claimList.size()==0;
+	}
+	public void notifyListeners(){
+		for(Listener listener: listeners){
+			listener.update();
+		}
+	}
+	public void addListener(Listener l){
+		listeners.add(l)
+	}
+	public void removeListener(Listener l){
+		listeners.remove(l);
+	}
 }

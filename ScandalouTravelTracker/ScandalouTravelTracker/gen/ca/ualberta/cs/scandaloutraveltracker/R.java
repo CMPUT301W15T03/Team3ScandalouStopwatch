@@ -17,8 +17,8 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f040000;
-        public static final int activity_vertical_margin=0x7f040001;
+        public static final int activity_horizontal_margin=0x7f050000;
+        public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
@@ -43,14 +43,31 @@ public final class R {
         public static final int view_expense=0x7f070005;
     }
     public static final class string {
-        public static final int action_settings=0x7f050001;
-        public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050002;
-        public static final int title_activity_edit_claim=0x7f050004;
-        public static final int title_activity_edit_expense=0x7f050006;
-        public static final int title_activity_expense_list=0x7f050007;
-        public static final int title_activity_view_claim=0x7f050003;
-        public static final int title_activity_view_expense=0x7f050005;
+        public static final int Accomodation=0x7f040007;
+        public static final int Air_Fare=0x7f040000;
+        public static final int CAD=0x7f04000a;
+        public static final int CHF=0x7f04000e;
+        public static final int CNY=0x7f040010;
+        public static final int EUR=0x7f04000c;
+        public static final int Fuel=0x7f040004;
+        public static final int GBP=0x7f04000d;
+        public static final int Ground_Transport=0x7f040001;
+        public static final int JPY=0x7f04000f;
+        public static final int Meal=0x7f040008;
+        public static final int Parking=0x7f040005;
+        public static final int Private_Automobile=0x7f040003;
+        public static final int Registration=0x7f040006;
+        public static final int Supplies=0x7f040009;
+        public static final int USD=0x7f04000b;
+        public static final int Vehicle_Rental=0x7f040002;
+        public static final int action_settings=0x7f040012;
+        public static final int app_name=0x7f040011;
+        public static final int hello_world=0x7f040013;
+        public static final int title_activity_edit_claim=0x7f040015;
+        public static final int title_activity_edit_expense=0x7f040017;
+        public static final int title_activity_expense_list=0x7f040018;
+        public static final int title_activity_view_claim=0x7f040014;
+        public static final int title_activity_view_expense=0x7f040016;
     }
     public static final class style {
         /** 
