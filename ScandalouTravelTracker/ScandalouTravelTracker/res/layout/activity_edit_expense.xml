@@ -8,9 +8,64 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".EditExpenseActivity" >
 
-    <TextView
+    <Spinner
+        android:id="@+id/catspinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="54dp"
+        android:layout_toLeftOf="@+id/amount" />
+
+    <EditText
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/catspinner"
+        android:layout_marginRight="39dp"
+        android:ems="10"
+        android:hint="@string/amount"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/date_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/catspinner"
+        android:layout_below="@+id/catspinner"
+        android:layout_marginTop="47dp"
+        android:ems="10"
+        android:hint="@string/date"
+        android:inputType="date" >
+
+        <requestFocus />
+    </EditText>
+
+    <Spinner
+        android:id="@+id/currencyspinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/date_expense"
+        android:layout_alignLeft="@+id/amount" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/date_expense"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/date_expense"
+        android:layout_marginTop="74dp"
+        android:ems="10"
+        android:hint="@string/description" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/amount"
+        android:layout_marginBottom="115dp"
+        android:text="@string/add_update" />
 
 </RelativeLayout>

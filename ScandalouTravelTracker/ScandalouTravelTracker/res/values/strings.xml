@@ -9,5 +9,9 @@
     <string name="title_activity_view_expense">ViewExpenseActivity</string>
     <string name="title_activity_edit_expense">EditExpenseActivity</string>
     <string name="title_activity_expense_list">ExpenseListActivity</string>
+    <string name="amount">Amount</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
+    <string name="add_update">Add/update</string>
 
 </resources>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="CAD" type="string"/>
-    <item name="USD" type="string"/>
-    <item name="EUR" type="string"/>
-    <item name="GBP" type="string"/>
-    <item name="CHF" type="string"/>
-    <item name="JPY" type="string"/>
-    <item name="CNY" type="string"/>
-    
+    <string-array name="Currency" >
+		<item >CAD</item>
+		<item >USD</item>
+		<item >EUR</item>
+		<item >GBP</item>
+		<item >JPY</item>
+		<item >CHF</item>
+		<item >CNY</item>
+	</string-array>
 </resources>
