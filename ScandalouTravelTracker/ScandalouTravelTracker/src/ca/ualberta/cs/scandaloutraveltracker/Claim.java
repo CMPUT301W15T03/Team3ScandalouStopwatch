@@ -97,7 +97,7 @@ public class Claim {
 		return null;
 	}
 	
-	public HashMap<String, Double> computeTotal() {
+	public String computeTotal() {
 		// TODO: Using the HashMap to help compute the total for each type of currency
 		
 		return null;
