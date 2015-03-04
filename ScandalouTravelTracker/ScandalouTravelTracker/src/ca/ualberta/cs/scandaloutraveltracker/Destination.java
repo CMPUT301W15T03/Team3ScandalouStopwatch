@@ -44,4 +44,8 @@ public class Destination {
 		this.description = description;
 	}
 
+	public String toString(){
+		String destination = this.name +": " + this.description;
+		return destination;
+	}
 }
