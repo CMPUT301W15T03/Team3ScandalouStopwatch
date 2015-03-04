@@ -28,13 +28,23 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090006;
-        public static final int amount=0x7f090001;
-        public static final int button1=0x7f090005;
-        public static final int catspinner=0x7f090000;
-        public static final int currencyspinner=0x7f090003;
-        public static final int date_expense=0x7f090002;
-        public static final int editText3=0x7f090004;
+        public static final int action_settings=0x7f090010;
+        public static final int add_destination_button=0x7f090008;
+        public static final int amount=0x7f09000c;
+        public static final int catspinner=0x7f09000b;
+        public static final int claim_update_button=0x7f090007;
+        public static final int claimant_name=0x7f090001;
+        public static final int currencyspinner=0x7f09000e;
+        public static final int date_expense=0x7f09000d;
+        public static final int destinations_lv=0x7f090002;
+        public static final int editText3=0x7f09000f;
+        public static final int edit_claim_description=0x7f090005;
+        public static final int edit_claim_tv=0x7f090000;
+        public static final int end_date=0x7f090004;
+        public static final int send_button=0x7f090006;
+        public static final int start_date=0x7f090003;
+        public static final int tags_sv=0x7f090009;
+        public static final int tags_tv=0x7f09000a;
     }
     public static final class layout {
         public static final int activity_claim_list=0x7f030000;
@@ -54,12 +64,19 @@ public final class R {
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
+        public static final int add=0x7f060011;
         public static final int add_update=0x7f06000b;
         public static final int amount=0x7f060008;
         public static final int app_name=0x7f060000;
+        public static final int claimant_name=0x7f06000e;
         public static final int date=0x7f060009;
         public static final int description=0x7f06000a;
+        public static final int edit_claim=0x7f06000c;
+        public static final int edit_claim_update=0x7f06000f;
         public static final int hello_world=0x7f060002;
+        public static final int new_claim=0x7f06000d;
+        public static final int send=0x7f060010;
+        public static final int tags_tv=0x7f060012;
         public static final int title_activity_edit_claim=0x7f060004;
         public static final int title_activity_edit_expense=0x7f060006;
         public static final int title_activity_expense_list=0x7f060007;
