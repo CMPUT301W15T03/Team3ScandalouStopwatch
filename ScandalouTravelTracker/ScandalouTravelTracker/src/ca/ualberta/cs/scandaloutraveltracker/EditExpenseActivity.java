@@ -26,7 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class EditExpenseActivity extends Activity {
+public class EditExpenseActivity extends Activity implements ViewInterface {
 	Spinner category_select;
 	Spinner currency_select;
 	private String currency;
@@ -94,6 +94,12 @@ public class EditExpenseActivity extends Activity {
 	}
 	
 	private void editExpense(){
+		
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
 		
 	}
 }

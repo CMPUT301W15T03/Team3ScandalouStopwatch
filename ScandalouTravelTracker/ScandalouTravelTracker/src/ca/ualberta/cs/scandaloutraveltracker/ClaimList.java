@@ -24,8 +24,9 @@ import java.util.Collection;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
 
-public class ClaimList {
+public class ClaimList implements ModelInterface {
 	protected static ArrayList<Claim> claimList;
     protected ArrayList<Listener> listeners;
     	
@@ -66,5 +67,20 @@ public class ClaimList {
 	}
 	public void removeListener(Listener l){
 		listeners.remove(l);
+	}
+	@Override
+	public void addView(View view) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void removeViw(View view) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void notifyViews() {
+		// TODO Auto-generated method stub
+		
 	}
 }
