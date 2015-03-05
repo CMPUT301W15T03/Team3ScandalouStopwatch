@@ -52,22 +52,12 @@ public class ClaimList implements ModelInterface {
 	
 	public void deleteClaim(Claim removeclaim){
 		claimList.remove(removeclaim);
-		notifyListeners();
+		notifyViews();
 	}
 	public static boolean isEmpty(){
 		return claimList.size()==0;
 	}
-	public void notifyListeners(){
-		for(Listener listener: listeners){
-			listener.update();
-		}
-	}
-	public void addListener(Listener l){
-		listeners.add(l);
-	}
-	public void removeListener(Listener l){
-		listeners.remove(l);
-	}
+	
 	@Override
 	public void addView(View view) {
 		// TODO Auto-generated method stub

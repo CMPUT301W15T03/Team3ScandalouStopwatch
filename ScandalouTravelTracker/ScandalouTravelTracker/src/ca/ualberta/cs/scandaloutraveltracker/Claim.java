@@ -108,7 +108,15 @@ public class Claim implements ModelInterface {
 	public void setCanEdit(boolean b) {
 		this.canEdit = b;
 	}
+	
+	public void addDestination(Destination destination) {
+		this.destinations.add(destination);
+	}
 
+	public void removeDestination(Destination destination) {
+		this.destinations.remove(destination);
+	}
+	
 	@Override
 	public void addView(View view) {
 		// TODO Auto-generated method stub
