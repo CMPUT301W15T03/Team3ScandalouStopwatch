@@ -13,8 +13,6 @@
     <string name="date">Date</string>
     <string name="description">Description</string>
     <string name="add_update">Add/update</string>
-    
-    
     <string name="edit_claim">Edit Claim</string>
     <string name="new_claim">New Claim</string>
     <string name="claimant_name">Claimant Name</string>
@@ -22,5 +20,7 @@
     <string name="send">Send</string>
     <string name="add">Add</string>
     <string name="tags_tv">tags (separate by comma)</string>
+    <string name="title_activity_add_expense">AddExpenseActivity</string>
+    <string name="add_expense">Add Expense</string>
 
 </resources>
