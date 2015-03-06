@@ -60,6 +60,9 @@ public class ClaimList implements ModelInterface {
 	public static boolean isEmpty(){
 		return claimList.size()==0;
 	}
+	public Claim getClaim(int position) {
+		return claimList.get(position);
+	}
 	
 	@Override
 	public void addView(View view) {

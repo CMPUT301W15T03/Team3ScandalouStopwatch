@@ -31,7 +31,7 @@ public class ExpenseListTest extends
 		ActivityInstrumentationTestCase2<ExpenseListActivity> {
 	
 	public ExpenseListTest() {
-		super(ExpenseListActivity.class)
+		super(ExpenseListActivity.class);
 	}
 
 /*	// Test UC 05.01.01

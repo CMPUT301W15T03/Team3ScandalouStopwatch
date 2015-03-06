@@ -28,7 +28,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090017;
+        public static final int action_settings=0x7f09001c;
         public static final int add_destination_button=0x7f09000f;
         public static final int add_expense=0x7f090000;
         public static final int add_expense_button=0x7f090006;
@@ -36,6 +36,11 @@ public final class R {
         public static final int amount2=0x7f090002;
         public static final int category=0x7f090001;
         public static final int catspinner=0x7f090012;
+        public static final int claimListDateTV=0x7f090017;
+        public static final int claimListDestinationsTV=0x7f090018;
+        public static final int claimListStatusTV=0x7f090019;
+        public static final int claimListTagsTV=0x7f09001b;
+        public static final int claimListTotalsTV=0x7f09001a;
         public static final int claim_update_button=0x7f09000e;
         public static final int claimant_name=0x7f090008;
         public static final int currency=0x7f090004;
@@ -62,6 +67,7 @@ public final class R {
         public static final int activity_view_claim=0x7f030005;
         public static final int activity_view_expense=0x7f030006;
         public static final int activity_view_expense_list=0x7f030007;
+        public static final int list_claim_display=0x7f030008;
     }
     public static final class menu {
         public static final int add_expense=0x7f080000;
@@ -82,12 +88,16 @@ public final class R {
         public static final int app_name=0x7f060000;
         public static final int claimant_name=0x7f06000e;
         public static final int date=0x7f060009;
+        public static final int date_text_filler=0x7f060016;
         public static final int description=0x7f06000a;
         public static final int edit_claim=0x7f06000c;
         public static final int edit_claim_update=0x7f06000f;
         public static final int hello_world=0x7f060002;
+        public static final int location_text_filler=0x7f060017;
         public static final int new_claim=0x7f06000d;
         public static final int send=0x7f060010;
+        public static final int status_text_filler=0x7f060018;
+        public static final int tag_text_filler=0x7f06001a;
         public static final int tags_tv=0x7f060012;
         public static final int title_activity_add_expense=0x7f060013;
         public static final int title_activity_edit_claim=0x7f060004;
@@ -96,6 +106,7 @@ public final class R {
         public static final int title_activity_view_claim=0x7f060003;
         public static final int title_activity_view_expense=0x7f060005;
         public static final int title_activity_view_expense_list=0x7f060015;
+        public static final int total_text_filler=0x7f060019;
     }
     public static final class style {
         /** 
