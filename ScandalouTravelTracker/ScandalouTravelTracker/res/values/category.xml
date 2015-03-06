@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <string-array name="Category" >
+		<item >air fare</item>
+		<item >ground transport</item>
+		<item >vehicle rental</item>
+		<item >private automobile</item>
+		<item >fuel</item>
+		<item >parking</item>
+		<item >registration</item>
+		<item >accomodation</item>
+		<item >meal</item>
+		<item >supplies</item>
+	</string-array>
+   
+    
+</resources>
