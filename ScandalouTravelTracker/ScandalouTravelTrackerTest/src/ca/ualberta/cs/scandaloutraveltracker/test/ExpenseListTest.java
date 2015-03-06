@@ -18,10 +18,23 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
+import java.util.Date;
+
+
+import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
+
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.ViewAsserts;
+import android.view.View;
+import android.widget.TextView;
 
 public class ExpenseListTest extends
-		ActivityInstrumentationTestCase2<ExpenseList> {
+		ActivityInstrumentationTestCase2<ExpenseListActivity> {
+
+	public ExpenseListTest(Class<ExpenseListActivity> activityClass) {
+		super(activityClass);
+		// TODO Auto-generated constructor stub
+	}
 
 	// Test UC 05.01.01
 	public void testExpenseDisplayed() {
@@ -33,8 +46,7 @@ public class ExpenseListTest extends
 	    boolean complete = false;
 	    boolean reciept = false;
 
-	    ViewExpenseListActivity activity = startWithExpense(date, cat, des, spent
-	                                                            cur, complete, reciept);
+	    ViewExpenseListActivity activity = startWithExpense(date, cat, des, spent, cur, complete, reciept);
 	    View allViews = activity.getWindow().getDecorView();
 	    TextView categoryView = (TextView) activity.findViewById(R.id.categoryText);
 	    TextView descripView = (TextView) activity.findViewById(R.id.descriptionText);

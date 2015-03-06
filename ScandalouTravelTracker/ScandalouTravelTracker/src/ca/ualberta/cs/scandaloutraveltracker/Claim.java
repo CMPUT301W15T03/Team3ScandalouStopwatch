@@ -21,6 +21,7 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import android.view.View;
 
@@ -131,6 +132,33 @@ public class Claim implements ModelInterface {
 
 	@Override
 	public void notifyViews() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
+	public void setDestinations(ArrayList<String> destinations2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setStatus(String status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTotals(Map<String, Float> totals) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setApproverName(String approverName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setApproverComment(String approverComment) {
 		// TODO Auto-generated method stub
 		
 	}

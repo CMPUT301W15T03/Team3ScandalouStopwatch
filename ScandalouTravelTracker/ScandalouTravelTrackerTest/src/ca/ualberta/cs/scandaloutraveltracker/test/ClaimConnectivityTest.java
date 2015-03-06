@@ -22,11 +22,17 @@ import java.util.Date;
 
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.Connection;
 
 import android.test.ActivityInstrumentationTestCase2;
 
 public class ClaimConnectivityTest extends
 		ActivityInstrumentationTestCase2<Connection> {
+
+	public ClaimConnectivityTest(Class<Connection> activityClass) {
+		super(activityClass);
+		// TODO Auto-generated constructor stub
+	}
 
 	// Test UC 09.01.01
 	public void testDataPush() {

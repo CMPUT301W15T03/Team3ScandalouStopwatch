@@ -89,15 +89,9 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		
 	}
 
-	private void addExpense(){
-		
-	}
 	
-	private void editExpense(){
-		
-	}
 
-	@Override
+	
 	public void update() {
 		// TODO Auto-generated method stub
 		

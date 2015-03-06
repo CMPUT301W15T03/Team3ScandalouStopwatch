@@ -96,10 +96,10 @@ public class ClaimGenerator {
 		String approverComment = ClaimGenerator.approverComment;
 
 		// Create claim
-		Claim claim = new Claim(claimName);
+		Claim claim = new Claim(claimName, endDate, endDate);
 		
 		// Populate claim
-		claim.setClaimantName(claimantName);
+		claim.setName(claimantName);
 		claim.setStartDate(startDate);
 		claim.setEndDate(endDate);
 		claim.setDestinations(destinations);
