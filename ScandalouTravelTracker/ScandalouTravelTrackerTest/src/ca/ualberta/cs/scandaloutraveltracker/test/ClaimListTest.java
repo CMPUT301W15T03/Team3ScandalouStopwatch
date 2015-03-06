@@ -37,7 +37,7 @@ public class ClaimListTest extends TestCase {
 	public void testGetClaims(){
 		ClaimList claimlist = new ClaimList();
 		String claimName="A claim";
-		Claim testClaim= new Claim(claimName, , null);
+		Claim testClaim= new Claim(claimName,null , null);
 		claimlist.addClaim(testClaim);
 		Collection<Claim> claims = claimlist.getClaims();
 		assertTrue("Claim List Size", claims.size()==1);
