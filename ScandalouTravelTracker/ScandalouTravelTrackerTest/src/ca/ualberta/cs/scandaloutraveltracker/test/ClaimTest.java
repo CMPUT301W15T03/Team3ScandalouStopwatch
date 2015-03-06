@@ -26,7 +26,7 @@ import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.ViewClaimActivity;
+import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
@@ -124,7 +124,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    Date eDate = new Date(456);
 	    Claim newClaim = new Claim(name, sDate, eDate);
 	    ClaimList claimsList = new ClaimList();
-	    claimsList.add(newClaim);
+	    claimsList.addClaim(newClaim);
 	    newClaim.setCanEdit(false);
 	    claimsList.deleteClaim(newClaim);
 	    assertEquals("Count should still be one", claimsList.getCount(), 1);
@@ -137,7 +137,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    Date eDate = new Date(456);
 	    Claim newClaim = new Claim(name, sDate, eDate);
 	    ClaimList claimsList = new ClaimList();
-	    claimsList.add(newClaim);
+	    claimsList.addClaim(newClaim);
 	    newClaim.setCanEdit(true);
 	    claimsList.deleteClaim(newClaim);
 	    assertEquals("Count should be zero", claimsList.getCount(), 0);
