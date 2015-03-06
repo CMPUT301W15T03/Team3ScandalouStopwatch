@@ -20,14 +20,8 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.Date;
 
-<<<<<<< HEAD
-
-import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
-
-=======
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ViewExpenseListActivity;
->>>>>>> 5075b2fccc23db2113415680997129fb527b772b
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
@@ -35,20 +29,9 @@ import android.widget.TextView;
 
 public class ExpenseListTest extends
 		ActivityInstrumentationTestCase2<ExpenseListActivity> {
-<<<<<<< HEAD
 
-	public ExpenseListTest(Class<ExpenseListActivity> activityClass) {
-		super(activityClass);
-		// TODO Auto-generated constructor stub
-=======
-	
 	public ExpenseListTest() {
-<<<<<<< HEAD
-		super(ExpenseListActivity.class)
->>>>>>> 5075b2fccc23db2113415680997129fb527b772b
-=======
 		super(ExpenseListActivity.class);
->>>>>>> fa0d9d1c02c762a83466199e1346fe5f36e65d08
 	}
 
 /*	// Test UC 05.01.01
@@ -61,12 +44,8 @@ public class ExpenseListTest extends
 	    boolean complete = false;
 	    boolean reciept = false;
 
-<<<<<<< HEAD
-	    ViewExpenseListActivity activity = startWithExpense(date, cat, des, spent, cur, complete, reciept);
-=======
 	    ViewExpenseListActivity activity = startWithExpense(date, cat, des, spent,
 	                                                            cur, complete, reciept);
->>>>>>> 5075b2fccc23db2113415680997129fb527b772b
 	    View allViews = activity.getWindow().getDecorView();
 	    TextView categoryView = (TextView) activity.findViewById(R.id.categoryText);
 	    TextView descripView = (TextView) activity.findViewById(R.id.descriptionText);
