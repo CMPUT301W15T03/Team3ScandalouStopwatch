@@ -39,7 +39,7 @@ public class ExpenseOverallTests extends TestCase {
 		String description = "Flight to YEG";
 		String description2 = "Flight from YEG";
 		//can change type of amount later 
-		double cost = 566;
+		double cost = 56;
 		String currencyType = "CAD";
 		
 		Claim testClaim = new Claim();
