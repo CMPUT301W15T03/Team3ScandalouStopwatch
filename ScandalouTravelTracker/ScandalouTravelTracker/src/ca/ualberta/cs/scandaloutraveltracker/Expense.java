@@ -35,7 +35,13 @@ public class Expense implements ModelInterface {
 	private File photo;
 	
 	public Expense() {
-		//empty constructor, for testing right now
+		this.date = null;
+		this.category = null;
+		this.description = null;
+		this.cost = null;
+		this.currencyType = null;
+		this.flag = false;
+		this.photo = null;
 	}
 	
 	public Expense(Date date, String category, String description, Double cost, String currencyType) {
@@ -45,6 +51,7 @@ public class Expense implements ModelInterface {
 		this.cost = cost;
 		this.currencyType = currencyType;
 		this.flag = false;
+		this.photo = null;
 	}
 
 	public Date getDate() {

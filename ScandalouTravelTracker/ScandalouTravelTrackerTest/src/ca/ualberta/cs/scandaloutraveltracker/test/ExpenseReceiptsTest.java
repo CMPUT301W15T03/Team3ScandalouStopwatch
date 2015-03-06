@@ -28,7 +28,7 @@ public class ExpenseReceiptsTest extends TestCase {
 	public void testAttachPhoto() {
 		File photo = new File("TestPhoto1.jpg");	//a test photo that complies with the size limit
 		Expense expense = new Expense();
-		expense.addPhoto(photo);
+		expense.setPhoto(photo);
 		assertTrue("Attach failed", (expense.getPhoto() == photo));
 	}
 
@@ -36,7 +36,7 @@ public class ExpenseReceiptsTest extends TestCase {
 	public void testViewPhoto() {
 		File photo = new File("TestPhoto1.jpg");	//a test photo that complies with the size limit
 		Expense expense = new Expense();
-		expense.addPhoto(photo);
+		expense.setPhoto(photo);
 		assertTrue("View failed", (expense.getPhoto() != null));
 	}
 
@@ -44,8 +44,8 @@ public class ExpenseReceiptsTest extends TestCase {
 	public void testDeletePhoto() {
 		File photo = new File("TestPhoto1.jpg");	//a test photo that complies with the size limit
 		Expense expense = new Expense();
-		expense.addPhoto(photo);
-		expense.deletePhoto();
+		expense.setPhoto(photo);
+		expense.setPhoto(null);
 		assertTrue("Delete failed", (expense.getPhoto() == null));
 		assertFalse("Photo still exists", photo.exists());
 	}
@@ -54,7 +54,7 @@ public class ExpenseReceiptsTest extends TestCase {
 	public void testPhotoSizeLimit() {
 		File badPhoto = new File("TestPhoto2.jpg");	//a test photo that doesn't comply with the size limit
 		Expense expense = new Expense();
-		expense.addPhoto(badPhoto);
+		expense.setPhoto(badPhoto);
 		assertTrue("Size guard failed", (expense.getPhoto() == null));
 	}
 

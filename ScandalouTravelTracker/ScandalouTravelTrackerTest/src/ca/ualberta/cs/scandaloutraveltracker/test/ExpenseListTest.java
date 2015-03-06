@@ -20,9 +20,14 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.Date;
 
+<<<<<<< HEAD
 
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
 
+=======
+import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.ViewExpenseListActivity;
+>>>>>>> 5075b2fccc23db2113415680997129fb527b772b
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
@@ -30,13 +35,19 @@ import android.widget.TextView;
 
 public class ExpenseListTest extends
 		ActivityInstrumentationTestCase2<ExpenseListActivity> {
+<<<<<<< HEAD
 
 	public ExpenseListTest(Class<ExpenseListActivity> activityClass) {
 		super(activityClass);
 		// TODO Auto-generated constructor stub
+=======
+	
+	public ExpenseListTest() {
+		super(ExpenseListActivity.class)
+>>>>>>> 5075b2fccc23db2113415680997129fb527b772b
 	}
 
-	// Test UC 05.01.01
+/*	// Test UC 05.01.01
 	public void testExpenseDisplayed() {
 	    Date date = new Date(123);
 	    String cat = "Category1";
@@ -46,7 +57,12 @@ public class ExpenseListTest extends
 	    boolean complete = false;
 	    boolean reciept = false;
 
+<<<<<<< HEAD
 	    ViewExpenseListActivity activity = startWithExpense(date, cat, des, spent, cur, complete, reciept);
+=======
+	    ViewExpenseListActivity activity = startWithExpense(date, cat, des, spent,
+	                                                            cur, complete, reciept);
+>>>>>>> 5075b2fccc23db2113415680997129fb527b772b
 	    View allViews = activity.getWindow().getDecorView();
 	    TextView categoryView = (TextView) activity.findViewById(R.id.categoryText);
 	    TextView descripView = (TextView) activity.findViewById(R.id.descriptionText);
@@ -64,5 +80,11 @@ public class ExpenseListTest extends
 	    ViewAsserts.assertOnScreen(allViews, (View) completeView);
 	    ViewAsserts.assertOnScreen(allViews, (View) recieptView);
 	}
+	
+	public void startWithExpense(Date date, String category, String description, Double spent,
+								   String currency, boolean complete, boolean reciept)
+	{
+		
+	}*/
 	
 }

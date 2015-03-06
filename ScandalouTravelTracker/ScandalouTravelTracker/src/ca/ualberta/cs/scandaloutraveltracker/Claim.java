@@ -92,6 +92,12 @@ public class Claim implements ModelInterface {
 	public void setTotal(HashMap<String, Double> total) {
 		this.total = total;
 	}
+	public void addExpense(Expense expense) {
+		this.expenses.add(expense);
+	}
+	public void removeExpense(Expense expense) {
+		this.expenses.remove(expense);
+	}
 	
 	// Other Methods
 	public String toString() {
@@ -108,6 +114,10 @@ public class Claim implements ModelInterface {
 
 	public void setCanEdit(boolean b) {
 		this.canEdit = b;
+	}
+	
+	public boolean getCanEdit() {
+		return this.canEdit;
 	}
 	
 	public void addDestination(Destination destination) {

@@ -16,7 +16,7 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker.test;
+/*package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.Date;
 
@@ -53,3 +53,4 @@ public class ClaimConnectivityTest extends
 	}
 	
 }
+*/

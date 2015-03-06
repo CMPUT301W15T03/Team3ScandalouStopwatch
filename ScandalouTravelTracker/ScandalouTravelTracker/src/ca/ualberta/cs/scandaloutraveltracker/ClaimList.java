@@ -49,6 +49,9 @@ public class ClaimList implements ModelInterface {
 		ClaimListgetClaims
 		*/
 	}
+	public int getCount() {
+		return claimList.size();
+	}
 	
 	public void deleteClaim(Claim removeclaim){
 		claimList.remove(removeclaim);
