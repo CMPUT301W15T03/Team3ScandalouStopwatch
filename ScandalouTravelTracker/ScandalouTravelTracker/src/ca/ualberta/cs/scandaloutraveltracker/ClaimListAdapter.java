@@ -40,7 +40,7 @@ public class ClaimListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.list_claim_display, parent, false);
 		}
 		
-		// Create TextViews
+		// Create TextViewscurrentClaim.get
 		TextView claimDateTV = (TextView) convertView.findViewById(R.id.claimListDateTV);
 		TextView claimDestinationTV = (TextView) convertView.findViewById(R.id.claimListDestinationsTV);
 		TextView claimStatusTV = (TextView) convertView.findViewById(R.id.claimListStatusTV);

@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ualberta.cs.scandaloutraveltracker.Expense;
+
 public class ExpenseGenerator {
 
 	// Date
@@ -38,10 +40,10 @@ public class ExpenseGenerator {
 	
 	// Amount
 	private static final String currency = "USD";
-	private static final Float amount = 49.99f;
+	private static final Double amount = 49.99d;
 	
 	// Receipt?
-	private static boolean receiptYN = false;
+	//private static boolean receiptYN = false;
 	
 	public Expense generateExpense(int i){
 		
@@ -57,21 +59,21 @@ public class ExpenseGenerator {
 		
 		// Amount
 		String currency = ExpenseGenerator.currency;
-		Float amount = ExpenseGenerator.amount * i;
+		Double amount = ExpenseGenerator.amount * i;
 		
 		// Approver name
-		boolean receiptYN = ExpenseGenerator.receiptYN;
+		//boolean receiptYN = ExpenseGenerator.receiptYN;
 
 		// Create claim
-		Expense expense = new Expense(expenseName);
+		Expense expense = new Expense();
 		
 		// Populate expense
-		expense.setExpenseName(expenseName);
-		expense.setdate(date);
+		expense.setDescription(expenseName);
+		expense.setDate(date);
 		expense.setCategory(category);
-		expense.setCurrency(currency);
-		expense.setAmount(amount);
-		expense.setReciptYN(receiptYN);
+		expense.setCurrencyType(currency);
+		expense.setCost(amount);
+		//expense.setReciptYN(receiptYN);
 		
 		return expense;	
 	}
@@ -93,12 +95,13 @@ public class ExpenseGenerator {
 		return currency;
 	}
 
-	public Float getAmount(int i) {
+	public Double getAmount(int i) {
 		return amount * i;
 	}
 	
 	public boolean getReceiptYN(){
-		return receiptYN;
+		// TODO: Change this later when expense has proper method
+		return true;
 	}
 
 }
