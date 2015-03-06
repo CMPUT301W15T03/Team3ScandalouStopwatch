@@ -135,7 +135,7 @@ public class Claim implements ModelInterface {
 	}
 
 	@Override
-	public void removeViw(View view) {
+	public void removeView(View view) {
 		// TODO Auto-generated method stub
 		
 	}

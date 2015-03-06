@@ -101,8 +101,8 @@ public class ClaimTagsTest extends TestCase {
 		claim1.setTags(tags1);
 		claim2.setTags(tags2);
 		ClaimList claimList = new ClaimList();
-		claimList.addClaim(claim1);
-		claimList.addClaim(claim2);
+		ClaimList.addClaim(claim1);
+		ClaimList.addClaim(claim2);
 		ArrayList<Claim> filteredList = claimList.searchTag("Tag1");
 		assertTrue("Filter failed", (filteredList.size() == 1));
 		assertTrue("Wrong claim", (filteredList.get(0) == claim1));
