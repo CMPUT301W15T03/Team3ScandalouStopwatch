@@ -22,5 +22,6 @@
     <string name="tags_tv">tags (separate by comma)</string>
     <string name="title_activity_add_expense">AddExpenseActivity</string>
     <string name="add_expense">Add Expense</string>
+    <string name="title_activity_view_expense_list">ViewExpenseListActivity</string>
 
 </resources>
