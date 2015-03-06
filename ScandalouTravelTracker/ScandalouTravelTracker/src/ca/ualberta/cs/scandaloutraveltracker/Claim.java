@@ -115,6 +115,10 @@ public class Claim implements ModelInterface {
 		this.canEdit = b;
 	}
 	
+	public boolean getCanEdit() {
+		return this.canEdit;
+	}
+	
 	public void addDestination(Destination destination) {
 		this.destinations.add(destination);
 	}
