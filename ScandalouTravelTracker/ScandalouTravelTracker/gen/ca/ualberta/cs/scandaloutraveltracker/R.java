@@ -61,6 +61,7 @@ public final class R {
         public static final int activity_expense_list=0x7f030004;
         public static final int activity_view_claim=0x7f030005;
         public static final int activity_view_expense=0x7f030006;
+        public static final int activity_view_expense_list=0x7f030007;
     }
     public static final class menu {
         public static final int add_expense=0x7f080000;
@@ -70,6 +71,7 @@ public final class R {
         public static final int expense_list=0x7f080004;
         public static final int view_claim=0x7f080005;
         public static final int view_expense=0x7f080006;
+        public static final int view_expense_list=0x7f080007;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
@@ -93,6 +95,7 @@ public final class R {
         public static final int title_activity_expense_list=0x7f060007;
         public static final int title_activity_view_claim=0x7f060003;
         public static final int title_activity_view_expense=0x7f060005;
+        public static final int title_activity_view_expense_list=0x7f060015;
     }
     public static final class style {
         /** 

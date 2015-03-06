@@ -46,6 +46,10 @@
             android:name="ca.ualberta.cs.scandaloutraveltracker.AddExpenseActivity"
             android:label="@string/title_activity_add_expense" >
         </activity>
+        <activity
+            android:name="ca.ualberta.cs.scandaloutraveltracker.ViewExpenseListActivity"
+            android:label="@string/title_activity_view_expense_list" >
+        </activity>
     </application>
 
 </manifest>
