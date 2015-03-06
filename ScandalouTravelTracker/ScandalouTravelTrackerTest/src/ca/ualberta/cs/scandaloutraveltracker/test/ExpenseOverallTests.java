@@ -45,10 +45,10 @@ public class ExpenseOverallTests extends TestCase {
 		Claim testClaim = new Claim();
 		Expense testExpense = new Expense(date, category, description, cost, currencyType);
 		Expense testExpense2 = new Expense(date, category, description2, cost, currencyType);
-		testClaim.addExpenseItem(testExpense);
-		assertTrue("Expense not added to claim", (testClaim.getExpenses.length() == 1));
-		testClaim.addExpenseItem(testExpense2);
-		assertTrue("Both expenses not added to claim", (testClaim.getExpenses.length() == 2));
+		testClaim.addExpense(testExpense);
+		assertTrue("Expense not added to claim", (testClaim.getExpenses().size() == 1));
+		testClaim.addExpense(testExpense2);
+		assertTrue("Both expenses not added to claim", (testClaim.getExpenses().size() == 2));
 		
 	}
 	
@@ -145,8 +145,8 @@ public class ExpenseOverallTests extends TestCase {
 		
 		Claim testClaim = new Claim();
 		Expense testExpense = new Expense(date, category, description, cost, currencyType);
-		testClaim.addExpenseItem(testExpense);
-		assertTrue("change state doesn't default to allowed", testClaim.getStatus().equals("ALLOWED"));
+		testClaim.addExpense(testExpense);
+		assertEquals("change state doesn't default to allowed", testClaim.getCanEdit(), true);
 		testExpense.setDate(new Date(2014,01,02));
 		testExpense.setCategory("Fuel");
 		testExpense.setDescription("Feul for trip");
@@ -171,10 +171,10 @@ public class ExpenseOverallTests extends TestCase {
 		
 		Claim testClaim = new Claim();
 		Expense testExpense = new Expense(date, category, description, cost, currencyType);
-		testClaim.addExpenseItem(testExpense);
-		assertTrue("change state doesn't default to allowed", testClaim.getStatus().equals("ALLOWED"));
-		testClaim.deleteExpenseitem(0);
-		assertTrue("Expense deletion unsuccessful", (testClaim.getExpenses() == 0));
+		testClaim.addExpense(testExpense);
+		assertEquals("change state doesn't default to allowed", testClaim.getCanEdit(), true);
+		testClaim.removeExpense(testExpense);
+		assertTrue("Expense deletion unsuccessful", (testClaim.getExpenses().size() == 0));
 	}
 	
 	// Test UC 04.08.01
