@@ -18,10 +18,17 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
+import java.util.Date;
+
+import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
 public class ExpenseListTest extends
-		ActivityInstrumentationTestCase2<ExpenseList> {
+		ActivityInstrumentationTestCase2<ExpenseListActivity> {
+	
+	public ExpenseListTest() {
+		super(ExpenseListActivity.class)
+	}
 
 	// Test UC 05.01.01
 	public void testExpenseDisplayed() {
@@ -52,5 +59,7 @@ public class ExpenseListTest extends
 	    ViewAsserts.assertOnScreen(allViews, (View) completeView);
 	    ViewAsserts.assertOnScreen(allViews, (View) recieptView);
 	}
+	
+	public void startWithExpense(Date date, String )
 	
 }
