@@ -22,7 +22,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class ExpenseListActivity extends Activity {
+public class ExpenseListActivity extends Activity implements ViewInterface {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,12 @@ public class ExpenseListActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.expense_list, menu);
 		return true;
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

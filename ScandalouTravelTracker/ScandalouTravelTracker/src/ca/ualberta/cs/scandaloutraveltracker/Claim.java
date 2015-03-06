@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Claim {
+import android.view.View;
+
+public class Claim implements ModelInterface {
 	private String name;
 	private String description;
 	private Date startDate;
@@ -105,6 +107,32 @@ public class Claim {
 
 	public void setCanEdit(boolean b) {
 		this.canEdit = b;
+	}
+	
+	public void addDestination(Destination destination) {
+		this.destinations.add(destination);
+	}
+
+	public void removeDestination(Destination destination) {
+		this.destinations.remove(destination);
+	}
+	
+	@Override
+	public void addView(View view) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeViw(View view) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyViews() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

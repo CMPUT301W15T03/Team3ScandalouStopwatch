@@ -23,7 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Expense {
+import android.view.View;
+
+public class Expense implements ModelInterface {
 	private Date date;
 	private String category;
 	private String description;
@@ -107,6 +109,24 @@ public class Expense {
 		return this.category + " - " + sdf.format(this.date) + "\n"
 				+ this.description + "\n"
 				+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();
+	}
+
+	@Override
+	public void addView(View view) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeViw(View view) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyViews() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
