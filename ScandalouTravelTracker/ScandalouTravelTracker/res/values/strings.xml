@@ -23,5 +23,10 @@
     <string name="title_activity_add_expense">AddExpenseActivity</string>
     <string name="add_expense">Add Expense</string>
     <string name="title_activity_view_expense_list">ViewExpenseListActivity</string>
-
+    <string name="date_text_filler">Date range goes here </string>
+    <string name="location_text_filler">Cities goes here</string>
+    <string name="status_text_filler">Claim status goes here</string>
+	<string name="total_text_filler">Totals for the claim goes here</string>
+	<string name="tag_text_filler">Tags for the claim goes here</string>
+    
 </resources>

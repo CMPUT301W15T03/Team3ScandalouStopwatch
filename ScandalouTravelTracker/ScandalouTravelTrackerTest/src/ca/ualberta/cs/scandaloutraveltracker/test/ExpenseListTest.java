@@ -43,8 +43,12 @@ public class ExpenseListTest extends
 =======
 	
 	public ExpenseListTest() {
+<<<<<<< HEAD
 		super(ExpenseListActivity.class)
 >>>>>>> 5075b2fccc23db2113415680997129fb527b772b
+=======
+		super(ExpenseListActivity.class);
+>>>>>>> fa0d9d1c02c762a83466199e1346fe5f36e65d08
 	}
 
 /*	// Test UC 05.01.01
