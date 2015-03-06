@@ -28,63 +28,84 @@ public class ClaimTagsTest extends TestCase {
 	// Test UC 03.01.01
 	public void testTagClaim() {
 		Claim claim = new Claim();
-		Tag tag1 = new Tag("Tag1");
-		Tag tag2 = new Tag("Tag2");
-		claim.addTag(tag1);
+		ArrayList<String> tags = new ArrayList<String>();
+		tags.add("Tag1");
+		claim.setTags(tags);
 		assertTrue("Tag1 not added to claim", (claim.getTags().size() == 1));
-		claim.addTag(tag2);
+		tags.add("Tag2");
+		claim.setTags(tags);
 		assertTrue("Tag2 not added to claim", (claim.getTags().size() == 2));
 	}
 	
+	//TODO: this test is incomplete; finish once desired functionality is decided
 	// Test UC 03.02.01
 	public void testViewTags() {
-		Tag tag1 = new Tag("Tag1");
-		Tag tag2 = new Tag("Tag2");
-		ArrayList<Tag> tags = Tag.getAllInstances();
-		assertFalse("Insufficient tags in list", (tags.size() < 2));
-		if (tags.size() == 2) {
-			assertTrue("Tag1 not in list", (tags.get(0) == tag1));
-			assertTrue("Tag2 not in list", (tags.get(1) == tag2));
-		}
+		assertTrue("Complete testViewTags()!", false);
+		/*Claim claim = new Claim();
+		ArrayList<String> tags = new ArrayList<String>();
+		tags.add("Tag1");
+		tags.add("Tag2");
+		claim.setTags(tags);
+		ArrayList<String> usedTags = GET_ALL_USED_TAGS();
+		assertFalse("Insufficient tags in list", (usedTags.size() < 2));
+		if (usedTags.size() == 2) {
+			assertTrue("Tag1 not in list", (usedTags.get(0) == tags.get(0)));
+			assertTrue("Tag2 not in list", (usedTags.get(1) == tags.get(1)));
+		}*/
 	}
 	
 	// Test UC 03.02.02
 	public void testAddTag() {
-		Tag tag1 = new Tag("Tag1");
-		ArrayList<Tag> tags = Tag.getAllInstances();
-		assertTrue("Tag not added to list", (tags.size() == 1));
-		assertTrue("Wrong tag", (tags.get(0) == tag1));
+		Claim claim = new Claim();
+		ArrayList<String> tags = new ArrayList<String>();
+		tags.add("Tag1");
+		claim.setTags(tags);
+		ArrayList<String> usedTags = claim.getTags();
+		assertTrue("Tag not added to list", (usedTags.size() == 1));
+		assertTrue("Wrong tag", (usedTags.get(0) == "Tag1"));
 	}
 	
 	// Test UC 03.02.03
 	public void testRenameTag() {
-		Tag tag1 = new Tag("Tag1");
+		Claim claim = new Claim();
+		ArrayList<String> tags = new ArrayList<String>();
+		tags.add("Tag1");
+		claim.setTags(tags);
 		String rename = "Renamed tag";
-		tag1.setName(rename);
-		assertTrue("Rename failed", (tag1.getName().equals(rename)));
+		tags.set(0, rename);
+		claim.setTags(tags);
+		ArrayList<String> usedTags = claim.getTags();
+		assertTrue("Rename failed", (usedTags.get(0).equals(rename)));
 	}
 	
 	// Test UC 03.02.04
 	public void testDeleteTag() {
-		Tag tag1 = new Tag("Tag1");
-		tag1.delete();
-		assertTrue("Delete failed", (Tag.getAllInstances().size() == 0));
+		Claim claim = new Claim();
+		ArrayList<String> tags = new ArrayList<String>();
+		tags.add("Tag1");
+		claim.setTags(tags);
+		tags.remove(0);
+		claim.setTags(tags);
+		ArrayList<String> usedTags = claim.getTags();
+		assertTrue("Delete failed", (usedTags.size() == 0));
 	}
 	
 	// Test UC 03.03.01
 	public void testFilterClaims() {
 		Claim claim1 = new Claim();
 		Claim claim2 = new Claim();
-		Tag tag1 = new Tag("Tag1");
-		Tag tag2 = new Tag("Tag2");
-		claim1.addTag(tag1);
-		claim2.addTag(tag2);
-		ClaimList.addClaim(claim1);
-		ClaimList.addClaim(claim2);
-		ClaimList.filterByTag(tag1);
-		ArrayList<Claim> claims = ClaimList.getAllClaims();
-		assertTrue("Filter failed", (claims.size() == 1));
-		assertTrue("Wrong claim", (claims.get(0) == claim1));
+		ArrayList<String> tags1 = new ArrayList<String>();
+		ArrayList<String> tags2 = new ArrayList<String>();
+		tags1.add("Tag1");
+		tags2.add("Tag2");
+		claim1.setTags(tags1);
+		claim2.setTags(tags2);
+		ClaimList claimList = new ClaimList();
+		claimList.addClaim(claim1);
+		claimList.addClaim(claim2);
+		ArrayList<Claim> filteredList = claimList.searchTag("Tag1");
+		assertTrue("Filter failed", (filteredList.size() == 1));
+		assertTrue("Wrong claim", (filteredList.get(0) == claim1));
 	}
 
 }
