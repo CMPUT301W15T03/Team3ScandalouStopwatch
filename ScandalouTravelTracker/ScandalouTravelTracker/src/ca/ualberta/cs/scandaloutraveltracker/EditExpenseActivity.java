@@ -35,14 +35,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.view_expense, menu);
 		return true;
-<<<<<<< HEAD
-		
 	}
-
-	
-=======
-	}
->>>>>>> 5075b2fccc23db2113415680997129fb527b772b
 
 	
 	public void update() {
