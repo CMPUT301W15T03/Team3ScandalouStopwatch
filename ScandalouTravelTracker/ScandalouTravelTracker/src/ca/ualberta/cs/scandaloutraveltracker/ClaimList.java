@@ -41,7 +41,7 @@ public class ClaimList implements ModelInterface {
 		
 		return null;
 	}
-	public void addClaim(Claim string){
+	public static void addClaim(Claim claim){
 		/*claimList.add(string);
 		if (claimList.size()>1){
 			Collections.sort(claimList, new CustomComparator())
@@ -78,5 +78,13 @@ public class ClaimList implements ModelInterface {
 	public void notifyViews() {
 		// TODO Auto-generated method stub
 		
+	}
+	public static void addListener(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
