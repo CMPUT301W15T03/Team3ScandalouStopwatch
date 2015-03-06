@@ -1,5 +1,0 @@
-INDEX VERSION 1.126+/cshome/miguel1/eam3ScandalouStopwatch/.metadata/.plugins/org.eclipse.jdt.core
-783748879.index
-508398038.index
-190144338.index
-2756389373.index
