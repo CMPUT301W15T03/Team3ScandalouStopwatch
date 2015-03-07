@@ -27,7 +27,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_claim);
+		setContentView(R.layout.activity_new_claim);
 	}
 
 	@Override
