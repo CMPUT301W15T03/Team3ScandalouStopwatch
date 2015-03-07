@@ -26,7 +26,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 
-public class ClaimList implements ModelInterface {
+public class ClaimList extends SModel {
 	protected static ArrayList<Claim> claimList;
     protected ArrayList<Listener> listeners;
     	
@@ -64,21 +64,6 @@ public class ClaimList implements ModelInterface {
 		return claimList.get(position);
 	}
 	
-	@Override
-	public void addView(View view) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void removeView(View view) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void notifyViews() {
-		// TODO Auto-generated method stub
-		
-	}
 	public static void addListener(int i) {
 		// TODO Auto-generated method stub
 		

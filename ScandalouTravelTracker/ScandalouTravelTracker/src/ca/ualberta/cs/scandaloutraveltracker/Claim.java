@@ -25,7 +25,7 @@ import java.util.Map;
 
 import android.view.View;
 
-public class Claim implements ModelInterface {
+public class Claim extends SModel {
 	private String name;
 	private String description;
 	private Date startDate;
@@ -127,25 +127,6 @@ public class Claim implements ModelInterface {
 	public void removeDestination(Destination destination) {
 		this.destinations.remove(destination);
 	}
-	
-	@Override
-	public void addView(View view) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeView(View view) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void notifyViews() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 
 	public void setDestinations(ArrayList<String> destinations2) {

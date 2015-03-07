@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import android.view.View;
 
-public class Expense implements ModelInterface {
+public class Expense extends SModel {
 	private Date date;
 	private String category;
 	private String description;
@@ -116,24 +116,6 @@ public class Expense implements ModelInterface {
 		return this.category + " - " + sdf.format(this.date) + "\n"
 				+ this.description + "\n"
 				+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();
-	}
-
-	@Override
-	public void addView(View view) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeView(View view) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void notifyViews() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
