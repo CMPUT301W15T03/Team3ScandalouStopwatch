@@ -48,8 +48,8 @@ public class ClaimGenerator {
 	// Amounts
 	private static final String currency1 = "USD";
 	private static final String currency2 = "CAD";
-	private static final Float amount1 = 1f;
-	private static final Float amount2 = 49.99f;
+	private static final Double amount1 = 1.0;
+	private static final Double amount2 = 49.99;
 	
 	// Approver name
 	private static final String approverName = "";
@@ -83,9 +83,9 @@ public class ClaimGenerator {
 		// Amounts
 		String currency1 = ClaimGenerator.currency1;
 		String currency2 = ClaimGenerator.currency2;
-		Float amount1 = ClaimGenerator.amount1 * i;
-		Float amount2 = ClaimGenerator.amount2 * i;
-		Map<String, Float> totals = new HashMap<String, Float>();
+		Double amount1 = ClaimGenerator.amount1 * i;
+		Double amount2 = ClaimGenerator.amount2 * i;
+		HashMap<String, Double> totals = new HashMap<String, Double>();
 		totals.put(currency1, amount1);
 		totals.put(currency2, amount2);
 		
@@ -149,11 +149,11 @@ public class ClaimGenerator {
 		return currency2;
 	}
 
-	public Float getAmount1(int i) {
+	public Double getAmount1(int i) {
 		return amount1 * i;
 	}
 
-	public Float getAmount2(int i) {
+	public Double getAmount2(int i) {
 		return amount2 * i;
 	}
 

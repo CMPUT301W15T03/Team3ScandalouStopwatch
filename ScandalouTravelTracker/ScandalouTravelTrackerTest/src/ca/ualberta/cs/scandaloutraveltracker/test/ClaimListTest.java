@@ -30,7 +30,7 @@ public class ClaimListTest extends TestCase {
 	// create an empty claim list
 	public void testEmptyClaimList(){
 		ClaimList claimlist=new ClaimList();
-		assertTrue("Empty claim list", claimlist.size()==0);
+		assertTrue("Empty claim list", claimlist.getCount()==0);
 		}
 
 	// Test UC 02.01.01		

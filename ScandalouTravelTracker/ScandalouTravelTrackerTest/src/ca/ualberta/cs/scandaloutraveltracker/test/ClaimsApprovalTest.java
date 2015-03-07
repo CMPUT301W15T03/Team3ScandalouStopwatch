@@ -19,6 +19,7 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class ClaimsApprovalTest extends TestCase {
 		claimList1.addClaim(claim2);		
 		
 		// Carry out tests
-		ArrayList<Claim> claims1 = claimList1.getSubmittedClaims();
+		ArrayList<Claim> claims1 = claimList1.getClaims();
 		assertTrue("claims1 should contain 1 claim.", claims1.size() == 1);
 		assertTrue("claims1 should contain claim1", claims1.contains(claim1));
 	}
@@ -66,11 +67,11 @@ public class ClaimsApprovalTest extends TestCase {
 		
 		// Carry out the tests
 		assertTrue("claim1 should have the generated claimant name.", 
-				claim1.getClaimantName().equals(claimGenerator.getClaimantName(1)));
+				claim1.getName().equals(claimGenerator.getClaimantName(1)));
 		assertTrue("claim1 should have the generated start date.", 
-				claim1.getStartMDY().equals(claimGenerator.getStartDate(1)));
+				claim1.getStartDate().equals(claimGenerator.getStartDate(1)));
 		assertTrue("claim1 should have two destinations.", 
-				claim1.getDestinations.size() == 2);
+				claim1.getDestinations().size() == 2);
 		assertTrue("claim1's first destination should be the generated destination1.", 
 				claim1.getDestinations().get(0).equals(claimGenerator.getDestination1(1)));
 		assertTrue("claim1's second destination should be the generated destination2.", 
@@ -80,9 +81,9 @@ public class ClaimsApprovalTest extends TestCase {
 		assertTrue("claim1 should have two currency amounts.", 
 				claim1.getTotals().size() == 2);
 		assertTrue("claim1 should have the first generated currency amount", 
-				claim1.getTotals.get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
+				claim1.getTotals().get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
 		assertTrue("claim1 should have the second generated currency amount", 
-				claim1.getTotals.get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
+				claim1.getTotals().get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
 		assertTrue("claim1 should have the generated approver name.", 
 				claim1.getApproverName().equals(claimGenerator.getApproverName()));
 		
@@ -117,17 +118,17 @@ public class ClaimsApprovalTest extends TestCase {
 
 		// Create a claim
 		ClaimGenerator claimGenerator = new ClaimGenerator();
-		Claim claim1 = claimGenerator.generateClaim(1);
+		Claim claim1 = claimGenerator.generateClaim(1, "Submitted");
 		
 		// Carry out the tests
 		assertTrue("claim1 should have the generated claimant name.", 
-				claim1.getClaimantName().equals(claimGenerator.getClaimantName(1)));
+				claim1.getName().equals(claimGenerator.getClaimantName(1)));
 		assertTrue("claim1 should have the generated start date.", 
-				claim1.getStartMDY().equals(claimGenerator.getStartDate(1)));
+				claim1.getStartDate().equals(claimGenerator.getStartDate(1)));
 		assertTrue("claim1 should have the generated end date.", 
-				claim1.getStartMDY().equals(claimGenerator.getEndDate(1)));		
+				claim1.getStartDate().equals(claimGenerator.getEndDate(1)));		
 		assertTrue("claim1 should have two destinations.", 
-				claim1.getDestinations.size() == 2);
+				claim1.getDestinations().size() == 2);
 		assertTrue("claim1's first destination should be the generated destination1.", 
 				claim1.getDestinations().get(0).equals(claimGenerator.getDestination1(1)));
 		assertTrue("claim1's second destination should be the generated destination2.", 
@@ -137,9 +138,9 @@ public class ClaimsApprovalTest extends TestCase {
 		assertTrue("claim1 should have two currency amounts.", 
 				claim1.getTotals().size() == 2);
 		assertTrue("claim1 should have the first generated currency amount", 
-				claim1.getTotals.get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
+				claim1.getTotals().get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
 		assertTrue("claim1 should have the second generated currency amount", 
-				claim1.getTotals.get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
+				claim1.getTotals().get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
 		assertTrue("claim1 should have the generated approver name.", 
 				claim1.getApproverName().equals(claimGenerator.getApproverName()));
 		
@@ -148,8 +149,8 @@ public class ClaimsApprovalTest extends TestCase {
 	// Test UC 08.04.01
 	public void testGetExpenses(){
 
-		// Create a expense list
-		ExpenseList expenseList1 = new ExpenseList();
+		// Create a claim list
+		Claim claim1 = new Claim();
 		
 		// Create expenses
 		ExpenseGenerator expenseGenerator = new ExpenseGenerator();
@@ -157,45 +158,46 @@ public class ClaimsApprovalTest extends TestCase {
 		Expense expense2 = expenseGenerator.generateExpense(2);
 		
 		// Populate the expense list
-		expenseList1.addExpense(expense1);		
-		expenseList1.addExpense(expense2);		
+		claim1.addExpense(expense1);		
+		claim1.addExpense(expense2);		
 		
 		// Carry out tests
-		ArrayList<Expense> expenses1 = expenseList1.getExpenses();
+		ArrayList<Expense> expenses1 = claim1.getExpenses();
 		assertTrue("expenses1 should contain 2 expense.", expenses1.size() == 2);
 		assertTrue("expenses1 should contain expense1", expenses1.contains(expense1));
 		assertTrue("expenses1 should contain expense2", expenses1.contains(expense2));		
 		
 		// Carry out tests
 		assertTrue("expenseName of the first expense in expenses1 should be expense2's name", 
-				expenses1.get(0).getName().equals(expense2.getName()));	
+				expenses1.get(0).getDescription().equals(expense2.getDescription()));	
 		
 	}
 	
 	// Test UC 08.04.02
 	public void testShowExpenseDetailsInList(){
 
-		// Create a expense list
-		ExpenseList expenseList1 = new ExpenseList();
+		// Create a claim list
+		Claim claim1 = new Claim();
 
 		// Create a expense
 		ExpenseGenerator expenseGenerator = new ExpenseGenerator();
 		Expense expense1 = expenseGenerator.generateExpense(1);
 		
 		// Populate the expense list
-		expenseList1.addExpense(expense1);
+		claim1.addExpense(expense1);
 		
 		// Carry out the tests
+		Expense retrievedExpense1 = claim1.getExpenses().get(0);		
 		assertTrue("expense1 should have the generated expense name.", 
-				expenseList1.get(0).getExpenseName().equals(expenseGenerator.getExpenseName(1)));
+				retrievedExpense1.getDescription().equals(expenseGenerator.getExpenseName(1)));
 		assertTrue("expense1 should have the generated date.", 
-				expenseList1.get(0).getDate().equals(expenseGenerator.getDate(1)));
+				retrievedExpense1.getDate().equals(expenseGenerator.getDate(1)));
 		assertTrue("expense1 should have the generated category.", 
-				expenseList1.get(0).getCategory().equals(expenseGenerator.getCategory(1)));
+				retrievedExpense1.getCategory().equals(expenseGenerator.getCategory(1)));
 		assertTrue("expense1 should have the generated currency and amount.", 
-				expenseList1.get(0).getTotals.get(expenseGenerator.getCurrency()) == expenseGenerator.getAmount(1));
+				retrievedExpense1.getCost().equals(expenseGenerator.getAmount(1)));
 		assertTrue("expense1 should have the given receipt status.", 
-				expenseList1.get(0).getReceiptYN().equals(expenseGenerator.getReceiptYN()));		
+				retrievedExpense1.getPhoto().equals(expenseGenerator.getReceiptYN()));		
 	}
 	
 	// Test UC 08.05.01
@@ -214,10 +216,10 @@ public class ClaimsApprovalTest extends TestCase {
 		String comment1 = "Approver comment";
 		
 		// Perform action
-		claim1.writeComment(comment1);	
+		claim1.setApproverComment(comment1);	
 		
 		// Carry out tests
-		assertTrue("claim1 should have comment1.", claim1.getComment().equals(comment1));
+		assertTrue("claim1 should have comment1.", claim1.getApproverComment().equals(comment1));
 		
 	}
 	
@@ -232,16 +234,16 @@ public class ClaimsApprovalTest extends TestCase {
 		Claim claim1 = new Claim();
 		
 		// Perform actions
-		claim1.writeComment(comment1);
+		claim1.setApproverComment(comment1);
 		
 		// Carry out tests
-		assertTrue("claim1 should have comment1.", claim1.getComment().equals(comment1));
+		assertTrue("claim1 should have comment1.", claim1.getApproverComment().equals(comment1));
 		
 		// Perform actions
-		claim1.writeComment(comment2);
+		claim1.setApproverComment(comment2);
 		
 		// Carry out tests
-		assertTrue("claim1 should have comment2.", claim1.getComment().equals(comment2));		
+		assertTrue("claim1 should have comment2.", claim1.getApproverComment().equals(comment2));		
 		
 	}
 	
@@ -253,15 +255,15 @@ public class ClaimsApprovalTest extends TestCase {
 		Claim claim1 = claimGenerator.generateClaim(1, "Submitted");
 
 		// Set approver name to claimant name; set target claim status
-		String approverName1 = claim1.getClaimantName(1);	
+		String approverName1 = claim1.getName();	
 		String comment1 = "Approver comment";
 		String targetComment1 = "";	
 		
 		// Perform actions
-		claim1.writeComment(comment1);
+		claim1.setApproverComment(comment1);
 		
 		// Carry out tests
-		assertTrue("claim1 should have comment equal to targetComment1.", claim1.getComment().equals(targetComment1));
+		assertTrue("claim1 should have comment equal to targetComment1.", claim1.getApproverComment().equals(targetComment1));
 		
 	}	
 	
@@ -299,7 +301,7 @@ public class ClaimsApprovalTest extends TestCase {
 		Claim claim1 = claimGenerator.generateClaim(1, "Submitted");	
 		
 		// Set approver name to claimant name; set target claim status
-		String approverName1 = claim1.getClaimantName(1);	
+		String approverName1 = claim1.getName();	
 		String targetStatus = "Submitted";		
 		
 		// Perform actions

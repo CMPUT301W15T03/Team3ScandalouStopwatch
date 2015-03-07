@@ -33,8 +33,11 @@ public class Claim extends SModel {
 	private ArrayList<Expense> expenses;
 	private ArrayList<Destination> destinations;
 	private ArrayList<String> tags; 
-	private HashMap<String, Double> total;
+	private HashMap<String, Double> totals;
 	private Boolean canEdit;
+	private String status;
+	private String approverName;
+	private String approverComment;
 	
 	// Constructor to quickly make a claim
 	public Claim(String name, Date sDate, Date eDate) {
@@ -50,56 +53,84 @@ public class Claim extends SModel {
 	}
 	
 	// Getter and Setter Methods
+	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	public Date getStartDate() {
 		return startDate;
 	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+	
 	public Date getEndDate() {
 		return endDate;
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+	public ArrayList<Destination> getDestinations() {
+		return destinations;
+	}
+	public void setDestinations(ArrayList<String> destinations2) {
+		// TODO Auto-generated method stub
+	}	
+	
 	public ArrayList<Expense> getExpenses() {
 		return expenses;
 	}
 	public void setExpenses(ArrayList<Expense> expenses) {
 		this.expenses = expenses;
 	}
+	
 	public ArrayList<String> getTags() {
 		return tags;
 	}
 	public void setTags(ArrayList<String> tags) {
 		this.tags = tags;
 	}
-	public HashMap<String, Double> getTotal() {
-		return total;
+	
+	public HashMap<String, Double> getTotals() {
+		return totals;
 	}
-	public void setTotal(HashMap<String, Double> total) {
-		this.total = total;
+	public void setTotals(HashMap<String, Double> totals) {
+		this.totals = totals;
 	}
-	public void addExpense(Expense expense) {
-		this.expenses.add(expense);
+
+	public String getStatus(){
+		return status;
 	}
-	public void removeExpense(Expense expense) {
-		this.expenses.remove(expense);
+	public void setStatus(String status) {
 	}
+
+	public String getApproverName(){
+		return approverName;
+	}
+	public void setApproverName(String approverName) {
+	}
+
+	public String getApproverComment(){
+		return approverComment;
+	}
+	public void setApproverComment(String approverComment) {
+	}	
+	
 	
 	// Other Methods
+	
 	public String toString() {
 		// TODO: Converting the claim with computeTotal to display on listView
 		
@@ -128,30 +159,31 @@ public class Claim extends SModel {
 		this.destinations.remove(destination);
 	}
 	
-
-	public void setDestinations(ArrayList<String> destinations2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setStatus(String status) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setTotals(Map<String, Float> totals) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setApproverName(String approverName) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setApproverComment(String approverComment) {
-		// TODO Auto-generated method stub
-		
+	public void addExpense(Expense expense) {
+		this.expenses.add(expense);
 	}
 	
+	public void removeExpense(Expense expense) {
+		this.expenses.remove(expense);
+	}
+	
+	public String getWarning(){
+		return null;
+	}
+	
+	public void raiseWarning(String warning){
+		// TODO: Do something
+	}
+	
+	
+	// Approval Methods
+	
+	public void approveClaim(String approverName){
+		// TODO: Change the status to approved
+	}
+	
+	public void returnClaim(String approverName){
+		// TODO: Change the status to returned
+	}
+
 }

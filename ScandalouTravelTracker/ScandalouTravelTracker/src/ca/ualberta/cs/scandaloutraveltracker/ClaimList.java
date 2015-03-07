@@ -34,13 +34,15 @@ public class ClaimList extends SModel {
 		claimList= new ArrayList<Claim>();
 		listeners= new ArrayList<Listener>();
 	}
-	public Collection<Claim> getClaims(){
+	
+	public ArrayList<Claim> getClaims(){
 		return claimList;
 	}
-	public ArrayList<Claim> searchTag(String tag){
-		
-		return null;
+	
+	public Claim getClaim(int position) {
+		return claimList.get(position);
 	}
+	
 	public static void addClaim(Claim claim){
 		/*claimList.add(string);
 		if (claimList.size()>1){
@@ -49,27 +51,30 @@ public class ClaimList extends SModel {
 		ClaimListgetClaims
 		*/
 	}
+	
+	public void deleteClaim(Claim removeclaim){
+		claimList.remove(removeclaim);
+	}
+	
+	public ArrayList<Claim> searchTag(String tag){
+		
+		return null;
+	}
+
 	public int getCount() {
 		return claimList.size();
 	}
 	
-	public void deleteClaim(Claim removeclaim){
-		claimList.remove(removeclaim);
-		notifyViews();
-	}
 	public static boolean isEmpty(){
 		return claimList.size()==0;
 	}
-	public Claim getClaim(int position) {
-		return claimList.get(position);
-	}
 	
+	public void sortByStartDate(){
+		
+	}
+
 	public static void addListener(int i) {
 		// TODO Auto-generated method stub
 		
-	}
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }
