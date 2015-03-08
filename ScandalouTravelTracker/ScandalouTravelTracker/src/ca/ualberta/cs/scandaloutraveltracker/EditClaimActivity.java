@@ -21,6 +21,8 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class EditClaimActivity extends Activity implements ViewInterface {
 
@@ -28,6 +30,15 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_claim);
+		
+		TextView nameDisplay = (TextView) findViewById(R.id.edit_claim_name);
+		Button startDateButton = (Button) findViewById(R.id.edit_claim_start_date);
+		Button endDateButton = (Button) findViewById(R.id.edit_claim_end_date);
+		TextView descriptionDisplay = (TextView) findViewById(R.id.edit_claim_description);
+		Button updateButton = (Button) findViewById(R.id.edit_claim_update);
+		Button sendButton = (Button) findViewById(R.id.edit_claim_send);
+		
+		update();
 	}
 
 	@Override
