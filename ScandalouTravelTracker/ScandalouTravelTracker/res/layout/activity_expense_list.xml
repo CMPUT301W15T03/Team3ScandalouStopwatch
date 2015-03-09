@@ -9,8 +9,44 @@
     tools:context=".ExpenseListActivity" >
 
     <TextView
+        android:id="@+id/expense_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/expenses"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <EditText
+        android:id="@+id/totals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:ems="10"
+        android:hint="@string/totals_"
+        android:inputType="textMultiLine" >
+
+        <requestFocus />
+    </EditText>
+
+    <ListView
+        android:id="@+id/expenselistView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/add_expense"
+        android:layout_alignLeft="@+id/expense_list"
+        android:layout_below="@+id/expense_list" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/add_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/totals"
+        android:layout_alignBottom="@+id/totals"
+        android:layout_alignRight="@+id/expenselistView"
+        android:text="@string/add" />
+        
 </RelativeLayout>
