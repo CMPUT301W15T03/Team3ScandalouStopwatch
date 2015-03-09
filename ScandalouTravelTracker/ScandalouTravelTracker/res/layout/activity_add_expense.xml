@@ -38,7 +38,6 @@
         android:ems="10"
         android:hint="@string/amount"
         android:inputType="numberDecimal" >
-
         <requestFocus />
     </EditText>
 
@@ -49,6 +48,7 @@
         android:layout_alignBottom="@+id/currency"
         android:layout_alignLeft="@+id/category"
         android:layout_below="@+id/category"
+        android:layout_toLeftOf="@+id/amount2"
         android:ems="10"
         android:hint="@string/date"
         android:inputType="date" />

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/edit_claim_destinations"
-        android:text="Approval Seeker"
+        android:text="@string/approval_seeker"
         android:textSize="20sp" />
 
     <Button
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="Update" />
+        android:text="@string/update" />
 
     <Button
         android:id="@+id/edit_claim_send"
@@ -72,6 +72,6 @@
         android:layout_alignBaseline="@+id/edit_claim_update"
         android:layout_alignBottom="@+id/edit_claim_update"
         android:layout_alignRight="@+id/edit_claim_descr"
-        android:text="Send for Approval" />
+        android:text="@string/send_for_approval" />
 
 </RelativeLayout>

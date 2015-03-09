@@ -77,7 +77,7 @@
         android:text="Button" />
 
     <Button
-        android:id="@+id/claim_update_button"
+        android:id="@+id/edit_expense_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
