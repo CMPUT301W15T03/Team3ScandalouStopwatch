@@ -21,13 +21,27 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
-public class AddExpenseActivity extends Activity {
+public class AddExpenseActivity extends Activity implements ViewInterface {
+	private Button addExpenseButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_expense);
+		
+		//create listener for Add button
+		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
+		addExpenseButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO: create new Expense, fill in values, save, close activity
+				
+			}
+		});
 	}
 
 	/*@Override
@@ -36,5 +50,10 @@ public class AddExpenseActivity extends Activity {
 		getMenuInflater().inflate(R.menu.add_expense, menu);
 		return true;
 	}*/
+	
+	@Override
+	public void update() {
+		//leave empty, never need to update
+	}
 
 }
