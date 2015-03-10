@@ -1,5 +1,7 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.Collections;
+
 public class ClaimListController {
 	// TODO: Have ClaimListController load the list of claims using Claim Manager
 	
@@ -20,6 +22,7 @@ public class ClaimListController {
 	
 	public void addClaim(Claim claim) {
 		claims.addClaim(claim);
+		Collections.sort(claims.getClaims());
 	}
 	
 	public void removeClaim(Claim claim) {

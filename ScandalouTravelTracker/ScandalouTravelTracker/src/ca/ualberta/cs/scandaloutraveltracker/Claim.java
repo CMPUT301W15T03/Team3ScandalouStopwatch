@@ -25,7 +25,7 @@ import java.util.Map;
 
 import android.view.View;
 
-public class Claim extends SModel {
+public class Claim extends SModel implements Comparable<Claim> {
 	private String name;
 	private String description;
 	private Date startDate;
@@ -184,6 +184,14 @@ public class Claim extends SModel {
 	
 	public void returnClaim(String approverName){
 		// TODO: Change the status to returned
+	}
+
+	// Method for comparing claims to one another
+	// Returns 0 if dates equal, less than 0 if startDate before another, and 
+	// greater than 0 if another is before startDate
+	@Override
+	public int compareTo(Claim another) {
+		return startDate.compareTo(another.getStartDate());
 	}
 
 }

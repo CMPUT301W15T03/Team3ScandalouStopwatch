@@ -60,13 +60,17 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				// CURRENTLY ADDS A TEST CLAIM WHEN PRESSED.
 				// TODO: Button sends you to New Claim screen
 				Claim testClaim = createTestClaim();
+				Claim testClaim2 = createTestClaim2();
+				Claim testClaim3 = createTestClaim3();
+				claimListController.addClaim(testClaim3);
 				claimListController.addClaim(testClaim);
+				claimListController.addClaim(testClaim2);
 				claimListController.notifyViews();
 			}
 		});
 	}
 	
-	// For making a test claim
+	// For making a test claim (comparing dates)
 	private Claim createTestClaim() {
 		Claim newClaim = new Claim();
 		
@@ -94,6 +98,62 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		return newClaim;
 	}
 
+	// For making a test claim (comparing dates)
+	private Claim createTestClaim2() {
+		Claim newClaim = new Claim();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		Date startDate;
+		try {
+			startDate = sdf.parse("02/02/2015");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+		Date endDate;
+		try {
+			endDate = sdf.parse("03/03/2015");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+		
+		ClaimController claimController = new ClaimController(newClaim);
+		claimController.setName("Test Claim");
+		claimController.setStartDate(startDate);
+		claimController.setEndDate(endDate);
+		
+		return newClaim;
+	}
+	
+	// For making a test claim (comaparing dates)
+	private Claim createTestClaim3() {
+		Claim newClaim = new Claim();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		Date startDate;
+		try {
+			startDate = sdf.parse("04/04/2015");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+		Date endDate;
+		try {
+			endDate = sdf.parse("05/05/2015");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+		
+		ClaimController claimController = new ClaimController(newClaim);
+		claimController.setName("Test Claim");
+		claimController.setStartDate(startDate);
+		claimController.setEndDate(endDate);
+		
+		return newClaim;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
