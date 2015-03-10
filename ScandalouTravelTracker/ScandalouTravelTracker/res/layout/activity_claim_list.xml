@@ -8,9 +8,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ClaimListActivity" >
 
-    <TextView
+    <Button
+        android:id="@+id/addButtonClaimList"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/plus_sign_text" />
+
+    <ListView
+        android:id="@+id/claimListActivityList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/addButtonClaimList"
+        android:layout_marginTop="16dp" >
+
+    </ListView>
 
 </RelativeLayout>

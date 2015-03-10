@@ -28,6 +28,7 @@
     <string name="status_text_filler">Claim status goes here</string>
 	<string name="total_text_filler">Totals for the claim goes here</string>
 	<string name="tag_text_filler">Tags for the claim goes here</string>
+	<string name="plus_sign_text">+</string>
 	<string name="edit_expense">Edit Expense</string>
 	<string name="approval_seeker">Approval Seeker</string>
 	<string name="update">Update</string>

@@ -23,7 +23,7 @@ import android.app.Activity;
 import android.view.Menu;
 
 public class ClaimListActivity extends Activity implements ViewInterface {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
