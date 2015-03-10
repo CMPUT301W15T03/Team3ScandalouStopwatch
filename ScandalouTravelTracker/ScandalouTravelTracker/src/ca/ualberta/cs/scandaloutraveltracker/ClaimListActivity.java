@@ -18,16 +18,80 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
 
 public class ClaimListActivity extends Activity implements ViewInterface {
+	private Button addClaimButton;
+	private ListView claimsListView;
+	private ClaimListAdapter claimListAdapter;
+	private ClaimList claimsList = new ClaimList(); // Test variable - Remove Later
+	private ClaimListController claimListController;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_claim_list);
+		
+		// Set layout elements
+		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);
+		claimsListView = (ListView) findViewById(R.id.claimListActivityList);
+
+		claimListController = new ClaimListController(claimsList);
+		claimListController.addView(this); // Testing to add view for claimsLists
+		claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+		claimsListView.setAdapter(claimListAdapter);
+		
+		// Add claim button on click
+		addClaimButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// CURRENTLY ADDS A TEST CLAIM WHEN PRESSED.
+				// TODO: Button sends you to New Claim screen
+				Claim testClaim = createTestClaim();
+				claimListController.addClaim(testClaim);
+				claimListController.notifyViews();
+			}
+		});
+	}
+	
+	// For making a test claim
+	private Claim createTestClaim() {
+		Claim newClaim = new Claim();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		Date startDate;
+		try {
+			startDate = sdf.parse("01/01/2015");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+		Date endDate;
+		try {
+			endDate = sdf.parse("02/02/2015");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+		
+		ClaimController claimController = new ClaimController(newClaim);
+		claimController.setName("Test Claim");
+		claimController.setStartDate(startDate);
+		claimController.setEndDate(endDate);
+		
+		return newClaim;
 	}
 
 	@Override
@@ -39,8 +103,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		claimListAdapter.notifyDataSetChanged();
 	}
 
 }

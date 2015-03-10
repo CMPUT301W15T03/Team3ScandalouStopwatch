@@ -1,19 +1,25 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
-import android.view.View;
+import java.util.ArrayList;
 
 public class SModel {
+	protected ArrayList<ViewInterface> views;
 	
-	public void addView(View view) {
-		// TODO Auto-generated method stub
+	public SModel() {
+		views = new ArrayList<ViewInterface>();
+	}
+	
+	public void addView(ViewInterface view) {
+		views.add(view);
 		
 	}
-	public void removeView(View view) {
-		// TODO Auto-generated method stub
+	public void removeView(ViewInterface view) {
+		views.remove(view);
 		
 	}
 	public void notifyViews() {
-		// TODO Auto-generated method stub
-		
+		for (ViewInterface view : views) {
+			view.update();
+		}
 	}
 }

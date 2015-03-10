@@ -43,13 +43,19 @@ public class ClaimList extends SModel {
 		return claimList.get(position);
 	}
 	
+	/*
 	public static void addClaim(Claim claim){
-		/*claimList.add(string);
+		claimList.add(string);
 		if (claimList.size()>1){
 			Collections.sort(claimList, new CustomComparator())
 		}
 		ClaimListgetClaims
-		*/
+
+	} */
+	
+	// Temporary add claim 
+	public void addClaim(Claim claim) {
+		claimList.add(claim);
 	}
 	
 	public void deleteClaim(Claim removeclaim){

@@ -45,7 +45,7 @@ public class ClaimListAdapter extends BaseAdapter {
 		TextView claimDestinationTV = (TextView) convertView.findViewById(R.id.claimListDestinationsTV);
 		TextView claimStatusTV = (TextView) convertView.findViewById(R.id.claimListStatusTV);
 		TextView claimTotalTV = (TextView) convertView.findViewById(R.id.claimListTotalsTV);
-		TextView claimTagsTV = (TextView) convertView.findViewById(R.id.claimListTagsTV);
+		//TextView claimTagsTV = (TextView) convertView.findViewById(R.id.claimListTagsTV);
 		
 		// Fetch current Claim
 		Claim currentClaim = claimList.getClaim(position);
@@ -58,9 +58,9 @@ public class ClaimListAdapter extends BaseAdapter {
 		claimDestinationTV.setText("NEED TOSTRING IN DESTINATION");
 		claimStatusTV.setText("NEED GETSTATUS IN CLAIM");
 		claimTotalTV.setText("NEED TOTALSTOSTRING IN CLAIM");
-		claimTagsTV.setText(currentClaim.getTags().toString());
+		//claimTagsTV.setText(currentClaim.getTags().toString());
 		
-		return null;
+		return convertView;
 	}
 	
 }
