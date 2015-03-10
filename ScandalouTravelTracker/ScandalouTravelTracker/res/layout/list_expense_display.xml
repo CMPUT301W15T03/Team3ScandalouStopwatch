@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/expenseNameExpenseListTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/expense_name_text_filler"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/expenseCategoryExpenseListTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/expenseNameExpenseListTV"
+        android:text="@string/expense_category_text_filler"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/expenseDescriptionExpenseListTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/expenseCategoryExpenseListTV"
+        android:text="@string/expense_description_text_filler"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/expenseListFlag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@android:drawable/star_big_off"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/expense_incomplete_image_description" />
+
+    <TextView
+        android:id="@+id/expenseDateExpenseListTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/expenseNameExpenseListTV"
+        android:layout_alignBottom="@id/expenseNameExpenseListTV"
+        android:layout_toRightOf="@id/expenseNameExpenseListTV"
+        android:text="@string/expense_date_text_filler"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_marginLeft="15dp" />
+
+</RelativeLayout>

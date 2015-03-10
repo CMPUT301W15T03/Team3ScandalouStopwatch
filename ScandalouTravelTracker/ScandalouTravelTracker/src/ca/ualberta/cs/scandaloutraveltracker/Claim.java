@@ -21,9 +21,6 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
-
-import android.view.View;
 
 public class Claim extends SModel implements Comparable<Claim> {
 	private String name;

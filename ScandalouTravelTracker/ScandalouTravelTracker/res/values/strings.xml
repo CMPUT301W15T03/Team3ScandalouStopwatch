@@ -28,6 +28,11 @@
     <string name="status_text_filler">Claim status goes here</string>
 	<string name="total_text_filler">Totals for the claim goes here</string>
 	<string name="tag_text_filler">Tags for the claim goes here</string>
+	<string name="expense_name_text_filler">Expense Name - </string>
+	<string name="expense_date_text_filler">Date Here</string>
+	<string name="expense_category_text_filler">Expense Category</string>
+	<string name="expense_description_text_filler">Expense Description</string>
+	<string name="expense_incomplete_image_description">Image for incompleteness</string>
 	<string name="plus_sign_text">+</string>
 	<string name="edit_expense">Edit Expense</string>
 	<string name="approval_seeker">Approval Seeker</string>
