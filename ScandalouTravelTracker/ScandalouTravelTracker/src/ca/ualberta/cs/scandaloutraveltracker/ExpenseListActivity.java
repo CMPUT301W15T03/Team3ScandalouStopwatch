@@ -22,14 +22,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class ExpenseListActivity extends Activity implements ViewInterface {
-	private ListView expenseListView;
+	private Button addExpenseButton;
+	private ListView expenseListView ;
 	private ExpenseListAdapter expenseListAdapter;
 	private Claim currentClaim;
 	
@@ -37,6 +40,10 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_expense_list);
+
+		//set layout elements
+		addExpenseButton=(Button) findViewById(R.id.add_expense);
+
 		
 		// Set currentClaim to the claim that was selected via intent (currently fake claim)
 		currentClaim = createTestClaim();
