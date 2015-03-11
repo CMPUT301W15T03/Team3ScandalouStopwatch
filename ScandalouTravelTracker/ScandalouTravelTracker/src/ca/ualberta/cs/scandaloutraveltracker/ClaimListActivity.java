@@ -25,10 +25,15 @@ import java.util.Locale;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class ClaimListActivity extends Activity implements ViewInterface {
 	private Button addClaimButton;
@@ -66,6 +71,49 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				claimListController.addClaim(testClaim);
 				claimListController.addClaim(testClaim2);
 				claimListController.notifyViews();
+			}
+		});
+		
+		//when claim is clicked alert dialog appears with edit/view claim, add expense, delete claim
+		claimsListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, final long claimPos) {
+				
+				//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
+				//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
+				AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
+				builder.setMessage("Claim Options")
+				   .setCancelable(true)
+				   .setNegativeButton("Edit/View Claim", new DialogInterface.OnClickListener() {
+				       	public void onClick(DialogInterface dialog, int i) {
+				    	//edit claim
+				   		Intent intent = new Intent(ClaimListActivity.this, EditClaimActivity.class);
+				   		intent.putExtra("id", claimPos);
+				   		startActivity(intent);
+				    	   
+				       }
+				   })
+				   .setPositiveButton("Delete Claim", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int i) {
+						//delete correct claim
+						claimListController.removeClaim(claimListController.getClaimList().getClaim((int) claimPos));
+						claimListController.notifyViews();
+					}  
+				   })
+				   
+				   //add a new expense
+				   .setNeutralButton("Add Expense", new DialogInterface.OnClickListener() {
+				       public void onClick(DialogInterface dialog, int i) {;
+					   		Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
+					   		intent.putExtra("id", claimPos);
+					   		startActivity(intent);
+				       }
+				   });
+				AlertDialog alert = builder.create();
+				alert.show();
 			}
 		});
 	}
