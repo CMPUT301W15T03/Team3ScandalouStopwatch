@@ -89,7 +89,6 @@ public class ClaimController {
 	
 	public void addExpense(Expense expense) {
 		expenses.add(expense);
-		Collections.sort(expenses);
 	}
 	
 	public void removeExpense(Expense expense) {

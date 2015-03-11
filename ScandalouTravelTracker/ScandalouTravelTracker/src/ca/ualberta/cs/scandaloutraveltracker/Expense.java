@@ -30,7 +30,7 @@ import java.util.Locale;
 
 import android.view.View;
 
-public class Expense extends SModel implements Comparable<Expense> {
+public class Expense extends SModel {
 	private Date date;
 	private String category;
 	private String description;
@@ -121,11 +121,6 @@ public class Expense extends SModel implements Comparable<Expense> {
 		return this.category + " - " + sdf.format(this.date) + "\n"
 				+ this.description + "\n"
 				+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();
-	}
-
-	@Override
-	public int compareTo(Expense another) {
-		return another.getDate().compareTo(date);
 	}
 	
 }
