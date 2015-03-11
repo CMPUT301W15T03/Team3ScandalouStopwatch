@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* EditExpenseActivity.java Basic Info:
+ *  Activity takes an expense from the ExpenseListActivity and allows 
+ *  the user to edit information about the expense.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.os.Bundle;
