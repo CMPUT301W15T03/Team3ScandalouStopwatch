@@ -80,9 +80,9 @@ public class ClaimListAdapter extends BaseAdapter {
 
 		
 		// Set TextViews
-		claimDateTV.setText(currentClaim.getStartDate().toString() + 
+		claimDateTV.setText(currentClaim.getStartDateString() + 
 							" - " + 
-							currentClaim.getEndDate().toString());
+							currentClaim.getEndDateString());
 		
 		claimDestinationTV.setText("NEED TOSTRING IN DESTINATION");
 		claimStatusTV.setText("NEED GETSTATUS IN CLAIM");
