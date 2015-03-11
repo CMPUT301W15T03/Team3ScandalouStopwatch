@@ -89,13 +89,6 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 		
 	}
 
-	private void addExpense(){
-		
-	}
-	
-	private void editExpense(){
-		
-	}
 
 	@Override
 	public void update() {
