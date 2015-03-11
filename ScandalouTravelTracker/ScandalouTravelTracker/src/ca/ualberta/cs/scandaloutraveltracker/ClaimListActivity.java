@@ -16,6 +16,12 @@ limitations under the License.
 
 */
 
+/* ClaimListActivity.java Basic Info:
+ *  This activity is the first activity that is displayed to the user.
+ *  The activity contains the list of claims that the user has and
+ *  allows the user to make modifications to the claim they choose.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.ParseException;

@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* Claim.java Basic Info:
+ *  Class that contains the Claim model. Edits to any instance of a Claim
+ *  should be done through the ClaimController class.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;

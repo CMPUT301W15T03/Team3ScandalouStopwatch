@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* ExpenseListActivity.java Basic Info:
+ *  This activity displays the list of expenses that is related to the
+ *  current claim. From here you can edit expenses.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.ParseException;
