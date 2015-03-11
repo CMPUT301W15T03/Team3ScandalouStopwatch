@@ -23,8 +23,11 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -43,10 +46,12 @@ import android.widget.ListView;
 import android.content.Context;
 import android.content.DialogInterface;
 //import android.content.Context;
+import android.content.Intent;
 
 public class NewClaimActivity extends Activity implements ViewInterface {
 	
-	Claim claim;
+	Claim c = new Claim();
+	ClaimController claim = new ClaimController(c);
 	String name;
 	String sDate;
 	String eDate;
@@ -72,14 +77,72 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 				//fills in most fields of claim from edit texts
 				claim.setName(nameSet.getText().toString());
 				claim.setDescription(descriptionSet.getText().toString());
-				claim.setStartDate(((Date)sDateSet.getText()));
-				claim.setEndDate(((Date)eDateSet.getText()));
+				
+				String sdate = sDateSet.getText().toString();
+				String edate = sDateSet.getText().toString();
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
+				Date startDate;
+				try {
+					startDate = sdf.parse(sdate);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					throw new RuntimeException(e);
+				}
+				Date endDate;
+				try {
+					endDate = sdf.parse(edate);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					throw new RuntimeException(e);
+				}
+				
+				claim.setStartDate(startDate);
+				claim.setEndDate(endDate);
+				
+
+				Intent intent = new Intent(NewClaimActivity.this, ClaimListActivity.class);
+				startActivity(intent);
 				
 			}
 		});
 		
 		final Context context = this;
 		ListView destList = (ListView)findViewById(R.id.destinations_lv);
+		
+		Button addDestButton = (Button) findViewById(R.id.add_dest_button);
+			addDestButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					
+					AlertDialog.Builder newDest = new AlertDialog.Builder(context);
+					newDest.setCancelable(false);
+					newDest.setMessage("New Destination");
+					final EditText name = new EditText(context);
+					newDest.setView(name);
+					
+					final EditText reason = new EditText(context);
+					newDest.setView(reason);
+					
+					newDest.setNegativeButton("Ok", new DialogInterface.OnClickListener(){
+						public void onClick (DialogInterface dialog, int id){
+							Destination d = new Destination("h", "g");
+						//			name.getText().toString(), reason.getText().toString());
+							claim.addDestination(d);
+							dialog.cancel();
+							
+						}
+					});
+					newDest.show();
+				}
+			});
+	
+	
+	
+	}
+		
+	/*	DestinationListAdapter destListAdapter = new DestinationListAdapter(this, claim.getDestinations());
+		destList.setAdapter(destListAdapter);
 		
 		destList.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
 			  public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
@@ -97,6 +160,7 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 						.setNeutralButton("Delete", new DialogInterface.OnClickListener(){
 							public void onClick(DialogInterface dialog, int which)
 							{
+								//destList.remove(position);
 								dialog.cancel();
 								//click delete
 								
@@ -112,7 +176,7 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 			  		return true;
 			  		}});
 	
-	}
+	} */
 		
 		//todo: add destinations
 			

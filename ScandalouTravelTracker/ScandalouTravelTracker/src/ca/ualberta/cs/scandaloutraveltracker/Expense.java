@@ -115,10 +115,14 @@ public class Expense extends SModel {
 		this.photo = photo;
 	}
 	
+	public String getDateString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		return sdf.format(this.date);
+	}
+	
 	@Override
 	public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
-		return this.category + " - " + sdf.format(this.date) + "\n"
+		return this.category + " - " + this.getDateString() + "\n"
 				+ this.description + "\n"
 				+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();
 	}
