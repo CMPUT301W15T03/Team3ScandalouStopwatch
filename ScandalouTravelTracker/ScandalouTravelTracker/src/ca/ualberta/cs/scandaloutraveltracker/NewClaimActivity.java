@@ -76,6 +76,9 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 		final Context context = this;
 		ListView destList = (ListView)findViewById(R.id.destinations_lv);
 		
+		DestinationListAdapter destListAdapter = new DestinationListAdapter(this, claim.getDestinations());
+		destList.setAdapter(destListAdapter);
+		
 		destList.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
 			  public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
 			    
@@ -92,6 +95,7 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 						.setNeutralButton("Delete", new DialogInterface.OnClickListener(){
 							public void onClick(DialogInterface dialog, int which)
 							{
+								//destList.remove(position);
 								dialog.cancel();
 								//click delete
 								
