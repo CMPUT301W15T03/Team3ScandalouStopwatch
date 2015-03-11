@@ -53,7 +53,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 				
 				
 			}
-		})
+		});
 		
 
 		
