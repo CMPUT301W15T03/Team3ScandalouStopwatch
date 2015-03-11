@@ -23,9 +23,11 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import android.content.Context;
 
@@ -110,12 +112,20 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public Date getStartDate() {
 		return startDate;
 	}
+	public String getStartDateString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		return sdf.format(this.startDate);
+	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 	
 	public Date getEndDate() {
 		return endDate;
+	}
+	public String getEndDateString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		return sdf.format(this.endDate);
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
