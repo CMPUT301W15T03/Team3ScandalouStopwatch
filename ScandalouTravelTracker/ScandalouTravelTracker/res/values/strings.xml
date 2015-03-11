@@ -33,7 +33,7 @@
 	<string name="expense_category_text_filler">Expense Category</string>
 	<string name="expense_description_text_filler">Expense Description</string>
 	<string name="expense_incomplete_image_description">Image for incompleteness</string>
-	<string name="claim_text">Claim</string>
+	<string name="claim_text">Claims</string>
 	<string name="plus_sign_text">+</string>
 	<string name="edit_expense">Edit Expense</string>
 	<string name="approval_seeker">Approval Seeker</string>

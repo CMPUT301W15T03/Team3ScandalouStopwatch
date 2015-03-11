@@ -16,6 +16,12 @@ limitations under the License.
 
 */
 
+/* ClaimListActivity.java Basic Info:
+ *  This activity is the first activity that is displayed to the user.
+ *  The activity contains the list of claims that the user has and
+ *  allows the user to make modifications to the claim they choose.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.ParseException;
@@ -57,6 +63,15 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
 		claimsListView.setAdapter(claimListAdapter);
 		
+		//for testing purposes
+		Claim testClaim = createTestClaim();
+		Claim testClaim2 = createTestClaim2();
+		Claim testClaim3 = createTestClaim3();
+		claimListController.addClaim(testClaim3);
+		claimListController.addClaim(testClaim);
+		claimListController.addClaim(testClaim2);
+		claimListController.notifyViews();
+		
 		// Add claim button on click
 		addClaimButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -64,13 +79,8 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 			public void onClick(View v) {
 				// CURRENTLY ADDS A TEST CLAIM WHEN PRESSED.
 				// TODO: Button sends you to New Claim screen
-				Claim testClaim = createTestClaim();
-				Claim testClaim2 = createTestClaim2();
-				Claim testClaim3 = createTestClaim3();
-				claimListController.addClaim(testClaim3);
-				claimListController.addClaim(testClaim);
-				claimListController.addClaim(testClaim2);
-				claimListController.notifyViews();
+				Intent intent = new Intent(ClaimListActivity.this, NewClaimActivity.class);
+				startActivity(intent);
 			}
 		});
 		
@@ -122,7 +132,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private Claim createTestClaim() {
 		Claim newClaim = new Claim();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
 		Date startDate;
 		try {
 			startDate = sdf.parse("01/01/2015");
@@ -150,7 +160,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private Claim createTestClaim2() {
 		Claim newClaim = new Claim();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
 		Date startDate;
 		try {
 			startDate = sdf.parse("02/02/2015");
@@ -178,7 +188,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private Claim createTestClaim3() {
 		Claim newClaim = new Claim();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
 		Date startDate;
 		try {
 			startDate = sdf.parse("04/04/2015");

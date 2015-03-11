@@ -36,7 +36,7 @@
         android:layout_alignBaseline="@+id/addButtonClaimList"
         android:layout_alignBottom="@+id/addButtonClaimList"
         android:layout_alignParentLeft="true"
-        android:text="@+id/claim_text"
+        android:text="@string/claim_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

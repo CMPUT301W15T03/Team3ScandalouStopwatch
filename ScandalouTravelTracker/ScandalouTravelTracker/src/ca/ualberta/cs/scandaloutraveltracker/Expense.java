@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* Expense.java Basic Info:
+ *  Class that contains the Expense model. Any changes done to an expense
+ *  should be done through the Expense Controller
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.io.File;
@@ -25,7 +30,7 @@ import java.util.Locale;
 
 import android.view.View;
 
-public class Expense extends SModel implements Comparable<Expense> {
+public class Expense extends SModel {
 	private Date date;
 	private String category;
 	private String description;
@@ -110,17 +115,16 @@ public class Expense extends SModel implements Comparable<Expense> {
 		this.photo = photo;
 	}
 	
+	public String getDateString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		return sdf.format(this.date);
+	}
+	
 	@Override
 	public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
-		return this.category + " - " + sdf.format(this.date) + "\n"
+		return this.category + " - " + this.getDateString() + "\n"
 				+ this.description + "\n"
 				+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();
-	}
-
-	@Override
-	public int compareTo(Expense another) {
-		return another.getDate().compareTo(date);
 	}
 	
 }

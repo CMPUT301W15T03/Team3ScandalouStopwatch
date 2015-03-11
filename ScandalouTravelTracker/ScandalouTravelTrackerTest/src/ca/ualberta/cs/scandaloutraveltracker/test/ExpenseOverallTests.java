@@ -18,9 +18,12 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
@@ -59,8 +62,13 @@ public class ExpenseOverallTests extends TestCase {
 				Arrays.asList("Air Fare", "Ground Transport", "Vehicle Rental", 
 						"Private Automobile", "Fuel", "Parking", "Registration", 
 								"Accommodation", "Meal", "Supplies");
-		//can change date type later since Date is deprecated
-		Date date = new Date(2014,01,01);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		Date date;
+		try {
+			date = sdf.parse("01/01/2014");
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 		String category = "Air Fare";
 		String description = "Flight to YEG";
 		String description2 = "Flight from YEG";
@@ -80,8 +88,13 @@ public class ExpenseOverallTests extends TestCase {
 	// Test to see if expense currency is one of specified categories
 	public void testExpenseCurrency() {
 		List<String> currencyList = Arrays.asList("CAD", "USD", "EUR", "GBP", "CHF", "JPY", "CNY");
-		//can change date type later since Date is deprecated
-		Date date = new Date(2014,01,01);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		Date date;
+		try {
+			date = sdf.parse("01/01/2014");
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 		String category = "Air Fare";
 		String description = "Flight to YEG";
 		String description2 = "Flight from YEG";
@@ -93,15 +106,20 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCurrencyType()));
 		
 		testExpense.setCurrencyType("CHF");
-		assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCategory()));
+		assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCurrencyType()));
 		assertTrue("currency not edited correctly", testExpense.getCurrencyType().equals("CHF"));
 	}
 	
 	// Test UC 04.04.01
 	// Test to see if flag setting works correctly
 	public void testExpenseFlag() {
-		//can change date type later since Date is deprecated
-		Date date = new Date(2014,01,01);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		Date date;
+		try {
+			date = sdf.parse("01/01/2014");
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 		String category = "Air Fare";
 		String description = "Flight to YEG";
 		//can change type of amount later 
@@ -109,16 +127,22 @@ public class ExpenseOverallTests extends TestCase {
 		String currencyType = "CAD";
 		
 		Expense testExpense = new Expense(date, category, description, cost, currencyType);
-		assertTrue("Flag isn't set to unflagged automatically", "unflagged".equals(testExpense.getFlag()));
+		assertFalse("Flag isn't set to unflagged automatically", testExpense.getFlag());
 		testExpense.setFlag(true);
-		assertTrue("Flag set isn't successful", "flagged".equals(testExpense.getFlag()));
+		assertTrue("Flag set isn't successful", testExpense.getFlag());
 		
 	}
 	
 	// Test UC 04.05.01, UC 04.05.02
 	// Test to see if expense details are converted directly to be displayed
 	public void testExpenseDetails() {
-		Date date = new Date(2014,01,01);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		Date date;
+		try {
+			date = sdf.parse("01/01/2014");
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 		String category = "Air Fare";
 		String description = "Flight to YEG";
 		//can change type of amount later 
@@ -129,14 +153,25 @@ public class ExpenseOverallTests extends TestCase {
 		//should return string of testExpense that will display all info for expense list
 		String details = testExpense.toString();
 		//can change format
-		String actualDetails = "Air Fare - 01/01/2014" + "\nFlight to YEG" + "\n566 CAD";
+		String actualDetails = "Air Fare - 01/01/2014\n" + "Flight to YEG\n" + "566.00 CAD";
 		assertTrue("The details aren't being returned properly for displaying", details.equals(actualDetails));
+		/*return this.category + " - " + sdf.format(this.date) + "\n"
+		+ this.description + "\n"
+		+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();*/
 	}
 	
 	// Test UC 04.06.01
 	// Test if editing expense elements work correctly
 	public void testExpenseEdit() {
-		Date date = new Date(2014,01,01);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		Date date;
+		Date date2;
+		try {
+			date = sdf.parse("01/01/2014");
+			date2 = sdf.parse("01/02/2014");
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 		String category = "Air Fare";
 		String description = "Flight to YEG";
 		//can change type of amount later 
@@ -147,12 +182,12 @@ public class ExpenseOverallTests extends TestCase {
 		Expense testExpense = new Expense(date, category, description, cost, currencyType);
 		testClaim.addExpense(testExpense);
 		assertEquals("change state doesn't default to allowed", testClaim.getCanEdit(), true);
-		testExpense.setDate(new Date(2014,01,02));
+		testExpense.setDate(date2);
 		testExpense.setCategory("Fuel");
 		testExpense.setDescription("Feul for trip");
 		testExpense.setCost(Double.valueOf(40));
 		testExpense.setCurrencyType("USD");
-		assertTrue("Date edit unsuccessful", testExpense.getDate().toString().equals("2014/01/02"));
+		assertTrue("Date edit unsuccessful", testExpense.getDateString().toString().equals("01/02/2014"));
 		assertTrue("Category edit unsuccessful", testExpense.getCategory().equals("Fuel"));
 		assertTrue("Description edit unsuccessful", testExpense.getDescription().equals("Feul for trip"));
 		assertTrue("Cost edit unsuccessful", (testExpense.getCost() == 40));
@@ -162,7 +197,13 @@ public class ExpenseOverallTests extends TestCase {
 	// Test UC 04.07.01
 	// Test if deleting an expense from a claim works
 	public void testExpenseDelete() {
-		Date date = new Date(2014,01,01);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		Date date;
+		try {
+			date = sdf.parse("01/01/2014");
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 		String category = "Air Fare";
 		String description = "Flight to YEG";
 		//can change type of amount later 
