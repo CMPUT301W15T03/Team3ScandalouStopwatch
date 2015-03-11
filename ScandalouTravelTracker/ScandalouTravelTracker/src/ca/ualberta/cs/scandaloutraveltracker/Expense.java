@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* Expense.java Basic Info:
+ *  Class that contains the Expense model. Any changes done to an expense
+ *  should be done through the Expense Controller
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.io.File;

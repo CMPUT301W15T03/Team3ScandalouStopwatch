@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* NewExpenseActivity.java Basic Info:
+ *  Activity allows the user to add a new expense to the claim that it
+ *  is associated with. 
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.os.Bundle;

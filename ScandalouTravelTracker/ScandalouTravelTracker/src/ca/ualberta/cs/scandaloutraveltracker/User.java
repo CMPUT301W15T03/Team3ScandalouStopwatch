@@ -16,6 +16,10 @@ limitations under the License.
 
 */
 
+/* User.java Basic Info:
+ *  The superclass that all types of users will have to inherit.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 public abstract class User {

@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* Destination.java Basic Info:
+ *  Class contains all the information that a Destination needs. A
+ *  destination(s) is contained inside a Claim.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 public class Destination {
