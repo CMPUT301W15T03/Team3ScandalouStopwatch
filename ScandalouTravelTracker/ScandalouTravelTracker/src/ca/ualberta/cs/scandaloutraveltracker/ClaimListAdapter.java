@@ -66,7 +66,7 @@ public class ClaimListAdapter extends BaseAdapter {
 		claimTotalTV.setText("NEED TOTALSTOSTRING IN CLAIM");
 		//claimTagsTV.setText(currentClaim.getTags().toString());
 		
-		// Go to edit claim
+		/*// Go to edit claim
 		convertView.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
@@ -75,7 +75,7 @@ public class ClaimListAdapter extends BaseAdapter {
 				intent.putExtra(Constants.claimIdLabel, currentClaimId);				
 				context.startActivity(intent);
 			}
-		});			
+		});			*/
 		
 		return convertView;
 	}

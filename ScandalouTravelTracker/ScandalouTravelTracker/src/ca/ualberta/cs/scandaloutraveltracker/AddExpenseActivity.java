@@ -39,6 +39,7 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 			@Override
 			public void onClick(View v) {
 				// TODO: create new Expense, fill in values, save, close activity
+				Expense expense= new Expense();
 				
 			}
 		});
