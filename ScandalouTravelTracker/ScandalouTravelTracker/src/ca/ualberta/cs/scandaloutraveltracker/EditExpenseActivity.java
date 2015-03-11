@@ -27,7 +27,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_expense);
+		setContentView(R.layout.activity_edit_expense);
 	}
 
 	@Override
@@ -37,8 +37,18 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		return true;
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+	
 	public void update() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	//is called when edit button is clicked
+	public void confirmEdit() {
 		
 	}
 

@@ -54,7 +54,7 @@ public class ClaimList extends SModel {
 	} */
 	
 	// Temporary add claim 
-	public void addClaim(Claim claim) {
+	public static void addClaim(Claim claim) {
 		claimList.add(claim);
 	}
 	

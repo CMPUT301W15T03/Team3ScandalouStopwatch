@@ -41,5 +41,28 @@
 	<string name="edit">Edit</string>
 	<string name="expenses">Expenses</string>
 	<string name="totals_">totals:</string>
+	<string-array name="Category_List_Text">
+        <item>--Choose Category--</item>
+        <item>Air Fare</item>
+        <item>Ground Transport</item>
+        <item>Vehicle Rental</item>
+        <item>Private Automobile</item>
+        <item>Fuel</item>
+        <item>Parking</item>
+        <item>Registration</item>
+        <item>Accomodation</item>
+        <item>Meal</item>
+        <item>Supllies</item>
+    </string-array>
+    <string-array name="Currency_List_Text">
+        <item>--Please Choose--</item>
+        <item>CAD</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>CHF</item>
+        <item>JPY</item>
+        <item>CNY</item>
+    </string-array>
     
 </resources>
