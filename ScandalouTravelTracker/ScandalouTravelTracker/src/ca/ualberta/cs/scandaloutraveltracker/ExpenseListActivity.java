@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -43,6 +44,17 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 
 		//set layout elements
 		addExpenseButton=(Button) findViewById(R.id.add_expense);
+		//add button on click
+		addExpenseButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				
+			}
+		})
+		
 
 		
 		// Set currentClaim to the claim that was selected via intent (currently fake claim)
