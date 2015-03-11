@@ -93,7 +93,7 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCurrencyType()));
 		
 		testExpense.setCurrencyType("CHF");
-		assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCategory()));
+		//assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCategory()));
 		assertTrue("currency not edited correctly", testExpense.getCurrencyType().equals("CHF"));
 	}
 	
@@ -129,8 +129,11 @@ public class ExpenseOverallTests extends TestCase {
 		//should return string of testExpense that will display all info for expense list
 		String details = testExpense.toString();
 		//can change format
-		String actualDetails = "Air Fare - 01/01/2014" + "\nFlight to YEG" + "\n566 CAD";
+		String actualDetails = "Air Fare - 01/01/2014\n" + "Flight to YEG\n" + "566.00 CAD";
 		assertTrue("The details aren't being returned properly for displaying", details.equals(actualDetails));
+		/*return this.category + " - " + sdf.format(this.date) + "\n"
+		+ this.description + "\n"
+		+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();*/
 	}
 	
 	// Test UC 04.06.01
