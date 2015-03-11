@@ -38,6 +38,16 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String status;
 	private String approverName;
 	private String approverComment;
+
+	// Constructor to make a more complete claim (feel free to add parameters as needed)
+	public Claim(String name, String description, Date sDate, Date eDate, ArrayList<Destination> destinations) {
+		this.name = name;
+		this.description = description;
+		this.startDate = sDate;
+		this.endDate = eDate;
+		this.destinations = destinations;
+		this.canEdit = true;
+	}	
 	
 	// Constructor to quickly make a claim
 	public Claim(String name, Date sDate, Date eDate) {

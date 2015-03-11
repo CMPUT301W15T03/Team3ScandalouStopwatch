@@ -13,22 +13,38 @@ public class ClaimController {
 		this.tags = currentClaim.getTags();
 		this.expenses = currentClaim.getExpenses();
 	}
-	
+
+	public String getName() {
+		return currentClaim.getName();
+	}
 	public void setName(String name) {
 		currentClaim.setName(name);
 	}
 	
+	public String getDescription(){
+		return currentClaim.getDescription();
+	}
 	public void setDescription(String description) {
 		currentClaim.setDescription(description);
 	}
-	
+
+	public Date getStartDate(){
+		return currentClaim.getStartDate();
+	}
 	public void setStartDate(Date startDate) {
 		currentClaim.setStartDate(startDate);
 	}
-	
+
+	public Date getEndDate(){
+		return currentClaim.getEndDate();
+	}
 	public void setEndDate(Date endDate) {
 		currentClaim.setEndDate(endDate);
 	}
+
+	public ArrayList<Destination> getDestinations() {
+		return currentClaim.getDestinations();
+	}	
 	
 	public void addTag(String tag) {
 		tags.add(tag);
