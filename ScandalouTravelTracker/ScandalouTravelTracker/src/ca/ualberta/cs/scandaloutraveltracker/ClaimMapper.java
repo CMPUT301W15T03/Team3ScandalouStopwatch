@@ -42,11 +42,13 @@ public class ClaimMapper {
 		return data;
 	}
 	
-	public void saveNewClaimData(int claimId, String key, Object data){
+	public void saveNewClaimData(String key, Object data){
+		
+		int claimId = incrementClaimCounter();
 		
 		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
 		Editor editor = claimFile.edit();
-		Gson gson = new Gson();
+		Gson gson = new Gson();		
 		
 		if (key.equals("name")){
 			editor.putString("name", (String)data);
@@ -64,6 +66,23 @@ public class ClaimMapper {
 		}
 		
 		editor.commit();	
+	}
+	
+	public int incrementClaimCounter(){
+
+		int mostRecentId;
+		int newId;
+		SharedPreferences counterFile;
+		Editor editor;		
+		
+		counterFile = this.context.getSharedPreferences("claimCounter", 0);
+		mostRecentId = counterFile.getInt("claimCount", 0);
+		newId = mostRecentId+1;
+		editor = counterFile.edit();
+		editor.putInt("claimCount", newId);
+		editor.commit();
+		
+		return newId;
 	}	
 	
 }
