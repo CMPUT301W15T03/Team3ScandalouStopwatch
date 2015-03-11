@@ -16,15 +16,26 @@ limitations under the License.
 
 */
 
+/* Claim.java Basic Info:
+ *  Class that contains the Claim model. Edits to any instance of a Claim
+ *  should be done through the ClaimController class.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+
+import android.content.Context;
 
 public class Claim extends SModel implements Comparable<Claim> {
 	
 	private int id;
+	
+	private Context context;
 	
 	private String name;
 	private String description;
@@ -39,6 +50,17 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String approverName;
 	private String approverComment;
 
+	public Claim(int id){
+		ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
+		
+		this.name = (String)mapper.loadClaimData(id, "name");
+		this.description = (String)mapper.loadClaimData(id,  "description");
+		this.startDate = (Date)mapper.loadClaimData(id, "startDate");
+		this.endDate = (Date)mapper.loadClaimData(id, "endDate");
+		this.destinations = (ArrayList)mapper.loadClaimData(id, "destinations");
+		this.canEdit = true;
+	}
+	
 	// Constructor to make a more complete claim (feel free to add parameters as needed)
 	public Claim(String name, String description, Date sDate, Date eDate, ArrayList<Destination> destinations) {
 		this.name = name;
@@ -90,12 +112,20 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public Date getStartDate() {
 		return startDate;
 	}
+	public String getStartDateString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		return sdf.format(this.startDate);
+	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 	
 	public Date getEndDate() {
 		return endDate;
+	}
+	public String getEndDateString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		return sdf.format(this.endDate);
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;

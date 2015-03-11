@@ -16,6 +16,14 @@ limitations under the License.
 
 */
 
+/* Claimant.java Basic Info:
+ *  This is the Claimant class which represents a user that has the
+ *  capabilities of a Claimant.
+ *  
+ *  This is the default for a user so functionality has mainly been
+ *  implemented with considerations to a Claimant type user.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 public class Claimant extends User {

@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* ClaimList.java Basic Info:
+ *  Class is a list that holds Claims. When doing tasks that involve the
+ *  ClaimList class it should be done through the ClaimListController class.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
@@ -28,11 +33,9 @@ import android.view.View;
 
 public class ClaimList extends SModel {
 	protected static ArrayList<Claim> claimList;
-    protected ArrayList<Listener> listeners;
     	
 	public ClaimList(){
 		claimList= new ArrayList<Claim>();
-		listeners= new ArrayList<Listener>();
 	}
 	
 	public ArrayList<Claim> getClaims(){

@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* NewClaimActivity.java Basic Info:
+ *  Activity that allows the user to add a new claim to the claim list.
+ *  Accessed through the add button on the ClaimListActivity.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.ParseException;
