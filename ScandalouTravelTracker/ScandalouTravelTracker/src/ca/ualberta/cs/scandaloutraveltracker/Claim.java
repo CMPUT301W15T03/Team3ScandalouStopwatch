@@ -208,7 +208,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	// greater than 0 if another is before startDate
 	@Override
 	public int compareTo(Claim another) {
-		return startDate.compareTo(another.getStartDate());
+		return another.getStartDate().compareTo(startDate);
 	}
 
 }
