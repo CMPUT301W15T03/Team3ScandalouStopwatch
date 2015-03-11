@@ -18,9 +18,15 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class NewClaimActivity extends Activity implements ViewInterface{
 	
@@ -42,15 +48,15 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
 
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
-		claimOk.setOnClickListener(new View.OnClickListener() {
+		/*	claimOkButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
 				//fills in most fields of claim from edit texts
 				claim.setName(nameSet.getText().toString());
-				claim.setDescription(descriptionSet.getText()toString());
-				claim.setStartDate(sDateSet.getText().toString());
-				claim.setEndDate(eDateSet.getText().toString());
+				claim.setDescription(descriptionSet.getText().toString());
+				claim.setStartDate(((Date)sDateSet.getText()));
+				claim.setEndDate(((Date)eDateSet.getText()));
 				
 			}
 		});
@@ -65,7 +71,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				
 		});
 	
-	
+	*/
 	}
 
 	@Override
