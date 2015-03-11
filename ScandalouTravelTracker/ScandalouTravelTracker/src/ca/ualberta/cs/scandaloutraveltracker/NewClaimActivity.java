@@ -23,12 +23,20 @@ import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.Menu;
 import android.view.View;
+
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
-public class NewClaimActivity extends Activity implements ViewInterface{
+import android.content.Context;
+import android.content.DialogInterface;
+//import android.content.Context;
+
+public class NewClaimActivity extends Activity implements ViewInterface {
 	
 	Claim claim;
 	String name;
@@ -37,18 +45,19 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	ArrayList<Destination> dList;
 	String description;
 	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_claim);
 		
-		EditText nameSet = (EditText)findViewById(R.id.claimant_name);
-		EditText sDateSet = (EditText)findViewById(R.id.start_date);	
-		EditText eDateSet = (EditText)findViewById(R.id.end_date);	
-		EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
+		final EditText nameSet = (EditText)findViewById(R.id.claimant_name);
+		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
+		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
+		final EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
 
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
-		/*	claimOkButton.setOnClickListener(new View.OnClickListener() {
+			claimOkButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
@@ -60,19 +69,36 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				
 			}
 		});
-		//todo: add destinations
-		Button addDestButton = (Button) findViewById(R.id.new_destination_button);
-		addDestButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		
+		final Context context = this;
+		ListView destList = (ListView)findViewById(R.id.destinations_lv);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setMessage("Destination Options")
+				.setCancelable(false)
+				.setPositiveButton("Edit",new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog,int id) {
+						//click edit
+					}
+			})
 				
-				//add destinations here
-			}
+			.setNeutralButton("Delete", new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which)
+				{
 				
+					// TODO Auto-generated method stub
+					
+				}
+			})
+			  .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					// close the dialog box
+					dialog.cancel();
+				}
 		});
-	
-	*/
 	}
+		//todo: add destinations
+			
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,5 +112,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		// TODO Auto-generated method stub
 		
 	}
+	
+		  }
 
-}
+
