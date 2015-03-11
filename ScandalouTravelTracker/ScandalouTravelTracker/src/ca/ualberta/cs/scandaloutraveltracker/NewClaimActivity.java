@@ -23,11 +23,49 @@ import android.app.Activity;
 import android.view.Menu;
 
 public class NewClaimActivity extends Activity implements ViewInterface{
-
+	
+	Claim claim;
+	String name;
+	String sDate;
+	String eDate;
+	ArrayList<Destination> dList;
+	String description;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_claim);
+		
+		EditText nameSet = (EditText)findViewById(R.id.claimant_name);
+		EditText sDateSet = (EditText)findViewById(R.id.start_date);	
+		EditText eDateSet = (EditText)findViewById(R.id.end_date);	
+		EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
+
+		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
+		claimOk.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				//fills in most fields of claim from edit texts
+				claim.setName(nameSet.getText().toString());
+				claim.setDescription(descriptionSet.getText()toString());
+				claim.setStartDate(sDateSet.getText().toString());
+				claim.setEndDate(eDateSet.getText().toString());
+				
+			}
+		});
+		//todo: add destinations
+		Button addDestButton = (Button) findViewById(R.id.new_destination_button);
+		addDestButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				//add destinations here
+			}
+				
+		});
+	
+	
 	}
 
 	@Override
