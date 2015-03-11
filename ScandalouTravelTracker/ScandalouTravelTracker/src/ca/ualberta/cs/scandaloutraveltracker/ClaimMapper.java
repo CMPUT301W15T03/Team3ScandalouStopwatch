@@ -18,6 +18,14 @@ public class ClaimMapper {
 		this.context = context;
 	}
 	
+	public void saveClaim(Claim claim) {
+		saveNewClaimData("name", claim.getName());
+		saveNewClaimData("startDate", claim.getStartDate());
+		saveNewClaimData("endDate", claim.getEndDate());
+		saveNewClaimData("description", claim.getDescription());
+		saveNewClaimData("destinations", claim.getDestinations());
+	}
+	
 	public Object loadClaimData(int claimId, String key){
 		
 		Object data = 0;
