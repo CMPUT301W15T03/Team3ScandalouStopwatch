@@ -31,17 +31,23 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class ExpenseListActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
 	private ListView expenseListView ;
 	private ExpenseListAdapter expenseListAdapter;
 	private Claim currentClaim;
+	private ClaimController claimController;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,44 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		expenseListView = (ListView) findViewById(R.id.expenselistView);
 		expenseListAdapter = new ExpenseListAdapter(this, currentClaim.getExpenses());
 		expenseListView.setAdapter(expenseListAdapter);
+		
+		expenseListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, final long expensePos) {
+				
+				//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-03-11
+				//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-03-11
+				AlertDialog.Builder builder = new AlertDialog.Builder(ExpenseListActivity.this);
+				builder.setMessage("Expense Options")
+				   .setCancelable(true)
+				   .setNegativeButton("Edit/View Expense", new DialogInterface.OnClickListener(){
+					   public void onClick(DialogInterface dialog, int i) {
+					    	//edit claim
+					   		Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
+					   		intent.putExtra("id", expensePos);
+					   		startActivity(intent);
+					   }
+				   })
+				  .setPositiveButton("Delete Expense", new DialogInterface.OnClickListener(){
+					  @Override
+						public void onClick(DialogInterface dialog, int i) {
+							//delete correct expense
+						  //claimController.removeExpense(claimController.getExpenseList().getExpense((int) expensePos));
+						  //claimController.notifyViews();
+					  }
+				  })
+				  .setNeutralButton("Flag/Unflag", new DialogInterface.OnClickListener(){
+					  @Override
+						public void onClick(DialogInterface dialog, int i) { 
+						  
+					  }
+				  
+			});
+				AlertDialog alert = builder.create();
+				alert.show();		
+		}
+	});
 	}
 	
 	// TODO: DELETE THIS METHOD. USED FOR TESTING EXPENSELISTACTIVITY.

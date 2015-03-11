@@ -102,4 +102,14 @@ public class ClaimController {
 	public String calculateTotal() {
 		return null;
 	}
+
+	public Object getExpenseList() {
+		// TODO Auto-generated method stub
+		return expenses;
+	}
+
+	public void notifyViews() {
+		// TODO maybe make a expenlistcontroller
+		//expenses.notifyViews(); 
+	}
 }
