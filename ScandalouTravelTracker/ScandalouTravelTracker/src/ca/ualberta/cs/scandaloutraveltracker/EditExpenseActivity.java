@@ -21,6 +21,10 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 public class EditExpenseActivity extends Activity implements ViewInterface {
 
@@ -28,6 +32,46 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_expense);
+		
+		
+		//makes sure that the position of the claim and corresponding 
+		//expense to be edited are actually passed to this activity
+		Bundle extras = getIntent().getExtras();
+		long claimPos =-1;
+		long expensePos =-1;
+		claimPos = extras.getLong("claimPos" , -1);
+		expensePos = extras.getLong("expensePos", -1);
+		if (claimPos == -1) {
+			Toast.makeText(this, "The Claim Position needs to be added to the " +
+					"EditExpenseActivity intent before startActivity(intent) is called",
+					Toast.LENGTH_LONG).show();
+			finish();
+		}
+		else if (expensePos == -1) {
+			Toast.makeText(this, "The Expense Position needs to be added to the " +
+					"EditExpenseActivity intent before startActivity(intent) is called",
+					Toast.LENGTH_LONG).show();
+			finish();
+		}
+		
+		EditText description = (EditText) findViewById(R.id.description);
+		EditText date = (EditText) findViewById(R.id.date_expense);
+		EditText cost = (EditText) findViewById(R.id.amount);
+		Spinner category = (Spinner) findViewById(R.id.catspinner);
+		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
+		ClaimListController c = new ClaimListController(new ClaimList());
+		
+		/*
+		description.setText(ClaimListController.getClaimList()
+				.getClaim(claimPos).getExpense(expensePos).getExpenseDescription());
+		date.setText(ClaimListController.getClaimList()
+				.getClaim(claimPos).getExpense(expensePos).getExpenseDateString());
+		cost.setText(ClaimListController.getClaimList()
+				.getClaim(claimPos).getExpense(expensePos).getExpenseCostString());
+		category.setSelection(ClaimListController.getClaimList()
+				.getClaim(claimPos).getExpense(expensePos).getCategoryInt());
+		currencyType.setSelection(ClaimListController.getClaimList()
+				.getClaim(claimPos).getExpense(expensePos).getCurrencyInt());*/
 	}
 
 	@Override
@@ -48,8 +92,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	}
 	
 	//is called when edit button is clicked
-	public void confirmEdit() {
-		
+	public void confirmEdit(View v) {
 	}
 
 }
