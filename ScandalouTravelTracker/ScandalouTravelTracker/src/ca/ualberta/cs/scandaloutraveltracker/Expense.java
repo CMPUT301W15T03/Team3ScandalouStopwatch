@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import android.view.View;
 
-public class Expense extends SModel {
+public class Expense extends SModel implements Comparable<Expense> {
 	private Date date;
 	private String category;
 	private String description;
@@ -118,4 +118,9 @@ public class Expense extends SModel {
 				+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();
 	}
 
+	@Override
+	public int compareTo(Expense another) {
+		return another.getDate().compareTo(date);
+	}
+	
 }

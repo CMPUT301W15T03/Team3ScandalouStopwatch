@@ -1,6 +1,7 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class ClaimController {
@@ -64,6 +65,7 @@ public class ClaimController {
 	
 	public void addExpense(Expense expense) {
 		expenses.add(expense);
+		Collections.sort(expenses);
 	}
 	
 	public void removeExpense(Expense expense) {

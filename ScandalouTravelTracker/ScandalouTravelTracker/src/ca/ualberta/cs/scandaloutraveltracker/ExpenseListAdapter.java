@@ -50,7 +50,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 		ImageView expenseFlag = (ImageView) convertView.findViewById(R.id.expenseListFlag);
 		
 		// Set layout elements	
-		expenseCategory.setText(expenses.get(position).getDescription());
+		expenseCategory.setText(expenses.get(position).getCategory());
 		expenseDate.setText(expenses.get(position).getDate().toString());
 		expenseDescription.setText(expenses.get(position).getDescription());
 		// expenseTotal.setText(expenses.get(position).getDescription());

@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,9 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_claim_list);
+		
+		Intent intent = new Intent(this, ExpenseListActivity.class);
+		startActivity(intent);
 		
 		// Set layout elements
 		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);

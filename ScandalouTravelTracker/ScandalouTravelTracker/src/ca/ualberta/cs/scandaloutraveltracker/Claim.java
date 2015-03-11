@@ -205,9 +205,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		// TODO: Change the status to returned
 	}
 
-	// Method for comparing claims to one another
-	// Returns 0 if dates equal, less than 0 if startDate before another, and 
-	// greater than 0 if another is before startDate
+	// Method for comparing claims to one another (comparing dates)
 	@Override
 	public int compareTo(Claim another) {
 		return another.getStartDate().compareTo(startDate);

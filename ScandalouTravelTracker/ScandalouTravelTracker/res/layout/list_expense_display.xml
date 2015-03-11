@@ -33,7 +33,8 @@
         android:layout_below="@id/expenseDescriptionTV"
         android:text="@string/expense_totals_text_filler"
         android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"/>
 
     <ImageView
         android:id="@+id/expenseListFlag"
