@@ -47,6 +47,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.endDate = eDate;
 		this.destinations = destinations;
 		this.canEdit = true;
+		this.expenses = new ArrayList<Expense>();
 	}	
 	
 	// Constructor to quickly make a claim
@@ -60,6 +61,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public Claim() {
 		// Constructor for empty claim to test
 		this.canEdit = true;
+		this.expenses = new ArrayList<Expense>();
 	}
 	
 	// Getter and Setter Methods

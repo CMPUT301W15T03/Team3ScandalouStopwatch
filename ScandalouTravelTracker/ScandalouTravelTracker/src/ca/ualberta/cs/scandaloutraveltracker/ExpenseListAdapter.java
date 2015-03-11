@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,17 +43,17 @@ public class ExpenseListAdapter extends BaseAdapter {
 		}
 		
 		// Make layout elements
-		TextView expenseName = (TextView) convertView.findViewById(R.id.expenseNameExpenseListTV); 
+		TextView expenseCategory = (TextView) convertView.findViewById(R.id.expenseCategoryExpenseListTV); 
 		TextView expenseDate = (TextView) convertView.findViewById(R.id.expenseDateExpenseListTV);
-		TextView expenseCategory = (TextView) convertView.findViewById(R.id.expenseCategoryExpenseListTV);
-		TextView expenseDescription = (TextView) convertView.findViewById(R.id.expenseDescriptionExpenseListTV);
+		TextView expenseDescription = (TextView) convertView.findViewById(R.id.expenseDescriptionTV);
+		TextView expenseTotal = (TextView) convertView.findViewById(R.id.expenseTotalsExpenseListTV);
 		ImageView expenseFlag = (ImageView) convertView.findViewById(R.id.expenseListFlag);
 		
 		// Set layout elements	
-		expenseName.setText(expenses.get(position).getDescription());
+		expenseCategory.setText(expenses.get(position).getDescription());
 		expenseDate.setText(expenses.get(position).getDate().toString());
-		expenseCategory.setText(expenses.get(position).getCategory());
 		expenseDescription.setText(expenses.get(position).getDescription());
+		// expenseTotal.setText(expenses.get(position).getDescription());
 
 		return convertView;
 	}

@@ -29,4 +29,14 @@
 
     </ListView>
 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/addButtonClaimList"
+        android:layout_alignBottom="@+id/addButtonClaimList"
+        android:layout_alignParentLeft="true"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>
