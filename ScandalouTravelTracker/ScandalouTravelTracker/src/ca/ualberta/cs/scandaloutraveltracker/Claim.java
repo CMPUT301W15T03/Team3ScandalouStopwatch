@@ -23,6 +23,9 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Claim extends SModel implements Comparable<Claim> {
+	
+	private int id;
+	
 	private String name;
 	private String description;
 	private Date startDate;
@@ -50,6 +53,13 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	
 	// Getter and Setter Methods
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}	
 	
 	public String getName() {
 		return name;

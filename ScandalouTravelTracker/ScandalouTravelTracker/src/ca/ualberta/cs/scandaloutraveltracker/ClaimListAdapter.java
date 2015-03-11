@@ -1,6 +1,7 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,11 @@ public class ClaimListAdapter extends BaseAdapter {
 		
 		// Fetch current Claim
 		Claim currentClaim = claimList.getClaim(position);
+		// The claim id needs to be accessible in the "Go to edit claim" listener, but I don't
+		// know how else to do it besides making something "final". It's kind of ugly but it's 
+		// fairly unobtrusive.
+		final int currentClaimId = currentClaim.getId();
+
 		
 		// Set TextViews
 		claimDateTV.setText(currentClaim.getStartDate().toString() + 
@@ -59,6 +65,17 @@ public class ClaimListAdapter extends BaseAdapter {
 		claimStatusTV.setText("NEED GETSTATUS IN CLAIM");
 		claimTotalTV.setText("NEED TOTALSTOSTRING IN CLAIM");
 		//claimTagsTV.setText(currentClaim.getTags().toString());
+		
+		// Go to edit claim
+		convertView.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				
+				Intent intent = new Intent(ClaimListAdapter.this.context.getApplicationContext(), EditClaimActivity.class);
+				intent.putExtra(Constants.claimIdLabel, currentClaimId);				
+				context.startActivity(intent);
+			}
+		});			
 		
 		return convertView;
 	}
