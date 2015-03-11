@@ -64,6 +64,7 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_claim);
 		
+		final Context context = this;
 		final EditText nameSet = (EditText)findViewById(R.id.claimant_name);
 		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
 		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
@@ -100,6 +101,12 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 				claim.setStartDate(startDate);
 				claim.setEndDate(endDate);
 				
+			
+				ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
+				Claim claim2 = new Claim(nameSet.getText().toString(), descriptionSet.getText().toString(), 
+						startDate, endDate, dList);
+				mapper.saveClaim(claim2);
+				
 
 				Intent intent = new Intent(NewClaimActivity.this, ClaimListActivity.class);
 				startActivity(intent);
@@ -107,7 +114,6 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 			}
 		});
 		
-		final Context context = this;
 		ListView destList = (ListView)findViewById(R.id.destinations_lv);
 		
 		Button addDestButton = (Button) findViewById(R.id.add_dest_button);

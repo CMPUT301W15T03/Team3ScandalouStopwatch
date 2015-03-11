@@ -154,7 +154,7 @@ public class ExpenseOverallTests extends TestCase {
 		String details = testExpense.toString();
 		//can change format
 		String actualDetails = "Air Fare - 01/01/2014\n" + "Flight to YEG\n" + "566.00 CAD";
-		assertTrue("The details aren't being returned properly for displaying" + testExpense.getDate().toString(), details.equals(actualDetails));
+		assertTrue("The details aren't being returned properly for displaying", details.equals(actualDetails));
 		/*return this.category + " - " + sdf.format(this.date) + "\n"
 		+ this.description + "\n"
 		+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();*/

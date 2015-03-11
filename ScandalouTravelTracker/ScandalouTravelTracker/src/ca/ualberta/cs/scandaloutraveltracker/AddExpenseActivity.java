@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 
 public class AddExpenseActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
@@ -44,8 +45,9 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 			@Override
 			public void onClick(View v) {
 				// TODO: create new Expense, fill in values, save, close activity
-				Expense expense= new Expense();
-				
+				Expense expense = new Expense();
+				Spinner categorySpinner = (Spinner)findViewById(R.id.category);
+				String category = (String)categorySpinner.getSelectedItem();
 			}
 		});
 	}

@@ -132,7 +132,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private Claim createTestClaim() {
 		Claim newClaim = new Claim();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
 		Date startDate;
 		try {
 			startDate = sdf.parse("01/01/2015");
@@ -160,7 +160,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private Claim createTestClaim2() {
 		Claim newClaim = new Claim();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
 		Date startDate;
 		try {
 			startDate = sdf.parse("02/02/2015");
@@ -188,7 +188,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private Claim createTestClaim3() {
 		Claim newClaim = new Claim();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
 		Date startDate;
 		try {
 			startDate = sdf.parse("04/04/2015");
