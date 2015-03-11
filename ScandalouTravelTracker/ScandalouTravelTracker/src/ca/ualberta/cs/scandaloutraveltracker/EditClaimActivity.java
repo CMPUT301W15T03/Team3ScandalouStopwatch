@@ -16,6 +16,11 @@ limitations under the License.
 
 */
 
+/* EditClaimActivity.java Basic Info:
+ *  This activity contains a claim that was selected from the ClaimListActivity
+ *  and allows you to edit the claim.
+ */
+
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.SimpleDateFormat;
