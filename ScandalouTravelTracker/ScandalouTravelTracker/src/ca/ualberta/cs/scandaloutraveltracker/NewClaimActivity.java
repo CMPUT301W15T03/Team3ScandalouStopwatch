@@ -27,7 +27,10 @@ import android.app.AlertDialog;
 import android.view.Menu;
 import android.view.View;
 
+import android.view.View.OnLongClickListener;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -72,30 +75,40 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 		
 		final Context context = this;
 		ListView destList = (ListView)findViewById(R.id.destinations_lv);
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-		alertDialogBuilder.setMessage("Destination Options")
-				.setCancelable(false)
-				.setPositiveButton("Edit",new DialogInterface.OnClickListener(){
-					public void onClick(DialogInterface dialog,int id) {
-						//click edit
-					}
-			})
-				
-			.setNeutralButton("Delete", new DialogInterface.OnClickListener(){
-				public void onClick(DialogInterface dialog, int which)
-				{
-				
-					// TODO Auto-generated method stub
-					
-				}
-			})
-			  .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog,int id) {
-					// close the dialog box
-					dialog.cancel();
-				}
-		});
+		
+		destList.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
+			  public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
+			    
+				  AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+					alertDialogBuilder.setMessage("Destination Options")
+							.setCancelable(false)
+							.setPositiveButton("Edit",new DialogInterface.OnClickListener(){
+								public void onClick(DialogInterface dialog,int id) {
+									//click edit
+									dialog.cancel();
+								}
+						})
+							
+						.setNeutralButton("Delete", new DialogInterface.OnClickListener(){
+							public void onClick(DialogInterface dialog, int which)
+							{
+								dialog.cancel();
+								//click delete
+								
+								
+							}
+						})
+						  .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								// close the dialog box
+								dialog.cancel();
+							}
+					});
+			  		return true;
+			  		}});
+	
 	}
+		
 		//todo: add destinations
 			
 
