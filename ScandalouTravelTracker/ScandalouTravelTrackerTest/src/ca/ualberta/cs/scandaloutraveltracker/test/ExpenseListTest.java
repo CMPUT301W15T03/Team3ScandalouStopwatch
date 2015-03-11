@@ -20,9 +20,9 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.Date;
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
-import ca.ualberta.cs.scandaloutraveltracker.ViewExpenseListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
-import ca.ualberta.cs.scandaloutraveltracker.ViewExpenseListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
@@ -45,7 +45,7 @@ public class ExpenseListTest extends
 	    boolean complete = false;
 	    boolean reciept = false;
 
-	    ViewExpenseListActivity activity = startWithExpense(date, cat, des, spent,
+	    ExpenseListActivity activity = startWithExpense(date, cat, des, spent,
 	                                                            cur, complete, reciept);
 	    View allViews = activity.getWindow().getDecorView();
 	    //TextView categoryView = (TextView) activity.findViewById(R.id.categoryText);
@@ -65,7 +65,7 @@ public class ExpenseListTest extends
 	    //ViewAsserts.assertOnScreen(allViews, (View) recieptView);
 	}
 	
-	public ViewExpenseListActivity startWithExpense(Date date, String category, String description, Double spent,
+	public ExpenseListActivity startWithExpense(Date date, String category, String description, Double spent,
 								   String currency, boolean complete, boolean reciept)
 	{
 		return null;
