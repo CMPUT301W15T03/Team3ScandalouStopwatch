@@ -18,16 +18,28 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.ListView;
 
 public class ExpenseListActivity extends Activity implements ViewInterface {
-
+	private Button addExpenseButton;
+	private ListView expenseListView ;
+	private ExpenseListAdapter expenseListAdapter;
+	private ArrayList<Expense> expenseList ;
+	private ClaimController claimController;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_expense_list);
+		//set layout elements
+		addExpenseButton=(Button) findViewById(R.id.add_expense);
+		expenseListView =()
 	}
 
 	@Override
@@ -39,7 +51,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		expenseListAdapter.notifyDataSetChanged();
 		
 	}
 
