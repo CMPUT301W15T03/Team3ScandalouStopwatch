@@ -55,6 +55,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public Claim(int id){
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 
+		this.id = id;
 		this.name = (String)mapper.loadClaimData(id, "name");
 		this.description = (String)mapper.loadClaimData(id,  "description");
 		this.startDate = (Date)mapper.loadClaimData(id, "startDate");

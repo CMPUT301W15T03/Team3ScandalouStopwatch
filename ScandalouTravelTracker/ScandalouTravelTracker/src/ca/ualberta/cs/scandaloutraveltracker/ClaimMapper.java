@@ -26,6 +26,7 @@ public class ClaimMapper {
 		
 		int claimId = incrementClaimCounter();		
 		
+		saveClaimData(claimId, "id", claimId);
 		saveClaimData(claimId, "name", name);
 		saveClaimData(claimId, "startDate", startDate);
 		saveClaimData(claimId, "endDate", endDate);
@@ -60,7 +61,9 @@ public class ClaimMapper {
 		Editor editor = claimFile.edit();
 		Gson gson = new Gson();		
 		
-		if (key.equals("name")){
+		if (key.equals("id")){
+			editor.putInt("id", (Integer)data);
+		} else if (key.equals("name")){
 			editor.putString(key, (String)data);
 		} else if (key.equals("description")){
 			editor.putString(key, (String)data);			

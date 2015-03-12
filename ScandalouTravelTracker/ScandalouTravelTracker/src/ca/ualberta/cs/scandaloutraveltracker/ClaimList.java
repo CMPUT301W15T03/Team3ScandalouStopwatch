@@ -36,7 +36,8 @@ public class ClaimList extends SModel {
 	protected static ArrayList<Claim> claims;
     	
 	private ClaimList(){
-		claims = new ArrayList<Claim>();
+		ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
+		claims = mapper.loadClaims();
 	}
 	
 	public static ClaimList getClaimList() {

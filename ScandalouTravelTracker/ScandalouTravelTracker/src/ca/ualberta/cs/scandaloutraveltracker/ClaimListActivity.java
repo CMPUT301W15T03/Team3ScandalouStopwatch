@@ -66,6 +66,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		claimListAdapter = new ClaimListAdapter(this, claimsList);
 		claimsListView.setAdapter(claimListAdapter);
 		
+		/*
 		//for testing purposes
 		Claim testClaim = createTestClaim();
 		Claim testClaim2 = createTestClaim2();
@@ -74,6 +75,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		claimListController.addClaim(testClaim);
 		claimListController.addClaim(testClaim2);
 		claimListController.notifyViews();
+		*/
 		
 		// Add claim button on click
 		addClaimButton.setOnClickListener(new View.OnClickListener() {

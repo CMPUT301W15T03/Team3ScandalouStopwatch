@@ -27,6 +27,7 @@ import java.util.Collections;
 
 public class ClaimListController {
 	// TODO: Have ClaimListController load the list of claims using Claim Manager
+	// Currently done through the ClaimListMapper
 	
 	private ClaimList claimList = null;
 	
