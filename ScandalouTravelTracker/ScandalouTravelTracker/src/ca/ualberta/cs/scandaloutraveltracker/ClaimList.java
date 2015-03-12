@@ -68,6 +68,7 @@ public class ClaimList extends SModel {
 	// Temporary add claim 
 	public void addClaim(Claim claim) {
 		claimList.add(claim);
+		notifyViews();
 	}
 	
 	public void deleteClaim(Claim removeclaim){

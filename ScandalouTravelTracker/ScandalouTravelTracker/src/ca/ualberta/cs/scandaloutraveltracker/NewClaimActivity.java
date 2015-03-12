@@ -107,9 +107,9 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 						startDate, endDate, dList);
 				mapper.saveClaim(claim2);
 				
-
-				Intent intent = new Intent(NewClaimActivity.this, ClaimListActivity.class);
-				startActivity(intent);
+				ClaimListController claimListController = new ClaimListController();
+				claimListController.addClaim(claim2);
+				finish();
 				
 			}
 		});
