@@ -64,7 +64,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		EditText cost = (EditText) findViewById(R.id.amount);
 		Spinner category = (Spinner) findViewById(R.id.catspinner);
 		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
-		ClaimListController c = new ClaimListController(new ClaimList());
+		ClaimListController c = new ClaimListController();
 		
 		/*
 		description.setText(ClaimListController.getClaimList()

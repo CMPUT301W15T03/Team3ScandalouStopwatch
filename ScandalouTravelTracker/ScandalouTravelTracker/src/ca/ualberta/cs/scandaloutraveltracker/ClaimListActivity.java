@@ -45,7 +45,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private Button addClaimButton;
 	private ListView claimsListView;
 	private ClaimListAdapter claimListAdapter;
-	private ClaimList claimsList = new ClaimList(); // Test variable - Remove Later
+	private ClaimList claimsList; // Test variable - Remove Later
 	private ClaimListController claimListController;
 	
 	
@@ -54,13 +54,16 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_claim_list);
 		
+		// Get Claims
+		claimListController = new ClaimListController();
+		claimsList = claimListController.getClaimList();
+		
 		// Set layout elements
 		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);
 		claimsListView = (ListView) findViewById(R.id.claimListActivityList);
 
-		claimListController = new ClaimListController(claimsList);
 		claimListController.addView(this); // Testing to add view for claimsLists
-		claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+		claimListAdapter = new ClaimListAdapter(this, claimsList);
 		claimsListView.setAdapter(claimListAdapter);
 		
 		//for testing purposes

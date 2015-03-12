@@ -34,8 +34,16 @@ import android.view.View;
 public class ClaimList extends SModel {
 	protected static ArrayList<Claim> claimList;
     	
-	public ClaimList(){
+	private ClaimList(){
 		claimList= new ArrayList<Claim>();
+	}
+	
+	public ClaimList getClaimList() {
+		if (claimList == null) {
+			claimList = new ArrayList<Claim>();
+		}
+		
+		return this;
 	}
 	
 	public ArrayList<Claim> getClaims(){
@@ -57,7 +65,7 @@ public class ClaimList extends SModel {
 	} */
 	
 	// Temporary add claim 
-	public static void addClaim(Claim claim) {
+	public void addClaim(Claim claim) {
 		claimList.add(claim);
 	}
 	

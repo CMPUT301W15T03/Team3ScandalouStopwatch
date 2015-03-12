@@ -30,9 +30,9 @@ public class ClaimListController {
 	
 	private ClaimList claims;
 	
-	// Constructor for testing out Claim List functions quickly
-	public ClaimListController(ClaimList claims) {
-		this.claims = claims;
+	// Constructor
+	public ClaimListController() {
+		this.claims = claims.getClaimList();
 	}
 	
 	public void addView(ViewInterface view) {
