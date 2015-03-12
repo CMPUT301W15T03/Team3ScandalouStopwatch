@@ -154,6 +154,14 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		Destination d1 = new Destination("Edmonton", "Chillin here");
 		Destination d2 = new Destination("Vancouver", "Now I'm here");
 		
+		Expense expense1 = new Expense();
+		expense1.setCost(16.00);
+		expense1.setCurrencyType("Canadian (CAD)");
+		
+		Expense expense2 = new Expense();
+		expense2.setCost(4.21);
+		expense2.setCurrencyType("Canadian (CAD)");
+		
 		ClaimController claimController = new ClaimController(newClaim);
 		claimController.setName("Test Claim");
 		claimController.setStartDate(startDate);
@@ -162,6 +170,8 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		claimController.addDestination(d2);
 		claimController.addTag("#AB");
 		claimController.addTag("#BC");
+		claimController.addExpense(expense1);
+		claimController.addExpense(expense2);
 		
 		return newClaim;
 	}
@@ -189,12 +199,22 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		Destination d1 = new Destination("Beijing", "Chillin here");
 		Destination d2 = new Destination("Macau", "Now I'm here");
 		
+		Expense expense1 = new Expense();
+		expense1.setCost(12.15);
+		expense1.setCurrencyType("Swiss Franc (CHF)");
+		
+		Expense expense2 = new Expense();
+		expense2.setCost(412.00);
+		expense2.setCurrencyType("Japanese Yen (JPY)");
+		
 		ClaimController claimController = new ClaimController(newClaim);
 		claimController.setName("Test Claim");
 		claimController.setStartDate(startDate);
 		claimController.setEndDate(endDate);
 		claimController.addDestination(d1);
 		claimController.addDestination(d2);
+		claimController.addExpense(expense2);
+		claimController.addExpense(expense1);
 		
 		return newClaim;
 	}

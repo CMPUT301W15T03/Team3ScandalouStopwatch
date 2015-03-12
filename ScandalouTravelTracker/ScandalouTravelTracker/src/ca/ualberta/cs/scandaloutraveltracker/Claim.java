@@ -23,6 +23,8 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -181,21 +183,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public void setApproverComment(String approverComment) {
 	}	
 	
-	
-	// Other Methods
-	
-	public String toString() {
-		// TODO: Converting the claim with computeTotal to display on listView
-		
-		return null;
-	}
-	
-	public String computeTotal() {
-		// TODO: Using the HashMap to help compute the total for each type of currency
-		
-		return null;
-	}
-
 	public void setCanEdit(boolean b) {
 		this.canEdit = b;
 	}
@@ -220,12 +207,78 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.expenses.remove(expense);
 	}
 	
-	public String getWarning(){
-		return null;
-	}
+	// String Conversion Methods
 	
-	public void raiseWarning(String warning){
-		// TODO: Do something
+	public String computeTotal() {
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		NumberFormat formatter2 = new DecimalFormat("#0");
+		String totalExpenses = "";
+		double cad = 0;
+		double usd = 0;
+		double gbp = 0;
+		double eur = 0;
+		double chf = 0;
+		double jpy = 0;
+		double cny = 0;
+		
+		// Sort and categorize all expenses
+		for (Expense expense : expenses) {
+			if (expense.getCurrencyType() != null) {
+				if (expense.getCurrencyType().equals("Canadian (CAD)")) {
+					cad += expense.getCost();
+				}
+				else if (expense.getCurrencyType().equals("American (USD)")) {
+					usd += expense.getCost();
+				}
+				else if (expense.getCurrencyType().equals("Euro (EUR)")) {
+					eur += expense.getCost();
+							}
+				else if (expense.getCurrencyType().equals("Pound (GBP)")) {
+					gbp += expense.getCost();
+				}
+				else if (expense.getCurrencyType().equals("Swiss Franc (CHF)")) {
+					chf += expense.getCost();
+				}
+				else if (expense.getCurrencyType().equals("Japanese Yen (JPY)")) {
+					jpy += expense.getCost();
+				}
+				else if (expense.getCurrencyType().equals("Chinese Yuan (CNY)")) {
+					cny += expense.getCost();
+				}
+			}
+		}
+		
+		// Checking expenses
+		if (cad != 0)
+		{
+			totalExpenses += "Canadian (CAD): $" + formatter.format(cad) + "\n";
+		}
+		if (usd != 0)
+		{
+			totalExpenses += "American (USD): $" + formatter.format(usd) + "\n";
+		}
+		if (gbp != 0)
+		{
+			totalExpenses += "Pounds (GBP): £" + formatter.format(gbp) + "\n";
+		}
+		if (eur != 0)
+		{
+			totalExpenses += "Euros (EUR): Û" + formatter.format(eur) + "\n";
+		}
+		if (chf != 0)
+		{
+			totalExpenses += "Swiss Francs (CHF): CHF " + formatter.format(chf) + "\n";
+		}
+		if (jpy != 0)
+		{
+			totalExpenses += "Yen (JPY): ´" + formatter2.format(jpy) + "\n";
+		}
+		if (cny != 0)
+		{
+			totalExpenses += "Yuan (CNY): ´" + formatter2.format(cny) + "\n";
+		}
+		
+		return totalExpenses;
 	}
 	
 	// Converts the destinations into a string
@@ -249,15 +302,25 @@ public class Claim extends SModel implements Comparable<Claim> {
 		return destinations;
 	}
 	
+	// Warning Methods
 	
-	// Approval Methods
+	public String getWarning(){
+		return null;
+	}
 	
+	public void raiseWarning(String warning){
+		// TODO: Do something
+	}
+	
+	// Methods for the Approver Only
 	public void approveClaim(String approverName){
-		// TODO: Change the status to approved
+		this.status = "Approved";
+		this.canEdit = false;
 	}
 	
 	public void returnClaim(String approverName){
-		// TODO: Change the status to returned
+		this.status = "Returned";
+		this.canEdit = true; 
 	}
 
 	// Method for comparing claims to one another (comparing dates)
