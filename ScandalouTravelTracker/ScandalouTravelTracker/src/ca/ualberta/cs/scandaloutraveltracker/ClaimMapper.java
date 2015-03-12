@@ -68,6 +68,9 @@ public class ClaimMapper {
 		} else if (key.equals("description")){
 			editor.putString(key, (String)data);			
 		} else if (key.equals("startDate")){
+	    	// CITATION http://stackoverflow.com/questions/7145606/how-android-sharedpreferences-save-store-object
+	    	// 2015-03-12
+	    	// MuhammadAamirALi's answer			
 			String startDateJson = gson.toJson((Date)data);
 		    editor.putString(key, startDateJson);
 		} else if (key.equals("endDate")){
@@ -101,6 +104,9 @@ public class ClaimMapper {
 	    } else if (key.equals("description")){
 		    data = claimFile.getString(key, "");
 	    } else if (key.equals("startDate")){
+	    	// CITATION http://stackoverflow.com/questions/7145606/how-android-sharedpreferences-save-store-object
+	    	// 2015-03-12
+	    	// MuhammadAamirALi's answer
 		    String startDateJson = claimFile.getString(key, "");
 		    data = gson.fromJson(startDateJson, Date.class);
 	    } else if (key.equals("endDate")){
