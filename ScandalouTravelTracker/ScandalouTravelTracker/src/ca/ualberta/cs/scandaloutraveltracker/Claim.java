@@ -84,6 +84,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 		// Constructor for empty claim to test
 		this.canEdit = true;
 		this.expenses = new ArrayList<Expense>();
+		this.destinations = new ArrayList<Destination>();
+		this.status = "In Progress";
 	}
 	
 	// Getter and Setter Methods
@@ -163,6 +165,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		return status;
 	}
 	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getApproverName(){
@@ -222,6 +225,27 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	public void raiseWarning(String warning){
 		// TODO: Do something
+	}
+	
+	// Converts the destinations into a string
+	// String format is destination1, destination2, ..., destination x 
+	public String destinationsToString() {
+		String destinations = "";
+		int count = 1;
+		
+		if (this.getDestinations().size() > 0) {
+			for (Destination dest : this.getDestinations()) {
+				if (count == this.getDestinations().size()) {
+					destinations += dest.getName();
+				}
+				else {
+					destinations += dest.getName() + ", ";
+				}
+				count++;
+			}
+		}
+		
+		return destinations;
 	}
 	
 	

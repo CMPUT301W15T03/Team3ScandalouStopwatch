@@ -151,10 +151,15 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 			throw new RuntimeException(e);
 		}
 		
+		Destination d1 = new Destination("Edmonton", "Chillin here");
+		Destination d2 = new Destination("Vancouver", "Now I'm here");
+		
 		ClaimController claimController = new ClaimController(newClaim);
 		claimController.setName("Test Claim");
 		claimController.setStartDate(startDate);
 		claimController.setEndDate(endDate);
+		claimController.addDestination(d1);
+		claimController.addDestination(d2);
 		
 		return newClaim;
 	}
@@ -179,10 +184,15 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 			throw new RuntimeException(e);
 		}
 		
+		Destination d1 = new Destination("Beijing", "Chillin here");
+		Destination d2 = new Destination("Macau", "Now I'm here");
+		
 		ClaimController claimController = new ClaimController(newClaim);
 		claimController.setName("Test Claim");
 		claimController.setStartDate(startDate);
 		claimController.setEndDate(endDate);
+		claimController.addDestination(d1);
+		claimController.addDestination(d2);
 		
 		return newClaim;
 	}
@@ -207,10 +217,15 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 			throw new RuntimeException(e);
 		}
 		
+		Destination d1 = new Destination("Melbourne", "Chillin here");
+		Destination d2 = new Destination("Sydney", "Now I'm here");
+		
 		ClaimController claimController = new ClaimController(newClaim);
 		claimController.setName("Test Claim");
 		claimController.setStartDate(startDate);
 		claimController.setEndDate(endDate);
+		claimController.addDestination(d1);
+		claimController.addDestination(d2);
 		
 		return newClaim;
 	}

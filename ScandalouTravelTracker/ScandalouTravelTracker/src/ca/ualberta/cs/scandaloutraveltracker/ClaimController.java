@@ -87,6 +87,14 @@ public class ClaimController {
 		currentClaim.removeDestination(destination);
 	}
 	
+	public String getStatus() {
+		return currentClaim.getStatus();
+	}
+	
+	public void setStatus(String status) {
+		currentClaim.setStatus(status);
+	}
+	
 	public void addExpense(Expense expense) {
 		expenses.add(expense);
 	}
