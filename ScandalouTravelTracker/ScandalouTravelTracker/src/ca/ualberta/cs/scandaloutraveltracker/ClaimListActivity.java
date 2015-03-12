@@ -160,6 +160,8 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		claimController.setEndDate(endDate);
 		claimController.addDestination(d1);
 		claimController.addDestination(d2);
+		claimController.addTag("#AB");
+		claimController.addTag("#BC");
 		
 		return newClaim;
 	}

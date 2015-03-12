@@ -85,6 +85,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.canEdit = true;
 		this.expenses = new ArrayList<Expense>();
 		this.destinations = new ArrayList<Destination>();
+		this.tags = new ArrayList<String>();
 		this.status = "In Progress";
 	}
 	
@@ -160,7 +161,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public void setTotals(HashMap<String, Double> totals) {
 		this.totals = totals;
 	}
-
+	
 	public String getStatus(){
 		return status;
 	}
@@ -263,6 +264,25 @@ public class Claim extends SModel implements Comparable<Claim> {
 	@Override
 	public int compareTo(Claim another) {
 		return another.getStartDate().compareTo(startDate);
+	}
+
+	public String tagsToString() {
+		String tags = "";
+		int counter = 1;
+		
+		if (this.tags.size() > 0) {
+			for (String tag : this.tags) {
+				if (counter == this.tags.size()) {
+					tags += tag;
+				}
+				else {
+					tags += tag + ", ";
+				}
+				counter++;
+			}
+		}
+		
+		return tags;
 	}
 
 }
