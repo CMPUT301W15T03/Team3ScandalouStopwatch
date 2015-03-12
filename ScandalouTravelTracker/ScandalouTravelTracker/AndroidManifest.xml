@@ -24,11 +24,13 @@
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity"
-            android:label="@string/title_activity_view_claim" >
+            android:label="@string/title_activity_view_claim"
+            android:windowSoftInputMode="adjustNothing" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity"
-            android:label="@string/title_activity_edit_claim" >
+            android:label="@string/title_activity_edit_claim" 
+            android:windowSoftInputMode="adjustNothing" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.EditExpenseActivity"
