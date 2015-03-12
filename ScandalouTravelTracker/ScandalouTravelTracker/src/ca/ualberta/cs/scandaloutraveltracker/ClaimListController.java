@@ -28,11 +28,11 @@ import java.util.Collections;
 public class ClaimListController {
 	// TODO: Have ClaimListController load the list of claims using Claim Manager
 	
-	private ClaimList claims;
+	private ClaimList claims = null;
 	
 	// Constructor
 	public ClaimListController() {
-		this.claims = claims.getClaimList();
+		claims = ClaimList.getClaimList();
 	}
 	
 	public void addView(ViewInterface view) {

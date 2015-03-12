@@ -32,18 +32,19 @@ import android.view.Menu;
 import android.view.View;
 
 public class ClaimList extends SModel {
+	private static ClaimList claims;
 	protected static ArrayList<Claim> claimList;
     	
 	private ClaimList(){
-		claimList= new ArrayList<Claim>();
+		claimList = new ArrayList<Claim>();
 	}
 	
-	public ClaimList getClaimList() {
-		if (claimList == null) {
-			claimList = new ArrayList<Claim>();
+	public static ClaimList getClaimList() {
+		if (claims == null) {
+			claims = new ClaimList();
 		}
 		
-		return this;
+		return claims;
 	}
 	
 	public ArrayList<Claim> getClaims(){
