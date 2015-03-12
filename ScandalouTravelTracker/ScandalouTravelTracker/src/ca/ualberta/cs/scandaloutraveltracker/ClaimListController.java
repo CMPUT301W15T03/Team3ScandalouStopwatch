@@ -28,32 +28,32 @@ import java.util.Collections;
 public class ClaimListController {
 	// TODO: Have ClaimListController load the list of claims using Claim Manager
 	
-	private ClaimList claims = null;
+	private ClaimList claimList = null;
 	
 	// Constructor
 	public ClaimListController() {
-		claims = ClaimList.getClaimList();
+		claimList = ClaimList.getClaimList();
 	}
 	
 	public void addView(ViewInterface view) {
-		claims.addView(view);
+		claimList.addView(view);
 	}
 	
 	public void removeView(ViewInterface view) {
-		claims.removeView(view);
+		claimList.removeView(view);
 	}
 	
 	public void addClaim(Claim claim) {
-		claims.addClaim(claim);
-		Collections.sort(claims.getClaims());
+		claimList.addClaim(claim);
+		Collections.sort(claimList.getClaims());
 	}
 	
 	public void removeClaim(Claim claim) {
-		claims.deleteClaim(claim);
+		claimList.deleteClaim(claim);
 	}
 	
 	public void notifyViews() {
-		claims.notifyViews();
+		claimList.notifyViews();
 	}
 	
 	public Claim getClaim() {
@@ -61,6 +61,6 @@ public class ClaimListController {
 	}
 	
 	public ClaimList getClaimList() {
-		return claims;
+		return claimList;
 	}
 }

@@ -32,27 +32,27 @@ import android.view.Menu;
 import android.view.View;
 
 public class ClaimList extends SModel {
-	private static ClaimList claims;
-	protected static ArrayList<Claim> claimList;
+	private static ClaimList claimList;
+	protected static ArrayList<Claim> claims;
     	
 	private ClaimList(){
-		claimList = new ArrayList<Claim>();
+		claims = new ArrayList<Claim>();
 	}
 	
 	public static ClaimList getClaimList() {
-		if (claims == null) {
-			claims = new ClaimList();
+		if (claimList == null) {
+			claimList = new ClaimList();
 		}
 		
-		return claims;
-	}
-	
-	public ArrayList<Claim> getClaims(){
 		return claimList;
 	}
 	
+	public ArrayList<Claim> getClaims(){
+		return claims;
+	}
+	
 	public Claim getClaim(int position) {
-		return claimList.get(position);
+		return claims.get(position);
 	}
 	
 	/*
@@ -67,12 +67,12 @@ public class ClaimList extends SModel {
 	
 	// Temporary add claim 
 	public void addClaim(Claim claim) {
-		claimList.add(claim);
+		claims.add(claim);
 		notifyViews();
 	}
 	
 	public void deleteClaim(Claim removeclaim){
-		claimList.remove(removeclaim);
+		claims.remove(removeclaim);
 	}
 	
 	public ArrayList<Claim> searchTag(String tag){
@@ -81,11 +81,11 @@ public class ClaimList extends SModel {
 	}
 
 	public int getCount() {
-		return claimList.size();
+		return claims.size();
 	}
 	
 	public static boolean isEmpty(){
-		return claimList.size()==0;
+		return claims.size()==0;
 	}
 	
 	public void sortByStartDate(){
