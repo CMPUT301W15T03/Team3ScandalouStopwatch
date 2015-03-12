@@ -52,9 +52,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	    // Get the message from the intent
 	    intent = getIntent();
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
-		
+		/*
 	    ArrayList<Destination> destinations = new ArrayList<Destination>();
 	    destinations.add(new Destination("Death Star II", "Fully armed (and operational) battlestation"));
+	    ArrayList<String> tags = new ArrayList<String>();
+	    tags.add("Tag 1", "Tag 2");
 	    Calendar cal1 = Calendar.getInstance();
 	    cal1.set(Calendar.YEAR, 1983);
 	    cal1.set(Calendar.MONTH, 4);
@@ -70,9 +72,14 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				"Inspection went great. Everything is proceeding as I have foreseen.", 
 				startDate, 
 				endDate, 
-				destinations);
+				destinations,
+				tags);
 		claim.addView(this);
-		
+		*/
+	    
+	    claim = new Claim(claimId);
+	    claim.addView(this);
+	    
 		update();
 	}
 

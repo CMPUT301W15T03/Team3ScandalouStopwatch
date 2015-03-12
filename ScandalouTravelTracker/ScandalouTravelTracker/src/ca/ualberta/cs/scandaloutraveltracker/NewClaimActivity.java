@@ -27,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -57,6 +59,7 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 	String eDate;
 	ArrayList<Destination> dList;
 	String description;
+	ArrayList<String> tags;
 	
 
 	@Override
@@ -101,14 +104,26 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 				claim.setStartDate(startDate);
 				claim.setEndDate(endDate);
 				
+				// For testing
+				dList = new ArrayList<Destination>();
+				dList.add(new Destination("Alderaan Orbit", "Product demo"));
+				dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
+				
+				// Also for testing
+				tags = new ArrayList<String>();
+				tags.add("Tag1");
+				tags.add("Tag2");
+				
+				// Creation status
+				String status = Constants.statusInProgress;
 			
 				ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
-				Claim claim2 = new Claim(nameSet.getText().toString(), descriptionSet.getText().toString(), 
-						startDate, endDate, dList);
-				mapper.saveClaim(claim2);
-				
+				int newClaimId = mapper.createClaim(nameSet.getText().toString(), 
+						startDate, endDate, descriptionSet.getText().toString(), dList, tags, status);
+
 				ClaimListController claimListController = new ClaimListController();
-				claimListController.addClaim(claim2);
+				claimListController.addClaim(new Claim(newClaimId));
+				
 				finish();
 				
 			}

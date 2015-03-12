@@ -53,23 +53,30 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String approverComment;
 
 	public Claim(int id){
-		ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
-		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+
 		this.name = (String)mapper.loadClaimData(id, "name");
 		this.description = (String)mapper.loadClaimData(id,  "description");
 		this.startDate = (Date)mapper.loadClaimData(id, "startDate");
 		this.endDate = (Date)mapper.loadClaimData(id, "endDate");
-		this.destinations = (ArrayList)mapper.loadClaimData(id, "destinations");
+		this.destinations = (ArrayList<Destination>)mapper.loadClaimData(id, "destinations");
+		this.tags = (ArrayList<String>)mapper.loadClaimData(id, "tags");
+		this.status = (String)mapper.loadClaimData(id, "status");
+		this.approverName = (String)mapper.loadClaimData(id, "approverName");
+		this.approverComment = (String)mapper.loadClaimData(id, "approverComment");
+		// Still need: expenses, totals
 		this.canEdit = true;
 	}
 	
 	// Constructor to make a more complete claim (feel free to add parameters as needed)
-	public Claim(String name, String description, Date sDate, Date eDate, ArrayList<Destination> destinations) {
+	public Claim(String name, String description, Date sDate, Date eDate, 
+			ArrayList<Destination> destinations, ArrayList<String> tags) {
 		this.name = name;
 		this.description = description;
 		this.startDate = sDate;
 		this.endDate = eDate;
 		this.destinations = destinations;
+		this.tags = tags;
 		this.canEdit = true;
 		this.expenses = new ArrayList<Expense>();
 	}	
@@ -209,6 +216,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	// String Conversion Methods
 	
+	// Didn't change anything in this method; just commenting it out for now so that
+	// newly created claims don't break the list (since they don't have expenses yet)
+	/*
 	public String computeTotal() {
 		NumberFormat formatter = new DecimalFormat("#0.00");
 		NumberFormat formatter2 = new DecimalFormat("#0");
@@ -259,11 +269,11 @@ public class Claim extends SModel implements Comparable<Claim> {
 		}
 		if (gbp != 0)
 		{
-			totalExpenses += "Pounds (GBP): £" + formatter.format(gbp) + "\n";
+			totalExpenses += "Pounds (GBP): ï¿½" + formatter.format(gbp) + "\n";
 		}
 		if (eur != 0)
 		{
-			totalExpenses += "Euros (EUR): Û" + formatter.format(eur) + "\n";
+			totalExpenses += "Euros (EUR): ï¿½" + formatter.format(eur) + "\n";
 		}
 		if (chf != 0)
 		{
@@ -271,15 +281,16 @@ public class Claim extends SModel implements Comparable<Claim> {
 		}
 		if (jpy != 0)
 		{
-			totalExpenses += "Yen (JPY): ´" + formatter2.format(jpy) + "\n";
+			totalExpenses += "Yen (JPY): ï¿½" + formatter2.format(jpy) + "\n";
 		}
 		if (cny != 0)
 		{
-			totalExpenses += "Yuan (CNY): ´" + formatter2.format(cny) + "\n";
+			totalExpenses += "Yuan (CNY): ï¿½" + formatter2.format(cny) + "\n";
 		}
 		
 		return totalExpenses;
 	}
+	*/
 	
 	// Converts the destinations into a string
 	// String format is destination1, destination2, ..., destination x 

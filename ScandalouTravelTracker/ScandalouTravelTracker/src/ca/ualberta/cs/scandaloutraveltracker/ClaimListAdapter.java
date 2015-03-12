@@ -86,7 +86,8 @@ public class ClaimListAdapter extends BaseAdapter {
 		
 		claimDestinationTV.setText(currentClaim.destinationsToString());
 		claimStatusTV.setText("Status: " + currentClaim.getStatus());
-		claimTotalTV.setText(currentClaim.computeTotal());
+		// See computeTotal() in Claim.java
+		// claimTotalTV.setText(currentClaim.computeTotal());
 		claimTagsTV.setText(currentClaim.tagsToString());
 		
 		/*// Go to edit claim

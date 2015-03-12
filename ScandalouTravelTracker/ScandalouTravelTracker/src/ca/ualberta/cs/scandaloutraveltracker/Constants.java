@@ -29,4 +29,10 @@ public class Constants {
 	public final static String dateFormat = "MM/dd/yyyy";
 	public final static String claimIdLabel = "ca.ualberta.cs.scandaloutraveltracker.claimId";
 	
+	// Statuses
+	public final static String statusInProgress = "In progress";
+	public final static String statusSubmitted = "Submitted";
+	public final static String statusReturned = "Returned";
+	public final static String statusApproved = "Approved";
+	
 }

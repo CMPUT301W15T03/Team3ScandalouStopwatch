@@ -1,10 +1,13 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,62 +21,20 @@ public class ClaimMapper {
 		this.context = context;
 	}
 	
-	public void saveClaim(Claim claim) {
-		saveNewClaimData("name", claim.getName());
-		saveNewClaimData("startDate", claim.getStartDate());
-		saveNewClaimData("endDate", claim.getEndDate());
-		saveNewClaimData("description", claim.getDescription());
-		saveNewClaimData("destinations", claim.getDestinations());
-	}
-	
-	public Object loadClaimData(int claimId, String key){
+	public int createClaim(String name, Date startDate, Date endDate, String description,
+			ArrayList<Destination> destinations, ArrayList<String> tags, String status) {
 		
-		Object data = 0;
-		SharedPreferences claimFile = context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
-	    Gson gson = new Gson();
+		int claimId = incrementClaimCounter();		
 		
-	    if (key.equals("name")){
-	    	data = claimFile.getString("name", "No name found.");
-	    } else if (key.equals("description")){
-		    data = claimFile.getString("description", "No description found.");
-	    } else if (key.equals("startDate")){
-		    String startDateJson = claimFile.getString("startDate", "");
-		    data = gson.fromJson(startDateJson, Date.class);
-	    } else if (key.equals("endDate")){
-		    String startDateJson = claimFile.getString("endDate", "");
-		    data = gson.fromJson(startDateJson, Date.class);	    	
-	    } else if (key.equals("destinations")){
-		    String destinationsJson = claimFile.getString("destinations", "");
-		    data = gson.fromJson(destinationsJson, ArrayList.class);
-	    }
-	    
-		return data;
-	}
-	
-	public void saveNewClaimData(String key, Object data){
+		saveClaimData(claimId, "name", name);
+		saveClaimData(claimId, "startDate", startDate);
+		saveClaimData(claimId, "endDate", endDate);
+		saveClaimData(claimId, "description", description);
+		saveClaimData(claimId, "destinations", destinations);
+		saveClaimData(claimId, "tags", tags);
+		saveClaimData(claimId, "status", status);
 		
-		int claimId = incrementClaimCounter();
-		
-		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
-		Editor editor = claimFile.edit();
-		Gson gson = new Gson();		
-		
-		if (key.equals("name")){
-			editor.putString("name", (String)data);
-		} else if (key.equals("description")){
-			editor.putString("description", (String)data);			
-		} else if (key.equals("startDate")){
-			String startDateJson = gson.toJson((Date)data);
-		    editor.putString("startDate", startDateJson);
-		} else if (key.equals("endDate")){
-			String endDateJson = gson.toJson((Date)data);
-		    editor.putString("endDate", endDateJson);
-		} else if (key.equals("destinations")){
-			String destinationsJson = gson.toJson((ArrayList<Destination>)data);
-		    editor.putString("destinations", destinationsJson);
-		}
-		
-		editor.commit();	
+		return claimId;
 	}
 	
 	public int incrementClaimCounter(){
@@ -91,6 +52,76 @@ public class ClaimMapper {
 		editor.commit();
 		
 		return newId;
+	}
+	
+	public void saveClaimData(int claimId, String key, Object data){
+		
+		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
+		Editor editor = claimFile.edit();
+		Gson gson = new Gson();		
+		
+		if (key.equals("name")){
+			editor.putString(key, (String)data);
+		} else if (key.equals("description")){
+			editor.putString(key, (String)data);			
+		} else if (key.equals("startDate")){
+			String startDateJson = gson.toJson((Date)data);
+		    editor.putString(key, startDateJson);
+		} else if (key.equals("endDate")){
+			String endDateJson = gson.toJson((Date)data);
+		    editor.putString(key, endDateJson);
+		} else if (key.equals("destinations")){
+			String destinationsJson = gson.toJson((ArrayList<Destination>)data);
+		    editor.putString(key, destinationsJson);
+		} else if (key.equals("tags")){
+			String tagsJson = gson.toJson((ArrayList<String>)data);
+		    editor.putString(key, tagsJson);
+		} else if (key.equals("status")){
+			editor.putString(key, (String)data);
+		} else if (key.equals("approverName")){
+			editor.putString(key, (String)data);
+		} else if (key.equals("approverComment")){
+			editor.putString(key, (String)data);
+		}
+		
+		editor.commit();	
+	}	
+	
+	public Object loadClaimData(int claimId, String key){
+		
+		Object data = 0;
+		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
+	    Gson gson = new Gson();
+		
+	    if (key.equals("name")){
+	    	data = claimFile.getString(key, "");
+	    } else if (key.equals("description")){
+		    data = claimFile.getString(key, "");
+	    } else if (key.equals("startDate")){
+		    String startDateJson = claimFile.getString(key, "");
+		    data = gson.fromJson(startDateJson, Date.class);
+	    } else if (key.equals("endDate")){
+		    String startDateJson = claimFile.getString(key, "");
+		    data = gson.fromJson(startDateJson, Date.class);	    	
+	    } else if (key.equals("destinations")){
+		    String destinationsJson = claimFile.getString(key, "");
+		    // http://stackoverflow.com/questions/14981233/android-arraylist-of-custom-objects-save-to-sharedpreferences-serializable
+		    // 2015-03-12
+		    // SpyZip's answer
+		    Type type = new TypeToken<ArrayList<Destination>>(){}.getType();
+		    data = gson.fromJson(destinationsJson, type);		    
+	    } else if (key.equals("tags")){
+		    String tagsJson = claimFile.getString(key, "");
+		    data = gson.fromJson(tagsJson, ArrayList.class);
+	    } else if (key.equals("status")){
+		    data = claimFile.getString(key, "");
+	    } else if (key.equals("approverName")){
+		    data = claimFile.getString(key, "");
+	    } else if (key.equals("approverComment")){
+		    data = claimFile.getString(key, "");
+	    }
+	    
+		return data;
 	}	
 	
 }
