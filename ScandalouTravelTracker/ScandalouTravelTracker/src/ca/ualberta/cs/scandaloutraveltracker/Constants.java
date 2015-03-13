@@ -23,16 +23,20 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.ArrayList;
+
 public class Constants {
 
-	// Making this MM/dd/yyyy for now; feel free to change it
-	public final static String dateFormat = "MM/dd/yyyy";
+	// Labels
 	public final static String claimIdLabel = "ca.ualberta.cs.scandaloutraveltracker.claimId";
 	
-	// Statuses
+	// Statuses (These should be put in strings.xml or something)
 	public final static String statusInProgress = "In progress";
 	public final static String statusSubmitted = "Submitted";
 	public final static String statusReturned = "Returned";
 	public final static String statusApproved = "Approved";
+	
+	// Misc.
+	public final static String dateFormat = "MM/dd/yyyy";	
 	
 }
