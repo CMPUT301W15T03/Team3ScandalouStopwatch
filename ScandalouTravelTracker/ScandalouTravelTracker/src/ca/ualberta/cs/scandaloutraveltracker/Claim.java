@@ -55,7 +55,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public Claim(int id){
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 
-		this.id = id;
+		this.id = (Integer)mapper.loadClaimData(id, "id");
 		this.name = (String)mapper.loadClaimData(id, "name");
 		this.description = (String)mapper.loadClaimData(id,  "description");
 		this.startDate = (Date)mapper.loadClaimData(id, "startDate");
@@ -126,7 +126,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		return startDate;
 	}
 	public String getStartDateString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
 		return sdf.format(this.startDate);
 	}
 	public void setStartDate(Date startDate) {
@@ -137,7 +137,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		return endDate;
 	}
 	public String getEndDateString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
 		return sdf.format(this.endDate);
 	}
 	public void setEndDate(Date endDate) {

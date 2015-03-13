@@ -99,7 +99,9 @@ public class ClaimMapper {
 		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
 	    Gson gson = new Gson();
 		
-	    if (key.equals("name")){
+	    if (key.equals("id")){
+	    	data = claimFile.getInt(key, -1);	    
+	    } else if (key.equals("name")){
 	    	data = claimFile.getString(key, "");
 	    } else if (key.equals("description")){
 		    data = claimFile.getString(key, "");
