@@ -214,7 +214,7 @@ public class ExpenseOverallTests extends TestCase {
 		Expense testExpense = new Expense(date, category, description, cost, currencyType);
 		testClaim.addExpense(testExpense);
 		assertEquals("change state doesn't default to allowed", testClaim.getCanEdit(), true);
-		testClaim.removeExpense(testExpense);
+		testClaim.deleteExpense(testExpense);
 		assertTrue("Expense deletion unsuccessful", (testClaim.getExpenses().size() == 0));
 	}
 	

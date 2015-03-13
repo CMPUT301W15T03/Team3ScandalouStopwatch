@@ -123,10 +123,10 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    Date sDate = new Date(123);
 	    Date eDate = new Date(456);
 	    Claim newClaim = new Claim(name, sDate, eDate);
-	    ClaimList claimsList = new ClaimList();
+	    ClaimList claimsList = ClaimList.getClaimList();
 	    claimsList.addClaim(newClaim);
 	    newClaim.setCanEdit(false);
-	    claimsList.deleteClaim(newClaim);
+	    claimsList.deleteClaim(1);
 	    assertEquals("Count should still be one", claimsList.getCount(), 1);
 	}
 
@@ -136,14 +136,14 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    Date sDate = new Date(123);
 	    Date eDate = new Date(456);
 	    Claim newClaim = new Claim(name, sDate, eDate);
-	    ClaimList claimsList = new ClaimList();
+	    ClaimList claimsList = ClaimList.getClaimList();
 	    claimsList.addClaim(newClaim);
 	    newClaim.setCanEdit(true);
-	    claimsList.deleteClaim(newClaim);
+	    claimsList.deleteClaim(1);
 	    assertEquals("Count should be zero", claimsList.getCount(), 0);
 	}
-	
-/*	// Test UC 01.06.01
+	/*
+	// Test UC 01.06.01
 	public void testSavedData() {
 	    String name = "Justin";
 	    Date sDate = new Date(123);
@@ -157,5 +157,6 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    claims2.loadList();
 
 	    assertEquals("Two claim lists are not equal", claims, claims2);
-	}*/
+	}
+	*/
 }

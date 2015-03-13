@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.ViewInterface;
 import junit.framework.TestCase;
 
@@ -29,27 +30,27 @@ public class ClaimListTest extends TestCase {
 	// Test UC 02.01.01
 	// create an empty claim list
 	public void testEmptyClaimList(){
-		ClaimList claimlist=new ClaimList();
+		ClaimList claimlist = ClaimList.getClaimList();
 		assertTrue("Empty claim list", claimlist.getCount()==0);
 		}
 
 	// Test UC 02.01.01		
 	// create a claim list with a claim and get claims
 	public void testGetClaims(){
-		ClaimList claimlist = new ClaimList();
+		ClaimList claimlist = ClaimList.getClaimList();
 		String claimName="A claim";
 		Claim testClaim= new Claim(claimName,null , null);
 		claimlist.addClaim(testClaim);
-		Collection<Claim> claims = claimlist.getClaims();
-		assertTrue("Claim List Size", claims.size()==1);
-		assertTrue("Test Claim not contained", claims.contains(testClaim));
+		ClaimList claims = claimlist.getClaimList();
+		assertTrue("Claim List Size", claims.getClaims().size()==1);
+		assertTrue("Test Claim not contained", claims.getClaims().contains(testClaim));
 	
 	}
 
 	// Test UC 02.02.01
 	//sort claims
 	public void testSortClaim(){
-		ClaimList claimlist = new ClaimList();
+		ClaimListController claimlist = new ClaimListController();
 		String claimName="A claim";
 		String claimName2="B claim";
 		Claim testClaim1=new Claim(claimName, null, null);
@@ -58,7 +59,7 @@ public class ClaimListTest extends TestCase {
 		claimlist.addClaim(testClaim2);
 		
 		
-		Collection<Claim> claims= claimlist.getClaims();
+		Collection<Claim> claims= claimlist.getClaimList().getClaims();
 		assertTrue("Student list is not sorted", updated);
 	}
 
@@ -66,19 +67,19 @@ public class ClaimListTest extends TestCase {
 	//updates the claim list in the listview using listeners
 	boolean updated=false;
 	public void testNotifyListeners(){
-		ClaimList claimlist = new ClaimList();
+		ClaimListController claimlist = new ClaimListController();
 		updated= false;
 		ViewInterface l = new ViewInterface(){
 			public void update(){
 					ClaimListTest.this.updated=true;
 			}
 		};
-		ClaimList.addListener(1);
+		claimlist.addView(l);
 		Claim testClaim=new Claim("New", null, null);
-		ClaimList.addClaim(testClaim);
+		claimlist.addClaim(testClaim);
 		assertTrue("ClaimList didnt fire an update", this.updated);
 		updated=false;
-		claimlist.deleteClaim(testClaim);
+		claimlist.removeClaim(0);
 		assertTrue("Removing claim from claimlist didnt fire an update off", this.updated);
 	}
 
