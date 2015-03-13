@@ -113,7 +113,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 						public void onClick(DialogInterface dialog, int i) {
 							//delete correct claim
 							claimListController.removeClaim(claimPos);
-							claimListController.notifyViews();
 						}  
 				   })
 				   .setNeutralButton("Add Expense", new DialogInterface.OnClickListener() {
