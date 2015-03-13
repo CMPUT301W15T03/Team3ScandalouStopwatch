@@ -108,8 +108,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				testTags.add("#kony2012");
 				
 				ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-				mapper.updateClaim(claimId, name, new Date(2015, 1, 1), new Date(2015, 2, 2), 
-						description, testDestinations, tags);
+				//mapper.updateClaim(claimId, name, new Date(2015, 1, 1), new Date(2015, 2, 2), 
+				//		description, testDestinations, tags);
 				
 				update();
 			}
@@ -122,7 +122,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			public void onClick(View v){
 				
 				ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-				mapper.submitClaim(claimId, Constants.statusSubmitted);
+				//mapper.submitClaim(claimId, Constants.statusSubmitted);
 				
 				update();
 			}
