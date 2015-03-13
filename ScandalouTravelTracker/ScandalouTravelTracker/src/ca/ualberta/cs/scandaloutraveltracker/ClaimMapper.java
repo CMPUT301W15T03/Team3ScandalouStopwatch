@@ -67,6 +67,12 @@ public class ClaimMapper {
 		
 	}
 	
+	public void submitClaim(int claimId, String status){
+		
+		saveClaimData(claimId, "status", status);	
+		
+	}	
+	
 	public void saveClaimData(int claimId, String key, Object data){
 		
 		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
