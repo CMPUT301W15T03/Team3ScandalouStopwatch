@@ -142,43 +142,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            	   }
 		           }
 				});
-
-				   /*.setCancelable(true)
-				   .setNegativeButton("Edit/View Claim", new DialogInterface.OnClickListener() {
-				       	public void onClick(DialogInterface dialog, int i) {
-					    	//edit claim
-					   		Intent intent = new Intent(ClaimListActivity.this, EditClaimActivity.class);
-					   		intent.putExtra(Constants.claimIdLabel, claimId);
-					   		startActivity(intent);
-				       	}
-				   })
-				   .setPositiveButton("Delete Claim", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int i) {
-							//delete correct claim
-							Claim currentClaim = claimListController.getClaim((int) claimPos);
-							ClaimController cc = new ClaimController(currentClaim);
-							boolean editable = cc.getCanEdit();
-							if (editable) {
-								claimListController.removeClaim((int) claimPos);
-							}
-							else {
-								Toast.makeText(getApplicationContext(), cc.getStatus() + " Claim can not be edited.", Toast.LENGTH_SHORT).show();
-							}
-						}  
-				   })
-				   .setNeutralButton("List Expenses", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int i) {;
-						    //add a new expense
-						   	//Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
-						   	//intent.putExtra(Constants.claimIdLabel, claimId);
-						   	//startActivity(intent);
-						   	
-							Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
-						   	intent.putExtra(Constants.claimIdLabel, claimId);
-						   	startActivity(intent);
-						}
-				   });*/
 				AlertDialog alert = builder.create();
 				alert.show();
 			}
