@@ -39,6 +39,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ClaimListActivity extends Activity implements ViewInterface {
@@ -98,8 +99,50 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
 				//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
 				AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
-				builder.setMessage("Claim Options")
-				   .setCancelable(true)
+				builder.setTitle("Claim Options")
+				.setCancelable(true)
+				.setItems(R.array.claim_menu, new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int which) {
+		            	   //when edit/view claim is pressed
+		            	   if (which == 0){ 
+		            		   Intent intent = new Intent(ClaimListActivity.this, EditClaimActivity.class);
+		            		   intent.putExtra(Constants.claimIdLabel, claimId);
+		            		   startActivity(intent);
+		            	   }
+		            	   //when list expenses is pressed
+		            	   else if (which == 1){
+		            		   Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
+							   intent.putExtra(Constants.claimIdLabel, claimId);
+							   startActivity(intent);
+		            	   }
+		            	   //when add expense is pressed
+		            	   else if(which == 2){
+							   Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
+							   intent.putExtra(Constants.claimIdLabel, claimId);
+		            		   startActivity(intent);
+		            	   }
+		            	   //when delete claim is pressed
+		            	   else if(which == 3){
+		            		   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
+		            		   builder.setMessage("This will delete the claim and the corresponding expenses. Are you sure?")
+		            		   		.setCancelable(true)
+		            		   .setPositiveButton("No", new DialogInterface.OnClickListener() {
+		                           public void onClick(DialogInterface dialog, int id) {
+		                        	   
+		                           }
+		                       })
+		                       .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+		                           public void onClick(DialogInterface dialog, int id) {
+		                        	   claimListController.removeClaim((int) claimPos);
+		                           }
+		                       });
+		            		   AlertDialog alert = builder.create();
+		            		   alert.show();
+		            	   }
+		           }
+				});
+
+				   /*.setCancelable(true)
 				   .setNegativeButton("Edit/View Claim", new DialogInterface.OnClickListener() {
 				       	public void onClick(DialogInterface dialog, int i) {
 					    	//edit claim
@@ -118,15 +161,15 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				   .setNeutralButton("List Expenses", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int i) {;
 						    //add a new expense
-						   	/*Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
-						   	intent.putExtra(Constants.claimIdLabel, claimId);
-						   	startActivity(intent);*/
+						   	//Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
+						   	//intent.putExtra(Constants.claimIdLabel, claimId);
+						   	//startActivity(intent);
 						   	
 							Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
 						   	intent.putExtra(Constants.claimIdLabel, claimId);
 						   	startActivity(intent);
 						}
-				   });
+				   });*/
 				AlertDialog alert = builder.create();
 				alert.show();
 			}
