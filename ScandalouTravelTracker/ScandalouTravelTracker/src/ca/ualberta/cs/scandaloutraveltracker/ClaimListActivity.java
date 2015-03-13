@@ -40,6 +40,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class ClaimListActivity extends Activity implements ViewInterface {
 	private Button addClaimButton;
@@ -112,7 +113,13 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 						@Override
 						public void onClick(DialogInterface dialog, int i) {
 							//delete correct claim
-							claimListController.removeClaim((int) claimPos);
+							Claim currentClaim = claimListController.getClaim((int) claimPos);
+							ClaimController cc = new ClaimController(currentClaim);
+							boolean editable = cc.getCanEdit();
+							if (editable) {
+								claimListController.removeClaim((int) claimPos);
+							}
+							Toast.makeText(getApplicationContext(), cc.getStatus() + " Claim can not be edited.", Toast.LENGTH_SHORT).show();
 						}  
 				   })
 				   .setNeutralButton("Add Expense", new DialogInterface.OnClickListener() {
