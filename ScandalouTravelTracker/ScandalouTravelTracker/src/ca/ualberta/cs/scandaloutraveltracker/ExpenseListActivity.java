@@ -101,8 +101,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 					  @Override
 						public void onClick(DialogInterface dialog, int i) {
 							//delete correct expense
-						  //claimController.removeExpense(claimController.getExpenseList().getExpense((int) expensePos));
-						  //claimController.notifyViews();
+						  claimController.removeExpense(((Claim) claimController.getExpenseList()).getExpense((int) expensePos));
+						  claimController.notifyViews();
 					  }
 				  })
 				  .setNeutralButton("Flag/Unflag", new DialogInterface.OnClickListener(){

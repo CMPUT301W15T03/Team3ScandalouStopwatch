@@ -43,7 +43,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String description;
 	private Date startDate;
 	private Date endDate; 
-	private ArrayList<Expense> expenses;
+	private static ArrayList<Expense> expenses;
 	private ArrayList<Destination> destinations;
 	private ArrayList<String> tags; 
 	private HashMap<String, Double> totals;
@@ -120,6 +120,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Expense removeExpense(){
+		return null;
 	}
 	
 	public Date getStartDate() {
@@ -358,6 +361,11 @@ public class Claim extends SModel implements Comparable<Claim> {
 		}
 		
 		return tags;
+	}
+
+	public static Expense getExpense(int position) {
+		// TODO Auto-generated method stub
+		return expenses.get(position);
 	}
 
 }
