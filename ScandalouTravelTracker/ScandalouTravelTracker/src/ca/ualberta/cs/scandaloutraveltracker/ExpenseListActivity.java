@@ -40,6 +40,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class ExpenseListActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
@@ -82,7 +83,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		expenseListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, final long expensePos) {
+					final int position, final long expensePos) {
 				
 				//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-03-11
 				//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-03-11
@@ -98,17 +99,19 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 					   }
 				   })
 				  .setPositiveButton("Delete Expense", new DialogInterface.OnClickListener(){
-					  @Override
+					  
 						public void onClick(DialogInterface dialog, int i) {
 							//delete correct expense
-						  claimController.removeExpense(((Claim) claimController.getExpenseList()).getExpense((int) expensePos));
-						  claimController.notifyViews();
+						  claimController.removeExpense(position);
+						  
 					  }
 				  })
 				  .setNeutralButton("Flag/Unflag", new DialogInterface.OnClickListener(){
 					  @Override
 						public void onClick(DialogInterface dialog, int i) { 
-						  
+						Expense expense=currentClaim.getExpense(position);
+						expense.setFlag(true);
+						Toast.makeText(getApplicationContext(), "flag", Toast.LENGTH_SHORT).show();
 					  }
 				  
 			});

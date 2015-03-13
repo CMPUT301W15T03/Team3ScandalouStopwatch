@@ -105,6 +105,7 @@ public class Expense extends SModel {
 
 	public void setFlag(boolean flag) {
 		this.flag = flag;
+		notifyViews();
 	}
 	
 	public File getPhoto() {

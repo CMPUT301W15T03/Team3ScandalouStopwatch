@@ -99,8 +99,19 @@ public class ClaimController {
 		expenses.add(expense);
 	}
 	
-	public void removeExpense(Expense expense) {
-		expenses.remove(expense);
+	
+	public void removeExpense(int expensePos) {	
+		
+		
+		
+		// Delete the claim from the claim list
+		currentClaim.deleteExpense((int) expensePos);			
+		
+		
+	}
+	
+	public Expense getExpensePos(int position) {
+		return currentClaim.getExpense(position);
 	}
 	
 	public void setCanEdit(Boolean canEdit) {
@@ -111,9 +122,9 @@ public class ClaimController {
 		return null;
 	}
 
-	public Object getExpenseList() {
+	public ArrayList<Expense> getExpenseList() {
 		// TODO Auto-generated method stub
-		return expenses;
+		return currentClaim.getExpenses();
 	}
 	public Expense getExpense(int position){
 		return Claim.getExpense(position);

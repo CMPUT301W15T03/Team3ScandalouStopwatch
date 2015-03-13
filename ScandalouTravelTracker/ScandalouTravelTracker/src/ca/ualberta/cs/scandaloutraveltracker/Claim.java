@@ -121,9 +121,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Expense removeExpense(){
-		return null;
-	}
+
 	
 	public Date getStartDate() {
 		return startDate;
@@ -214,8 +212,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.expenses.add(expense);
 	}
 	
-	public void removeExpense(Expense expense) {
-		this.expenses.remove(expense);
+	public void deleteExpense(int expensePos) {
+		this.expenses.remove(expensePos);
+		notifyViews();
 	}
 	
 	// String Conversion Methods
