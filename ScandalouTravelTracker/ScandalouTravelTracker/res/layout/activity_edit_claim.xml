@@ -8,51 +8,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".EditClaimActivity" >
 
-    <TextView
-        android:id="@+id/edit_claim_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/edit_claim_destinations"
-        android:text="@string/approval_seeker"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/edit_claim_start_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/edit_claim_name"
-        android:text="12/14/1949" />
-
-    <Button
-        android:id="@+id/edit_claim_end_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/edit_claim_start_date"
-        android:layout_below="@+id/edit_claim_start_date"
-        android:text="1/7/1950" />
-
-    <ListView
-        android:id="@+id/edit_claim_destinations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_claim_end_date"
-        android:layout_alignTop="@+id/edit_claim_name"
-        android:layout_toRightOf="@+id/edit_claim_start_date" >
-
-    </ListView>
-
     <EditText
         android:id="@+id/edit_claim_descr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/edit_claim_destinations"
+        android:layout_alignRight="@+id/edit_claim_end_date"
         android:layout_below="@+id/edit_claim_end_date"
         android:ems="10"
-        android:inputType="textMultiLine" >
+        android:inputType="textMultiLine"
+        android:text="Description" >
 
         <requestFocus />
     </EditText>
@@ -69,9 +34,78 @@
         android:id="@+id/edit_claim_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/edit_claim_update"
-        android:layout_alignBottom="@+id/edit_claim_update"
-        android:layout_alignRight="@+id/edit_claim_descr"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:text="@string/send_for_approval" />
+
+    <TextView
+        android:id="@+id/edit_claim_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/edit_claim_start_date"
+        android:layout_alignTop="@+id/edit_claim_start_date"
+        android:layout_toLeftOf="@+id/edit_claim_end_date"
+        android:layout_toRightOf="@+id/edit_claim_start_date"
+        android:text="to" />
+
+    <Button
+        android:id="@+id/edit_claim_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/edit_claim_to"
+        android:text="12/31/2000" />
+
+    <ListView
+        android:id="@+id/edit_claim_destinations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/edit_claim_update"
+        android:layout_alignLeft="@+id/edit_claim_descr"
+        android:layout_below="@+id/edit_text_destinations_label" >
+    </ListView>
+
+    <EditText
+        android:id="@+id/edit_claim_claimant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:text="Claimant name" />
+
+    <TextView
+        android:id="@+id/edit_claim_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_claim_claimant_name"
+        android:layout_below="@+id/edit_claim_claimant_name"
+        android:text="In Progress" />
+
+    <Button
+        android:id="@+id/edit_claim_start_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_claim_status"
+        android:layout_below="@+id/edit_claim_status"
+        android:text="01/01/1999" />
+
+    <TextView
+        android:id="@+id/edit_text_destinations_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_claim_destinations"
+        android:layout_below="@+id/edit_claim_tags"
+        android:text="Destinations"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/edit_claim_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_claim_descr"
+        android:layout_below="@+id/edit_claim_descr"
+        android:ems="10"
+        android:text="tag1, tag2, tag3" />
 
 </RelativeLayout>
