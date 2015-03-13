@@ -120,7 +120,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
+	}removeExpense
 	
 	public Date getStartDate() {
 		return startDate;
@@ -358,6 +358,11 @@ public class Claim extends SModel implements Comparable<Claim> {
 		}
 		
 		return tags;
+	}
+
+	public Expense getExpense(int position) {
+		// TODO Auto-generated method stub
+		return expenses.get(position);
 	}
 
 }

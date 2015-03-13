@@ -115,9 +115,13 @@ public class ClaimController {
 		// TODO Auto-generated method stub
 		return expenses;
 	}
+	public Expense getExpense(int position){
+		return Claim.getExpense(position);
+	}
 
 	public void notifyViews() {
-		// TODO maybe make a expenlistcontroller
-		//expenses.notifyViews(); 
+		// TODO Auto-generated method stub
+		
 	}
+	
 }
