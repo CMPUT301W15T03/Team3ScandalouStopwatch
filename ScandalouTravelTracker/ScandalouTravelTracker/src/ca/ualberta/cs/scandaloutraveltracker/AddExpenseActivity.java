@@ -25,9 +25,11 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 public class AddExpenseActivity extends Activity implements ViewInterface {
@@ -44,10 +46,37 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO: create new Expense, fill in values, save, close activity
+				//create new Expense, fill in values, attach to claim, close activity
+				
+				//make controller for current claim
+				Intent intent = getIntent();
+			    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
+			    Claim claim = new Claim(claimId);
+			    ClaimController CController = new ClaimController(claim);
+			    //make controller for new expense
 				Expense expense = new Expense();
+				ExpenseController EController = new ExpenseController(expense);
+				//fill in category
 				Spinner categorySpinner = (Spinner)findViewById(R.id.category);
 				String category = (String)categorySpinner.getSelectedItem();
+				EController.setCategory(category);
+				// TODO: fill in date
+				//fill in amount
+				EditText amountEditText = (EditText)findViewById(R.id.amount2);
+				double amount = Double.valueOf(amountEditText.getText().toString());
+				EController.setCost(amount);
+				//fill in currency
+				Spinner currencySpinner = (Spinner)findViewById(R.id.currency);
+				String currency = (String)currencySpinner.getSelectedItem();
+				EController.setCurrency(currency);
+				//fill in description
+				EditText descriptionEditText = (EditText)findViewById(R.id.description2);
+				String description = descriptionEditText.getText().toString();
+				EController.setDescription(description);
+				//add new expense to claim and exit
+				CController.addExpense(expense);
+				setResult(RESULT_OK);
+				finish();
 			}
 		});
 	}

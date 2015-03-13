@@ -46,6 +46,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
 	private ListView expenseListView ;
 	private ExpenseListAdapter expenseListAdapter;
+	private int claimId;
 	private Claim currentClaim;
 	private ClaimController claimController;
 	
@@ -54,6 +55,14 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_expense_list);
+		
+		// Set currentClaim to the claim that was selected via intent (currently fake claim)
+		Intent intent = getIntent();
+	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
+	    currentClaim = new Claim(claimId);
+	    claimController = new ClaimController(currentClaim);
+		currentClaim = createTestClaim();	//fake claim
+		addExpenses();						//fake claim
 
 		//set layout elements
 		addExpenseButton=(Button) findViewById(R.id.add_expense);
@@ -62,19 +71,14 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Add button below
-				//Intent intent=new Intent(ExpenseListActivity.this, NewExpenseActivity.class);
-				//startActivity(intent);
-		
+				//add expense
+				Intent intent=new Intent(ExpenseListActivity.this, AddExpenseActivity.class);
+				intent.putExtra(Constants.claimIdLabel, claimId);
+				startActivity(intent);
 				
 			}
 		});
 		
-
-		
-		// Set currentClaim to the claim that was selected via intent (currently fake claim)
-		currentClaim = createTestClaim();
-		addExpenses();
 		
 		expenseListView = (ListView) findViewById(R.id.expenselistView);
 		expenseListAdapter = new ExpenseListAdapter(this, currentClaim.getExpenses());
