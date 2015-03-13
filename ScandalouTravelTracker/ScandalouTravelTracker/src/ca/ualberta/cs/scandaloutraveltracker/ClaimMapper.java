@@ -55,6 +55,18 @@ public class ClaimMapper {
 		return newId;
 	}
 	
+	public void updateClaim(int claimId, String name, Date startDate, Date endDate, 
+			String description, ArrayList<Destination> destinations, ArrayList<String> tags){
+		
+		saveClaimData(claimId, "name", name);
+		saveClaimData(claimId, "startDate", startDate);
+		saveClaimData(claimId, "endDate", endDate);
+		saveClaimData(claimId, "description", description);
+		saveClaimData(claimId, "destinations", destinations);
+		saveClaimData(claimId, "tags", tags);	
+		
+	}
+	
 	public void saveClaimData(int claimId, String key, Object data){
 		
 		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
