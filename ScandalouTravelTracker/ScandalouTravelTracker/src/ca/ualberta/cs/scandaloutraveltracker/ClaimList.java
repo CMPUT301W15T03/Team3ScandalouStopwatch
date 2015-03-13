@@ -52,8 +52,8 @@ public class ClaimList extends SModel {
 		return claims;
 	}
 	
-	public Claim getClaim(int position) {
-		return claims.get(position);
+	public Claim getClaim(int claimPos) {
+		return claims.get(claimPos);
 	}
 	
 	/*
@@ -72,8 +72,9 @@ public class ClaimList extends SModel {
 		notifyViews();
 	}
 	
-	public void deleteClaim(Claim removeclaim){
-		claims.remove(removeclaim);
+	public void deleteClaim(int claimPos){
+		claims.remove(claimPos);
+		notifyViews();		
 	}
 	
 	public ArrayList<Claim> searchTag(String tag){

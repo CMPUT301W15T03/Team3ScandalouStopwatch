@@ -131,6 +131,17 @@ public class ClaimMapper {
 	    }
 	    
 		return data;
+	}
+	
+	public void deleteClaim(int claimId){
+		
+		SharedPreferences claimFile;
+		Editor editor;
+		
+		claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
+		editor = claimFile.edit();
+		editor.clear();
+		editor.commit();
 	}	
 	
 }

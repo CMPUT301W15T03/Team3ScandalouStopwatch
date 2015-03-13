@@ -44,21 +44,29 @@ public class ClaimListController {
 		claimList.removeView(view);
 	}
 	
+	public void notifyViews() {
+		claimList.notifyViews();
+	}	
+	
 	public void addClaim(Claim claim) {
 		claimList.addClaim(claim);
 		Collections.sort(claimList.getClaims());
 	}
 	
-	public void removeClaim(Claim claim) {
-		claimList.deleteClaim(claim);
+	public void removeClaim(long claimPos) {
+		// Get the claim id
+		int claimId = claimList.getClaim((int) claimPos).getId();
+		
+		// Delete the claim from the claim list
+		claimList.deleteClaim((int) claimPos);
+		
+		// Delete the claim from the shared preferences
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.deleteClaim(claimId);
 	}
 	
-	public void notifyViews() {
-		claimList.notifyViews();
-	}
-	
-	public Claim getClaim() {
-		return new Claim();
+	public Claim getClaim(int position) {
+		return claimList.getClaim(position);
 	}
 	
 	public ClaimList getClaimList() {
