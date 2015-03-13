@@ -115,10 +115,14 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 							claimListController.removeClaim((int) claimPos);
 						}  
 				   })
-				   .setNeutralButton("Add Expense", new DialogInterface.OnClickListener() {
+				   .setNeutralButton("List Expenses", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int i) {;
 						    //add a new expense
-						   	Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
+						   	/*Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
+						   	intent.putExtra(Constants.claimIdLabel, claimId);
+						   	startActivity(intent);*/
+						   	
+							Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
 						   	intent.putExtra(Constants.claimIdLabel, claimId);
 						   	startActivity(intent);
 						}
