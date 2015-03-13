@@ -15,27 +15,21 @@ public class ClaimListMapper {
 	
 	public ArrayList<Claim> loadClaims(){
 		ArrayList<Claim> claims = new ArrayList<Claim>();
+			
+		SharedPreferences claimCounterFile = this.context.getSharedPreferences("claimCounter", 0);
+		int mostRecentClaimId = claimCounterFile.getInt("claimCount", 0);	
 		
+		Claim claim;
 		
-		try {
-			
-			SharedPreferences claimCounterFile = this.context.getSharedPreferences("claimCounter", 0);
-			int mostRecentClaimId = claimCounterFile.getInt("claimCount", 0);	
-			
-			Claim claim;
-			
-			for (int i = 1; i <= mostRecentClaimId; i++){
-				claim = new Claim(i);
-				if (claim.getId() != -1){
-					claims.add(claim);
-				}
+		for (int i = 1; i <= mostRecentClaimId; i++){
+			claim = new Claim(i);
+			if (claim.getId() != -1){
+				claims.add(claim);
 			}
-	
-			return claims;
-			
-		} catch (NullPointerException e) {
-			return new ArrayList<Claim>();
 		}
+
+		return claims;
+		
 	}	
 	
 }
