@@ -119,7 +119,9 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 							if (editable) {
 								claimListController.removeClaim((int) claimPos);
 							}
-							Toast.makeText(getApplicationContext(), cc.getStatus() + " Claim can not be edited.", Toast.LENGTH_SHORT).show();
+							else {
+								Toast.makeText(getApplicationContext(), cc.getStatus() + " Claim can not be edited.", Toast.LENGTH_SHORT).show();
+							}
 						}  
 				   })
 				   .setNeutralButton("List Expenses", new DialogInterface.OnClickListener() {

@@ -36,6 +36,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -84,32 +85,41 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			@Override
 			public void onClick(View v) {
 				
-				//fills in most fields of claim from edit texts
-				claim.setName(nameSet.getText().toString());
-				claim.setDescription(descriptionSet.getText().toString());
+				if (sDateSet.getText().length() == 0) {
+					Toast.makeText(getApplicationContext(), "Please include a Start Date", Toast.LENGTH_SHORT).show();
+				}
 				
-				// For testing
-				dList = new ArrayList<Destination>();
-				dList.add(new Destination("Alderaan Orbit", "Product demo"));
-				dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
+				else if (eDateSet.getText().length() == 0) {
+					Toast.makeText(getApplicationContext(), "Please include an End Date", Toast.LENGTH_SHORT).show();
+				}
 				
-				// Also for testing
-				tags = new ArrayList<String>();
-				tags.add("Tag1");
-				tags.add("Tag2");
+				else {
+					//fills in most fields of claim from edit texts
+					claim.setName(nameSet.getText().toString());
+					claim.setDescription(descriptionSet.getText().toString());
+					
+					// For testing
+					dList = new ArrayList<Destination>();
+					dList.add(new Destination("Alderaan Orbit", "Product demo"));
+					dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
+					
+					// Also for testing
+					tags = new ArrayList<String>();
+					tags.add("Tag1");
+					tags.add("Tag2");
+					
+					// Creation status
+					String status = Constants.statusInProgress;
 				
-				// Creation status
-				String status = Constants.statusInProgress;
-			
-				ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
-				int newClaimId = mapper.createClaim(nameSet.getText().toString(), 
-						startDate, endDate, descriptionSet.getText().toString(), dList, tags, status);
-
-				ClaimListController claimListController = new ClaimListController();
-				claimListController.addClaim(new Claim(newClaimId));
-				
-				finish();
-				
+					ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
+					int newClaimId = mapper.createClaim(nameSet.getText().toString(), 
+							startDate, endDate, descriptionSet.getText().toString(), dList, tags, status);
+	
+					ClaimListController claimListController = new ClaimListController();
+					claimListController.addClaim(new Claim(newClaimId));
+					
+					finish();
+				}
 			}
 		});
 		
@@ -157,6 +167,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 							cal.set(year, monthOfYear, dayOfMonth);
 							Date date = cal.getTime();
 							startDate = date;
+							sDateSet.setText(startDateString);
 							c.setStartDate(date);
 						}
 					};
@@ -173,12 +184,13 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					@Override
 					public void onDateSet(DatePicker view, int year, int monthOfYear,
 							int dayOfMonth) {
-						String startDateString = convertToString(year, monthOfYear, dayOfMonth);
-						eDateSet.setHint(startDateString);
+						String endDateString = convertToString(year, monthOfYear, dayOfMonth);
+						eDateSet.setHint(endDateString);
 						Calendar cal = Calendar.getInstance();
 						cal.set(year, monthOfYear, dayOfMonth);
 						Date date = cal.getTime();
 						endDate = date;
+						eDateSet.setText(endDateString);
 						c.setEndDate(date);
 					}
 				};
