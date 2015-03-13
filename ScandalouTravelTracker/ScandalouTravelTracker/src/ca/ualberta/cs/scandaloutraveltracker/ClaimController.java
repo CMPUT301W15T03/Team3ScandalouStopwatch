@@ -111,10 +111,6 @@ public class ClaimController {
 		expenses.remove(expense);
 	}
 	
-	public void setCanEdit(Boolean canEdit) {
-		currentClaim.setCanEdit(canEdit);
-	}
-	
 	public String calculateTotal() {
 		return null;
 	}
