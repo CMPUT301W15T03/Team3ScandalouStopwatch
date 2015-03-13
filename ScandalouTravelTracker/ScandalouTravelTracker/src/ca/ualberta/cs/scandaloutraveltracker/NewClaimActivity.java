@@ -126,6 +126,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		
 		ListView destList = (ListView)findViewById(R.id.destinations_lv);
 		
+		/*
 		Button addDestButton = (Button) findViewById(R.id.add_dest_button);
 			addDestButton.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -166,6 +167,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				newDest.show();
 				}
 			});
+			*/
 	
 	        // startDate dialog picker
 			sDateSet.setOnClickListener(new View.OnClickListener() {
@@ -215,10 +217,6 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	
 	}
 		
-	
-			
-
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -232,6 +230,5 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		
 	}
 	
-		  }
-
+}
 
