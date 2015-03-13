@@ -22,7 +22,7 @@ public class ClaimMapper {
 	}
 	
 	public int createClaim(String name, Date startDate, Date endDate, String description,
-			ArrayList<Destination> destinations, ArrayList<String> tags, String status) {
+			ArrayList<Destination> destinations, ArrayList<String> tags, String status, boolean canEdit) {
 		
 		int claimId = incrementClaimCounter();		
 		
@@ -34,6 +34,7 @@ public class ClaimMapper {
 		saveClaimData(claimId, "destinations", destinations);
 		saveClaimData(claimId, "tags", tags);
 		saveClaimData(claimId, "status", status);
+		saveClaimData(claimId, "canEdit", canEdit);		
 		
 		return claimId;
 	}
@@ -56,21 +57,22 @@ public class ClaimMapper {
 	}
 	
 	public void updateClaim(int claimId, String name, Date startDate, Date endDate, 
-			String description, ArrayList<Destination> destinations, ArrayList<String> tags){
+			String description, ArrayList<Destination> destinations, ArrayList<String> tags, boolean canEdit){
 		
 		saveClaimData(claimId, "name", name);
 		saveClaimData(claimId, "startDate", startDate);
 		saveClaimData(claimId, "endDate", endDate);
 		saveClaimData(claimId, "description", description);
 		saveClaimData(claimId, "destinations", destinations);
-		saveClaimData(claimId, "tags", tags);	
+		saveClaimData(claimId, "tags", tags);
+		saveClaimData(claimId, "canEdit", canEdit);
 		
 	}
 	
-	public void submitClaim(int claimId, String status){
+	public void submitClaim(int claimId, String status, boolean canEdit){
 		
 		saveClaimData(claimId, "status", status);	
-		
+		saveClaimData(claimId, "canEdit", canEdit);
 	}	
 	
 	public void saveClaimData(int claimId, String key, Object data){
@@ -106,6 +108,8 @@ public class ClaimMapper {
 			editor.putString(key, (String)data);
 		} else if (key.equals("approverComment")){
 			editor.putString(key, (String)data);
+		} else if (key.equals("canEdit")){
+			editor.putBoolean(key, (Boolean)data);
 		}
 		
 		editor.commit();	
@@ -148,6 +152,8 @@ public class ClaimMapper {
 		    data = claimFile.getString(key, "");
 	    } else if (key.equals("approverComment")){
 		    data = claimFile.getString(key, "");
+	    } else if (key.equals("canEdit")){
+	    	data = claimFile.getBoolean(key, false);
 	    }
 	    
 		return data;
