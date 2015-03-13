@@ -53,12 +53,12 @@ public class ClaimListController {
 		Collections.sort(claimList.getClaims());
 	}
 	
-	public void removeClaim(long claimPos) {
-		// Delete the claim from the claim list
-		claimList.deleteClaim((int) claimPos);		
-		
+	public void removeClaim(long claimPos) {	
 		// Get the claim id
 		int claimId = claimList.getClaim((int) claimPos).getId();
+		
+		// Delete the claim from the claim list
+		claimList.deleteClaim((int) claimPos);			
 		
 		// Delete the claim from the shared preferences
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
