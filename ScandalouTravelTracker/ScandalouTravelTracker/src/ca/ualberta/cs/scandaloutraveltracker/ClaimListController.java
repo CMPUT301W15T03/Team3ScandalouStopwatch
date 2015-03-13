@@ -53,7 +53,7 @@ public class ClaimListController {
 		Collections.sort(claimList.getClaims());
 	}
 	
-	public void removeClaim(long claimPos) {	
+	public void removeClaim(int claimPos) {	
 		// Get the claim id
 		int claimId = claimList.getClaim((int) claimPos).getId();
 		
