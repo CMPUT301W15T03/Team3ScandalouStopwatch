@@ -212,8 +212,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.expenses.add(expense);
 	}
 	
-	public void deleteExpense(int expensePos) {
-		this.expenses.remove(expensePos);
+	public void deleteExpense(Expense expense) {
+		this.expenses.remove(expense);
 		notifyViews();
 	}
 	

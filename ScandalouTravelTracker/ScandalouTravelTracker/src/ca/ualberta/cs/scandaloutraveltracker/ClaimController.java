@@ -105,22 +105,16 @@ public class ClaimController {
 	
 	public void addExpense(Expense expense) {
 		expenses.add(expense);
+		notifyViews();
 	}
 	
 	
-	public void removeExpense(int expensePos) {	
-		
-		
-		
-		// Delete the claim from the claim list
-		currentClaim.deleteExpense((int) expensePos);			
-		
-		
+	public void removeExpense(Expense expense) {	
+						
+		currentClaim.deleteExpense(expense);
+		notifyViews();
 	}
-	
-	public Expense getExpensePos(int position) {
-		return currentClaim.getExpense(position);
-	}
+		
 	
 	public void setCanEdit(Boolean canEdit) {
 		currentClaim.setCanEdit(canEdit);

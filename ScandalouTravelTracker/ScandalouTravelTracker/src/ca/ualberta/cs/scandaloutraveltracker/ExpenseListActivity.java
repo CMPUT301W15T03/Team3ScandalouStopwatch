@@ -62,9 +62,9 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent=new Intent(ExpenseListActivity.this, NewExpenseActivity.class);
-				startActivity(intent);
+				// TODO Add button below
+				//Intent intent=new Intent(ExpenseListActivity.this, NewExpenseActivity.class);
+				//startActivity(intent);
 		
 				
 			}
@@ -102,8 +102,9 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 					  
 						public void onClick(DialogInterface dialog, int i) {
 							//delete correct expense
-						  claimController.removeExpense(position);
-						  
+						  Expense expense= currentClaim.getExpense(position);
+						  currentClaim.deleteExpense(expense);
+						  expenseListAdapter.notifyDataSetChanged();
 					  }
 				  })
 				  .setNeutralButton("Flag/Unflag", new DialogInterface.OnClickListener(){
