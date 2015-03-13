@@ -79,6 +79,10 @@ public class ClaimController {
 		return currentClaim.getDestinations();
 	}	
 	
+	public ArrayList<String> getTags(){
+		return tags;
+	}	
+	
 	public void addTag(String tag) {
 		tags.add(tag);
 	}
