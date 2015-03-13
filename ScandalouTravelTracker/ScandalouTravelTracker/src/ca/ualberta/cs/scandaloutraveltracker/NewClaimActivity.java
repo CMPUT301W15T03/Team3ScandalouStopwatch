@@ -36,6 +36,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 
@@ -46,6 +47,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -119,26 +121,39 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			addDestButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+				//	http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
+						 LayoutInflater newDestInf = LayoutInflater.from(context);
+
+				final View newDestView= newDestInf.inflate(R.layout.new_dest, null);
+				       //text_entry is an Layout XML file containing two text field to display in alert dialog
+
+				final EditText name = (EditText) newDestView.findViewById(R.id.dest_name);
+				final EditText reason = (EditText) newDestView.findViewById(R.id.dest_reason);
+
+				name.setText("Name", EditText.BufferType.EDITABLE);
+				reason.setText("Reason", EditText.BufferType.EDITABLE);
+
+				final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
+				newDest.setTitle("New Destination")
+					.setView(newDestView)
+					.setCancelable(false)
 					
-					AlertDialog.Builder newDest = new AlertDialog.Builder(context);
-					newDest.setCancelable(false);
-					newDest.setMessage("New Destination");
-					final EditText name = new EditText(context);
-					newDest.setView(name);
-					
-					final EditText reason = new EditText(context);
-					newDest.setView(reason);
-					
-					newDest.setNegativeButton("Ok", new DialogInterface.OnClickListener(){
-						public void onClick (DialogInterface dialog, int id){
-							Destination d = new Destination("h", "g");
-						//			name.getText().toString(), reason.getText().toString());
+					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							String dreason = reason.getText().toString();
+							String dname = name.getText().toString();
+							Destination d = new Destination(dname, dreason);
 							claim.addDestination(d);
 							dialog.cancel();
-							
 						}
-					});
-					newDest.show();
+					})
+					
+					.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							dialog.cancel();
+						}});
+				
+				newDest.show();
 				}
 			});
 	
@@ -188,44 +203,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	
 	}
 		
-	/*	DestinationListAdapter destListAdapter = new DestinationListAdapter(this, claim.getDestinations());
-		destList.setAdapter(destListAdapter);
-		
-		destList.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
-			  public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
-			    
-				  AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-					alertDialogBuilder.setMessage("Destination Options")
-							.setCancelable(false)
-							.setPositiveButton("Edit",new DialogInterface.OnClickListener(){
-								public void onClick(DialogInterface dialog,int id) {
-									//click edit
-									dialog.cancel();
-								}
-						})
-							
-						.setNeutralButton("Delete", new DialogInterface.OnClickListener(){
-							public void onClick(DialogInterface dialog, int which)
-							{
-								//destList.remove(position);
-								dialog.cancel();
-								//click delete
-								
-								
-							}
-						})
-						  .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
-								// close the dialog box
-								dialog.cancel();
-							}
-					});
-			  		return true;
-			  		}});
 	
-	} */
-		
-		//todo: add destinations
 			
 
 
