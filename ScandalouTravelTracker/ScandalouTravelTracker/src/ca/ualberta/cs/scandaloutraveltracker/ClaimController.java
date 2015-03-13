@@ -46,6 +46,14 @@ public class ClaimController {
 		currentClaim.setName(name);
 	}
 	
+	public boolean getCanEdit() {
+		return currentClaim.getCanEdit();
+	}
+	
+	public void setCanEdit(boolean edit) {
+		currentClaim.setCanEdit(edit);
+	}
+	
 	public String getDescription(){
 		return currentClaim.getDescription();
 	}
