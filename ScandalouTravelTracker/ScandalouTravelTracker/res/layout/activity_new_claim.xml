@@ -48,7 +48,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/claimant_name"
         android:ems="10"
-        android:inputType="date" />
+        android:inputType="date"
+        android:focusableInTouchMode="False" />
 
     <EditText
         android:id="@+id/end_date"
@@ -57,7 +58,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/start_date"
         android:ems="10"
-        android:inputType="date" />
+        android:inputType="date"
+        android:focusableInTouchMode="False" />
 
     <Button
         android:id="@+id/send_button"

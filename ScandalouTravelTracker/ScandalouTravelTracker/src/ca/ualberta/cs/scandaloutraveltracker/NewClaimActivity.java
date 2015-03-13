@@ -26,6 +26,7 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +34,8 @@ import java.util.Locale;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.DialogFragment;
 import android.view.Menu;
 import android.view.View;
 
@@ -41,6 +44,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -50,7 +54,7 @@ import android.content.DialogInterface;
 //import android.content.Context;
 import android.content.Intent;
 
-public class NewClaimActivity extends Activity implements ViewInterface {
+public class NewClaimActivity extends Activity implements ViewInterface{
 	
 	Claim c = new Claim();
 	ClaimController claim = new ClaimController(c);
@@ -60,6 +64,8 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 	ArrayList<Destination> dList;
 	String description;
 	ArrayList<String> tags;
+	private Date startDate;
+	private Date endDate;
 	
 
 	@Override
@@ -81,28 +87,6 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 				//fills in most fields of claim from edit texts
 				claim.setName(nameSet.getText().toString());
 				claim.setDescription(descriptionSet.getText().toString());
-				
-				String sdate = sDateSet.getText().toString();
-				String edate = sDateSet.getText().toString();
-				
-				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
-				Date startDate;
-				try {
-					startDate = sdf.parse(sdate);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					throw new RuntimeException(e);
-				}
-				Date endDate;
-				try {
-					endDate = sdf.parse(edate);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					throw new RuntimeException(e);
-				}
-				
-				claim.setStartDate(startDate);
-				claim.setEndDate(endDate);
 				
 				// For testing
 				dList = new ArrayList<Destination>();
@@ -158,7 +142,49 @@ public class NewClaimActivity extends Activity implements ViewInterface {
 				}
 			});
 	
-	
+	        // startDate dialog picker
+			sDateSet.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					DialogFragment newFragment = new DatePickerFragment() {
+						@Override
+						public void onDateSet(DatePicker view, int year, int monthOfYear,
+								int dayOfMonth) {
+							String startDateString = convertToString(year, monthOfYear, dayOfMonth);
+							sDateSet.setHint(startDateString);
+							Calendar cal = Calendar.getInstance();
+							cal.set(year, monthOfYear, dayOfMonth);
+							Date date = cal.getTime();
+							startDate = date;
+							c.setStartDate(date);
+						}
+					};
+					newFragment.show(getFragmentManager(), "datePicker");
+				}
+			});
+	        
+	        // endDate dialog picker
+			eDateSet.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {;
+				DialogFragment newFragment = new DatePickerFragment() {
+					@Override
+					public void onDateSet(DatePicker view, int year, int monthOfYear,
+							int dayOfMonth) {
+						String startDateString = convertToString(year, monthOfYear, dayOfMonth);
+						eDateSet.setHint(startDateString);
+						Calendar cal = Calendar.getInstance();
+						cal.set(year, monthOfYear, dayOfMonth);
+						Date date = cal.getTime();
+						endDate = date;
+						c.setEndDate(date);
+					}
+				};
+					newFragment.show(getFragmentManager(), "datePicker");
+				}
+			});
 	
 	}
 		
