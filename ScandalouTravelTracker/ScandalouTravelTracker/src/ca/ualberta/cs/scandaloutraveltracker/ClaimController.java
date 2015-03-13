@@ -79,6 +79,10 @@ public class ClaimController {
 		return currentClaim.getDestinations();
 	}	
 	
+	public ArrayList<String> getTags(){
+		return tags;
+	}	
+	
 	public void addTag(String tag) {
 		tags.add(tag);
 	}
@@ -115,10 +119,6 @@ public class ClaimController {
 		notifyViews();
 	}
 		
-	
-	public void setCanEdit(Boolean canEdit) {
-		currentClaim.setCanEdit(canEdit);
-	}
 	
 	public String calculateTotal() {
 		return null;

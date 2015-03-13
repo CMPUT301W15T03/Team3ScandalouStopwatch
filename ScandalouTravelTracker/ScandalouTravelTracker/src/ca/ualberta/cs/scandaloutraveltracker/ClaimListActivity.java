@@ -68,16 +68,12 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		claimListAdapter = new ClaimListAdapter(this, claimsList);
 		claimsListView.setAdapter(claimListAdapter);
 		
-		/*
+		
 		//for testing purposes
 		Claim testClaim = createTestClaim();
-		Claim testClaim2 = createTestClaim2();
-		Claim testClaim3 = createTestClaim3();
-		claimListController.addClaim(testClaim3);
 		claimListController.addClaim(testClaim);
-		claimListController.addClaim(testClaim2);
 		claimListController.notifyViews();
-		*/
+		
 		
 		// Add claim button on click
 		addClaimButton.setOnClickListener(new View.OnClickListener() {
@@ -118,67 +114,50 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            	   }
 		            	   //when add expense is pressed
 		            	   else if(which == 2){
-							   Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
-							   intent.putExtra(Constants.claimIdLabel, claimId);
-		            		   startActivity(intent);
+		            		   Claim currentClaim = claimListController.getClaim((int)claimPos);
+		            		   
+		            		   // If/Else Checks if the Claim can actually be edited
+		            		   if (currentClaim.getCanEdit()) {
+		            			   Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
+								   intent.putExtra(Constants.claimIdLabel, claimId);
+			            		   startActivity(intent);
+		            		   }
+		            		   else {
+		            			   Toast.makeText(getApplicationContext(), 
+		            					   		  currentClaim.getStatus() + " claims can not be edited.", 
+		            					   		  Toast.LENGTH_SHORT).show();
+		            		   }
 		            	   }
 		            	   //when delete claim is pressed
 		            	   else if(which == 3){
-		            		   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
-		            		   builder.setMessage("This will delete the claim and the corresponding expenses. Are you sure?")
-		            		   		.setCancelable(true)
-		            		   .setPositiveButton("No", new DialogInterface.OnClickListener() {
-		                           public void onClick(DialogInterface dialog, int id) {
-		                        	   
-		                           }
-		                       })
-		                       .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-		                           public void onClick(DialogInterface dialog, int id) {
-		                        	   claimListController.removeClaim((int) claimPos);
-		                           }
-		                       });
-		            		   AlertDialog alert = builder.create();
-		            		   alert.show();
+		            		   Claim currentClaim = claimListController.getClaim((int)claimPos);
+		            		   
+		            		   // If/Else Checks if the Claim can actually be edited
+		            		   if (currentClaim.getCanEdit()) {
+		            			   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
+			            		   builder.setMessage("This will delete the claim and the corresponding expenses. Are you sure?")
+			            		   		.setCancelable(true)
+			            		   .setPositiveButton("No", new DialogInterface.OnClickListener() {
+			                           public void onClick(DialogInterface dialog, int id) {
+			                        	   
+			                           }
+			                       })
+			                       .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+			                           public void onClick(DialogInterface dialog, int id) {
+			                        	   claimListController.removeClaim((int) claimPos);
+			                           }
+			                       });
+			            		   AlertDialog alert = builder.create();
+			            		   alert.show();
+		            		   }
+		            		   else {
+		            			   Toast.makeText(getApplicationContext(), 
+		            					   		  currentClaim.getStatus() + " claims can not be edited.", 
+		            					   		  Toast.LENGTH_SHORT).show();
+		            		   }
 		            	   }
 		           }
 				});
-
-				   /*.setCancelable(true)
-				   .setNegativeButton("Edit/View Claim", new DialogInterface.OnClickListener() {
-				       	public void onClick(DialogInterface dialog, int i) {
-					    	//edit claim
-					   		Intent intent = new Intent(ClaimListActivity.this, EditClaimActivity.class);
-					   		intent.putExtra(Constants.claimIdLabel, claimId);
-					   		startActivity(intent);
-				       	}
-				   })
-				   .setPositiveButton("Delete Claim", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int i) {
-							//delete correct claim
-							Claim currentClaim = claimListController.getClaim((int) claimPos);
-							ClaimController cc = new ClaimController(currentClaim);
-							boolean editable = cc.getCanEdit();
-							if (editable) {
-								claimListController.removeClaim((int) claimPos);
-							}
-							else {
-								Toast.makeText(getApplicationContext(), cc.getStatus() + " Claim can not be edited.", Toast.LENGTH_SHORT).show();
-							}
-						}  
-				   })
-				   .setNeutralButton("List Expenses", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int i) {;
-						    //add a new expense
-						   	//Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
-						   	//intent.putExtra(Constants.claimIdLabel, claimId);
-						   	//startActivity(intent);
-						   	
-							Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
-						   	intent.putExtra(Constants.claimIdLabel, claimId);
-						   	startActivity(intent);
-						}
-				   });*/
 				AlertDialog alert = builder.create();
 				alert.show();
 			}
@@ -226,82 +205,8 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		claimController.addTag("#BC");
 		claimController.addExpense(expense1);
 		claimController.addExpense(expense2);
-		
-		return newClaim;
-	}
-
-	// For making a test claim (comparing dates)
-	private Claim createTestClaim2() {
-		Claim newClaim = new Claim();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
-		Date startDate;
-		try {
-			startDate = sdf.parse("02/02/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		Date endDate;
-		try {
-			endDate = sdf.parse("03/03/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		
-		Destination d1 = new Destination("Beijing", "Chillin here");
-		Destination d2 = new Destination("Macau", "Now I'm here");
-		
-		Expense expense1 = new Expense();
-		expense1.setCost(12.15);
-		expense1.setCurrencyType("Swiss Franc (CHF)");
-		
-		Expense expense2 = new Expense();
-		expense2.setCost(412.00);
-		expense2.setCurrencyType("Japanese Yen (JPY)");
-		
-		ClaimController claimController = new ClaimController(newClaim);
-		claimController.setName("Test Claim");
-		claimController.setStartDate(startDate);
-		claimController.setEndDate(endDate);
-		claimController.addDestination(d1);
-		claimController.addDestination(d2);
-		claimController.addExpense(expense2);
-		claimController.addExpense(expense1);
-		
-		return newClaim;
-	}
-	
-	// For making a test claim (comaparing dates)
-	private Claim createTestClaim3() {
-		Claim newClaim = new Claim();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
-		Date startDate;
-		try {
-			startDate = sdf.parse("04/04/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		Date endDate;
-		try {
-			endDate = sdf.parse("05/05/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		
-		Destination d1 = new Destination("Melbourne", "Chillin here");
-		Destination d2 = new Destination("Sydney", "Now I'm here");
-		
-		ClaimController claimController = new ClaimController(newClaim);
-		claimController.setName("Test Claim");
-		claimController.setStartDate(startDate);
-		claimController.setEndDate(endDate);
-		claimController.addDestination(d1);
-		claimController.addDestination(d2);
+		claimController.setCanEdit(false);
+		claimController.setStatus("Submitted");
 		
 		return newClaim;
 	}
