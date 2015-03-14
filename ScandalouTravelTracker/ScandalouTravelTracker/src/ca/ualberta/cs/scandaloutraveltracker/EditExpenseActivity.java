@@ -114,7 +114,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		int claimId =-1;
 		int expenseId =-1;
 		Intent intent = getIntent();
-	    claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
+		claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
 		expenseId = (int) extras.getLong("expenseId", -1);
 		
 		//get the EditText fields
