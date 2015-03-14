@@ -79,8 +79,6 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 			
 			@Override
 			public void onClick(View v) {
-				//FOR TESTING
-				addExpenses();
 				//add expense
 				Intent intent=new Intent(ExpenseListActivity.this, AddExpenseActivity.class);
 				intent.putExtra(Constants.claimIdLabel, claimId);

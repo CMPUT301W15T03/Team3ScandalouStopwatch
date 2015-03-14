@@ -23,19 +23,23 @@ limitations under the License.
 	
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 public class AddExpenseActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
+	private Date date;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,26 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 		
 		//create ClaimMapper for saving data
 		final ClaimMapper mapper = new ClaimMapper(this.getApplicationContext());
+		
+		//create date picker
+		final EditText dateEditText = (EditText)findViewById(R.id.date_expense2);
+		dateEditText.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				DialogFragment newFragment = new DatePickerFragment() {
+					@Override
+					public void onDateSet(DatePicker view, int year, int monthOfYear,
+							int dayOfMonth) {
+						String dateString = convertToString(year, monthOfYear, dayOfMonth);
+						Calendar cal = Calendar.getInstance();
+						cal.set(year, monthOfYear, dayOfMonth);
+						date = cal.getTime();
+						dateEditText.setText(dateString);
+					}
+				};
+				newFragment.show(getFragmentManager(), "datePicker");
+			}
+		});
 		
 		//create listener for Add button
 		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
@@ -65,8 +89,8 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				Spinner categorySpinner = (Spinner)findViewById(R.id.category);
 				String category = (String)categorySpinner.getSelectedItem();
 				EController.setCategory(category);
-				// TODO: fill in date
-				EController.setDate(new Date());
+				//fill in date
+				EController.setDate(date);
 				//fill in amount
 				EditText amountEditText = (EditText)findViewById(R.id.amount2);
 				double amount = Double.valueOf(amountEditText.getText().toString());
