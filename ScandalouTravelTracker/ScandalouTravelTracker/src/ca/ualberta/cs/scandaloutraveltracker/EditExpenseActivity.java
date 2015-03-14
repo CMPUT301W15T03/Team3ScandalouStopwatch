@@ -40,9 +40,12 @@ import android.widget.Toast;
 public class EditExpenseActivity extends Activity implements ViewInterface {
 
 	private ClaimController claimController;
+	private ExpenseController expenseController;
 	private Claim currentClaim;
 	private int claimId;
 	private int expenseId;
+	private Date newDate;
+	private ClaimMapper mapper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,18 +97,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				.getCost());
 		category.setSelection(getIndex(category, categoryString));
 		currencyType.setSelection(getIndex(currencyType, currencyString));
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.view_expense, menu);
-		return true;
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
+		
 		final EditText dateSet = (EditText) findViewById(R.id.date_expense);
 		//date dialog picker
 		dateSet.setOnClickListener(new View.OnClickListener() {
@@ -119,13 +111,26 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 						dateSet.setHint(dateString);
 						Calendar cal = Calendar.getInstance();
 						cal.set(year, monthOfYear, dayOfMonth);
-						Date date = cal.getTime();
+						Date tmpDate = cal.getTime();
+						newDate = tmpDate;
 						dateSet.setText(dateString);
 					}
 				};
 				newFragment.show(getFragmentManager(), "datePicker");
 			}
 		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.view_expense, menu);
+		return true;
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 	
 	public void update() {
@@ -178,9 +183,22 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			description.requestFocus();
 			return;
 		}
-		//everything is good to be added (will need to check date though)
+		//everything is good to be added
 		else {
-			Toast.makeText(this, "Good to go", Toast.LENGTH_SHORT).show();
+			mapper = new ClaimMapper(this.getApplicationContext());
+			Expense expense = new Expense();
+			
+			expense.setDescription(descrString);
+			expense.setDate(new Date());
+			expense.setCategory(categoryString);
+			expense.setCurrencyType(currencyTypeString);
+			expense.setCost(Double.valueOf(costString));
+			claimController.updateExpense(expenseId, expense);
+			mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+			setResult(RESULT_OK);
+			
+			//Go back to ExpenseList
+			finish();
 		}
 	}
 	
