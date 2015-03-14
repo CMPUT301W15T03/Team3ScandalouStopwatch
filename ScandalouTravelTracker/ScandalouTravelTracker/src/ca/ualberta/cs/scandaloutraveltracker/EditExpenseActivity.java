@@ -36,6 +36,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 
 	private ClaimController claimController;
 	private Claim currentClaim;
+	private int claimId;
+	private int expenseId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +47,6 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
 		Bundle extras = getIntent().getExtras();
-		int claimId =-1;
-		int expenseId =-1;
 		Intent intent = getIntent();
 		claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
 		expenseId = (int) extras.getLong("expenseId", -1);
@@ -68,7 +68,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				Toast.LENGTH_SHORT).show();
 		
 		//Set currentClaim to the claim that was selected via intent
-		currentClaim = new Claim((int)claimId);
+		currentClaim = new Claim(claimId);
 		claimController = new ClaimController(currentClaim);
 		
 		//initialize fields 
@@ -110,13 +110,6 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	//is called when edit button is clicked
 	public void confirmEdit(View v) {
-		Bundle extras = getIntent().getExtras();
-		int claimId =-1;
-		int expenseId =-1;
-		Intent intent = getIntent();
-		claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
-		expenseId = (int) extras.getLong("expenseId", -1);
-		
 		//get the EditText fields
 		EditText description = (EditText) findViewById(R.id.description);
 		EditText date = (EditText) findViewById(R.id.date_expense);
