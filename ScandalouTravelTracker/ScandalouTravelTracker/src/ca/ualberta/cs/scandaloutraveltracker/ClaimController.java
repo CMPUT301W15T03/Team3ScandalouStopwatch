@@ -131,6 +131,18 @@ public class ClaimController {
 	public Expense getExpense(int position){
 		return currentClaim.getExpense(position);
 	}
+	
+	public void updateClaim(String name, Date startDate, Date endDate, String description,
+			ArrayList<Destination> destinations, boolean canEdit, ArrayList<Expense> expenses){
+		
+		currentClaim.updateClaim(name, startDate, endDate, description, destinations, canEdit, expenses);
+	}
+	
+	public void updateTags(ArrayList<String> tags){
+
+		currentClaim.updateTags(tags);
+		
+	}
 
 	public void notifyViews() {
 		// TODO Auto-generated method stub
