@@ -30,13 +30,13 @@ import java.util.Date;
 
 public class ClaimController {
 	private Claim currentClaim;
-	private ArrayList<String> tags;
-	private ArrayList<Expense> expenses;
 	
 	public ClaimController(Claim currentClaim) {
 		this.currentClaim = currentClaim;
-		this.tags = currentClaim.getTags();
-		this.expenses = currentClaim.getExpenses();
+	}
+	
+	public void setExpenses(ArrayList<Expense> expenses) {
+		currentClaim.setExpenses(expenses);
 	}
 
 	public String getName() {
@@ -80,15 +80,15 @@ public class ClaimController {
 	}	
 	
 	public ArrayList<String> getTags(){
-		return tags;
+		return currentClaim.getTags();
 	}	
 	
 	public void addTag(String tag) {
-		tags.add(tag);
+		currentClaim.getTags().add(tag);
 	}
 	
 	public void removeTag(String tag) {
-		tags.remove(tag);
+		currentClaim.getTags().remove(tag);
 	}
 	
 	public void addDestination(Destination destination) {
@@ -108,7 +108,7 @@ public class ClaimController {
 	}
 	
 	public void addExpense(Expense expense) {
-		expenses.add(expense);
+		currentClaim.addExpense(expense);
 		notifyViews();
 	}
 	

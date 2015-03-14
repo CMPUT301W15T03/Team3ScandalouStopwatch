@@ -61,8 +61,13 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 	    currentClaim = new Claim(claimId);
 	    claimController = new ClaimController(currentClaim);
-		currentClaim = createTestClaim();	//fake claim
-		addExpenses();						//fake claim
+	    
+		// Claim now loaded through the controller
+	    // Currently checking for expenseList being null (Until Mapper can map expenses)
+	    if (claimController.getExpenseList() == null) {
+	    	claimController.setExpenses(new ArrayList<Expense>());
+			addExpenses();						//fake claim
+	    }
 
 		//set layout elements
 		addExpenseButton=(Button) findViewById(R.id.add_expense);
@@ -108,7 +113,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 							//delete correct expense
 						  Expense expense= currentClaim.getExpense(position);
 						  currentClaim.deleteExpense(expense);
-						  expenseListAdapter.notifyDataSetChanged();
+						  expense.notifyViews();
 					  }
 				  })
 				  .setNeutralButton("Flag/Unflag", new DialogInterface.OnClickListener(){
@@ -193,7 +198,6 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		
 		expenseController.setDate(date);
 		
-		ClaimController claimController = new ClaimController(currentClaim);
 		claimController.addExpense(expense3);
 		claimController.addExpense(expense1);
 		claimController.addExpense(expense2);
