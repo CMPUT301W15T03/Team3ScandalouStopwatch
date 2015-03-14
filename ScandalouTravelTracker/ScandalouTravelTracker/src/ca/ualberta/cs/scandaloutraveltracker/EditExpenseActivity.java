@@ -176,8 +176,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		}
 		//date is required
 		else if (dateString.equals("")) {
-			date.setError("Please include a date");
-			date.requestFocus();
+			Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		//currency is required
@@ -193,17 +192,23 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		}
 		//everything is good to be added
 		else {
+			if (costString.equals(".")) {
+				costString = "0";
+			}
 			mapper = new ClaimMapper(this.getApplicationContext());
 			Expense expense = new Expense();
 			
-			expense.setDescription(descrString);
+			//checks if date is unchanged
 			if (dateString.equals(claimController.getExpense(expenseId)
 				.getDateString())) {
 				expense.setDate(claimController.getExpense(expenseId).getDate());
 			}
+			//change to new date
 			else {
 				expense.setDate(newDate);
 			}
+			
+			expense.setDescription(descrString);
 			expense.setCategory(categoryString);
 			expense.setCurrencyType(currencyTypeString);
 			expense.setCost(Double.valueOf(costString));
