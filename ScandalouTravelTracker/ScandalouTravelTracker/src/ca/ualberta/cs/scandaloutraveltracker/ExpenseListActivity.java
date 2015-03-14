@@ -108,7 +108,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 					   public void onClick(DialogInterface dialog, int i) {
 					    	//edit claim
 					   		Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
-					   		intent.putExtra("id", expensePos);
+					   		intent.putExtra("expenseId", expensePos);
+					   		intent.putExtra(Constants.claimIdLabel, claimId);
 					   		startActivity(intent);
 					   }
 				   })

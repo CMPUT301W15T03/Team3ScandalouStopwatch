@@ -25,6 +25,7 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -42,17 +43,18 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
 		Bundle extras = getIntent().getExtras();
-		long claimPos =-1;
-		long expensePos =-1;
-		claimPos = extras.getLong("claimPos" , -1);
-		expensePos = extras.getLong("expensePos", -1);
-		if (claimPos == -1) {
+		long claimId =-1;
+		long expenseId =-1;
+		Intent intent = getIntent();
+	    claimId = intent.getIntExtra(Constants.claimIdLabel, -1);
+		expenseId = extras.getLong("expenseId", -1);
+		if (claimId == -1) {
 			Toast.makeText(this, "The Claim Position needs to be added to the " +
 					"EditExpenseActivity intent before startActivity(intent) is called",
 					Toast.LENGTH_LONG).show();
 			finish();
 		}
-		else if (expensePos == -1) {
+		else if (expenseId == -1) {
 			Toast.makeText(this, "The Expense Position needs to be added to the " +
 					"EditExpenseActivity intent before startActivity(intent) is called",
 					Toast.LENGTH_LONG).show();
