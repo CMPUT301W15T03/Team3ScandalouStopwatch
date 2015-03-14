@@ -79,6 +79,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 			
 			@Override
 			public void onClick(View v) {
+				//FOR TESTING
+				addExpenses();
 				//add expense
 				Intent intent=new Intent(ExpenseListActivity.this, AddExpenseActivity.class);
 				intent.putExtra(Constants.claimIdLabel, claimId);
@@ -105,7 +107,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 					   public void onClick(DialogInterface dialog, int i) {
 					    	//edit claim
 					   		Intent intent = new Intent(ExpenseListActivity.this, EditExpenseActivity.class);
-					   		intent.putExtra("id", expensePos);
+					   		intent.putExtra("expenseId", expensePos);
+					   		intent.putExtra(Constants.claimIdLabel, claimId);
 					   		startActivity(intent);
 					   }
 				   })
@@ -226,6 +229,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		claimController.addExpense(expense3);
 		claimController.addExpense(expense1);
 		claimController.addExpense(expense2);
+		mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
 	}
 	
 	// For making a test claim (holding expenses)

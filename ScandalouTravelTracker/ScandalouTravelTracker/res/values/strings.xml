@@ -44,7 +44,7 @@
 	<string name="totals_">totals:</string>
 	<string-array name="claim_menu" >
 		<item >Edit/View Claim</item>
-		<item >List Expense for Claim</item>
+		<item >List Expenses for Claim</item>
 		<item >Add Expense to Claim</item>
 		<item >Delete Claim</item>
 	</string-array>

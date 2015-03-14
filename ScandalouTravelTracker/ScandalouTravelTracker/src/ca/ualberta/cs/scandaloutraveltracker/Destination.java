@@ -22,8 +22,8 @@ limitations under the License.
  */
 
 package ca.ualberta.cs.scandaloutraveltracker;
-
-public class Destination {
+import android.view.View;
+public class Destination extends SModel  {
 
 	String name;
 	String description;
@@ -53,4 +53,6 @@ public class Destination {
 		String destination = this.name +": " + this.description;
 		return destination;
 	}
+
+	
 }

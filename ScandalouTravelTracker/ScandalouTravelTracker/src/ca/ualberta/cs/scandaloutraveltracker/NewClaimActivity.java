@@ -36,6 +36,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
+import android.text.AndroidCharacter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -63,12 +64,12 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	String name;
 	String sDate;
 	String eDate;
-	ArrayList<Destination> dList;
+	ArrayList<Destination> dList=new ArrayList<Destination>();
 	String description;
 	ArrayList<String> tags;
 	private Date startDate;
 	private Date endDate;
-	
+	private DestinationListAdapter destinationListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
 		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
 		final EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
+		
 
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
 			claimOkButton.setOnClickListener(new View.OnClickListener() {
@@ -100,11 +102,11 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					claim.setDescription(descriptionSet.getText().toString());
 					
 					// For testing
-					dList = new ArrayList<Destination>();
-					dList.add(new Destination("Alderaan Orbit", "Product demo"));
-					dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
+					//dList = new ArrayList<Destination>();
+					//dList.add(new Destination("Alderaan Orbit", "Product demo"));
+					//dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
 					
-					// Also for testing
+					//Also for testing
 					tags = new ArrayList<String>();
 					tags.add("Tag1");
 					tags.add("Tag2");
@@ -125,9 +127,9 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			}
 		});
 		
-		ListView destList = (ListView)findViewById(R.id.destinations_lv);
 		
-		/*
+		
+		
 		Button addDestButton = (Button) findViewById(R.id.add_dest_button);
 			addDestButton.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -135,40 +137,58 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				//	http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
 						 LayoutInflater newDestInf = LayoutInflater.from(context);
 
-				final View newDestView= newDestInf.inflate(R.layout.new_dest, null);
+						 final View newDestView= newDestInf.inflate(R.layout.list_destination_display, null);
 				       //text_entry is an Layout XML file containing two text field to display in alert dialog
 
-				final EditText name = (EditText) newDestView.findViewById(R.id.dest_name);
-				final EditText reason = (EditText) newDestView.findViewById(R.id.dest_reason);
+						 final EditText name = (EditText) newDestView.findViewById(R.id.destination_name);
+						 final EditText reason = (EditText) newDestView.findViewById(R.id.destination_description);
 
-				name.setText("Name", EditText.BufferType.EDITABLE);
-				reason.setText("Reason", EditText.BufferType.EDITABLE);
-
-				final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
-				newDest.setTitle("New Destination")
-					.setView(newDestView)
-					.setCancelable(false)
+						 name.setText("Name", EditText.BufferType.EDITABLE);
+						 reason.setText("Reason", EditText.BufferType.EDITABLE);
+				
+						 final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
+						 	newDest.setTitle("New Destination")
+						 	.setView(newDestView)
+						 	.setCancelable(false)
 					
-					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						 	.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						
+						@Override
 						public void onClick(DialogInterface dialog, int whichButton) {
 							String dreason = reason.getText().toString();
 							String dname = name.getText().toString();
-							Destination d = new Destination(dname, dreason);
-							claim.addDestination(d);
-							dialog.cancel();
+							
+							if (dname.length()!=0 && dreason.length()!=0){
+								Destination d = new Destination(dname, dreason);
+																
+								dList.add(d);
+								//d.notifyViews();
+								setViews();
+								Toast.makeText(context, "reasons and name entered", Toast.LENGTH_SHORT).show();
+								
+							}else{
+								Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
+							}
+							
+							
+							
+							
 							
 						}
 					})
 					
 					.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int whichButton) {
-							dialog.cancel();
+							
 						}});
-				
-				newDest.show();
+				AlertDialog alertDialog =newDest.create();
+				alertDialog.show();
 				}
 			});
-			*/
+			
+			ListView destList = (ListView)findViewById(R.id.destinations_lv);
+			destinationListAdapter= new DestinationListAdapter(this, c.getDestinations());
+			destList.setAdapter(destinationListAdapter);
 	
 	        // startDate dialog picker
 			sDateSet.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +237,12 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			});
 	
 	}
-		
+	
+	private void setViews() {
+		for (Destination dest : claim.getDestinations()) {
+			dest.addView(this);
+		}
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
