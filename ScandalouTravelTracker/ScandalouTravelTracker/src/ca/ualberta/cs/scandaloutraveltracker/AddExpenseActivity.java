@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class AddExpenseActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
@@ -68,13 +69,37 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				newFragment.show(getFragmentManager(), "datePicker");
 			}
 		});
-		
+		final Spinner categorySpinner = (Spinner)findViewById(R.id.category);
+		final EditText amountEditText = (EditText)findViewById(R.id.amount2);
+		final Spinner currencySpinner = (Spinner)findViewById(R.id.currency);
+		final EditText descriptionEditText = (EditText)findViewById(R.id.description2);
 		//create listener for Add button
 		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
 		addExpenseButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				//toast
+				if (categorySpinner.getSelectedItem().toString().equals( "--Choose Category--")) {
+					Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
+				}
+				else if(amountEditText.getText().length()==0){
+					Toast.makeText(getApplicationContext(), "Please include an amount", Toast.LENGTH_SHORT).show();
+				}
+				else if(dateEditText.getText().length()==0){
+					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
+				}
+				else if ( currencySpinner.getSelectedItem().toString().equals( "--Choose Currency--")) {
+					Toast.makeText(getApplicationContext(), "Please include a currency", Toast.LENGTH_SHORT).show();
+				}
+				
+				else if(descriptionEditText.getText().length()==0){
+					Toast.makeText(getApplicationContext(), "Please include a description", Toast.LENGTH_SHORT).show();
+				}
+				
+				
+				else{
+				
 				//create new Expense, fill in values, attach to claim, close activity
 				
 				//make controller for current claim
@@ -86,21 +111,21 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				Expense expense = new Expense();
 				ExpenseController EController = new ExpenseController(expense);
 				//fill in category
-				Spinner categorySpinner = (Spinner)findViewById(R.id.category);
+				//Spinner categorySpinner = (Spinner)findViewById(R.id.category);
 				String category = (String)categorySpinner.getSelectedItem();
 				EController.setCategory(category);
 				//fill in date
 				EController.setDate(date);
 				//fill in amount
-				EditText amountEditText = (EditText)findViewById(R.id.amount2);
+				//EditText amountEditText = (EditText)findViewById(R.id.amount2);
 				double amount = Double.valueOf(amountEditText.getText().toString());
 				EController.setCost(amount);
 				//fill in currency
-				Spinner currencySpinner = (Spinner)findViewById(R.id.currency);
+				//Spinner currencySpinner = (Spinner)findViewById(R.id.currency);
 				String currency = (String)currencySpinner.getSelectedItem();
 				EController.setCurrency(currency);
 				//fill in description
-				EditText descriptionEditText = (EditText)findViewById(R.id.description2);
+				//EditText descriptionEditText = (EditText)findViewById(R.id.description2);
 				String description = descriptionEditText.getText().toString();
 				EController.setDescription(description);
 				//add new expense to claim and exit
@@ -108,6 +133,7 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
 				setResult(RESULT_OK);
 				finish();
+			}
 			}
 		});
 	}
