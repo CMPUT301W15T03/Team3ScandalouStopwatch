@@ -64,7 +64,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	String name;
 	String sDate;
 	String eDate;
-	ArrayList<Destination> dList;
+	ArrayList<Destination> dList=new ArrayList<Destination>();
 	String description;
 	ArrayList<String> tags;
 	private Date startDate;
@@ -106,10 +106,10 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					//dList.add(new Destination("Alderaan Orbit", "Product demo"));
 					//dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
 					
-					// Also for testing
-					//tags = new ArrayList<String>();
-					//tags.add("Tag1");
-					//tags.add("Tag2");
+					//Also for testing
+					tags = new ArrayList<String>();
+					tags.add("Tag1");
+					tags.add("Tag2");
 					
 					// Creation status
 					String status = Constants.statusInProgress;
@@ -127,9 +127,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			}
 		});
 		
-		ListView destList = (ListView)findViewById(R.id.destinations_lv);
-		destinationListAdapter= new DestinationListAdapter(this, c.getDestinations());
-		destList.setAdapter(destinationListAdapter);
+		
 		
 		
 		Button addDestButton = (Button) findViewById(R.id.add_dest_button);
@@ -139,21 +137,21 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				//	http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
 						 LayoutInflater newDestInf = LayoutInflater.from(context);
 
-				final View newDestView= newDestInf.inflate(R.layout.list_destination_display, null);
+						 final View newDestView= newDestInf.inflate(R.layout.list_destination_display, null);
 				       //text_entry is an Layout XML file containing two text field to display in alert dialog
 
-				final EditText name = (EditText) newDestView.findViewById(R.id.destination_name);
-				final EditText reason = (EditText) newDestView.findViewById(R.id.destination_description);
+						 final EditText name = (EditText) newDestView.findViewById(R.id.destination_name);
+						 final EditText reason = (EditText) newDestView.findViewById(R.id.destination_description);
 
-				name.setText("Name", EditText.BufferType.EDITABLE);
-				reason.setText("Reason", EditText.BufferType.EDITABLE);
+						 name.setText("Name", EditText.BufferType.EDITABLE);
+						 reason.setText("Reason", EditText.BufferType.EDITABLE);
 				
-				final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
-				newDest.setTitle("New Destination");
-				newDest.setView(newDestView);
-				newDest.setCancelable(false);
+						 final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
+						 	newDest.setTitle("New Destination")
+						 	.setView(newDestView)
+						 	.setCancelable(false)
 					
-					newDest.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						 	.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int whichButton) {
@@ -163,30 +161,34 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 							if (dname.length()!=0 && dreason.length()!=0){
 								Destination d = new Destination(dname, dreason);
 																
-								claim.addDestination(d);
-								c.notifyViews();
-								Toast.makeText(context, "reasons and name entered", Toast.LENGTH_SHORT).show();
+								dList.add(d);
+								//d.notifyViews();
 								setViews();
+								Toast.makeText(context, "reasons and name entered", Toast.LENGTH_SHORT).show();
+								
 							}else{
 								Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
 							}
 							
 							
 							
-							dialog.cancel();
+							
 							
 						}
 					})
 					
 					.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int whichButton) {
-							dialog.cancel();
+							
 						}});
 				AlertDialog alertDialog =newDest.create();
 				alertDialog.show();
 				}
 			});
 			
+			ListView destList = (ListView)findViewById(R.id.destinations_lv);
+			destinationListAdapter= new DestinationListAdapter(this, c.getDestinations());
+			destList.setAdapter(destinationListAdapter);
 	
 	        // startDate dialog picker
 			sDateSet.setOnClickListener(new View.OnClickListener() {
