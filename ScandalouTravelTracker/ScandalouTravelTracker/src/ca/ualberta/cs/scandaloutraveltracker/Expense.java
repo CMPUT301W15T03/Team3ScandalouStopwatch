@@ -117,7 +117,7 @@ public class Expense extends SModel {
 	}
 	
 	public String getDateString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 		return sdf.format(this.date);
 	}
 	

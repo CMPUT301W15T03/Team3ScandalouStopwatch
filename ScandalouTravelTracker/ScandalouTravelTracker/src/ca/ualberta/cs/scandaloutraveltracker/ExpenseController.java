@@ -26,6 +26,8 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.io.File;
 import java.util.Date;
 
+import android.view.View;
+
 public class ExpenseController {
 	private Expense currentExpense;
 	
@@ -55,6 +57,14 @@ public class ExpenseController {
 	
 	public void setDate(Date date) {
 		currentExpense.setDate(date);
+	}
+	
+	public void addView(ViewInterface view) {
+		currentExpense.addView(view);
+	}
+	
+	public void removeView(ViewInterface view) {
+		currentExpense.removeView(view);
 	}
 	
 	public void setPhoto(File photo) {

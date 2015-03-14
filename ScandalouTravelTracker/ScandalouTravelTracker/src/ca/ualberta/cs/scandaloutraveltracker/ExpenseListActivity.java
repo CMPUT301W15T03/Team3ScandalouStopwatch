@@ -113,10 +113,18 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 				  })
 				  .setNeutralButton("Flag/Unflag", new DialogInterface.OnClickListener(){
 					  @Override
-						public void onClick(DialogInterface dialog, int i) { 
-						Expense expense=currentClaim.getExpense(position);
-						expense.setFlag(true);
-						Toast.makeText(getApplicationContext(), "flag", Toast.LENGTH_SHORT).show();
+						public void onClick(DialogInterface dialog, int i) {
+						Expense expense = currentClaim.getExpense(position);
+						if (expense.getFlag() == false) {
+							expense.setFlag(true);
+							expense.notifyViews();
+							Toast.makeText(getApplicationContext(), "Expense Flagged", Toast.LENGTH_SHORT).show();
+						}
+						else {
+							expense.setFlag(false);
+							expense.notifyViews();
+							Toast.makeText(getApplicationContext(), "Expense Un-flagged", Toast.LENGTH_SHORT).show();
+						}
 					  }
 				  
 			});
@@ -131,13 +139,15 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		Expense expense1 = new Expense();
 		Expense expense2 = new Expense();
 		Expense expense3 = new Expense();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 		Date date;
 		
 		// Expense 1
 		ExpenseController expenseController = new ExpenseController(expense1);
 		expenseController.setCategory("Meal");
 		expenseController.setCost(15.00);
+		expenseController.setCurrency("CAD");
+		expenseController.addView(this);
 		expenseController.setDescription("Meal at a super dope place");
 
 		try {
@@ -153,6 +163,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		expenseController = new ExpenseController(expense2);
 		expenseController.setCategory("Accomodation");
 		expenseController.setCost(20.00);
+		expenseController.setCurrency("USD");
+		expenseController.addView(this);
 		expenseController.setDescription("Stayed at a hostel");
 
 		try {
@@ -168,6 +180,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		expenseController = new ExpenseController(expense3);
 		expenseController.setCategory("Travel");
 		expenseController.setCost(150.00);
+		expenseController.setCurrency("JPY");
+		expenseController.addView(this);
 		expenseController.setDescription("Took an expensive taxi");
 
 		try {

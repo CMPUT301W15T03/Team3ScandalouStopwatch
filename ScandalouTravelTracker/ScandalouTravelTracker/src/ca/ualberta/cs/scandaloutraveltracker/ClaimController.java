@@ -129,7 +129,7 @@ public class ClaimController {
 		return currentClaim.getExpenses();
 	}
 	public Expense getExpense(int position){
-		return Claim.getExpense(position);
+		return currentClaim.getExpense(position);
 	}
 
 	public void notifyViews() {

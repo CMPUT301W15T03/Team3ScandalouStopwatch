@@ -23,6 +23,8 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -72,11 +74,25 @@ public class ExpenseListAdapter extends BaseAdapter {
 		TextView expenseTotal = (TextView) convertView.findViewById(R.id.expenseTotalsExpenseListTV);
 		ImageView expenseFlag = (ImageView) convertView.findViewById(R.id.expenseListFlag);
 		
+		Expense currentExpense = expenses.get(position);
+		
+		if (currentExpense.getFlag()) {
+			expenseFlag.setImageResource(android.R.drawable.btn_star_big_on);
+		}
+		else {
+			expenseFlag.setImageResource(android.R.drawable.btn_star_big_off);
+		}
+		
+		// Formatting cost
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		String cost = "Cost: " + formatter.format(currentExpense.getCost()) + " " +
+					  currentExpense.getCurrencyType();
+		
 		// Set layout elements	
-		expenseCategory.setText(expenses.get(position).getCategory());
-		expenseDate.setText(expenses.get(position).getDate().toString());
-		expenseDescription.setText(expenses.get(position).getDescription());
-		// expenseTotal.setText(expenses.get(position).getDescription());
+		expenseCategory.setText(currentExpense.getCategory());
+		expenseDate.setText(currentExpense.getDateString());
+		expenseDescription.setText(currentExpense.getDescription());
+		expenseTotal.setText(cost);
 
 		return convertView;
 	}

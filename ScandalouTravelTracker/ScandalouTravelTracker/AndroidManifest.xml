@@ -43,7 +43,8 @@
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity"
-            android:label="@string/title_activity_expense_list" >
+            android:label="@string/title_activity_expense_list" 
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.AddExpenseActivity"
