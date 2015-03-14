@@ -64,10 +64,15 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			finish();
 		}
 		
-		//// Set currentClaim to the claim that was selected via intent
+		//TODO - Delete Toast Later
+		Toast.makeText(this, "Expense Position " + expenseId,
+				Toast.LENGTH_SHORT).show();
+		
+		//Set currentClaim to the claim that was selected via intent
 		currentClaim = new Claim((int)claimId);
 	    claimController = new ClaimController(currentClaim);
 		
+	    //initialize fields 
 		EditText description = (EditText) findViewById(R.id.description);
 		EditText date = (EditText) findViewById(R.id.date_expense);
 		EditText cost = (EditText) findViewById(R.id.amount);
@@ -75,31 +80,16 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
 		String categoryString = claimController.getExpense(expenseId).getCategory();
 		String currencyString = claimController.getExpense(expenseId).getCurrencyType();
-		
-		
-		ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this, R.array.Category, 
-				android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    category.setAdapter(adapter);
-	    if (!categoryString.equals(null)) {
-	        int spinnerPostion = adapter.getPosition(categoryString);
-	        category.setSelection(spinnerPostion);
-	        spinnerPostion = 0;
-	    }
-		
-		Toast.makeText(this, "Expense Position " + expenseId,
-				Toast.LENGTH_LONG).show();
+	
+		//set fields to correct values
 		description.setText(claimController.getExpense(expenseId)
 				.getDescription());
-		/*date.setText(claimListController.getClaimList()
-				.getClaim(claimId).getExpense(expenseId).getExpenseDateString());
-		cost.setText(claimListController.getClaimList()
-				.getClaim(claimId).getExpense(expenseId).getExpenseCostString());
-		category.setSelection(claimListController.getClaimList()
-				.getClaim(claimId).getExpense(expenseId).getCategoryInt());
-		currencyType.setSelection(claimListController.getClaimList()
-				.getClaim(claimId).getExpense(expenseId).getCurrencyInt());*/
-		//get the correct category
+		date.setText(claimController.getExpense(expenseId)
+				.getDateString());
+		cost.setText(""+claimController.getExpense(expenseId)
+				.getCost());
+		category.setSelection(getIndex(category, categoryString));
+		currencyType.setSelection(getIndex(currencyType, currencyString));
 	}
 
 	@Override
@@ -121,52 +111,20 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	//is called when edit button is clicked
 	public void confirmEdit(View v) {
+		Toast.makeText(this, "Editting done bro!",
+				Toast.LENGTH_SHORT).show();
 	}
 	
-	//get the correct category spinner int value
-	public int getCategoryInt(String cat) {
-		if (cat.equals("air fare")){
-			
+	//http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position 2015-03-14
+	private int getIndex(Spinner spinner, String myString) {
+		int index = 0;
+		for (int i=0;i<spinner.getCount();i++){
+			if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+				index = i;
+				break;
+			}
 		}
-		else if (cat.equals("ground transport")){
-			
-		}
-		else if (cat.equals("vehicle rental")){
-			
-		}
-		else if (cat.equals("private automobile")){
-			
-		}
-		else if (cat.equals("")){
-			
-		}
-		else if (cat.equals("")){
-			
-		}
-		else if (cat.equals("")){
-			
-		}
-		else if (cat.equals("")){
-			
-		}
-		else if (cat.equals("")){
-			
-		}
-		else if (cat.equals("")){
-			
-		}
-		else if (cat.equals("")){
-			
-		}
-		else if (cat.equals("")){
-			
-		}
-		return 0;
-	}
-	
-	//get the correct currency spinner int value
-	public int getCurrencyInt(String cur) {
-		return 0;
-	}
+		return index;
+	 }  
 
 }
