@@ -23,6 +23,8 @@ limitations under the License.
 	
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.Date;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -39,6 +41,9 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_expense);
+		
+		//create ClaimMapper for saving data
+		final ClaimMapper mapper = new ClaimMapper(this.getApplicationContext());
 		
 		//create listener for Add button
 		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
@@ -61,6 +66,7 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				String category = (String)categorySpinner.getSelectedItem();
 				EController.setCategory(category);
 				// TODO: fill in date
+				EController.setDate(new Date());
 				//fill in amount
 				EditText amountEditText = (EditText)findViewById(R.id.amount2);
 				double amount = Double.valueOf(amountEditText.getText().toString());
@@ -75,6 +81,7 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				EController.setDescription(description);
 				//add new expense to claim and exit
 				CController.addExpense(expense);
+				mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
 				setResult(RESULT_OK);
 				finish();
 			}

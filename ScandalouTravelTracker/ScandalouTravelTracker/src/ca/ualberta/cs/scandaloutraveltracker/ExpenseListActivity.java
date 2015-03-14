@@ -83,7 +83,6 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 				Intent intent=new Intent(ExpenseListActivity.this, AddExpenseActivity.class);
 				intent.putExtra(Constants.claimIdLabel, claimId);
 				startActivity(intent);
-				
 			}
 		});
 		
@@ -147,6 +146,15 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 				alert.show();		
 		}
 	});
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		claimController.setExpenses((ArrayList<Expense>)mapper.loadClaimData(claimId, "expenses"));
+		expenseListAdapter = new ExpenseListAdapter(this, currentClaim.getExpenses());
+		expenseListView.setAdapter(expenseListAdapter);
+		setViews();
 	}
 	
 	// Need to re-set the views here after we make any save to the expense data
