@@ -107,7 +107,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	protected void onResume() {
 		super.onResume();
 		final EditText dateSet = (EditText) findViewById(R.id.date_expense);
-        //date dialog picker
+		//date dialog picker
 		dateSet.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
