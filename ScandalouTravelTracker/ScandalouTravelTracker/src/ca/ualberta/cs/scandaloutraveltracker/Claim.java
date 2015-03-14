@@ -65,6 +65,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.status = (String)mapper.loadClaimData(id, "status");
 		this.approverName = (String)mapper.loadClaimData(id, "approverName");
 		this.approverComment = (String)mapper.loadClaimData(id, "approverComment");
+		this.expenses = (ArrayList<Expense>)mapper.loadClaimData(id, "expenses");
 		// Still need: expenses, totals
 		this.canEdit = true;
 	}

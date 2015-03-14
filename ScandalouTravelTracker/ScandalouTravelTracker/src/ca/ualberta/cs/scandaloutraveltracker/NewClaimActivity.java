@@ -114,7 +114,8 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				
 					ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
 					int newClaimId = mapper.createClaim(nameSet.getText().toString(), 
-							startDate, endDate, descriptionSet.getText().toString(), dList, tags, status, true);
+							startDate, endDate, descriptionSet.getText().toString(), dList, tags, status, true,
+							new ArrayList<Expense>());
 	
 					ClaimListController claimListController = new ClaimListController();
 					claimListController.addClaim(new Claim(newClaimId));

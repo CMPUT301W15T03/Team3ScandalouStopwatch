@@ -49,6 +49,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	private int claimId;
 	private Claim currentClaim;
 	private ClaimController claimController;
+	private ClaimMapper mapper;
 	
 	
 	@Override
@@ -61,6 +62,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 	    currentClaim = new Claim(claimId);
 	    claimController = new ClaimController(currentClaim);
+	    mapper = new ClaimMapper(this.getApplicationContext());
+	    setViews();
 	    
 		// Claim now loaded through the controller
 	    // Currently checking for expenseList being null (Until Mapper can map expenses)
@@ -111,23 +114,30 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 					  
 						public void onClick(DialogInterface dialog, int i) {
 							//delete correct expense
-						  Expense expense= currentClaim.getExpense(position);
-						  currentClaim.deleteExpense(expense);
+						  Expense expense = claimController.getExpense(position);
+						  claimController.removeExpense(expense);
 						  expense.notifyViews();
+						  mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+						  setViews();
 					  }
+
 				  })
 				  .setNeutralButton("Flag/Unflag", new DialogInterface.OnClickListener(){
 					  @Override
 						public void onClick(DialogInterface dialog, int i) {
-						Expense expense = currentClaim.getExpense(position);
+						Expense expense = claimController.getExpense(position);
 						if (expense.getFlag() == false) {
 							expense.setFlag(true);
 							expense.notifyViews();
+							mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+							setViews();
 							Toast.makeText(getApplicationContext(), "Expense Flagged", Toast.LENGTH_SHORT).show();
 						}
 						else {
 							expense.setFlag(false);
 							expense.notifyViews();
+							mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+							setViews();
 							Toast.makeText(getApplicationContext(), "Expense Un-flagged", Toast.LENGTH_SHORT).show();
 						}
 					  }
@@ -137,6 +147,12 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 				alert.show();		
 		}
 	});
+	}
+	
+	private void setViews() {
+		for (Expense expense : claimController.getExpenseList()) {
+			expense.addView(this);
+		}
 	}
 	
 	// TODO: DELETE THIS METHOD. USED FOR TESTING EXPENSELISTACTIVITY.

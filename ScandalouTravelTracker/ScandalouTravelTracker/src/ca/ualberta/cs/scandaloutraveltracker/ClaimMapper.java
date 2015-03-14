@@ -22,7 +22,8 @@ public class ClaimMapper {
 	}
 	
 	public int createClaim(String name, Date startDate, Date endDate, String description,
-			ArrayList<Destination> destinations, ArrayList<String> tags, String status, boolean canEdit) {
+			ArrayList<Destination> destinations, ArrayList<String> tags, String status, 
+			boolean canEdit, ArrayList<Expense> expenses) {
 		
 		int claimId = incrementClaimCounter();		
 		
@@ -35,6 +36,7 @@ public class ClaimMapper {
 		saveClaimData(claimId, "tags", tags);
 		saveClaimData(claimId, "status", status);
 		saveClaimData(claimId, "canEdit", canEdit);		
+		saveClaimData(claimId, "expenses", expenses);
 		
 		return claimId;
 	}
@@ -57,7 +59,8 @@ public class ClaimMapper {
 	}
 	
 	public void updateClaim(int claimId, String name, Date startDate, Date endDate, 
-			String description, ArrayList<Destination> destinations, ArrayList<String> tags, boolean canEdit){
+			String description, ArrayList<Destination> destinations, ArrayList<String> tags, 
+			boolean canEdit, ArrayList<Expense> expenses){
 		
 		saveClaimData(claimId, "name", name);
 		saveClaimData(claimId, "startDate", startDate);
@@ -66,6 +69,7 @@ public class ClaimMapper {
 		saveClaimData(claimId, "destinations", destinations);
 		saveClaimData(claimId, "tags", tags);
 		saveClaimData(claimId, "canEdit", canEdit);
+		saveClaimData(claimId, "expenses", expenses);
 		
 	}
 	
@@ -110,11 +114,21 @@ public class ClaimMapper {
 			editor.putString(key, (String)data);
 		} else if (key.equals("canEdit")){
 			editor.putBoolean(key, (Boolean)data);
+		} else if (key.equals("expenses")) {
+			removeExpenseViews(claimId, key, data);
+			String expensesJson = gson.toJson((ArrayList<Expense>)data);
+			editor.putString(key, expensesJson);
 		}
 		
 		editor.commit();	
 	}	
 	
+	private void removeExpenseViews(int claimId, String key, Object data) {
+		for (Expense expenses : (ArrayList<Expense>) data) {
+			expenses.removeAllViews();
+		}
+	}
+
 	public Object loadClaimData(int claimId, String key){
 		
 		Object data = 0;
@@ -154,6 +168,10 @@ public class ClaimMapper {
 		    data = claimFile.getString(key, "");
 	    } else if (key.equals("canEdit")){
 	    	data = claimFile.getBoolean(key, false);
+	    } else if (key.equals("expenses")) {
+	    	String expensesJson = claimFile.getString(key, "");
+	    	Type type = new TypeToken<ArrayList<Expense>>(){}.getType();
+	    	data = gson.fromJson(expensesJson, type);
 	    }
 	    
 		return data;

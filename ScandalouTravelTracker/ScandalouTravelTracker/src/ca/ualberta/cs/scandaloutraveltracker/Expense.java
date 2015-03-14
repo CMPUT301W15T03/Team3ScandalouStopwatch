@@ -127,5 +127,11 @@ public class Expense extends SModel {
 				+ this.description + "\n"
 				+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();
 	}
+
+	public void removeAllViews() {
+		for (ViewInterface view : views) {
+			views.remove(view);
+		}
+	}
 	
 }
