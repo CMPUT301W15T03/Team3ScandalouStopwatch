@@ -111,21 +111,21 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				Expense expense = new Expense();
 				ExpenseController EController = new ExpenseController(expense);
 				//fill in category
-				//Spinner categorySpinner = (Spinner)findViewById(R.id.category);
+				
 				String category = (String)categorySpinner.getSelectedItem();
 				EController.setCategory(category);
 				//fill in date
 				EController.setDate(date);
 				//fill in amount
-				//EditText amountEditText = (EditText)findViewById(R.id.amount2);
+				
 				double amount = Double.valueOf(amountEditText.getText().toString());
 				EController.setCost(amount);
 				//fill in currency
-				//Spinner currencySpinner = (Spinner)findViewById(R.id.currency);
+				
 				String currency = (String)currencySpinner.getSelectedItem();
 				EController.setCurrency(currency);
 				//fill in description
-				//EditText descriptionEditText = (EditText)findViewById(R.id.description2);
+				
 				String description = descriptionEditText.getText().toString();
 				EController.setDescription(description);
 				//add new expense to claim and exit
