@@ -39,6 +39,12 @@ public class ClaimController {
 		currentClaim.setExpenses(expenses);
 	}
 
+	public void updateExpense(int i, Expense e) {
+		ArrayList<Expense> newExpenseList = currentClaim.getExpenses();
+		newExpenseList.set(i, e);
+		currentClaim.setExpenses(newExpenseList);
+	}
+	
 	public String getName() {
 		return currentClaim.getName();
 	}
