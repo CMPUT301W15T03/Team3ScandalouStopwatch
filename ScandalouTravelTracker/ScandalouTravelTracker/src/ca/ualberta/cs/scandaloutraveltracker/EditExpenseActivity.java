@@ -165,29 +165,29 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		//check multiple user input errors and get them to correct accordingly
 		//category is required
 		if (categoryString.equals("--Choose Category--")) {
-			Toast.makeText(this, "Category Type is Required", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Please include a category", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		//cost is required
 		else if (costString.equals("")) {
-			cost.setError("Cost is Required");
+			cost.setError("Please include an amount");
 			cost.requestFocus();
 			return;
 		}
 		//date is required
 		else if (dateString.equals("")) {
-			date.setError("Date is Required");
+			date.setError("Please include a date");
 			date.requestFocus();
 			return;
 		}
 		//currency is required
 		else if (currencyTypeString.equals("--Choose Currency--")) {
-			Toast.makeText(this, "Currency Type is Required", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Please include a currency", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		//description is required
 		else if (descrString.equals("")) {
-			description.setError("Description is Required");
+			description.setError("Please include a description");
 			description.requestFocus();
 			return;
 		}
