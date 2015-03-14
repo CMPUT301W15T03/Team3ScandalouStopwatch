@@ -149,8 +149,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public ArrayList<Destination> getDestinations() {
 		return destinations;
 	}
-	public void setDestinations(ArrayList<String> destinations2) {
-		// TODO Auto-generated method stub
+	public void setDestinations(ArrayList<Destination> destinations) {
+		this.destinations = destinations;
 	}	
 	
 	public ArrayList<Expense> getExpenses() {
@@ -199,6 +199,35 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	public boolean getCanEdit() {
 		return this.canEdit;
+	}
+	
+	// Modification methods
+	
+	public void updateClaim(String name, Date startDate, Date endDate, String description,
+			ArrayList<Destination> destinations, boolean canEdit){
+		
+		setName(name);
+		setStartDate(startDate);
+		setEndDate(endDate);
+		setDescription(description);
+		setDestinations(destinations);
+		setCanEdit(canEdit);
+		setExpenses(expenses);
+		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.updateClaim(this.id, name, startDate, endDate, description, destinations, canEdit);
+		
+		notifyViews();
+	}
+	
+	public void updateTags(ArrayList<String> tags){
+		
+		setTags(tags);
+		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.updateTags(this.id, tags);
+		
+		notifyViews();
 	}
 	
 	public void addDestination(Destination destination) {

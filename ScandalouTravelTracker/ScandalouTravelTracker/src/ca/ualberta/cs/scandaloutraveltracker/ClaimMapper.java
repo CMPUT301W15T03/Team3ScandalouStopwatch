@@ -59,19 +59,23 @@ public class ClaimMapper {
 	}
 	
 	public void updateClaim(int claimId, String name, Date startDate, Date endDate, 
-			String description, ArrayList<Destination> destinations, ArrayList<String> tags, 
-			boolean canEdit, ArrayList<Expense> expenses){
+			String description, ArrayList<Destination> destinations, 
+			boolean canEdit){
 		
 		saveClaimData(claimId, "name", name);
 		saveClaimData(claimId, "startDate", startDate);
 		saveClaimData(claimId, "endDate", endDate);
 		saveClaimData(claimId, "description", description);
 		saveClaimData(claimId, "destinations", destinations);
-		saveClaimData(claimId, "tags", tags);
 		saveClaimData(claimId, "canEdit", canEdit);
-		saveClaimData(claimId, "expenses", expenses);
 		
 	}
+	
+	public void updateTags(int claimId, ArrayList<String> tags){
+		
+		saveClaimData(claimId, "tags", tags);
+		
+	}	
 	
 	public void submitClaim(int claimId, String status, boolean canEdit){
 		
