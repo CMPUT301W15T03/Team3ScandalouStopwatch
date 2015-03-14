@@ -51,7 +51,8 @@
         android:layout_toLeftOf="@+id/amount2"
         android:ems="10"
         android:hint="@string/date"
-        android:inputType="date" />
+        android:inputType="date" 
+        android:focusableInTouchMode="False"/>
 
     <Spinner
         android:id="@+id/currency"

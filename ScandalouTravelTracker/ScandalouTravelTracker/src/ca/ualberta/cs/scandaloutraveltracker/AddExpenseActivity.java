@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -84,17 +83,20 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 					Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
 				}
 				else if(amountEditText.getText().length()==0){
-					Toast.makeText(getApplicationContext(), "Please include an amount", Toast.LENGTH_SHORT).show();
+					amountEditText.setError("Please include an amount");
+					amountEditText.requestFocus();
 				}
 				else if(dateEditText.getText().length()==0){
-					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
+					dateEditText.setError("Please include a date");
+					dateEditText.requestFocus();
 				}
 				else if ( currencySpinner.getSelectedItem().toString().equals( "--Choose Currency--")) {
 					Toast.makeText(getApplicationContext(), "Please include a currency", Toast.LENGTH_SHORT).show();
 				}
 				
 				else if(descriptionEditText.getText().length()==0){
-					Toast.makeText(getApplicationContext(), "Please include a description", Toast.LENGTH_SHORT).show();
+					descriptionEditText.setError("Please include a description");
+					descriptionEditText.requestFocus();
 				}
 				
 				
