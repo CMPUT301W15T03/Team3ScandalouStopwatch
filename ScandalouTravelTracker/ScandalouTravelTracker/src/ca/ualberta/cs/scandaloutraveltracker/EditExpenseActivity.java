@@ -28,7 +28,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -111,8 +110,56 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	//is called when edit button is clicked
 	public void confirmEdit(View v) {
-		Toast.makeText(this, "Editting done bro!",
-				Toast.LENGTH_SHORT).show();
+		Bundle extras = getIntent().getExtras();
+		int claimId =-1;
+		int expenseId =-1;
+		Intent intent = getIntent();
+	    claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
+		expenseId = (int) extras.getLong("expenseId", -1);
+		
+		//get the EditText fields
+		EditText description = (EditText) findViewById(R.id.description);
+		EditText date = (EditText) findViewById(R.id.date_expense);
+		EditText cost = (EditText) findViewById(R.id.amount);
+		Spinner category = (Spinner) findViewById(R.id.catspinner);
+		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
+		
+		//parse the string input from user
+		String descrString = description.getText().toString();
+		String dateString = date.getText().toString();
+		String costString = cost.getText().toString();
+		String categoryString = category.getSelectedItem().toString();
+		String currencyTypeString = currencyType.getSelectedItem().toString();
+		
+		//check multiple user input errors and get them to correct accordingly
+		//description is required
+		if (descrString.equals("")) {
+			description.setError("Description is Required");
+			description.requestFocus();
+			return;
+		}
+		//date is required
+		if (dateString.equals("")) {
+			date.setError("Cost is Required");
+			date.requestFocus();
+			return;
+		}
+		//cost is required
+		if (costString.equals("")) {
+			cost.setError("Cost is Required");
+			cost.requestFocus();
+			return;
+		}
+		//category is required
+		if (categoryString.equals("--Choose Category--")) {
+			Toast.makeText(this, "Category Type is Required", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		//currency is required
+		if (currencyTypeString.equals("--Choose Currency--")) {
+			Toast.makeText(this, "Currency Type is Required", Toast.LENGTH_SHORT).show();
+			return;
+		}
 	}
 	
 	//http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position 2015-03-14
