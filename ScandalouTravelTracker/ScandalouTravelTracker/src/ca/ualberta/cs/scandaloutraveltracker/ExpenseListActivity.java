@@ -221,6 +221,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		claimController.addExpense(expense3);
 		claimController.addExpense(expense1);
 		claimController.addExpense(expense2);
+		mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
 	}
 	
 	// For making a test claim (holding expenses)
