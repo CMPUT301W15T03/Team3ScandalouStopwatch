@@ -37,18 +37,8 @@
 	    android:layout_toLeftOf="@+id/amount"
 	    android:ems="10"
 	    android:hint="@string/date"
-	    android:inputType="date" />
-
-    <Button
-        android:id="@+id/claim_ok_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/description"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/currencyspinner"
-        android:layout_marginBottom="16dp"
-        android:onClick="confirmEdit"
-        android:text="@string/edit" />
+	    android:inputType="date"
+	    android:focusableInTouchMode="False" />
 
     <Spinner
         android:id="@+id/currencyspinner"
@@ -78,5 +68,15 @@
         android:ems="10"
         android:hint="@string/amount"
         android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/claim_ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:onClick="confirmEdit"
+        android:text="@string/edit" />
        
 </RelativeLayout>

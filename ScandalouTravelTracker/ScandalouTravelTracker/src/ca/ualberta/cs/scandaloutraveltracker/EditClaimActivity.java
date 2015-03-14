@@ -40,18 +40,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditClaimActivity extends Activity implements ViewInterface {
 
 	private Claim claim;
 	private int claimId;
 	
-	private EditText nameDisplay;
 	private TextView statusDisplay;
 	private EditText startDateDisplay;
 	private EditText endDateDisplay;
@@ -69,6 +70,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	private String description;
 	private ArrayList<Destination> destinations;
 	private ArrayList<String> tagsString;
+	private boolean canEdit;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 		
 		// Get view elements
-		nameDisplay = (EditText) findViewById(R.id.edit_claim_claimant_name);
 		//statusDisplay = (TextView) findViewById(R.id.edit_claim_status);
 		startDateDisplay = (EditText) findViewById(R.id.edit_claim_start_date);
 		endDateDisplay = (EditText) findViewById(R.id.edit_claim_end_date);
@@ -90,34 +91,85 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		tagsDisplay = (TextView) findViewById(R.id.edit_claim_tags);
 		destinationList = (ListView) findViewById(R.id.edit_claim_destinations);
 		editTagsButton = (Button) findViewById(R.id.edit_claim_edit_tags);
-		updateButton = (Button) findViewById(R.id.edit_claim_update);
 		sendButton = (Button) findViewById(R.id.edit_claim_send);	
+		updateButton = (Button) findViewById(R.id.edit_claim_update);
 		
 	    claim = new Claim(claimId);
+	    canEdit = claim.getCanEdit();
 	    
 	    claim.addView(this);
 		update();		
+		
+		// Disable clicking on descriptionDisplay if can't edit
+		// Remove update button from the screen
+		if (!canEdit) {
+			ViewGroup editClaimLayout = (ViewGroup) updateButton.getParent();
+			editClaimLayout.removeView(updateButton);
+			
+			descriptionDisplay.setFocusable(false);
+			descriptionDisplay.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+						Toast.makeText(getApplicationContext(),
+								claim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
+				
+			});
+		}
+		else {
+			updateButton.setOnClickListener(new View.OnClickListener(){
+
+				@Override
+				public void onClick(View v){
+					
+					// Get fields
+					String description = descriptionDisplay.getText().toString();
+					boolean canEdit = true;
+					// TODO: Destinations				
+
+					// Test destinations
+					ArrayList<Destination> testDestinations = new ArrayList<Destination>();	
+					testDestinations.add(new Destination("Minneapolis", "Too cold"));
+					testDestinations.add(new Destination("Seattle", "Too rainy"));
+					testDestinations.add(new Destination("Chicago", "Too windy"));
+					
+					ClaimController claimController = new ClaimController(claim);
+					claimController.updateClaim(name, startDate, endDate, description, testDestinations, canEdit);
+
+					ClaimListController claimListController = new ClaimListController();
+					claimListController.removeClaim(claimId);
+					claimListController.addClaim(new Claim(claimId));
+				}
+				
+			});
+		}
 
         // startDate dialog picker
 		startDateDisplay.setOnClickListener(new View.OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				DialogFragment newFragment = new DatePickerFragment() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear,
-							int dayOfMonth) {
-						String startDateString = convertToString(year, monthOfYear, dayOfMonth);
-						startDateDisplay.setHint(startDateString);
-						Calendar cal = Calendar.getInstance();
-						cal.set(year, monthOfYear, dayOfMonth);
-						Date date = cal.getTime();
-						startDate = date;
-						startDateDisplay.setText(startDateString);
-						claim.setStartDate(date);
-					}
-				};
-				newFragment.show(getFragmentManager(), "datePicker");
+				if (canEdit) {
+					DialogFragment newFragment = new DatePickerFragment() {
+						@Override
+						public void onDateSet(DatePicker view, int year, int monthOfYear,
+								int dayOfMonth) {
+							String startDateString = convertToString(year, monthOfYear, dayOfMonth);
+							startDateDisplay.setHint(startDateString);
+							Calendar cal = Calendar.getInstance();
+							cal.set(year, monthOfYear, dayOfMonth);
+							Date date = cal.getTime();
+							startDate = date;
+							startDateDisplay.setText(startDateString);
+							claim.setStartDate(date);
+						}
+					};
+					newFragment.show(getFragmentManager(), "datePicker");
+				}
+				else {
+					Toast.makeText(getApplicationContext(),
+							claim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
         
@@ -125,22 +177,28 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		endDateDisplay.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {;
-			DialogFragment newFragment = new DatePickerFragment() {
-				@Override
-				public void onDateSet(DatePicker view, int year, int monthOfYear,
-						int dayOfMonth) {
-					String endDateString = convertToString(year, monthOfYear, dayOfMonth);
-					endDateDisplay.setHint(endDateString);
-					Calendar cal = Calendar.getInstance();
-					cal.set(year, monthOfYear, dayOfMonth);
-					Date date = cal.getTime();
-					endDate = date;
-					endDateDisplay.setText(endDateString);
-					claim.setEndDate(date);
+			public void onClick(View v) {
+				if (canEdit) {
+					DialogFragment newFragment = new DatePickerFragment() {
+						@Override
+						public void onDateSet(DatePicker view, int year, int monthOfYear,
+								int dayOfMonth) {
+							String endDateString = convertToString(year, monthOfYear, dayOfMonth);
+							endDateDisplay.setHint(endDateString);
+							Calendar cal = Calendar.getInstance();
+							cal.set(year, monthOfYear, dayOfMonth);
+							Date date = cal.getTime();
+							endDate = date;
+							endDateDisplay.setText(endDateString);
+							claim.setEndDate(date);
+						}
+					};
+						newFragment.show(getFragmentManager(), "datePicker");
 				}
-			};
-				newFragment.show(getFragmentManager(), "datePicker");
+				else {
+					Toast.makeText(getApplicationContext(),
+							claim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});		
 		
@@ -162,7 +220,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				   .setCancelable(true)
 				   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				       	public void onClick(DialogInterface dialog, int i) {
-					    	dialog.cancel();
+					    	dialog.cancel();Toast.makeText(getApplicationContext(),
+									claim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 				       	}
 				   })
 				   .setPositiveButton("Save Changes", new DialogInterface.OnClickListener() {
@@ -184,59 +243,41 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			
 		});		
 		
-		updateButton.setOnClickListener(new View.OnClickListener(){
-
-			@Override
-			public void onClick(View v){
-				
-				// Get fields
-				String name = nameDisplay.getText().toString();
-				String description = descriptionDisplay.getText().toString();
-				boolean canEdit = true;
-				// TODO: Destinations				
-
-				// Test destinations
-				ArrayList<Destination> testDestinations = new ArrayList<Destination>();	
-				testDestinations.add(new Destination("Minneapolis", "Too cold"));
-				testDestinations.add(new Destination("Seattle", "Too rainy"));
-				testDestinations.add(new Destination("Chicago", "Too windy"));
-				
-				ClaimController claimController = new ClaimController(claim);
-				
-				claimController.updateClaim(name, startDate, endDate, description, testDestinations, canEdit);
-
-			}
-			
-		});
-		
 		sendButton.setOnClickListener(new View.OnClickListener(){
 
 			@Override
 			public void onClick(View v){
-			
-				//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
-				//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
-				AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
-				builder.setMessage("Are you sure you want to submit your claim? You won't be able to make any changes " +
-						"except adding/removing tags.")
-				   .setCancelable(true)
-				   .setNegativeButton("Don't Submit", new DialogInterface.OnClickListener() {
-				       	public void onClick(DialogInterface dialog, int i) {
-					    	dialog.cancel();
-				       	}
-				   })
-				   .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int i) {
-							
-							ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-							mapper.submitClaim(claimId, Constants.statusSubmitted, false);
-							
-							update();
-						}  
-				   });
-				AlertDialog alert = builder.create();
-				alert.show();				
+				if (canEdit) {
+					//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
+					//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
+					AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
+					builder.setMessage("Are you sure you want to submit your claim? You won't be able to make any changes " +
+							"except adding/removing tags.")
+					   .setCancelable(true)
+					   .setNegativeButton("Don't Submit", new DialogInterface.OnClickListener() {
+					       	public void onClick(DialogInterface dialog, int i) {
+						    	dialog.cancel();
+					       	}
+					   })
+					   .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int i) {
+								
+								ClaimController claimController = new ClaimController(claim);
+								claimController.submitClaim(Constants.statusSubmitted, false);
+								
+								ClaimListController claimListController = new ClaimListController();
+								claimListController.removeClaim(claimId);
+								claimListController.addClaim(new Claim(claimId));
+							}  
+					   });
+					AlertDialog alert = builder.create();
+					alert.show();	
+				}
+				else {
+					Toast.makeText(getApplicationContext(),
+							claim.getStatus() + " claims cannot be sent.", Toast.LENGTH_SHORT).show();
+				}
 				
 			}
 			
@@ -274,7 +315,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 		// Update view elements with claim info
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
-		nameDisplay.setText(name);
 		//statusDisplay.setText(status);
 		startDateDisplay.setText(sdf.format(startDate));
 		endDateDisplay.setText(sdf.format(endDate));

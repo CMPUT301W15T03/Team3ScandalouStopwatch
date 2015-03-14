@@ -24,39 +24,37 @@
         android:layout_alignLeft="@+id/edit_claim_tv"
         android:layout_below="@+id/edit_claim_tv"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/claimant_name" >
+        android:hint="@string/claimant_name"
+        android:inputType="textPersonName" >
 
         <requestFocus />
     </EditText>
 
+<<<<<<< HEAD
+=======
+    <ListView
+        android:id="@+id/destinations_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tags_tv"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/add_dest_button"
+        android:layout_toRightOf="@+id/tags_sv" >
+
+    </ListView>
+
+>>>>>>> 3220ebb2ef0f88c80d39181b3dbecd9d686c97f6
     <EditText
         android:id="@+id/start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/edit_claim_tv"
         android:layout_below="@+id/claimant_name"
         android:ems="10"
-        android:inputType="date"
-        android:focusableInTouchMode="False" />
-
-    <EditText
-        android:id="@+id/end_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/start_date"
-        android:ems="10"
-        android:inputType="date"
-        android:focusableInTouchMode="False" />
-
-    <Button
-        android:id="@+id/send_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/send" />
+        android:focusableInTouchMode="False"
+        android:hint="Start date"
+        android:inputType="date" />
 
     <Button
         android:id="@+id/claim_ok_button"
@@ -82,25 +80,29 @@
     </ScrollView>
 
     <EditText
-        android:id="@+id/tags_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/edit_claim_description"
-        android:ems="10"
-        android:hint="@string/tags_tv"
-        android:inputType="textMultiLine" />
-
-    <EditText
         android:id="@+id/edit_claim_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/end_date"
+        android:layout_alignLeft="@+id/start_date"
+        android:layout_alignRight="@+id/tags_tv"
         android:layout_below="@+id/end_date"
         android:ems="10"
         android:hint="@string/description"
         android:inputType="textMultiLine" />
 
+    <EditText
+        android:id="@+id/end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimant_name"
+        android:layout_toRightOf="@+id/add_dest_button"
+        android:ems="10"
+        android:focusableInTouchMode="False"
+        android:hint="End date"
+        android:inputType="date" />
+
+<<<<<<< HEAD
     <ListView
         android:id="@+id/destinations_lv"
         android:layout_width="match_parent"
@@ -112,13 +114,45 @@
     </ListView>
 
     <Button
+=======
+    <ImageButton
+>>>>>>> 3220ebb2ef0f88c80d39181b3dbecd9d686c97f6
         android:id="@+id/add_dest_button"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_alignBottom="@+id/destinations_lv"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="26dp"
         android:text="@string/new_dest" />
+=======
+        android:layout_below="@+id/edit_claim_description"
+        android:layout_toRightOf="@+id/new_claim_destinations_label"
+        android:src="@android:drawable/ic_menu_add"
+        />
+
+    <TextView
+        android:id="@+id/new_claim_destinations_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/add_dest_button"
+        android:layout_alignLeft="@+id/edit_claim_description"
+        android:layout_alignTop="@+id/add_dest_button"
+        android:gravity="center_vertical"
+        android:text="Destinations"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/tags_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/claim_ok_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:ems="10"
+        android:hint="@string/tags_tv"
+        android:inputType="textMultiLine" />
+>>>>>>> 3220ebb2ef0f88c80d39181b3dbecd9d686c97f6
 
 </RelativeLayout>

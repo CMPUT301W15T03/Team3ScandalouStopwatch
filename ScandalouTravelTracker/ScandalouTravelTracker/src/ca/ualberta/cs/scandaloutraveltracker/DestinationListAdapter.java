@@ -25,12 +25,14 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class DestinationListAdapter extends BaseAdapter {
@@ -60,6 +62,8 @@ public class DestinationListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
+		final int hackyPositionReference = position;
+		
 		// If an instance of the view hasn't been created yet, create it.
 		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(context);
@@ -69,15 +73,28 @@ public class DestinationListAdapter extends BaseAdapter {
 		// Get displays
 		TextView nameDisplay = (TextView) convertView.findViewById(R.id.list_destination_name);
 		TextView descriptionDisplay = (TextView) convertView.findViewById(R.id.list_destination_description);
+		ImageButton deleteButton = (ImageButton) convertView.findViewById(R.id.list_destination_delete);
 		
 		// Get current destination
 		String currentDestinationName = destinations.get(position).getName();
 		String currentDestinationDescription = destinations.get(position).getDescription();
 
-		
 		// Set TextViews
 		nameDisplay.setText(currentDestinationName);
 		descriptionDisplay.setText(currentDestinationDescription);
+		
+		// Delete expense button handler
+		deleteButton.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				
+				destinations.remove(hackyPositionReference);
+				// CITATION http://stackoverflow.com/questions/12142255/call-activity-method-from-adapter
+				// 2015-03-14
+				// Eldhose M Babu's answer
+				((NewClaimActivity)context).update();
+			}
+		});			
 		
 		return convertView;
 	}
