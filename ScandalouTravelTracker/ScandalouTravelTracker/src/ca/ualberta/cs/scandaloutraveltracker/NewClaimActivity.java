@@ -81,6 +81,9 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
 		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
 		final EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
+		final ListView destList = (ListView)findViewById(R.id.destinations_lv);
+		//destinationListAdapter= new DestinationListAdapter(context, c.getDestinations());
+		//destList.setAdapter(destinationListAdapter);
 		
 
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
@@ -150,45 +153,41 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 						 	newDest.setTitle("New Destination")
 						 	.setView(newDestView)
 						 	.setCancelable(false)
-					
 						 	.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 						
-						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
-							String dreason = reason.getText().toString();
-							String dname = name.getText().toString();
-							
-							if (dname.length()!=0 && dreason.length()!=0){
-								Destination d = new Destination(dname, dreason);
-																
-								dList.add(d);
-								//d.notifyViews();
-								setViews();
-								Toast.makeText(context, "reasons and name entered", Toast.LENGTH_SHORT).show();
+						 		@Override
+						 		public void onClick(DialogInterface dialog, int whichButton) {
+						 			String dreason = reason.getText().toString();
+						 			String dname = name.getText().toString();
 								
-							}else{
-								Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
-							}
-							
-							
-							
-							
+						 			if (dname.length()!=0 && dreason.length()!=0){
+						 				Destination d = new Destination(dname, dreason);
+																
+						 				dList.add(d);
+						 				//d.notifyViews();
+						 				setViews();
+						 				final ArrayAdapter<Destination> destAdapter = new ArrayAdapter<Destination>(context, android.R.layout.simple_list_item_1, dList);
+						 				destList.setAdapter(destAdapter);
+						 				destAdapter.notifyDataSetChanged();
+						 				Toast.makeText(context, "Reasons and name entered", Toast.LENGTH_SHORT).show();
+						 				
+						 			}else{
+						 				Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
+						 			}
 							
 						}
 					})
 					
-					.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
+							.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int whichButton) {
 							
-						}});
-				AlertDialog alertDialog =newDest.create();
-				alertDialog.show();
-				}
+								}});
+						 	AlertDialog alertDialog =newDest.create();
+						 	alertDialog.show();
+					}
 			});
+				
 			
-			ListView destList = (ListView)findViewById(R.id.destinations_lv);
-			destinationListAdapter= new DestinationListAdapter(this, c.getDestinations());
-			destList.setAdapter(destinationListAdapter);
 	
 	        // startDate dialog picker
 			sDateSet.setOnClickListener(new View.OnClickListener() {
@@ -252,6 +251,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 
 	@Override
 	public void update() {
+
 		// TODO Auto-generated method stub
 		
 	}
