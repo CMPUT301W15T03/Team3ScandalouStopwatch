@@ -149,6 +149,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	});
 	}
 	
+	// Need to re-set the views here after we make any save to the expense data
 	private void setViews() {
 		for (Expense expense : claimController.getExpenseList()) {
 			expense.addView(this);

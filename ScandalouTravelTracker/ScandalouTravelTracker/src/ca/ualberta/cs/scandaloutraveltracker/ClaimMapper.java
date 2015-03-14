@@ -123,6 +123,11 @@ public class ClaimMapper {
 		editor.commit();	
 	}	
 	
+	// Removes the expense views - these views were causing the application
+	// to hang whenever converting the expense list to json format. Here we 
+	// remove the view and in the activities where expenses need to be displayed
+	// we need a function to re-add that view to their list of views.
+	// (See ExpenseListActivity)
 	private void removeExpenseViews(int claimId, String key, Object data) {
 		for (Expense expenses : (ArrayList<Expense>) data) {
 			expenses.removeAllViews();
