@@ -51,6 +51,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String status;
 	private String approverName;
 	private String approverComment;
+	private User user;
 
 	public Claim(int id){
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
@@ -66,8 +67,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.approverName = (String)mapper.loadClaimData(id, "approverName");
 		this.approverComment = (String)mapper.loadClaimData(id, "approverComment");
 		this.expenses = (ArrayList<Expense>)mapper.loadClaimData(id, "expenses");
-		// Still need: expenses, totals
-		this.canEdit = true;
+		// Still need: totals
+		this.canEdit = (Boolean)mapper.loadClaimData(id, "canEdit");
 	}
 	
 	// Constructor to make a more complete claim (feel free to add parameters as needed)

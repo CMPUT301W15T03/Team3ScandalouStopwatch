@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -84,7 +83,8 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 					Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
 				}
 				else if(amountEditText.getText().length()==0){
-					Toast.makeText(getApplicationContext(), "Please include an amount", Toast.LENGTH_SHORT).show();
+					amountEditText.setError("Please include an amount");
+					amountEditText.requestFocus();
 				}
 				else if(dateEditText.getText().length()==0){
 					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
@@ -94,7 +94,8 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				}
 				
 				else if(descriptionEditText.getText().length()==0){
-					Toast.makeText(getApplicationContext(), "Please include a description", Toast.LENGTH_SHORT).show();
+					descriptionEditText.setError("Please include a description");
+					descriptionEditText.requestFocus();
 				}
 				
 				
@@ -107,27 +108,34 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 			    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 			    Claim claim = new Claim(claimId);
 			    ClaimController CController = new ClaimController(claim);
+			    
 			    //make controller for new expense
 				Expense expense = new Expense();
 				ExpenseController EController = new ExpenseController(expense);
-				//fill in category
 				
+				//fill in category
 				String category = (String)categorySpinner.getSelectedItem();
 				EController.setCategory(category);
+				
 				//fill in date
 				EController.setDate(date);
+				
 				//fill in amount
-				
-				double amount = Double.valueOf(amountEditText.getText().toString());
+				String costString = amountEditText.getText().toString();
+				if (costString.equals(".")) {
+					costString = "0";
+				}
+				double amount = Double.valueOf(costString);
 				EController.setCost(amount);
-				//fill in currency
 				
+				//fill in currency
 				String currency = (String)currencySpinner.getSelectedItem();
 				EController.setCurrency(currency);
-				//fill in description
 				
+				//fill in description
 				String description = descriptionEditText.getText().toString();
 				EController.setDescription(description);
+				
 				//add new expense to claim and exit
 				CController.addExpense(expense);
 				mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
