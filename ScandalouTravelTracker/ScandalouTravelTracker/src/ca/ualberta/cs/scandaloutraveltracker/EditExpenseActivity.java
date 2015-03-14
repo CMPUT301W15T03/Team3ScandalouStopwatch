@@ -23,8 +23,11 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -38,9 +41,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class EditExpenseActivity extends Activity implements ViewInterface {
-
+	
 	private ClaimController claimController;
-	private ExpenseController expenseController;
 	private Claim currentClaim;
 	private int claimId;
 	private int expenseId;
@@ -51,6 +53,13 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_expense);
+		
+		//initialize fields
+		final EditText description = (EditText) findViewById(R.id.description);
+		final EditText date = (EditText) findViewById(R.id.date_expense);
+		final EditText cost = (EditText) findViewById(R.id.amount);
+		final Spinner category = (Spinner) findViewById(R.id.catspinner);
+		final Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
 		
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
@@ -79,12 +88,6 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		currentClaim = new Claim(claimId);
 		claimController = new ClaimController(currentClaim);
 		
-		//initialize fields 
-		EditText description = (EditText) findViewById(R.id.description);
-		EditText date = (EditText) findViewById(R.id.date_expense);
-		EditText cost = (EditText) findViewById(R.id.amount);
-		Spinner category = (Spinner) findViewById(R.id.catspinner);
-		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
 		String categoryString = claimController.getExpense(expenseId).getCategory();
 		String currencyString = claimController.getExpense(expenseId).getCurrencyType();
 	
@@ -98,9 +101,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		category.setSelection(getIndex(category, categoryString));
 		currencyType.setSelection(getIndex(currencyType, currencyString));
 		
-		final EditText dateSet = (EditText) findViewById(R.id.date_expense);
 		//date dialog picker
-		dateSet.setOnClickListener(new View.OnClickListener() {
+		date.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				DialogFragment newFragment = new DatePickerFragment() {
@@ -108,12 +110,18 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 					public void onDateSet(DatePicker view, int year, int monthOfYear,
 							int dayOfMonth) {
 						String dateString = convertToString(year, monthOfYear, dayOfMonth);
-						dateSet.setHint(dateString);
+						date.setHint(dateString);
 						Calendar cal = Calendar.getInstance();
 						cal.set(year, monthOfYear, dayOfMonth);
 						Date tmpDate = cal.getTime();
+						SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
+						try {
+							newDate = sdf.parse(dateString);
+						} catch (ParseException e) {
+							throw new RuntimeException();
+						}
 						newDate = tmpDate;
-						dateSet.setText(dateString);
+						date.setText(dateString);
 					}
 				};
 				newFragment.show(getFragmentManager(), "datePicker");
@@ -139,13 +147,13 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	}
 	
 	//is called when edit button is clicked
-	public void confirmEdit(View v) {
-		//get the EditText fields
-		EditText description = (EditText) findViewById(R.id.description);
-		EditText date = (EditText) findViewById(R.id.date_expense);
-		EditText cost = (EditText) findViewById(R.id.amount);
-		Spinner category = (Spinner) findViewById(R.id.catspinner);
-		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
+	public void confirmEdit(View v) {	
+		//initialize fields again
+		final EditText description = (EditText) findViewById(R.id.description);
+		final EditText date = (EditText) findViewById(R.id.date_expense);
+		final EditText cost = (EditText) findViewById(R.id.amount);
+		final Spinner category = (Spinner) findViewById(R.id.catspinner);
+		final Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
 		
 		//parse the string input from user
 		String descrString = description.getText().toString();
@@ -189,7 +197,13 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			Expense expense = new Expense();
 			
 			expense.setDescription(descrString);
-			expense.setDate(new Date());
+			if (dateString.equals(claimController.getExpense(expenseId)
+				.getDateString())) {
+				expense.setDate(claimController.getExpense(expenseId).getDate());
+			}
+			else {
+				expense.setDate(newDate);
+			}
 			expense.setCategory(categoryString);
 			expense.setCurrencyType(currencyTypeString);
 			expense.setCost(Double.valueOf(costString));
