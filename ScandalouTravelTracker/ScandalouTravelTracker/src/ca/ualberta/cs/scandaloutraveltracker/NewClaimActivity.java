@@ -128,7 +128,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		
 		ListView destList = (ListView)findViewById(R.id.destinations_lv);
 		
-		/*
+		
 		Button addDestButton = (Button) findViewById(R.id.add_dest_button);
 			addDestButton.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -136,11 +136,11 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				//	http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
 						 LayoutInflater newDestInf = LayoutInflater.from(context);
 
-				final View newDestView= newDestInf.inflate(R.layout.new_dest, null);
+				final View newDestView= newDestInf.inflate(R.layout.list_destination_display, null);
 				       //text_entry is an Layout XML file containing two text field to display in alert dialog
 
-				final EditText name = (EditText) newDestView.findViewById(R.id.dest_name);
-				final EditText reason = (EditText) newDestView.findViewById(R.id.dest_reason);
+				final EditText name = (EditText) newDestView.findViewById(R.id.destination_name);
+				final EditText reason = (EditText) newDestView.findViewById(R.id.destination_description);
 
 				name.setText("Name", EditText.BufferType.EDITABLE);
 				reason.setText("Reason", EditText.BufferType.EDITABLE);
@@ -169,7 +169,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				newDest.show();
 				}
 			});
-			*/
+			
 	
 	        // startDate dialog picker
 			sDateSet.setOnClickListener(new View.OnClickListener() {

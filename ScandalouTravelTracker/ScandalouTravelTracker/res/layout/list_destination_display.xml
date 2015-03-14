@@ -42,14 +42,4 @@
         android:ems="10"
         android:hint="input destination description" />
 
-    <Button
-        android:id="@+id/add_destination_to_list_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="30dp"
-        android:text="Add" />
-
 </RelativeLayout>
