@@ -28,6 +28,8 @@
         android:inputType="textPersonName"
         android:visibility="gone" />
 
+<<<<<<< HEAD
+=======
     <ListView
         android:id="@+id/destinations_lv"
         android:layout_width="match_parent"
@@ -39,6 +41,7 @@
 
     </ListView>
 
+>>>>>>> 3220ebb2ef0f88c80d39181b3dbecd9d686c97f6
     <EditText
         android:id="@+id/start_date"
         android:layout_width="wrap_content"
@@ -96,11 +99,31 @@
         android:hint="@string/end_date"
         android:inputType="date" />
 
+<<<<<<< HEAD
+    <ListView
+        android:id="@+id/destinations_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/send_button"
+        android:layout_alignRight="@+id/add_dest_button"
+        android:layout_below="@+id/tags_tv" >
+
+    </ListView>
+
+    <Button
+=======
     <ImageButton
+>>>>>>> 3220ebb2ef0f88c80d39181b3dbecd9d686c97f6
         android:id="@+id/add_dest_button"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
+        android:layout_alignBottom="@+id/destinations_lv"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="26dp"
+        android:text="@string/new_dest" />
+=======
         android:layout_below="@+id/edit_claim_description"
         android:layout_toRightOf="@+id/new_claim_destinations_label"
         android:src="@android:drawable/ic_menu_add"
@@ -127,5 +150,6 @@
         android:ems="10"
         android:hint="@string/tags_tv"
         android:inputType="textMultiLine" />
+>>>>>>> 3220ebb2ef0f88c80d39181b3dbecd9d686c97f6
 
 </RelativeLayout>

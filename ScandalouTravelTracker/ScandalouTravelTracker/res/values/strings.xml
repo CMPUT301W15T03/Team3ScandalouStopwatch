@@ -41,6 +41,7 @@
 	<string name="send_for_approval">Send for Approval</string>
 	<string name="edit">Edit</string>
 	<string name="expenses">Expenses</string>
+	<string name="new_dest">New Destination</string>
 	<string name="totals_">totals:</string>
 	<string-array name="claim_menu" >
 		<item >Edit/View Claim</item>

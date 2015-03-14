@@ -23,6 +23,11 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -73,11 +78,22 @@ public class ClaimListAdapter extends BaseAdapter {
 		
 		// Fetch current Claim
 		Claim currentClaim = claimList.getClaim(position);
-		// The claim id needs to be accessible in the "Go to edit claim" listener, but I don't
-		// know how else to do it besides making something "final". It's kind of ugly but it's 
-		// fairly unobtrusive.
-		final int currentClaimId = currentClaim.getId();
-
+		
+		// Build the total expenses string
+		// CITATION http://stackoverflow.com/questions/46898/iterate-over-each-entry-in-a-map/46908#46908
+		// 2015-01-29
+		// ScArcher2's answer
+		int i = 0;
+		String totalsStr = "";
+		NumberFormat formatter = new DecimalFormat("#0.00");	
+		HashMap<String, Double> totals = currentClaim.computeTotal();
+		for (Map.Entry<String, Double> entry : totals.entrySet()){
+			totalsStr += entry.getKey() + " " + formatter.format(entry.getValue());
+			if (i < totals.size() - 1){
+				totalsStr += "\n"; 
+			}
+		    i++;
+		}		
 		
 		// Set TextViews
 		claimDateTV.setText(currentClaim.getStartDateString() + 
@@ -86,20 +102,9 @@ public class ClaimListAdapter extends BaseAdapter {
 		
 		claimDestinationTV.setText(currentClaim.destinationsToString());
 		claimStatusTV.setText("Status: " + currentClaim.getStatus());
-		// See computeTotal() in Claim.java
-		// claimTotalTV.setText(currentClaim.computeTotal());
-		claimTagsTV.setText(currentClaim.tagsToString());
+		claimTotalTV.setText(totalsStr);
 		
-		/*// Go to edit claim
-		convertView.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View v){
-				
-				Intent intent = new Intent(ClaimListAdapter.this.context.getApplicationContext(), EditClaimActivity.class);
-				intent.putExtra(Constants.claimIdLabel, currentClaimId);				
-				context.startActivity(intent);
-			}
-		});			*/
+		claimTagsTV.setText(currentClaim.tagsToString());
 		
 		return convertView;
 	}

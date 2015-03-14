@@ -39,6 +39,12 @@ public class ClaimController {
 		currentClaim.setExpenses(expenses);
 	}
 
+	public void updateExpense(int i, Expense e) {
+		ArrayList<Expense> newExpenseList = currentClaim.getExpenses();
+		newExpenseList.set(i, e);
+		currentClaim.setExpenses(newExpenseList);
+	}
+	
 	public String getName() {
 		return currentClaim.getName();
 	}
@@ -138,10 +144,17 @@ public class ClaimController {
 		currentClaim.updateClaim(name, startDate, endDate, description, destinations, canEdit);
 	}
 	
+	public void submitClaim(String status, boolean canEdit){
+		currentClaim.submitClaim(status, canEdit);
+	}
+	
 	public void updateTags(ArrayList<String> tags){
-
-		currentClaim.updateTags(tags);
-		
+		currentClaim.updateTags(tags);	
+	}
+	
+	public void deleteClaim(int claimId){
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.deleteClaim(claimId);		
 	}
 
 	public void notifyViews() {

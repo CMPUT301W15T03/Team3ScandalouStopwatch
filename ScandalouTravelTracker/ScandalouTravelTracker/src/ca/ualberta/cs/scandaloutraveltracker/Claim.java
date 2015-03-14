@@ -51,6 +51,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String status;
 	private String approverName;
 	private String approverComment;
+	private User user;
 
 	public Claim(int id){
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
@@ -66,8 +67,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.approverName = (String)mapper.loadClaimData(id, "approverName");
 		this.approverComment = (String)mapper.loadClaimData(id, "approverComment");
 		this.expenses = (ArrayList<Expense>)mapper.loadClaimData(id, "expenses");
-		// Still need: expenses, totals
-		this.canEdit = true;
+		// Still need: totals
+		this.canEdit = (Boolean)mapper.loadClaimData(id, "canEdit");
 	}
 	
 	// Constructor to make a more complete claim (feel free to add parameters as needed)
@@ -230,6 +231,14 @@ public class Claim extends SModel implements Comparable<Claim> {
 		notifyViews();
 	}
 	
+	public void submitClaim(String status, boolean canEdit){
+		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.submitClaim(this.id, Constants.statusSubmitted, false);	
+		
+		notifyViews();
+	}
+	
 	public void addDestination(Destination destination) {
 		this.destinations.add(destination);
 	}
@@ -251,79 +260,29 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	// Didn't change anything in this method; just commenting it out for now so that
 	// newly created claims don't break the list (since they don't have expenses yet)
-	/*
-	public String computeTotal() {
-		NumberFormat formatter = new DecimalFormat("#0.00");
-		NumberFormat formatter2 = new DecimalFormat("#0");
-		String totalExpenses = "";
-		double cad = 0;
-		double usd = 0;
-		double gbp = 0;
-		double eur = 0;
-		double chf = 0;
-		double jpy = 0;
-		double cny = 0;
+
+	public HashMap<String, Double> computeTotal() {
+		
+		HashMap<String, Double> totals = new HashMap<String, Double>();
+		double old_total = 0;	
 		
 		// Sort and categorize all expenses
 		for (Expense expense : expenses) {
 			if (expense.getCurrencyType() != null) {
-				if (expense.getCurrencyType().equals("Canadian (CAD)")) {
-					cad += expense.getCost();
+				
+				if (totals.containsKey(expense.getCurrencyType())){
+					old_total = totals.get(expense.getCurrencyType());
+				} else {
+					old_total = 0;
 				}
-				else if (expense.getCurrencyType().equals("American (USD)")) {
-					usd += expense.getCost();
-				}
-				else if (expense.getCurrencyType().equals("Euro (EUR)")) {
-					eur += expense.getCost();
-							}
-				else if (expense.getCurrencyType().equals("Pound (GBP)")) {
-					gbp += expense.getCost();
-				}
-				else if (expense.getCurrencyType().equals("Swiss Franc (CHF)")) {
-					chf += expense.getCost();
-				}
-				else if (expense.getCurrencyType().equals("Japanese Yen (JPY)")) {
-					jpy += expense.getCost();
-				}
-				else if (expense.getCurrencyType().equals("Chinese Yuan (CNY)")) {
-					cny += expense.getCost();
-				}
+				totals.put(expense.getCurrencyType(), old_total + expense.getCost());				
+				
 			}
 		}
 		
-		// Checking expenses
-		if (cad != 0)
-		{
-			totalExpenses += "Canadian (CAD): $" + formatter.format(cad) + "\n";
-		}
-		if (usd != 0)
-		{
-			totalExpenses += "American (USD): $" + formatter.format(usd) + "\n";
-		}
-		if (gbp != 0)
-		{
-			totalExpenses += "Pounds (GBP): �" + formatter.format(gbp) + "\n";
-		}
-		if (eur != 0)
-		{
-			totalExpenses += "Euros (EUR): �" + formatter.format(eur) + "\n";
-		}
-		if (chf != 0)
-		{
-			totalExpenses += "Swiss Francs (CHF): CHF " + formatter.format(chf) + "\n";
-		}
-		if (jpy != 0)
-		{
-			totalExpenses += "Yen (JPY): �" + formatter2.format(jpy) + "\n";
-		}
-		if (cny != 0)
-		{
-			totalExpenses += "Yuan (CNY): �" + formatter2.format(cny) + "\n";
-		}
-		
-		return totalExpenses;
+		return totals;
 	}
-	*/
+
 	
 	// Converts the destinations into a string
 	// String format is destination1, destination2, ..., destination x 

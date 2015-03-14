@@ -68,13 +68,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		claimListAdapter = new ClaimListAdapter(this, claimsList);
 		claimsListView.setAdapter(claimListAdapter);
 		
-		
-		//for testing purposes
-		Claim testClaim = createTestClaim();
-		claimListController.addClaim(testClaim);
-		claimListController.notifyViews();
-		
-		
 		// Add claim button on click
 		addClaimButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -144,7 +137,13 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 			                       })
 			                       .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
 			                           public void onClick(DialogInterface dialog, int id) {
-			                        	   claimListController.removeClaim((int) claimPos);
+			                        	   
+			                        	   // Delete the claim from the list
+			                        	   claimListController.removeClaim(claimId);
+			                        	   
+			                        	   // Delete the claim from memory
+			                        	   ClaimController claimController = new ClaimController(new Claim(claimId));
+			                        	   claimController.deleteClaim(claimId);
 			                           }
 			                       });
 			            		   AlertDialog alert = builder.create();
@@ -162,53 +161,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				alert.show();
 			}
 		});
-	}
-	
-	// For making a test claim (comparing dates)
-	private Claim createTestClaim() {
-		Claim newClaim = new Claim();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
-		Date startDate;
-		try {
-			startDate = sdf.parse("01/01/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		Date endDate;
-		try {
-			endDate = sdf.parse("02/02/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		
-		Destination d1 = new Destination("Edmonton", "Chillin here");
-		Destination d2 = new Destination("Vancouver", "Now I'm here");
-		
-		Expense expense1 = new Expense();
-		expense1.setCost(16.00);
-		expense1.setCurrencyType("Canadian (CAD)");
-		
-		Expense expense2 = new Expense();
-		expense2.setCost(4.21);
-		expense2.setCurrencyType("Canadian (CAD)");
-		
-		ClaimController claimController = new ClaimController(newClaim);
-		claimController.setName("Test Claim");
-		claimController.setStartDate(startDate);
-		claimController.setEndDate(endDate);
-		claimController.addDestination(d1);
-		claimController.addDestination(d2);
-		claimController.addTag("#AB");
-		claimController.addTag("#BC");
-		claimController.addExpense(expense1);
-		claimController.addExpense(expense2);
-		claimController.setCanEdit(false);
-		claimController.setStatus("Submitted");
-		
-		return newClaim;
 	}
 	
 	@Override

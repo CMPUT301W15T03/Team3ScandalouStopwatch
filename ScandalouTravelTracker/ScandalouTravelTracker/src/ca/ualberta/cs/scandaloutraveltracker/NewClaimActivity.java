@@ -80,7 +80,13 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
 		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
 		final EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
+<<<<<<< HEAD
+		final ListView destList = (ListView)findViewById(R.id.destinations_lv);
+		//destinationListAdapter= new DestinationListAdapter(context, c.getDestinations());
+		//destList.setAdapter(destinationListAdapter);
+=======
 		final EditText tagsSet = (EditText)findViewById(R.id.tags_tv);
+>>>>>>> 3220ebb2ef0f88c80d39181b3dbecd9d686c97f6
 		
 		ImageButton addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
@@ -176,6 +182,96 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			// http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
 				 LayoutInflater newDestInf = LayoutInflater.from(context);
 
+<<<<<<< HEAD
+						 name.setText("Name", EditText.BufferType.EDITABLE);
+						 reason.setText("Reason", EditText.BufferType.EDITABLE);
+				
+						 final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
+						 	newDest.setTitle("New Destination")
+						 	.setView(newDestView)
+						 	.setCancelable(false)
+						 	.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						
+						 		@Override
+						 		public void onClick(DialogInterface dialog, int whichButton) {
+						 			String dreason = reason.getText().toString();
+						 			String dname = name.getText().toString();
+								
+						 			if (dname.length()!=0 && dreason.length()!=0){
+						 				Destination d = new Destination(dname, dreason);
+																
+						 				dList.add(d);
+						 				//d.notifyViews();
+						 				setViews();
+						 				final ArrayAdapter<Destination> destAdapter = new ArrayAdapter<Destination>(context, android.R.layout.simple_list_item_1, dList);
+						 				destList.setAdapter(destAdapter);
+						 				destAdapter.notifyDataSetChanged();
+						 				Toast.makeText(context, "Reasons and name entered", Toast.LENGTH_SHORT).show();
+						 				
+						 			}else{
+						 				Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
+						 			}
+							
+						}
+					})
+					
+							.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int whichButton) {
+							
+								}});
+						 	AlertDialog alertDialog =newDest.create();
+						 	alertDialog.show();
+					}
+			});
+				
+			
+	
+	        // startDate dialog picker
+			sDateSet.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					DialogFragment newFragment = new DatePickerFragment() {
+						@Override
+						public void onDateSet(DatePicker view, int year, int monthOfYear,
+								int dayOfMonth) {
+							String startDateString = convertToString(year, monthOfYear, dayOfMonth);
+							sDateSet.setHint(startDateString);
+							Calendar cal = Calendar.getInstance();
+							cal.set(year, monthOfYear, dayOfMonth);
+							Date date = cal.getTime();
+							startDate = date;
+							sDateSet.setText(startDateString);
+							c.setStartDate(date);
+						}
+					};
+					newFragment.show(getFragmentManager(), "datePicker");
+				}
+			});
+	        
+	        // endDate dialog picker
+			eDateSet.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {;
+				DialogFragment newFragment = new DatePickerFragment() {
+					@Override
+					public void onDateSet(DatePicker view, int year, int monthOfYear,
+							int dayOfMonth) {
+						String endDateString = convertToString(year, monthOfYear, dayOfMonth);
+						eDateSet.setHint(endDateString);
+						Calendar cal = Calendar.getInstance();
+						cal.set(year, monthOfYear, dayOfMonth);
+						Date date = cal.getTime();
+						endDate = date;
+						eDateSet.setText(endDateString);
+						c.setEndDate(date);
+					}
+				};
+					newFragment.show(getFragmentManager(), "datePicker");
+				}
+			});
+=======
 				 //text_entry is an Layout XML file containing two text field to display in alert dialog
 				 final View newDestView= newDestInf.inflate(R.layout.edit_destination, null);
 				 final EditText nameInput = (EditText) newDestView.findViewById(R.id.edit_destination_name);
@@ -221,6 +317,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		});
 		
 
+>>>>>>> 3220ebb2ef0f88c80d39181b3dbecd9d686c97f6
 	
 	}
 	
@@ -250,6 +347,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 
 	@Override
 	public void update() {
+
 		// TODO Auto-generated method stub
 		destList.setAdapter(destinationListAdapter);
 	}
