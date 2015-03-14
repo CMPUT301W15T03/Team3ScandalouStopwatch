@@ -13,48 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/edit_claim_end_date"
-        android:layout_below="@+id/edit_claim_end_date"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/edit_claim_start_date"
         android:ems="10"
-        android:inputType="textMultiLine"
-        android:text="Description" >
+        android:hint="Description"
+        android:inputType="textMultiLine" >
 
         <requestFocus />
     </EditText>
-
-    <Button
-        android:id="@+id/edit_claim_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/update" />
-
-    <Button
-        android:id="@+id/edit_claim_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/send_for_approval" />
-
-    <TextView
-        android:id="@+id/edit_claim_to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_claim_start_date"
-        android:layout_alignTop="@+id/edit_claim_start_date"
-        android:layout_toLeftOf="@+id/edit_claim_end_date"
-        android:layout_toRightOf="@+id/edit_claim_start_date"
-        android:text="to" />
-
-    <Button
-        android:id="@+id/edit_claim_end_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/edit_claim_to"
-        android:text="12/31/2000" />
 
     <ListView
         android:id="@+id/edit_claim_destinations"
@@ -62,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/edit_claim_update"
         android:layout_alignLeft="@+id/edit_claim_descr"
-        android:layout_below="@+id/edit_text_destinations_label" >
+        android:layout_below="@+id/edit_claim_new_destination" >
+
     </ListView>
 
     <EditText
@@ -72,40 +39,86 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:ems="10"
-        android:text="Claimant name" />
+        android:hint="Claimant name" />
 
-    <TextView
-        android:id="@+id/edit_claim_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edit_claim_claimant_name"
-        android:layout_below="@+id/edit_claim_claimant_name"
-        android:text="In Progress" />
-
-    <Button
+    <EditText
         android:id="@+id/edit_claim_start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edit_claim_status"
-        android:layout_below="@+id/edit_claim_status"
-        android:text="01/01/1999" />
+        android:layout_alignLeft="@+id/edit_claim_descr"
+        android:layout_alignRight="@+id/edit_claim_destinations_label"
+        android:layout_below="@+id/edit_claim_claimant_name"
+        android:ems="10"
+        android:focusableInTouchMode="False"
+        android:hint="Start date"
+        android:inputType="date"
+        android:width="60sp" />
 
-    <TextView
-        android:id="@+id/edit_text_destinations_label"
+    <EditText
+        android:id="@+id/edit_claim_end_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/edit_claim_claimant_name"
+        android:layout_toRightOf="@+id/edit_claim_start_date"
+        android:ems="10"
+        android:focusableInTouchMode="False"
+        android:hint="End Date"
+        android:inputType="date" />
+
+    <TextView
+        android:id="@+id/edit_claim_destinations_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/edit_claim_new_destination"
         android:layout_alignLeft="@+id/edit_claim_destinations"
-        android:layout_below="@+id/edit_claim_tags"
+        android:layout_below="@+id/edit_claim_descr"
+        android:gravity="center_vertical"
         android:text="Destinations"
         android:textSize="24sp" />
 
-    <EditText
+    <ImageButton
+        android:id="@+id/edit_claim_new_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edit_claim_end_date"
+        android:layout_below="@+id/edit_claim_descr"
+        android:src="@android:drawable/ic_menu_add" />
+
+    <Button
+        android:id="@+id/edit_claim_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/edit_claim_destinations"
+        android:layout_below="@+id/edit_claim_destinations"
+        android:text="Send" />
+
+    <Button
+        android:id="@+id/edit_claim_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/edit_claim_tags"
+        android:layout_alignLeft="@+id/edit_claim_destinations"
+        android:layout_marginBottom="8dp"
+        android:text="Update" />
+
+    <TextView
         android:id="@+id/edit_claim_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edit_claim_descr"
-        android:layout_below="@+id/edit_claim_descr"
-        android:ems="10"
-        android:text="tag1, tag2, tag3" />
+        android:layout_alignBottom="@+id/edit_claim_edit_tags"
+        android:layout_alignLeft="@+id/edit_claim_update"
+        android:layout_alignTop="@+id/edit_claim_edit_tags"
+        android:gravity="center_vertical"
+        android:text="Tag 1, Tag 2, Tag 3"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/edit_claim_edit_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/edit_claim_send"
+        android:text="Edit Tags" />
 
 </RelativeLayout>
