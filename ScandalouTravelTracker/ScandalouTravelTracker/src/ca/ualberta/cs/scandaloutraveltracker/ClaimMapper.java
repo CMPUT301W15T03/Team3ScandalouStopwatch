@@ -60,7 +60,7 @@ public class ClaimMapper {
 	
 	public void updateClaim(int claimId, String name, Date startDate, Date endDate, 
 			String description, ArrayList<Destination> destinations, 
-			boolean canEdit, ArrayList<Expense> expenses){
+			boolean canEdit){
 		
 		saveClaimData(claimId, "name", name);
 		saveClaimData(claimId, "startDate", startDate);
@@ -68,7 +68,6 @@ public class ClaimMapper {
 		saveClaimData(claimId, "description", description);
 		saveClaimData(claimId, "destinations", destinations);
 		saveClaimData(claimId, "canEdit", canEdit);
-		saveClaimData(claimId, "expenses", expenses);
 		
 	}
 	
@@ -120,7 +119,7 @@ public class ClaimMapper {
 		} else if (key.equals("canEdit")){
 			editor.putBoolean(key, (Boolean)data);
 		} else if (key.equals("expenses")) {
-			//removeExpenseViews(claimId, key, data);
+			removeExpenseViews(claimId, key, data);
 			String expensesJson = gson.toJson((ArrayList<Expense>)data);
 			editor.putString(key, expensesJson);
 		}
@@ -133,11 +132,11 @@ public class ClaimMapper {
 	// remove the view and in the activities where expenses need to be displayed
 	// we need a function to re-add that view to their list of views.
 	// (See ExpenseListActivity)
-	/*private void removeExpenseViews(int claimId, String key, Object data) {
+	private void removeExpenseViews(int claimId, String key, Object data) {
 		for (Expense expenses : (ArrayList<Expense>) data) {
 			expenses.removeAllViews();
 		}
-	}*/
+	}
 
 	public Object loadClaimData(int claimId, String key){
 		

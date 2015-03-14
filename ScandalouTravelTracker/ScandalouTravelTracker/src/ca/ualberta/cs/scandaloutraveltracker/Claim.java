@@ -204,7 +204,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	// Modification methods
 	
 	public void updateClaim(String name, Date startDate, Date endDate, String description,
-			ArrayList<Destination> destinations, boolean canEdit, ArrayList<Expense> expenses){
+			ArrayList<Destination> destinations, boolean canEdit){
 		
 		setName(name);
 		setStartDate(startDate);
@@ -215,8 +215,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		setExpenses(expenses);
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		mapper.updateClaim(this.id, name, startDate, endDate, 
-				description, destinations, canEdit, expenses);
+		mapper.updateClaim(this.id, name, startDate, endDate, description, destinations, canEdit);
 		
 		notifyViews();
 	}

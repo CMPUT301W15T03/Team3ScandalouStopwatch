@@ -133,9 +133,9 @@ public class ClaimController {
 	}
 	
 	public void updateClaim(String name, Date startDate, Date endDate, String description,
-			ArrayList<Destination> destinations, boolean canEdit, ArrayList<Expense> expenses){
+			ArrayList<Destination> destinations, boolean canEdit){
 		
-		currentClaim.updateClaim(name, startDate, endDate, description, destinations, canEdit, expenses);
+		currentClaim.updateClaim(name, startDate, endDate, description, destinations, canEdit);
 	}
 	
 	public void updateTags(ArrayList<String> tags){
