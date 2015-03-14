@@ -72,8 +72,20 @@ public class ClaimList extends SModel {
 		notifyViews();
 	}
 	
-	public void deleteClaim(int claimPos){
-		claims.remove(claimPos);
+	public void deleteClaim(int claimId){
+		
+		int removePosition = -1;
+		
+		for (int i = 0; i < claims.size(); i++){
+			if (claimId == claims.get(i).getId()){
+				removePosition = i;
+				break;
+			}
+		}
+		
+		if (removePosition > -1){
+			claims.remove(removePosition);
+		}
 		notifyViews();		
 	}
 	

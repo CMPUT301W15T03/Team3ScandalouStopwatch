@@ -230,6 +230,14 @@ public class Claim extends SModel implements Comparable<Claim> {
 		notifyViews();
 	}
 	
+	public void submitClaim(String status, boolean canEdit){
+		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.submitClaim(this.id, Constants.statusSubmitted, false);	
+		
+		notifyViews();
+	}
+	
 	public void addDestination(Destination destination) {
 		this.destinations.add(destination);
 	}

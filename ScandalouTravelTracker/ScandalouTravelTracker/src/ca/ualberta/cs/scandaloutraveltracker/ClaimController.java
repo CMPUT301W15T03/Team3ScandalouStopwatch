@@ -138,10 +138,17 @@ public class ClaimController {
 		currentClaim.updateClaim(name, startDate, endDate, description, destinations, canEdit);
 	}
 	
+	public void submitClaim(String status, boolean canEdit){
+		currentClaim.submitClaim(status, canEdit);
+	}
+	
 	public void updateTags(ArrayList<String> tags){
-
-		currentClaim.updateTags(tags);
-		
+		currentClaim.updateTags(tags);	
+	}
+	
+	public void deleteClaim(int claimId){
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.deleteClaim(claimId);		
 	}
 
 	public void notifyViews() {

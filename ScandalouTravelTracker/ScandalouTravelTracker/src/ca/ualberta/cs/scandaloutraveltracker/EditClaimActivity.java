@@ -202,9 +202,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				testDestinations.add(new Destination("Chicago", "Too windy"));
 				
 				ClaimController claimController = new ClaimController(claim);
-				
 				claimController.updateClaim(name, startDate, endDate, description, testDestinations, canEdit);
 
+				ClaimListController claimListController = new ClaimListController();
+				claimListController.removeClaim(claimId);
+				claimListController.addClaim(new Claim(claimId));
 			}
 			
 		});
@@ -229,10 +231,12 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 						@Override
 						public void onClick(DialogInterface dialog, int i) {
 							
-							ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-							mapper.submitClaim(claimId, Constants.statusSubmitted, false);
+							ClaimController claimController = new ClaimController(claim);
+							claimController.submitClaim(Constants.statusSubmitted, false);
 							
-							update();
+							ClaimListController claimListController = new ClaimListController();
+							claimListController.removeClaim(claimId);
+							claimListController.addClaim(new Claim(claimId));
 						}  
 				   });
 				AlertDialog alert = builder.create();
