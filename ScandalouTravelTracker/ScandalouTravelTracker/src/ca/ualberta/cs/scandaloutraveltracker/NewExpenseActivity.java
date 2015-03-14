@@ -23,6 +23,8 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.Date;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -36,6 +38,10 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 	Spinner currency_select;
 	private String currency;
 	private String category;
+	private Date date; 
+	private String description;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

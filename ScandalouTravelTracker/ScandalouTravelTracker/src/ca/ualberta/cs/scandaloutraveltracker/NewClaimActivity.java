@@ -80,6 +80,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
 		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
 		final EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
+		
 
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
 			claimOkButton.setOnClickListener(new View.OnClickListener() {
@@ -100,14 +101,14 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					claim.setDescription(descriptionSet.getText().toString());
 					
 					// For testing
-					dList = new ArrayList<Destination>();
-					dList.add(new Destination("Alderaan Orbit", "Product demo"));
-					dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
+					//dList = new ArrayList<Destination>();
+					//dList.add(new Destination("Alderaan Orbit", "Product demo"));
+					//dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
 					
 					// Also for testing
-					tags = new ArrayList<String>();
-					tags.add("Tag1");
-					tags.add("Tag2");
+					//tags = new ArrayList<String>();
+					//tags.add("Tag1");
+					//tags.add("Tag2");
 					
 					// Creation status
 					String status = Constants.statusInProgress;
