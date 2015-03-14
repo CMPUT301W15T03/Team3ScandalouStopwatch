@@ -48,7 +48,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		int claimId =-1;
 		int expenseId =-1;
 		Intent intent = getIntent();
-	    claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
+		claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
 		expenseId = (int) extras.getLong("expenseId", -1);
 		if (claimId == -1) {
 			Toast.makeText(this, "The Claim Position needs to be added to the " +
@@ -69,9 +69,9 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		
 		//Set currentClaim to the claim that was selected via intent
 		currentClaim = new Claim((int)claimId);
-	    claimController = new ClaimController(currentClaim);
+		claimController = new ClaimController(currentClaim);
 		
-	    //initialize fields 
+		//initialize fields 
 		EditText description = (EditText) findViewById(R.id.description);
 		EditText date = (EditText) findViewById(R.id.date_expense);
 		EditText cost = (EditText) findViewById(R.id.amount);
