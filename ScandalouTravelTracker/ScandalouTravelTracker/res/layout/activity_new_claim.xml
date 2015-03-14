@@ -36,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/claim_ok_button"
         android:layout_below="@+id/edit_claim_tv"
-        android:layout_marginLeft="26dp"
         android:layout_toRightOf="@+id/claimant_name" >
 
     </ListView>
@@ -118,8 +117,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/destinations_lv"
-        android:layout_alignRight="@+id/destinations_lv"
-        android:layout_marginRight="44dp"
+        android:layout_alignRight="@+id/tags_tv"
+        android:layout_marginRight="21dp"
         android:text="@string/add" />
 
 </RelativeLayout>

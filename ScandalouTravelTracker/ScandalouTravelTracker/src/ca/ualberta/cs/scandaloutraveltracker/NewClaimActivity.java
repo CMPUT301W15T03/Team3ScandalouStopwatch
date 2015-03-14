@@ -36,6 +36,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
+import android.text.AndroidCharacter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -68,7 +69,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	ArrayList<String> tags;
 	private Date startDate;
 	private Date endDate;
-	
+	private DestinationListAdapter destinationListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +128,8 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		});
 		
 		ListView destList = (ListView)findViewById(R.id.destinations_lv);
+		destinationListAdapter= new DestinationListAdapter(this, c.getDestinations());
+		destList.setAdapter(destinationListAdapter);
 		
 		
 		Button addDestButton = (Button) findViewById(R.id.add_dest_button);
@@ -144,18 +147,32 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 
 				name.setText("Name", EditText.BufferType.EDITABLE);
 				reason.setText("Reason", EditText.BufferType.EDITABLE);
-
+				
 				final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
-				newDest.setTitle("New Destination")
-					.setView(newDestView)
-					.setCancelable(false)
+				newDest.setTitle("New Destination");
+				newDest.setView(newDestView);
+				newDest.setCancelable(false);
 					
-					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					newDest.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						
+						@Override
 						public void onClick(DialogInterface dialog, int whichButton) {
 							String dreason = reason.getText().toString();
 							String dname = name.getText().toString();
-							Destination d = new Destination(dname, dreason);
-							claim.addDestination(d);
+							
+							if (dname.length()!=0 && dreason.length()!=0){
+								Destination d = new Destination(dname, dreason);
+																
+								claim.addDestination(d);
+								c.notifyViews();
+								Toast.makeText(context, "reasons and name entered", Toast.LENGTH_SHORT).show();
+								setViews();
+							}else{
+								Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
+							}
+							
+							
+							
 							dialog.cancel();
 							
 						}
@@ -165,8 +182,8 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 						public void onClick(DialogInterface dialog, int whichButton) {
 							dialog.cancel();
 						}});
-				
-				newDest.show();
+				AlertDialog alertDialog =newDest.create();
+				alertDialog.show();
 				}
 			});
 			
@@ -218,7 +235,12 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			});
 	
 	}
-		
+	
+	private void setViews() {
+		for (Destination dest : claim.getDestinations()) {
+			dest.addView(this);
+		}
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
