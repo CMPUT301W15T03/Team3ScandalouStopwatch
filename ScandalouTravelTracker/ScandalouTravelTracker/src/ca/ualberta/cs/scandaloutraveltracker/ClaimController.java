@@ -138,10 +138,10 @@ public class ClaimController {
 		return currentClaim.getExpense(position);
 	}
 	
-	public void updateClaim(String name, Date startDate, Date endDate, String description,
+	public void updateClaim(Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, boolean canEdit){
 		
-		currentClaim.updateClaim(name, startDate, endDate, description, destinations, canEdit);
+		currentClaim.updateClaim(startDate, endDate, description, destinations, canEdit);
 	}
 	
 	public void submitClaim(String status, boolean canEdit){
@@ -150,11 +150,6 @@ public class ClaimController {
 	
 	public void updateTags(ArrayList<String> tags){
 		currentClaim.updateTags(tags);	
-	}
-	
-	public void deleteClaim(int claimId){
-		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		mapper.deleteClaim(claimId);		
 	}
 
 	public void notifyViews() {

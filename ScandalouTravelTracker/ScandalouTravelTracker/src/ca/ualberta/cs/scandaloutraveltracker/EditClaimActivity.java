@@ -152,7 +152,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 					boolean canEdit = true;
 					
 					ClaimController claimController = new ClaimController(claim);
-					claimController.updateClaim(name, startDate, endDate, description, destinations, canEdit);
+					claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
 
 					ClaimListController claimListController = new ClaimListController();
 					claimListController.removeClaim(claimId);
@@ -237,14 +237,14 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 									ClaimListController claimListController = new ClaimListController();
 									claimListController.removeClaim(claimId);
 									claimListController.addClaim(new Claim(claimId));
+									
+									finish();
 								}  
 						   });
 						AlertDialog alert = builder.create();
 						alert.show();
 						
-						finish();
-					}
-					else {
+					} else {
 						Toast.makeText(getApplicationContext(),
 								claim.getStatus() + " claims cannot be sent.", Toast.LENGTH_SHORT).show();
 					}

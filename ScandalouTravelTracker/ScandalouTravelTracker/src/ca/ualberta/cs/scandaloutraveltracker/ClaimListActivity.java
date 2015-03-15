@@ -138,12 +138,10 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 			                       .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
 			                           public void onClick(DialogInterface dialog, int id) {
 			                        	   
-			                        	   // Delete the claim from the list
+			                        	   // Remove the claim from the list
 			                        	   claimListController.removeClaim(claimId);
-			                        	   
-			                        	   // Delete the claim from memory
-			                        	   ClaimController claimController = new ClaimController(new Claim(claimId));
-			                        	   claimController.deleteClaim(claimId);
+			                        	   // Delete the claim from storage
+			                        	   claimListController.deleteClaim(claimId);
 			                           }
 			                       });
 			            		   AlertDialog alert = builder.create();

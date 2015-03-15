@@ -52,6 +52,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.content.Context;
@@ -76,7 +77,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		setContentView(R.layout.activity_new_claim);
 		
 		final Context context = this;
-		final EditText nameSet = (EditText)findViewById(R.id.claimant_name);
+		final TextView nameSet = (TextView)findViewById(R.id.claimant_name);
 		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
 		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
 		final EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
@@ -86,7 +87,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
 		
 		destList = (ListView)findViewById(R.id.destinations_lv);
-		destinationListAdapter = new DestinationListAdapter(this, destinations);
+		destinationListAdapter = new DestinationListAdapter(this, "newClaim", destinations, true);
 		
 		update();
 
@@ -112,11 +113,11 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					boolean canEdit = true;
 					ArrayList<Expense> expenses = new ArrayList<Expense>();
 					
-					ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
-					int newClaimId = mapper.createClaim(name, startDate, endDate, description, destinations, 
-							tagsList, status, canEdit, expenses);
-	
 					ClaimListController claimListController = new ClaimListController();
+					// Create the claim
+					int newClaimId = claimListController.createClaim(name, startDate, endDate, description, destinations, 
+							tagsList, status, canEdit, expenses);	
+					// Add the claim to list
 					claimListController.addClaim(new Claim(newClaimId));
 					
 					finish();

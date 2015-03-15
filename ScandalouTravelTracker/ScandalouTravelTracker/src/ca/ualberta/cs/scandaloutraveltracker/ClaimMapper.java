@@ -58,11 +58,10 @@ public class ClaimMapper {
 		return newId;
 	}
 	
-	public void updateClaim(int claimId, String name, Date startDate, Date endDate, 
+	public void updateClaim(int claimId, Date startDate, Date endDate, 
 			String description, ArrayList<Destination> destinations, 
 			boolean canEdit){
 		
-		saveClaimData(claimId, "name", name);
 		saveClaimData(claimId, "startDate", startDate);
 		saveClaimData(claimId, "endDate", endDate);
 		saveClaimData(claimId, "description", description);

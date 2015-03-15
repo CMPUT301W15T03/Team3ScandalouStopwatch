@@ -23,7 +23,9 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 public class ClaimListController {
 	// TODO: Have ClaimListController load the list of claims using Claim Manager
@@ -48,13 +50,28 @@ public class ClaimListController {
 		claimList.notifyViews();
 	}	
 	
+	public int createClaim(String name, Date startDate, Date endDate, String description,
+			ArrayList<Destination> destinations, ArrayList<String> tagsList, String status,
+			boolean canEdit, ArrayList<Expense> expenses){
+		
+		int newClaimId = claimList.createClaim(name, startDate, endDate, description, 
+				destinations, tagsList, status, canEdit, expenses);
+		
+		return newClaimId;
+		
+	}
+	
+	public void deleteClaim(int claimId){
+		claimList.deleteClaim(claimId);
+	}	
+	
 	public void addClaim(Claim claim) {
 		claimList.addClaim(claim);
 		Collections.sort(claimList.getClaims());
 	}
 	
 	public void removeClaim(int claimId) {
-		claimList.deleteClaim((int) claimId);
+		claimList.removeClaim((int) claimId);
 	}
 	
 	public Claim getClaim(int position) {

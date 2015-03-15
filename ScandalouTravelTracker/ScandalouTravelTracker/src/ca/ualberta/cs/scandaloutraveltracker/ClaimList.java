@@ -25,6 +25,7 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -66,13 +67,28 @@ public class ClaimList extends SModel {
 
 	} */
 	
-	// Temporary add claim 
+	public int createClaim(String name, Date startDate, Date endDate, String description,
+			ArrayList<Destination> destinations, ArrayList<String> tagsList, String status,
+			boolean canEdit, ArrayList<Expense> expenses){
+
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		int newClaimId = mapper.createClaim(name, startDate, endDate, description, destinations, 
+				tagsList, status, canEdit, expenses);
+		
+		return newClaimId;
+	}	
+	
+	public void deleteClaim(int claimId){
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.deleteClaim(claimId);
+	}
+	
 	public void addClaim(Claim claim) {
 		claims.add(claim);
 		notifyViews();
 	}
 	
-	public void deleteClaim(int claimId){
+	public void removeClaim(int claimId){
 		
 		int removePosition = -1;
 		
