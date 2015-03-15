@@ -137,11 +137,10 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    Date eDate = new Date(456);
 	    Claim newClaim = new Claim(name, sDate, eDate);
 	    newClaim.setCanEdit(true);
-	    ClaimList claimsList = new ClaimList();
 	    ClaimList claimsList = ClaimList.getClaimList();
 	    claimsList.addClaim(newClaim);
 	    claimsList.deleteClaim(0);
-	    assertEquals("Count should be zero"+claimsList.getCount(), claimsList.getCount(), 0);
+	    assertEquals("Count should be zero", claimsList.getCount(), 0);
 	}
 	/*
 	// Test UC 01.06.01
