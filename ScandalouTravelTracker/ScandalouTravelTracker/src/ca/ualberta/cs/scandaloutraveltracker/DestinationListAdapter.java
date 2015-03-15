@@ -34,14 +34,19 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DestinationListAdapter extends BaseAdapter {
 	protected ArrayList<Destination> destinations;
 	protected Context context;
+	protected String listLocation;
+	protected boolean canEdit;
 	
-	public DestinationListAdapter(Context context, ArrayList<Destination> destinations) {
+	public DestinationListAdapter(Context context, String listLocation, ArrayList<Destination> destinations, boolean canEdit) {
 		this.context = context;
 		this.destinations = destinations;
+		this.listLocation = listLocation;
+		this.canEdit = canEdit;
 	}
 
 	@Override
@@ -83,18 +88,38 @@ public class DestinationListAdapter extends BaseAdapter {
 		nameDisplay.setText(currentDestinationName);
 		descriptionDisplay.setText(currentDestinationDescription);
 		
-		// Delete expense button handler
-		deleteButton.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View v){
+		if (canEdit){
+			// Delete expense button handler
+			deleteButton.setOnClickListener(new View.OnClickListener(){
+				@Override
+				public void onClick(View v){
+					
+					destinations.remove(hackyPositionReference);
+					// CITATION http://stackoverflow.com/questions/12142255/call-activity-method-from-adapter
+					// 2015-03-14
+					// Eldhose M Babu's answer
+					if (listLocation == "newClaim"){
+						((NewClaimActivity)context).update();
+					} else if (listLocation == "editClaim") {
+						((EditClaimActivity)context).update();
+					}
+				}
+			});	
+		} else {
+			
+			deleteButton.setVisibility(View.INVISIBLE);
+			
+			// Will fix later
+			deleteButton.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+						Toast.makeText(context,
+								"Submitted claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
 				
-				destinations.remove(hackyPositionReference);
-				// CITATION http://stackoverflow.com/questions/12142255/call-activity-method-from-adapter
-				// 2015-03-14
-				// Eldhose M Babu's answer
-				((NewClaimActivity)context).update();
-			}
-		});			
+			});			
+		}
 		
 		return convertView;
 	}
