@@ -120,4 +120,14 @@
         android:layout_alignLeft="@+id/edit_claim_destinations"
         android:text="@string/update" />
 
+    <TextView
+        android:id="@+id/edit_claim_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/edit_claim_send"
+        android:layout_alignLeft="@+id/edit_claim_send"
+        android:layout_alignRight="@+id/edit_claim_send"
+        android:layout_alignTop="@+id/edit_claim_send" 
+        android:visibility="gone"/>
+
 </RelativeLayout>

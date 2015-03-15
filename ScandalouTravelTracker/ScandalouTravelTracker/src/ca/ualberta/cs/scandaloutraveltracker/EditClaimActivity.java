@@ -35,15 +35,18 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,17 +55,21 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 
 	private Claim claim;
 	private int claimId;
+	private Context context;
 	
 	private TextView statusDisplay;
 	private EditText startDateDisplay;
 	private EditText endDateDisplay;
 	private EditText descriptionDisplay;
 	private TextView tagsDisplay;
+	private ImageButton newDestinationButton;
 	private ListView destinationList;
 	private EditText tagsInput;
 	private Button editTagsButton;
 	private Button updateButton;
 	private Button sendButton;
+	
+	private DestinationListAdapter destinationsAdapter;
 	
 	private String name;
 	private Date startDate;
@@ -77,6 +84,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_claim);
 
+		context = this;
+		
 		Intent intent;
 		
 	    // Get the message from the intent
@@ -84,15 +93,16 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 		
 		// Get view elements
-		//statusDisplay = (TextView) findViewById(R.id.edit_claim_status);
 		startDateDisplay = (EditText) findViewById(R.id.edit_claim_start_date);
 		endDateDisplay = (EditText) findViewById(R.id.edit_claim_end_date);
 		descriptionDisplay = (EditText) findViewById(R.id.edit_claim_descr);
 		tagsDisplay = (TextView) findViewById(R.id.edit_claim_tags);
+		newDestinationButton = (ImageButton) findViewById(R.id.edit_claim_new_destination);
 		destinationList = (ListView) findViewById(R.id.edit_claim_destinations);
 		editTagsButton = (Button) findViewById(R.id.edit_claim_edit_tags);
 		sendButton = (Button) findViewById(R.id.edit_claim_send);	
 		updateButton = (Button) findViewById(R.id.edit_claim_update);
+	    statusDisplay = (TextView) findViewById(R.id.edit_claim_status);		
 		
 	    claim = new Claim(claimId);
 	    canEdit = claim.getCanEdit();
@@ -103,8 +113,23 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		// Disable clicking on descriptionDisplay if can't edit
 		// Remove update button from the screen
 		if (!canEdit) {
-			ViewGroup editClaimLayout = (ViewGroup) updateButton.getParent();
-			editClaimLayout.removeView(updateButton);
+			
+			// Layout was breaking with removal of some elements
+			/*
+			ViewGroup parentOfUpdate = (ViewGroup) updateButton.getParent();
+			parentOfUpdate.removeView(updateButton);
+			ViewGroup parentOfNewDestination = (ViewGroup) newDestinationButton.getParent();
+			parentOfNewDestination.removeView(newDestinationButton);
+		    ViewGroup parentOfSendButton = (ViewGroup) sendButton.getParent();
+		    parentOfSendButton.removeView(sendButton);
+		    */
+			
+		    
+			updateButton.setVisibility(View.INVISIBLE);
+			newDestinationButton.setVisibility(View.INVISIBLE);
+			sendButton.setVisibility(View.INVISIBLE);
+		    statusDisplay.setText(Constants.statusSubmitted);
+		    statusDisplay.setVisibility(View.VISIBLE);			
 			
 			descriptionDisplay.setFocusable(false);
 			descriptionDisplay.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +141,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				}
 				
 			});
-		}
-		else {
+		} else {
 			updateButton.setOnClickListener(new View.OnClickListener(){
 
 				@Override
@@ -126,23 +150,108 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 					// Get fields
 					String description = descriptionDisplay.getText().toString();
 					boolean canEdit = true;
-					// TODO: Destinations				
-
-					// Test destinations
-					ArrayList<Destination> testDestinations = new ArrayList<Destination>();	
-					testDestinations.add(new Destination("Minneapolis", "Too cold"));
-					testDestinations.add(new Destination("Seattle", "Too rainy"));
-					testDestinations.add(new Destination("Chicago", "Too windy"));
 					
 					ClaimController claimController = new ClaimController(claim);
-					claimController.updateClaim(name, startDate, endDate, description, testDestinations, canEdit);
+					claimController.updateClaim(name, startDate, endDate, description, destinations, canEdit);
 
 					ClaimListController claimListController = new ClaimListController();
 					claimListController.removeClaim(claimId);
 					claimListController.addClaim(new Claim(claimId));
+					
+					Toast.makeText(getApplicationContext(),
+							"Changes saved.", Toast.LENGTH_SHORT).show();
 				}
 				
 			});
+			newDestinationButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				// http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
+					 LayoutInflater newDestInf = LayoutInflater.from(context);
+
+					 //text_entry is an Layout XML file containing two text field to display in alert dialog
+					 final View newDestView= newDestInf.inflate(R.layout.edit_destination, null);
+					 final EditText nameInput = (EditText) newDestView.findViewById(R.id.edit_destination_name);
+					 final EditText descriptionInput = (EditText) newDestView.findViewById(R.id.edit_destination_description);
+			
+					 final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
+					 	newDest.setTitle("New Destination")
+					 	.setView(newDestView)
+					 	.setCancelable(false)
+				
+					 	.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						
+							@Override
+							public void onClick(DialogInterface dialog, int whichButton) {
+								String dname = nameInput.getText().toString();
+								String dreason = descriptionInput.getText().toString();
+								
+								if (dname.length()!=0 && dreason.length() != 0){
+									
+									Destination destination = new Destination(dname, dreason);
+									destinations.add(destination);
+									destination.notifyViews();
+
+									update();
+									
+								} else {
+									Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
+								}	
+								
+							}
+					 	})
+					
+						.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+					       	public void onClick(DialogInterface dialog, int whichButton) {
+						    	dialog.cancel();
+					       	}
+						});
+						 	
+					AlertDialog alertDialog =newDest.create();
+					alertDialog.show();
+				}
+			});
+			sendButton.setOnClickListener(new View.OnClickListener(){
+
+				@Override
+				public void onClick(View v){
+					if (canEdit) {
+						//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
+						//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
+						AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
+						builder.setMessage("Are you sure you want to submit your claim? You won't be able to make any changes " +
+								"except adding/removing tags.")
+						   .setCancelable(true)
+						   .setNegativeButton("Don't Submit", new DialogInterface.OnClickListener() {
+						       	public void onClick(DialogInterface dialog, int i) {
+							    	dialog.cancel();
+						       	}
+						   })
+						   .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int i) {
+									
+									ClaimController claimController = new ClaimController(claim);
+									claimController.submitClaim(Constants.statusSubmitted, false);
+									
+									ClaimListController claimListController = new ClaimListController();
+									claimListController.removeClaim(claimId);
+									claimListController.addClaim(new Claim(claimId));
+								}  
+						   });
+						AlertDialog alert = builder.create();
+						alert.show();
+						
+						finish();
+					}
+					else {
+						Toast.makeText(getApplicationContext(),
+								claim.getStatus() + " claims cannot be sent.", Toast.LENGTH_SHORT).show();
+					}
+					
+				}
+				
+			});			
 		}
 
         // startDate dialog picker
@@ -200,7 +309,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							claim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 				}
 			}
-		});		
+		});	
 		
 		editTagsButton.setOnClickListener(new View.OnClickListener(){
 			
@@ -232,8 +341,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							ArrayList<String> tagsList = getTagsList(tagsString);							
 	
 							ClaimController claimController = new ClaimController(claim);
-							
 							claimController.updateTags(tagsList);
+							
+							ClaimListController claimListController = new ClaimListController();
+							claimListController.removeClaim(claimId);
+							claimListController.addClaim(new Claim(claimId));							
 						}  
 				   });
 				AlertDialog alert = builder.create();
@@ -241,66 +353,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				
 			}
 			
-		});		
+		});					
 		
-		sendButton.setOnClickListener(new View.OnClickListener(){
-
-			@Override
-			public void onClick(View v){
-				if (canEdit) {
-					boolean canSend = canClaimBeSent();
-					if (canSend) {
-						//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
-						//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
-						AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
-						builder.setMessage("Are you sure you want to submit your claim? You won't be able to make any changes " +
-								"except adding/removing tags.")
-						   .setCancelable(true)
-						   .setNegativeButton("Don't Submit", new DialogInterface.OnClickListener() {
-						       	public void onClick(DialogInterface dialog, int i) {
-							    	dialog.cancel();
-						       	}
-						   })
-						   .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int i) {
-									
-									ClaimController claimController = new ClaimController(claim);
-									claimController.submitClaim(Constants.statusSubmitted, false);
-									
-									ClaimListController claimListController = new ClaimListController();
-									claimListController.removeClaim(claimId);
-									claimListController.addClaim(new Claim(claimId));
-								}  
-						   });
-						AlertDialog alert = builder.create();
-						alert.show();	
-					}
-				}
-				else {
-					Toast.makeText(getApplicationContext(),
-							claim.getStatus() + " claims cannot be sent.", Toast.LENGTH_SHORT).show();
-				}
-			}
-			
-		});			
-		
-	}
-	
-	private boolean canClaimBeSent() {
-		if (claim.getDestinations().size() < 1) {
-			Toast.makeText(getApplicationContext(), "Please add a destination before submitting",
-					Toast.LENGTH_SHORT).show();
-			return false;
-		} else if (claim.getExpenses().size() < 1) {
-			Toast.makeText(getApplicationContext(), "Please add an expense before submitting",
-					Toast.LENGTH_SHORT).show();
-			return false;
-		} else if (claim.getDescription() == null) {
-			return false;
-		} 
-		
-		return true;
 	}
 
 	@Override
@@ -328,9 +382,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		// Process more complicated claim info
 		String tagsString = getTagsString(tagsList);
 		
-		// Set adapters
-		DestinationListAdapter destinationsAdapter = new DestinationListAdapter(this, destinations);
-		
 		// Update view elements with claim info
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
 		//statusDisplay.setText(status);
@@ -338,6 +389,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		endDateDisplay.setText(sdf.format(endDate));
 		descriptionDisplay.setText(description);
 		tagsDisplay.setText(tagsString);
+		destinationsAdapter = new DestinationListAdapter(this, "editClaim", destinations, canEdit);
 		destinationList.setAdapter(destinationsAdapter);
 		
 	}

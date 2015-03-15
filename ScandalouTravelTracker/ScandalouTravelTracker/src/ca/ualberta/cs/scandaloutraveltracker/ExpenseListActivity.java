@@ -26,20 +26,28 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.Spannable;
+import android.text.method.MovementMethod;
+import android.text.method.ScrollingMovementMethod;
+import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ExpenseListActivity extends Activity implements ViewInterface {
@@ -178,6 +186,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		for (Expense expense : claimController.getExpenseList()) {
 			expense.addView(this);
 		}
+		updateTotals();
 	}
 	
 	// TODO: DELETE THIS METHOD. USED FOR TESTING EXPENSELISTACTIVITY.
@@ -283,6 +292,20 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	@Override
 	public void update() {
 		expenseListAdapter.notifyDataSetChanged();
+	}
+	
+	//Displays the total currency at the bottom of the page
+	private void updateTotals(){
+		TextView totalView = (TextView) findViewById(R.id.totals);
+		HashMap<String,Double> totals = currentClaim.computeTotal();
+		String totalString = "Total Currency Values:" + "\n";
+		for (Entry<String, Double> entry : totals.entrySet()) {
+		    String key = entry.getKey();
+		    Double value = entry.getValue();
+		    totalString = totalString + key + " = " + value + "\n"; 
+		}
+		totalView.setText(totalString);
+		totalView.setMovementMethod(new ScrollingMovementMethod());
 	}
 
 }
