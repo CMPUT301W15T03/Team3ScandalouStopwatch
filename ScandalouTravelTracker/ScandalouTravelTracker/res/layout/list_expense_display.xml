@@ -14,16 +14,15 @@
         android:text="@string/expense_category_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" 
         android:layout_marginLeft="10dp"/>
-
-    <TextView
+    
+        <TextView
         android:id="@+id/expenseDescriptionTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/expenseCategoryExpenseListTV"
+        android:layout_alignLeft="@+id/expenseTotalsExpenseListTV"
+        android:layout_below="@+id/expenseCategoryExpenseListTV"
         android:text="@string/expense_description_text_filler"
-        android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:layout_marginLeft="10dp"/>
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/expenseTotalsExpenseListTV"
@@ -48,14 +47,22 @@
         android:contentDescription="@string/expense_incomplete_image_description" />
 
     <TextView
+        android:id="@+id/expenseReceiptIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/expenseDateExpenseListTV"
+        android:layout_below="@+id/expenseDescriptionTV"
+        android:text="@string/receipt_text" />
+
+    <TextView
         android:id="@+id/expenseDateExpenseListTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/expenseCategoryExpenseListTV"
-        android:layout_alignBottom="@id/expenseCategoryExpenseListTV"
-        android:layout_toRightOf="@id/expenseCategoryExpenseListTV"
+        android:layout_alignBaseline="@+id/expenseCategoryExpenseListTV"
+        android:layout_alignBottom="@+id/expenseCategoryExpenseListTV"
+        android:layout_marginRight="35dp"
+        android:layout_toLeftOf="@+id/expenseListFlag"
         android:text="@string/expense_date_text_filler"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_marginLeft="15dp" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

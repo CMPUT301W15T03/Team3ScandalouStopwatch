@@ -42,7 +42,8 @@
 	<string name="edit">Edit</string>
 	<string name="expenses">Expenses</string>
 	<string name="new_dest">New Destination</string>
-	<string name="totals_">totals:</string>
+	<string name="totals_">Totals:</string>
+	<string name="receipt_text">Receipt: </string>
 	<string-array name="claim_menu" >
 		<item >Edit/View Claim</item>
 		<item >List Expenses for Claim</item>

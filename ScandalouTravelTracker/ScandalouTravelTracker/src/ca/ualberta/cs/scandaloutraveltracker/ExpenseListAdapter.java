@@ -72,15 +72,27 @@ public class ExpenseListAdapter extends BaseAdapter {
 		TextView expenseDate = (TextView) convertView.findViewById(R.id.expenseDateExpenseListTV);
 		TextView expenseDescription = (TextView) convertView.findViewById(R.id.expenseDescriptionTV);
 		TextView expenseTotal = (TextView) convertView.findViewById(R.id.expenseTotalsExpenseListTV);
+		TextView expenseReceiptIndicator = (TextView) convertView.findViewById(R.id.expenseReceiptIndicator);
 		ImageView expenseFlag = (ImageView) convertView.findViewById(R.id.expenseListFlag);
 		
 		Expense currentExpense = expenses.get(position);
 		
+		// Setting the ImageView for flag (star)
 		if (currentExpense.getFlag()) {
 			expenseFlag.setImageResource(android.R.drawable.btn_star_big_on);
 		}
 		else {
 			expenseFlag.setImageResource(android.R.drawable.btn_star_big_off);
+		}
+		
+		// Setting the receipt indicator
+		if (currentExpense.getReceiptAttached()) {
+			String indicator = "Reciept: Attached";
+			expenseReceiptIndicator.setText(indicator);
+		}
+		else {
+			String indicator = "Reciept: Unavailable";
+			expenseReceiptIndicator.setText(indicator);
 		}
 		
 		// Formatting cost

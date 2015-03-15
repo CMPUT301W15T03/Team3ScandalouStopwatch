@@ -28,8 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import android.view.View;
-
 public class Expense extends SModel {
 	private Date date;
 	private String category;
@@ -37,6 +35,7 @@ public class Expense extends SModel {
 	private Double cost;
 	private String currencyType;
 	private boolean flag;
+	private boolean receiptAttached;
 	private File photo;
 	
 	public Expense() {
@@ -47,6 +46,7 @@ public class Expense extends SModel {
 		this.currencyType = null;
 		this.flag = false;
 		this.photo = null;
+		this.receiptAttached = false;
 	}
 	
 	public Expense(Date date, String category, String description, Double cost, String currencyType) {
@@ -66,6 +66,15 @@ public class Expense extends SModel {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	
+	public boolean getReceiptAttached() {
+		return receiptAttached;
+	}
+	
+	public void setReceiptAttached(boolean attached) {
+		receiptAttached = attached;
+	}
+	
 
 	public String getCategory() {
 		return category;

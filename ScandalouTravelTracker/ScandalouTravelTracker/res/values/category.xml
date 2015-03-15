@@ -2,16 +2,16 @@
 <resources>
      <string-array name="Category" >
         <item>--Choose Category--</item>
-		<item >air fare</item>
-		<item >ground transport</item>
-		<item >vehicle rental</item>
-		<item >private automobile</item>
-		<item >fuel</item>
-		<item >parking</item>
-		<item >registration</item>
-		<item >accomodation</item>
-		<item >meal</item>
-		<item >supplies</item>
+		<item >Air Fare</item>
+		<item >Ground Transport</item>
+		<item >Vehicle Rental</item>
+		<item >Private Automobile</item>
+		<item >Fuel</item>
+		<item >Parking</item>
+		<item >Registration</item>
+		<item >Accomodation</item>
+		<item >Meal</item>
+		<item >Supplies</item>
 	</string-array>
    
     
