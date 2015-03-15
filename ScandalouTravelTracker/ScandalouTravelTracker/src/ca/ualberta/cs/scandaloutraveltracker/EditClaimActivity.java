@@ -248,41 +248,59 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			@Override
 			public void onClick(View v){
 				if (canEdit) {
-					//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
-					//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
-					AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
-					builder.setMessage("Are you sure you want to submit your claim? You won't be able to make any changes " +
-							"except adding/removing tags.")
-					   .setCancelable(true)
-					   .setNegativeButton("Don't Submit", new DialogInterface.OnClickListener() {
-					       	public void onClick(DialogInterface dialog, int i) {
-						    	dialog.cancel();
-					       	}
-					   })
-					   .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int i) {
-								
-								ClaimController claimController = new ClaimController(claim);
-								claimController.submitClaim(Constants.statusSubmitted, false);
-								
-								ClaimListController claimListController = new ClaimListController();
-								claimListController.removeClaim(claimId);
-								claimListController.addClaim(new Claim(claimId));
-							}  
-					   });
-					AlertDialog alert = builder.create();
-					alert.show();	
+					boolean canSend = canClaimBeSent();
+					if (canSend) {
+						//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
+						//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
+						AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
+						builder.setMessage("Are you sure you want to submit your claim? You won't be able to make any changes " +
+								"except adding/removing tags.")
+						   .setCancelable(true)
+						   .setNegativeButton("Don't Submit", new DialogInterface.OnClickListener() {
+						       	public void onClick(DialogInterface dialog, int i) {
+							    	dialog.cancel();
+						       	}
+						   })
+						   .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int i) {
+									
+									ClaimController claimController = new ClaimController(claim);
+									claimController.submitClaim(Constants.statusSubmitted, false);
+									
+									ClaimListController claimListController = new ClaimListController();
+									claimListController.removeClaim(claimId);
+									claimListController.addClaim(new Claim(claimId));
+								}  
+						   });
+						AlertDialog alert = builder.create();
+						alert.show();	
+					}
 				}
 				else {
 					Toast.makeText(getApplicationContext(),
 							claim.getStatus() + " claims cannot be sent.", Toast.LENGTH_SHORT).show();
 				}
-				
 			}
 			
 		});			
 		
+	}
+	
+	private boolean canClaimBeSent() {
+		if (claim.getDestinations().size() < 1) {
+			Toast.makeText(getApplicationContext(), "Please add a destination before submitting",
+					Toast.LENGTH_SHORT).show();
+			return false;
+		} else if (claim.getExpenses().size() < 1) {
+			Toast.makeText(getApplicationContext(), "Please add an expense before submitting",
+					Toast.LENGTH_SHORT).show();
+			return false;
+		} else if (claim.getDescription() == null) {
+			return false;
+		} 
+		
+		return true;
 	}
 
 	@Override

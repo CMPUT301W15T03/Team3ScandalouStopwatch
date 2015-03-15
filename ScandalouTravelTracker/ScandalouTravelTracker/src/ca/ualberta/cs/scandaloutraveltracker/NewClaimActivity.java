@@ -44,6 +44,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -129,7 +130,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		
 		
 		
-		Button addDestButton = (Button) findViewById(R.id.add_dest_button);
+		ImageButton addDestButton = (ImageButton) findViewById(R.id.add_dest_button);
 			addDestButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
