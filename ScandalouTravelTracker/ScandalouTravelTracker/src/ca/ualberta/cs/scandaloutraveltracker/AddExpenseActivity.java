@@ -140,6 +140,12 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				//add new expense to claim and exit
 				CController.addExpense(expense);
 				mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
+				
+				// Reload the claim list for the ClaimListActivity
+				ClaimListController claimListController = new ClaimListController();
+				claimListController.removeClaim(claimId);
+				claimListController.addClaim(new Claim(claimId));
+				
 				setResult(RESULT_OK);
 				finish();
 				}

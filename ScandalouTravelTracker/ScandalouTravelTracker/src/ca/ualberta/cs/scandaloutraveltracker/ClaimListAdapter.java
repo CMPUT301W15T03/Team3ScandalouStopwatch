@@ -90,7 +90,7 @@ public class ClaimListAdapter extends BaseAdapter {
 		for (Map.Entry<String, Double> entry : totals.entrySet()){
 			totalsStr += entry.getKey() + " " + formatter.format(entry.getValue());
 			if (i < totals.size() - 1){
-				totalsStr += "\n"; 
+				totalsStr += ", "; 
 			}
 		    i++;
 		}		
