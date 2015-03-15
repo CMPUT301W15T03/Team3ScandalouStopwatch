@@ -20,13 +20,14 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
-
 import junit.framework.TestCase;
 
 public class ClaimsApprovalTest extends TestCase {
@@ -79,11 +80,11 @@ public class ClaimsApprovalTest extends TestCase {
 		assertTrue("claim1 should have the generated status", 
 				claim1.getStatus().equals(claimGenerator.getStatus()));
 		assertTrue("claim1 should have two currency amounts.", 
-				claim1.getTotals().size() == 2);
+				claim1.computeTotal().size() == 2);
 		assertTrue("claim1 should have the first generated currency amount", 
-				claim1.getTotals().get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
+				claim1.computeTotal().get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
 		assertTrue("claim1 should have the second generated currency amount", 
-				claim1.getTotals().get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
+				claim1.computeTotal().get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
 		assertTrue("claim1 should have the generated approver name.", 
 				claim1.getApproverName().equals(claimGenerator.getApproverName()));
 		
@@ -104,8 +105,8 @@ public class ClaimsApprovalTest extends TestCase {
 		claimList1.addClaim(claim2);
 		claimList1.addClaim(claim1);
 		
-		// Perform actions
-		claimList1.sortByStartDate();
+		// Perform actions - sort
+		Collections.sort(claimList1.getClaims());
 		
 		// Carry out tests
 		ArrayList<Claim> claims1 = claimList1.getClaims();
@@ -136,11 +137,11 @@ public class ClaimsApprovalTest extends TestCase {
 		assertTrue("claim1 should have the generated status", 
 				claim1.getStatus().equals(claimGenerator.getStatus()));
 		assertTrue("claim1 should have two currency amounts.", 
-				claim1.getTotals().size() == 2);
+				claim1.computeTotal().size() == 2);
 		assertTrue("claim1 should have the first generated currency amount", 
-				claim1.getTotals().get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
+				claim1.computeTotal().get(claimGenerator.getCurrency1()) == claimGenerator.getAmount1(1));
 		assertTrue("claim1 should have the second generated currency amount", 
-				claim1.getTotals().get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
+				claim1.computeTotal().get(claimGenerator.getCurrency2()) == claimGenerator.getAmount2(1));
 		assertTrue("claim1 should have the generated approver name.", 
 				claim1.getApproverName().equals(claimGenerator.getApproverName()));
 		

@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.Destination;
 
 public class ClaimGenerator {
 
@@ -71,11 +72,11 @@ public class ClaimGenerator {
 		Date endDate = new Date(year+i, month, endDay);
 		
 		// Destinations
-		String destination1 = destination + " " + i + ".1"; 
-		String destination2 = destination + " " + i + ".2";
-		ArrayList<String> destinations = new ArrayList<String>();
-		destinations.add(destination1);
-		destinations.add(destination2);
+		Destination dest1 = new Destination(destination + " " + i + ".1", "1"); 
+		Destination dest2 = new Destination(destination + " " + i + ".2", "2");
+		ArrayList<Destination> destinations = new ArrayList<Destination>();
+		destinations.add(dest1);
+		destinations.add(dest2);
 		
 		// Status
 		this.status = status;
@@ -104,7 +105,6 @@ public class ClaimGenerator {
 		claim.setEndDate(endDate);
 		claim.setDestinations(destinations);
 		claim.setStatus(status);
-		claim.setTotals(totals);
 		claim.setApproverName(approverName);
 		claim.setApproverComment(approverComment);
 		

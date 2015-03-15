@@ -61,7 +61,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    assertFalse("The two destinations should be different", 
 	                newDestination.equals(secDestination));
 	    assertTrue("Place should match", newDestination.getName().equals(l1));
-	    assertTrue("Reason should match", newDestination.getDescription().equals(r2));
+	    assertTrue("Reason should match", secDestination.getDescription().equals(r2));
 	}
 	
 /*	// Test UC 01.03.01
@@ -136,11 +136,12 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    Date sDate = new Date(123);
 	    Date eDate = new Date(456);
 	    Claim newClaim = new Claim(name, sDate, eDate);
+	    newClaim.setCanEdit(true);
+	    ClaimList claimsList = new ClaimList();
 	    ClaimList claimsList = ClaimList.getClaimList();
 	    claimsList.addClaim(newClaim);
-	    newClaim.setCanEdit(true);
-	    claimsList.deleteClaim(1);
-	    assertEquals("Count should be zero", claimsList.getCount(), 0);
+	    claimsList.deleteClaim(0);
+	    assertEquals("Count should be zero"+claimsList.getCount(), claimsList.getCount(), 0);
 	}
 	/*
 	// Test UC 01.06.01

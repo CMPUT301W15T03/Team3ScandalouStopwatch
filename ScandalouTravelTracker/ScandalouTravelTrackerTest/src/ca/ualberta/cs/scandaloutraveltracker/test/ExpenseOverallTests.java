@@ -46,8 +46,19 @@ public class ExpenseOverallTests extends TestCase {
 		String currencyType = "CAD";
 		
 		Claim testClaim = new Claim();
-		Expense testExpense = new Expense(date, category, description, cost, currencyType);
-		Expense testExpense2 = new Expense(date, category, description2, cost, currencyType);
+		Expense testExpense = new Expense();
+		testExpense.setDate(date);
+		testExpense.setCategory(category);
+		testExpense.setDescription(description);
+		testExpense.setCost(cost);
+		testExpense.setCurrencyType(currencyType);
+		
+		Expense testExpense2 = new Expense();
+		testExpense2.setDate(date);
+		testExpense2.setCategory(category);
+		testExpense2.setDescription(description2);
+		testExpense2.setCost(cost);
+		testExpense2.setCurrencyType(currencyType);
 		testClaim.addExpense(testExpense);
 		assertTrue("Expense not added to claim", (testClaim.getExpenses().size() == 1));
 		testClaim.addExpense(testExpense2);
@@ -76,7 +87,13 @@ public class ExpenseOverallTests extends TestCase {
 		double cost = 566;
 		String currencyType = "CAD";
 		
-		Expense testExpense = new Expense(date, category, description, cost, currencyType);
+		Expense testExpense = new Expense();
+		testExpense.setDate(date);
+		testExpense.setCategory(category);
+		testExpense.setDescription(description);
+		testExpense.setCost(cost);
+		testExpense.setCurrencyType(currencyType);
+		
 		assertTrue("category not one previously defined", categoryList.contains(testExpense.getCategory()));
 		
 		testExpense.setCategory("Fuel");
@@ -102,7 +119,13 @@ public class ExpenseOverallTests extends TestCase {
 		double cost = 566;
 		String currencyType = "CAD";
 		
-		Expense testExpense = new Expense(date, category, description, cost, currencyType);
+		Expense testExpense = new Expense();
+		testExpense.setDate(date);
+		testExpense.setCategory(category);
+		testExpense.setDescription(description);
+		testExpense.setCost(cost);
+		testExpense.setCurrencyType(currencyType);
+		
 		assertTrue("currency not one previously defined", currencyList.contains(testExpense.getCurrencyType()));
 		
 		testExpense.setCurrencyType("CHF");
@@ -126,7 +149,13 @@ public class ExpenseOverallTests extends TestCase {
 		double cost = 566;
 		String currencyType = "CAD";
 		
-		Expense testExpense = new Expense(date, category, description, cost, currencyType);
+		Expense testExpense = new Expense();
+		testExpense.setDate(date);
+		testExpense.setCategory(category);
+		testExpense.setDescription(description);
+		testExpense.setCost(cost);
+		testExpense.setCurrencyType(currencyType);
+		
 		assertFalse("Flag isn't set to unflagged automatically", testExpense.getFlag());
 		testExpense.setFlag(true);
 		assertTrue("Flag set isn't successful", testExpense.getFlag());
@@ -149,15 +178,21 @@ public class ExpenseOverallTests extends TestCase {
 		double cost = 566;
 		String currencyType = "CAD";
 		
-		Expense testExpense = new Expense(date, category, description, cost, currencyType);
+		Expense testExpense = new Expense();
+		testExpense.setDate(date);
+		testExpense.setCategory(category);
+		testExpense.setDescription(description);
+		testExpense.setCost(cost);
+		testExpense.setCurrencyType(currencyType);
+		
 		//should return string of testExpense that will display all info for expense list
-		String details = testExpense.toString();
+		String details = testExpense.getCategory() + " - " + testExpense.getDateString()+ "\n" 
+				+ testExpense.getDescription() + "\n" 
+				+ String.format("%.2f", testExpense.getCost()) + " " + testExpense.getCurrencyType();
 		//can change format
 		String actualDetails = "Air Fare - 01/01/2014\n" + "Flight to YEG\n" + "566.00 CAD";
-		assertTrue("The details aren't being returned properly for displaying", details.equals(actualDetails));
-		/*return this.category + " - " + sdf.format(this.date) + "\n"
-		+ this.description + "\n"
-		+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();*/
+		assertTrue("The details aren't being returned properly for displaying",
+				details.equals(actualDetails));
 	}
 	
 	// Test UC 04.06.01
@@ -179,7 +214,13 @@ public class ExpenseOverallTests extends TestCase {
 		String currencyType = "CAD";
 		
 		Claim testClaim = new Claim();
-		Expense testExpense = new Expense(date, category, description, cost, currencyType);
+		Expense testExpense = new Expense();
+		testExpense.setDate(date);
+		testExpense.setCategory(category);
+		testExpense.setDescription(description);
+		testExpense.setCost(cost);
+		testExpense.setCurrencyType(currencyType);
+		
 		testClaim.addExpense(testExpense);
 		assertEquals("change state doesn't default to allowed", testClaim.getCanEdit(), true);
 		testExpense.setDate(date2);
@@ -211,7 +252,13 @@ public class ExpenseOverallTests extends TestCase {
 		String currencyType = "CAD";
 		
 		Claim testClaim = new Claim();
-		Expense testExpense = new Expense(date, category, description, cost, currencyType);
+		Expense testExpense = new Expense();
+		testExpense.setDate(date);
+		testExpense.setCategory(category);
+		testExpense.setDescription(description);
+		testExpense.setCost(cost);
+		testExpense.setCurrencyType(currencyType);
+		
 		testClaim.addExpense(testExpense);
 		assertEquals("change state doesn't default to allowed", testClaim.getCanEdit(), true);
 		testClaim.deleteExpense(testExpense);
