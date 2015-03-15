@@ -26,8 +26,10 @@
         android:layout_alignTop="@+id/add_expense"
         android:layout_toLeftOf="@+id/add_expense"
         android:ems="10"
-        android:hint="@string/totals_" >
-
+        android:hint="@string/totals_"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="vertical" 
+        android:maxLines="7">
     </TextView>
 
     <ListView
