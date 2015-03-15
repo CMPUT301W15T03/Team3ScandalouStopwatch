@@ -16,11 +16,6 @@ limitations under the License.
 
 */
 
-/* ClaimListAdapter.java Basic Info:
- *  The ClaimListAdapter allows essential information from a Claim to
- *  be dispalyed in a ListView.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.DecimalFormat;
@@ -29,38 +24,66 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+/**
+ *  The ClaimListAdapter allows essential information from a Claim to
+ *  be displayed in a ListView.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class ClaimListAdapter extends BaseAdapter {
 	protected ClaimList claimList;
 	protected Context context;
 	
+	/**
+	 * Context of the activity that list is to be displayed in and
+	 * the ClaimList that is to be displayed.
+	 * @param context
+	 * @param claimList
+	 */
 	public ClaimListAdapter(Context context, ClaimList claimList) {
 		this.context = context;
 		this.claimList = claimList;
 	}
 
+	/**
+	 * @return Count of the claim list
+	 */
 	@Override
 	public int getCount() {
 		return claimList.getCount();
 	}
 
+	/**
+	 * @return Claim associated with position 
+	 */
 	@Override
 	public Object getItem(int position) {
 		return claimList.getClaim(position);
 	}
 
+	/**
+	 * @return The Claim ID for the claim at position
+	 */
 	@Override
 	public long getItemId(int position) {
-		return position;
+		return claimList.getClaim(position).getId();
 	}
 
 	@Override
+	/**
+	 * The getView method sets up the list to properly show the fields
+	 * of a Claim that we want to show to the user.
+	 * @param position To locate the right claim to show
+	 * @param convertView To see if a view has been created already
+	 * @param parent Where this view will be displayed
+	 * @return View that is associated with one Claim item
+	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		// If an instance of the view hasn't been created yet, create it.

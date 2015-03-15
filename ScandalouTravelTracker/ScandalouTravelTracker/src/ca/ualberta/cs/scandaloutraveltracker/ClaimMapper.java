@@ -3,24 +3,45 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+/**
+ * The ClaimMapper helps us save all the data related to a claim. 
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class ClaimMapper {
 
 	private Context context;
 	
+	/**
+	 * ClaimMapper needs the context to run
+	 * @param context
+	 */
 	public ClaimMapper(Context context){
 		this.context = context;
 	}
 	
+	/**
+	 * When creating a new claim, this method gets called so it can
+	 * save all the data of the newly created claim.
+	 * @param name
+	 * @param startDate
+	 * @param endDate
+	 * @param description
+	 * @param destinations
+	 * @param tags
+	 * @param status
+	 * @param canEdit
+	 * @param expenses
+	 * @return The new claim's ID
+	 */
 	public int createClaim(String name, Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tags, String status, 
 			boolean canEdit, ArrayList<Expense> expenses) {
@@ -41,6 +62,11 @@ public class ClaimMapper {
 		return claimId;
 	}
 	
+	/**
+	 * Every time a claim is created we increment the claim counter.
+	 * This helps us give a unique ID for each claim the user creates.
+	 * @return new unique claim ID
+	 */
 	public int incrementClaimCounter(){
 
 		int mostRecentId;
@@ -58,6 +84,16 @@ public class ClaimMapper {
 		return newId;
 	}
 	
+	/**
+	 * Updates the claim associated with claimId with all the other
+	 * parameters passed.
+	 * @param claimId
+	 * @param startDate
+	 * @param endDate
+	 * @param description
+	 * @param destinations
+	 * @param canEdit
+	 */
 	public void updateClaim(int claimId, Date startDate, Date endDate, 
 			String description, ArrayList<Destination> destinations, 
 			boolean canEdit){
@@ -70,18 +106,40 @@ public class ClaimMapper {
 		
 	}
 	
+	/**
+	 * Updates the tags of the claim associated with claimId.
+	 * @param claimId
+	 * @param tags
+	 */
 	public void updateTags(int claimId, ArrayList<String> tags){
 		
 		saveClaimData(claimId, "tags", tags);
 		
 	}	
 	
+	/**
+	 * Updates the claim associated with claimId to that of a
+	 * submitted claim.
+	 * @param claimId
+	 * @param status
+	 * @param canEdit
+	 */
 	public void submitClaim(int claimId, String status, boolean canEdit){
 		
 		saveClaimData(claimId, "status", status);	
 		saveClaimData(claimId, "canEdit", canEdit);
 	}	
 	
+	/**
+	 * Saves the claim data, one field at a time. The field it saves
+	 * is associated with the key. The warning is suppressed as we
+	 * will always know the object type of the destination list, 
+	 * tag list, and expense list.
+	 * @param claimId
+	 * @param key
+	 * @param data
+	 */
+	@SuppressWarnings("unchecked")
 	public void saveClaimData(int claimId, String key, Object data){
 		
 		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
@@ -126,17 +184,29 @@ public class ClaimMapper {
 		editor.commit();	
 	}	
 	
-	// Removes the expense views - these views were causing the application
-	// to hang whenever converting the expense list to json format. Here we 
-	// remove the view and in the activities where expenses need to be displayed
-	// we need a function to re-add that view to their list of views.
-	// (See ExpenseListActivity)
+	/**
+	 * Removes the expense views - these views were causing the application
+	 * to hang whenever converting the expense list to json format. Here we 
+	 * remove the view and in the activities where expenses need to be displayed
+	 * we need a function to re-add that view to their list of views.
+	 * @param claimId
+	 * @param key
+	 * @param data
+	 */
+	@SuppressWarnings("unchecked")
 	private void removeExpenseViews(int claimId, String key, Object data) {
 		for (Expense expenses : (ArrayList<Expense>) data) {
 			expenses.removeAllViews();
 		}
 	}
 
+	/**
+	 * Loads claim data one field at a time. The field loaded is associated
+	 * with the key.
+	 * @param claimId
+	 * @param key
+	 * @return Claim associated with claimId
+	 */
 	public Object loadClaimData(int claimId, String key){
 		
 		Object data = 0;
@@ -185,6 +255,10 @@ public class ClaimMapper {
 		return data;
 	}
 	
+	/**
+	 * Deletes the claim located at claimId. 
+	 * @param claimId
+	 */
 	public void deleteClaim(int claimId){
 		
 		SharedPreferences claimFile;

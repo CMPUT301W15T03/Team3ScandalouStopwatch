@@ -16,20 +16,24 @@ limitations under the License.
 
 */
 
-/* Approver.java Basic Info:
+package ca.ualberta.cs.scandaloutraveltracker;
+
+/**
  *  This is the Approver class which represents a user that has the
  *  capabilities of a Approver.
  *  
  *  Still needs main functionality (planned for part 5)
+ * @author Team3ScandalouStopwatch
+ *
  */
-
-package ca.ualberta.cs.scandaloutraveltracker;
-
 public class Approver extends User {
 
+	/**
+	 * Constructor that just currently sets the name of the Approver.
+	 * @param name
+	 */
 	public Approver(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 }

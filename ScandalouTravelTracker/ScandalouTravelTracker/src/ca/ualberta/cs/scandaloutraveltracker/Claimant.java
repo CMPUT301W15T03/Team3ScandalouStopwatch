@@ -16,21 +16,25 @@ limitations under the License.
 
 */
 
-/* Claimant.java Basic Info:
+package ca.ualberta.cs.scandaloutraveltracker;
+
+/**
  *  This is the Claimant class which represents a user that has the
  *  capabilities of a Claimant.
  *  
  *  This is the default for a user so functionality has mainly been
  *  implemented with considerations to a Claimant type user.
+ * @author Team3ScandalouStopwatch
+ *
  */
-
-package ca.ualberta.cs.scandaloutraveltracker;
-
 public class Claimant extends User {
 
+	/**
+	 * Sets the Claimant's name to the string passed.
+	 * @param name
+	 */
 	public Claimant(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 }
