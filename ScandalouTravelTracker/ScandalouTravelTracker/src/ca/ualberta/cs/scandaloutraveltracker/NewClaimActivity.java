@@ -1,15 +1,19 @@
-
 /*
+
 Copyright 2015 Team3ScandalouStopwatch
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+
     http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 */
 
 /* NewClaimActivity.java Basic Info:
@@ -22,6 +26,7 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,16 +61,13 @@ import android.content.Intent;
 
 public class NewClaimActivity extends Activity implements ViewInterface{
 	
-	Claim c = new Claim();
-	ClaimController claim = new ClaimController(c);
-	String name;
-	String sDate;
-	String eDate;
-	ArrayList<Destination> dList=new ArrayList<Destination>();
-	String description;
-	ArrayList<String> tags;
+	private Claim claim = new Claim();
+	private ClaimController claimController = new ClaimController(claim);
+	private ArrayList<Destination> destinations = new ArrayList<Destination>();
 	private Date startDate;
 	private Date endDate;
+	
+	private ListView destList;
 	private DestinationListAdapter destinationListAdapter;
 
 	@Override
@@ -78,13 +80,17 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
 		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
 		final EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
-		final ListView destList = (ListView)findViewById(R.id.destinations_lv);
-		//destinationListAdapter= new DestinationListAdapter(context, c.getDestinations());
-		//destList.setAdapter(destinationListAdapter);
+		final EditText tagsSet = (EditText)findViewById(R.id.tags_tv);
 		
-
+		ImageButton addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
-			claimOkButton.setOnClickListener(new View.OnClickListener() {
+		
+		destList = (ListView)findViewById(R.id.destinations_lv);
+		destinationListAdapter = new DestinationListAdapter(this, destinations);
+		
+		update();
+
+		claimOkButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
@@ -97,27 +103,18 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				}
 				
 				else {
-					//fills in most fields of claim from edit texts
-					claim.setName(nameSet.getText().toString());
-					claim.setDescription(descriptionSet.getText().toString());
 					
-					// For testing
-					//dList = new ArrayList<Destination>();
-					//dList.add(new Destination("Alderaan Orbit", "Product demo"));
-					//dList.add(new Destination("Cloud City, Bespin", "More Empire business; catching up with son"));
-					
-					//Also for testing
-					tags = new ArrayList<String>();
-					tags.add("Tag1");
-					tags.add("Tag2");
-					
-					// Creation status
+					String name = nameSet.getText().toString();
+					String description = descriptionSet.getText().toString();
 					String status = Constants.statusInProgress;
-				
+					String tagsString = tagsSet.getText().toString();
+					ArrayList<String> tagsList = getTagsList(tagsString);
+					boolean canEdit = true;
+					ArrayList<Expense> expenses = new ArrayList<Expense>();
+					
 					ClaimMapper mapper = new ClaimMapper(context.getApplicationContext());
-					int newClaimId = mapper.createClaim(nameSet.getText().toString(), 
-							startDate, endDate, descriptionSet.getText().toString(), dList, tags, status, true,
-							new ArrayList<Expense>());
+					int newClaimId = mapper.createClaim(name, startDate, endDate, description, destinations, 
+							tagsList, status, canEdit, expenses);
 	
 					ClaimListController claimListController = new ClaimListController();
 					claimListController.addClaim(new Claim(newClaimId));
@@ -125,120 +122,125 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					finish();
 				}
 			}
-		});
+		});			
 		
-		
-		
-		
-		ImageButton addDestButton = (ImageButton) findViewById(R.id.add_dest_button);
-			addDestButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-				//	http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
-						 LayoutInflater newDestInf = LayoutInflater.from(context);
-
-						 final View newDestView= newDestInf.inflate(R.layout.list_destination_display, null);
-				       //text_entry is an Layout XML file containing two text field to display in alert dialog
-
-						 final EditText name = (EditText) newDestView.findViewById(R.id.list_destination_name);
-						final EditText reason = (EditText) newDestView.findViewById(R.id.list_destination_description);
-
-						 name.setText("Name", EditText.BufferType.EDITABLE);
-						 reason.setText("Reason", EditText.BufferType.EDITABLE);
-				
-						 final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
-						 	newDest.setTitle("New Destination")
-						 	.setView(newDestView)
-						 	.setCancelable(false)
-						 	.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-						
-						 		@Override
-						 		public void onClick(DialogInterface dialog, int whichButton) {
-						 			String dreason = reason.getText().toString();
-						 			String dname = name.getText().toString();
-								
-						 			if (dname.length()!=0 && dreason.length()!=0){
-						 				Destination d = new Destination(dname, dreason);
-																
-						 				dList.add(d);
-						 				//d.notifyViews();
-						 				setViews();
-						 				final ArrayAdapter<Destination> destAdapter = new ArrayAdapter<Destination>(context, android.R.layout.simple_list_item_1, dList);
-						 				destList.setAdapter(destAdapter);
-						 				destAdapter.notifyDataSetChanged();
-						 				Toast.makeText(context, "Reasons and name entered", Toast.LENGTH_SHORT).show();
-						 				
-						 			}else{
-						 				Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
-						 			}
-							
-						}
-					})
-					
-							.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int whichButton) {
-							
-								}});
-						 	AlertDialog alertDialog =newDest.create();
-						 	alertDialog.show();
-					}
-			});
-				
+        // startDate dialog picker
+		sDateSet.setOnClickListener(new View.OnClickListener() {
 			
-	
-	        // startDate dialog picker
-			sDateSet.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					DialogFragment newFragment = new DatePickerFragment() {
-						@Override
-						public void onDateSet(DatePicker view, int year, int monthOfYear,
-								int dayOfMonth) {
-							String startDateString = convertToString(year, monthOfYear, dayOfMonth);
-							sDateSet.setHint(startDateString);
-							Calendar cal = Calendar.getInstance();
-							cal.set(year, monthOfYear, dayOfMonth);
-							Date date = cal.getTime();
-							startDate = date;
-							sDateSet.setText(startDateString);
-							c.setStartDate(date);
-						}
-					};
-					newFragment.show(getFragmentManager(), "datePicker");
-				}
-			});
-	        
-	        // endDate dialog picker
-			eDateSet.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {;
+			@Override
+			public void onClick(View v) {
 				DialogFragment newFragment = new DatePickerFragment() {
 					@Override
 					public void onDateSet(DatePicker view, int year, int monthOfYear,
 							int dayOfMonth) {
-						String endDateString = convertToString(year, monthOfYear, dayOfMonth);
-						eDateSet.setHint(endDateString);
+						String startDateString = convertToString(year, monthOfYear, dayOfMonth);
+						sDateSet.setHint(startDateString);
 						Calendar cal = Calendar.getInstance();
 						cal.set(year, monthOfYear, dayOfMonth);
 						Date date = cal.getTime();
-						endDate = date;
-						eDateSet.setText(endDateString);
-						c.setEndDate(date);
+						startDate = date;
+						sDateSet.setText(startDateString);
+						claim.setStartDate(date);
 					}
 				};
-					newFragment.show(getFragmentManager(), "datePicker");
+				newFragment.show(getFragmentManager(), "datePicker");
+			}
+		});
+        
+        // endDate dialog picker
+		eDateSet.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {;
+			DialogFragment newFragment = new DatePickerFragment() {
+				@Override
+				public void onDateSet(DatePicker view, int year, int monthOfYear,
+						int dayOfMonth) {
+					String endDateString = convertToString(year, monthOfYear, dayOfMonth);
+					eDateSet.setHint(endDateString);
+					Calendar cal = Calendar.getInstance();
+					cal.set(year, monthOfYear, dayOfMonth);
+					Date date = cal.getTime();
+					endDate = date;
+					eDateSet.setText(endDateString);
+					claim.setEndDate(date);
 				}
-			});
+			};
+				newFragment.show(getFragmentManager(), "datePicker");
+			}
+		});
+		
+		addDestButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			// http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
+				 LayoutInflater newDestInf = LayoutInflater.from(context);
+
+				 //text_entry is an Layout XML file containing two text field to display in alert dialog
+				 final View newDestView= newDestInf.inflate(R.layout.edit_destination, null);
+				 final EditText nameInput = (EditText) newDestView.findViewById(R.id.edit_destination_name);
+				 final EditText descriptionInput = (EditText) newDestView.findViewById(R.id.edit_destination_description);
+		
+				 final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
+				 	newDest.setTitle("New Destination")
+				 	.setView(newDestView)
+				 	.setCancelable(false)
+			
+				 	.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							String dname = nameInput.getText().toString();
+							String dreason = descriptionInput.getText().toString();
+							
+							if (dname.length()!=0 && dreason.length() != 0){
+								
+								Destination destination = new Destination(dname, dreason);
+								destinations.add(destination);
+								destination.notifyViews();
+								setViews();
+
+								update();
+								
+							} else {
+								Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
+							}	
+							
+						}
+				 	})
+				
+					.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+				       	public void onClick(DialogInterface dialog, int whichButton) {
+					    	dialog.cancel();
+				       	}
+					});
+					 	
+				AlertDialog alertDialog =newDest.create();
+				alertDialog.show();
+			}
+		});
+		
+
 	
 	}
 	
 	private void setViews() {
-		for (Destination dest : claim.getDestinations()) {
+		for (Destination dest : claimController.getDestinations()) {
 			dest.addView(this);
 		}
 	}
+	
+	public ArrayList<String> getTagsList(String tagsString){
+		
+		String[] temp = tagsString.split(", ");
+		// CITATION http://stackoverflow.com/questions/10530353/convert-string-array-to-arraylist
+		// 2015-03-13
+		// Matten's answer
+		ArrayList<String> tags = new ArrayList<String>(Arrays.asList(temp));
+		
+		return tags;
+	}	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -248,9 +250,8 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 
 	@Override
 	public void update() {
-
 		// TODO Auto-generated method stub
-		
+		destList.setAdapter(destinationListAdapter);
 	}
 	
 }
