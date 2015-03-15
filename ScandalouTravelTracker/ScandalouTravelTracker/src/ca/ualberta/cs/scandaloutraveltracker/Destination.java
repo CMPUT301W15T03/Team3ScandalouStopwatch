@@ -15,44 +15,68 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
+package ca.ualberta.cs.scandaloutraveltracker;
 
-/* Destination.java Basic Info:
+/**
  *  Class contains all the information that a Destination needs. A
  *  destination(s) is contained inside a Claim.
+ * @author Team3ScandalouStopwatch
+ *
  */
-
-package ca.ualberta.cs.scandaloutraveltracker;
-import android.view.View;
 public class Destination extends SModel  {
 
 	String name;
 	String description;
 	
+	/**
+	 * Default constructor that sets the Destination object properties.
+	 * @param name
+	 * @param description
+	 */
 	public Destination(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
 
+	/**
+	 * 
+	 * @return Name of Destination
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * 
+	 * @return Description of Destination
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * 
+	 * @param description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * Converts the destination and it's description into
+	 * a string. In format: Destination name: description.
+	 * @return Destination converted to a string
+	 */
 	public String toString(){
 		String destination = this.name +": " + this.description;
 		return destination;
 	}
-
-	
 }

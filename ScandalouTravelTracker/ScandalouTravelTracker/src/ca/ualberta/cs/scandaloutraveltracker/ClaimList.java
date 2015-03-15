@@ -15,32 +15,37 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-
-/* ClaimList.java Basic Info:
- *  Class is a list that holds Claims. When doing tasks that involve the
- *  ClaimList class it should be done through the ClaimListController class.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.View;
-
+/**
+ *  Class is a list that holds Claims. When doing tasks that involve the
+ *  ClaimList class it should be done through the ClaimListController class.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class ClaimList extends SModel {
 	private static ClaimList claimList;
 	protected static ArrayList<Claim> claims;
     	
+	/**
+	 * Constructor is set to private as the ClaimList class uses the 
+	 * Singleton design pattern.
+	 */
 	private ClaimList(){
 		ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
 		claims = mapper.loadClaims();
 	}
 	
+	/**
+	 * Uses lazy initialization and won't create the claimList until it
+	 * is needed to be created by the app. Also uses the Singleton design
+	 * pattern as it will return the only instance of claimList in the
+	 * entire app.
+	 * @return List of claims
+	 */
 	public static ClaimList getClaimList() {
 		if (claimList == null) {
 			claimList = new ClaimList();
@@ -49,24 +54,39 @@ public class ClaimList extends SModel {
 		return claimList;
 	}
 	
+	/**
+	 * 
+	 * @return ArrayList of claims
+	 */
 	public ArrayList<Claim> getClaims(){
 		return claims;
 	}
 	
+	/**
+	 * Get claim from the claim list that is associated with claimPos.
+	 * @param claimPos
+	 * @return Claim at claimPos
+	 */
 	public Claim getClaim(int claimPos) {
 		return claims.get(claimPos);
 	}
 	
-	/*
-	public static void addClaim(Claim claim){
-		claimList.add(string);
-		if (claimList.size()>1){
-			Collections.sort(claimList, new CustomComparator())
-		}
-		ClaimListgetClaims
-
-	} */
-	
+	/**
+	 * Takes all the values that a Claim can have and creates the claim
+	 * within the ClaimMapper (claim is saved) and returns the newly created
+	 * claims ID.
+	 * @param name
+	 * @param startDate
+	 * @param endDate
+	 * @param description
+	 * @param destinations
+	 * @param tagsList
+	 * @param status
+	 * @param canEdit
+	 * @param expenses
+	 * @return newly created claim ID
+	 * @see ClaimMapper#createClaim(String, Date, Date, String, ArrayList, ArrayList, String, boolean, ArrayList)
+	 */
 	public int createClaim(String name, Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tagsList, String status,
 			boolean canEdit, ArrayList<Expense> expenses){
@@ -78,16 +98,30 @@ public class ClaimList extends SModel {
 		return newClaimId;
 	}	
 	
+	/**
+	 * Deletes the claim associated with the claimID. Does this
+	 * through the mapper.
+	 * @param claimId
+	 * @see ClaimMapper#deleteClaim(int)
+	 */
 	public void deleteClaim(int claimId){
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 		mapper.deleteClaim(claimId);
 	}
 	
+	/**
+	 * 
+	 * @param claim
+	 */
 	public void addClaim(Claim claim) {
 		claims.add(claim);
 		notifyViews();
 	}
 	
+	/**
+	 * Removes a claim associated with the claim ID. 
+	 * @param claimId
+	 */
 	public void removeClaim(int claimId){
 		
 		int removePosition = -1;
@@ -105,25 +139,31 @@ public class ClaimList extends SModel {
 		notifyViews();		
 	}
 	
+	/**
+	 * Currently incomplete. Method allows you to search for
+	 * a specific tag given the string.
+	 * @param tag
+	 * @return List of claims with associated tag
+	 */
 	public ArrayList<Claim> searchTag(String tag){
 		
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return Size of claims list
+	 */
 	public int getCount() {
 		return claims.size();
 	}
 	
+	/**
+	 * 
+	 * @return True if the list is empty and false if not
+	 */
 	public static boolean isEmpty(){
 		return claims.size()==0;
 	}
 	
-	public void sortByStartDate(){
-		
-	}
-
-	public static void addListener(int i) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -53,7 +53,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param id    The id of the claim. This is created whenever a
 	 *              new Claim is created and is how the ClaimMapper
 	 *              class knows which claim is which when saved.
-	 * @see ClaimMapper
+	 * @see ClaimMapper#loadClaimData(int, String)
 	 */
 	@SuppressWarnings("unchecked")
 	public Claim(int id){
@@ -329,7 +329,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param description
 	 * @param destinations
 	 * @param canEdit
-	 * @see ClaimMapper
+	 * @see ClaimMapper#updateClaim(int, Date, Date, String, ArrayList, boolean)
 	 */
 	public void updateClaim(Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, boolean canEdit){
@@ -353,6 +353,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * and notifies the views associated with the Claim to
 	 * update.
 	 * @param tags
+	 * @see ClaimMapper#updateTags(int, ArrayList)
 	 */
 	public void updateTags(ArrayList<String> tags){
 		
@@ -371,7 +372,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * Uses the ClaimMapper to save updated data.
 	 * @param status
 	 * @param canEdit
-	 * @see ClaimMapper
+	 * @see ClaimMapper#submitClaim(int, String, boolean)
 	 */
 	public void submitClaim(String status, boolean canEdit){
 		

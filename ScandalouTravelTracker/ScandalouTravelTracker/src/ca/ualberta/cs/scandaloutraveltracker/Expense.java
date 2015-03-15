@@ -16,11 +16,6 @@ limitations under the License.
 
 */
 
-/* Expense.java Basic Info:
- *  Class that contains the Expense model. Any changes done to an expense
- *  should be done through the Expense Controller
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.io.File;
@@ -28,6 +23,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Class that contains the Expense model. Any changes done to an expense
+ * should be done through the Expense Controller
+ * @author Team3ScandalouStopwatch
+ */
 public class Expense extends SModel {
 	private Date date;
 	private String category;
@@ -38,6 +38,9 @@ public class Expense extends SModel {
 	private boolean receiptAttached;
 	private File photo;
 	
+	/**
+	 * Constructor creates an empty expense for the user to populate.
+	 */
 	public Expense() {
 		this.date = null;
 		this.category = null;
@@ -48,95 +51,152 @@ public class Expense extends SModel {
 		this.photo = null;
 		this.receiptAttached = false;
 	}
-	
-	public Expense(Date date, String category, String description, Double cost, String currencyType) {
-		this.date = date;
-		this.category = category;
-		this.description = description;
-		this.cost = cost;
-		this.currencyType = currencyType;
-		this.flag = false;
-		this.photo = null;
-	}
 
+	/**
+	 * 
+	 * @return Date the expense occurred
+	 */
 	public Date getDate() {
 		return date;
 	}
 
+	/**
+	 * 
+	 * @param date Date the expense occurred
+	 */
 	public void setDate(Date date) {
 		this.date = date;
 	}
 	
+	/**
+	 * 
+	 * @return True if there is a receipt attached
+	 */
 	public boolean getReceiptAttached() {
 		return receiptAttached;
 	}
 	
+	/**
+	 * Set the boolean to be true if there is a receipt
+	 * attached and false if there is not.
+	 * @param attached
+	 */
 	public void setReceiptAttached(boolean attached) {
 		receiptAttached = attached;
 	}
 	
-
+	/**
+	 * 
+	 * @return Category that expense belongs to
+	 */
 	public String getCategory() {
 		return category;
 	}
 
+	/**
+	 * 
+	 * @param category
+	 */
 	public void setCategory(String category) {
 		this.category = category;
 	}
 
+	/**
+	 * 
+	 * @return Expenses' description
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * 
+	 * @param description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * 
+	 * @return Cost of the expense
+	 */
 	public Double getCost() {
 		return cost;
 	}
 
+	/**
+	 * 
+	 * @param cost
+	 */
 	public void setCost(Double cost) {
 		this.cost = cost;
 	}
 
+	/**
+	 * 
+	 * @return Currency of the expense
+	 */
 	public String getCurrencyType() {
 		return currencyType;
 	}
 
+	/**
+	 * 
+	 * @param currencyType
+	 */
 	public void setCurrencyType(String currencyType) {
 		this.currencyType = currencyType;
 	}
 	
+	/**
+	 * 
+	 * @return false if not flagged and true if flagged (for incompleteness)
+	 */
 	public boolean getFlag() {
 		return flag;
 	}
 
+	/**
+	 * 
+	 * @param flag
+	 */
 	public void setFlag(boolean flag) {
 		this.flag = flag;
 		notifyViews();
 	}
 	
+	/**
+	 * 
+	 * @return Photo of the receipt
+	 */
 	public File getPhoto() {
 		return photo;
 	}
 
+	/**
+	 * 
+	 * @param photo
+	 */
 	public void setPhoto(File photo) {
 		this.photo = photo;
 	}
 	
+	/**
+	 * Converts the date of the expense into a string
+	 * with the format: MM/dd/yyyy.
+	 * @return Date as a string
+	 */
 	public String getDateString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 		return sdf.format(this.date);
 	}
-	
-	@Override
-	public String toString() {
-		return this.category + " - " + this.getDateString() + "\n"
-				+ this.description + "\n"
-				+ String.format("%.2f", this.cost) + " " + this.getCurrencyType();
-	}
 
+	/**
+	 * Removes all the views that are associated with the expense.
+	 * This is done before saving an expense as converting a list
+	 * of views to JSON causes the app to crash.
+	 */
 	public void removeAllViews() {
 		for (ViewInterface view : views) {
 			views.remove(view);
