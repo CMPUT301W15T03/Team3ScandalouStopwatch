@@ -37,6 +37,6 @@ public class Constants {
 	public final static String statusApproved = "Approved";
 	
 	// Misc.
-	public final static String dateFormat = "MM/dd/yyyy";	
+	public final static String dateFormat = "M/d/yyyy";	
 	
 }
