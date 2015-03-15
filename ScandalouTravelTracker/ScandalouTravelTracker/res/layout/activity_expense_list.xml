@@ -17,25 +17,26 @@
         android:text="@string/expenses"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
+    <TextView
         android:id="@+id/totals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/expenselistView"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/add_expense"
+        android:layout_toLeftOf="@+id/add_expense"
         android:ems="10"
-        android:hint="@string/totals_"
-        android:inputType="textMultiLine" >
+        android:hint="@string/totals_" >
 
-        <requestFocus />
-    </EditText>
+    </TextView>
 
     <ListView
         android:id="@+id/expenselistView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/add_expense"
-        android:layout_alignLeft="@+id/expense_list"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/expense_list" >
 
     </ListView>
@@ -44,9 +45,8 @@
         android:id="@+id/add_expense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/totals"
-        android:layout_alignBottom="@+id/totals"
-        android:layout_alignRight="@+id/expenselistView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:text="@string/add" />
         
 </RelativeLayout>
