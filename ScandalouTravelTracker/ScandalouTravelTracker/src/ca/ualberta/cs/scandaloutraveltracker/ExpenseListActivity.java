@@ -50,7 +50,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	private Claim currentClaim;
 	private ClaimController claimController;
 	private ClaimMapper mapper;
-	
+	private boolean canEdit;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		Intent intent = getIntent();
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 	    currentClaim = new Claim(claimId);
+	    canEdit = currentClaim.getCanEdit();
 	    claimController = new ClaimController(currentClaim);
 	    mapper = new ClaimMapper(this.getApplicationContext());
 	    setViews();
@@ -113,12 +114,19 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 				  .setPositiveButton("Delete Expense", new DialogInterface.OnClickListener(){
 					  
 						public void onClick(DialogInterface dialog, int i) {
+						  if (canEdit) {
 							//delete correct expense
-						  Expense expense = claimController.getExpense(position);
-						  claimController.removeExpense(expense);
-						  expense.notifyViews();
-						  mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
-						  setViews();
+							  Expense expense = claimController.getExpense(position);
+							  claimController.removeExpense(expense);
+							  expense.notifyViews();
+							  mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+							  setViews();  
+						  }
+						  else {
+	            			   Toast.makeText(getApplicationContext(), 
+	            					   		  currentClaim.getStatus() + " claims can not be edited.", 
+	            					   		  Toast.LENGTH_SHORT).show();
+	            		   }
 					  }
 
 				  })
@@ -126,20 +134,27 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 					  @Override
 						public void onClick(DialogInterface dialog, int i) {
 						Expense expense = claimController.getExpense(position);
-						if (expense.getFlag() == false) {
-							expense.setFlag(true);
-							expense.notifyViews();
-							mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
-							setViews();
-							Toast.makeText(getApplicationContext(), "Expense Flagged", Toast.LENGTH_SHORT).show();
+						if (canEdit) {
+							if (expense.getFlag() == false) {
+								expense.setFlag(true);
+								expense.notifyViews();
+								mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+								setViews();
+								Toast.makeText(getApplicationContext(), "Expense Flagged", Toast.LENGTH_SHORT).show();
+							}
+							else {
+								expense.setFlag(false);
+								expense.notifyViews();
+								mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+								setViews();
+								Toast.makeText(getApplicationContext(), "Expense Un-flagged", Toast.LENGTH_SHORT).show();
+							}	
 						}
 						else {
-							expense.setFlag(false);
-							expense.notifyViews();
-							mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
-							setViews();
-							Toast.makeText(getApplicationContext(), "Expense Un-flagged", Toast.LENGTH_SHORT).show();
-						}
+	            			   Toast.makeText(getApplicationContext(), 
+	            					   		  currentClaim.getStatus() + " claims can not be edited.", 
+	            					   		  Toast.LENGTH_SHORT).show();
+	            		   }
 					  }
 				  
 			});
