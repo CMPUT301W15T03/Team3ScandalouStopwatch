@@ -34,6 +34,7 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -48,6 +49,12 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	private int expenseId;
 	private Date newDate;
 	private ClaimMapper mapper;
+	private boolean canEdit;
+	private EditText description;
+	private EditText date;
+	private EditText cost;
+	private Spinner category;
+	private Spinner currenyType;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +62,11 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		setContentView(R.layout.activity_edit_expense);
 		
 		//initialize fields
-		final EditText description = (EditText) findViewById(R.id.description);
+		EditText description = (EditText) findViewById(R.id.description);
 		final EditText date = (EditText) findViewById(R.id.date_expense);
-		final EditText cost = (EditText) findViewById(R.id.amount);
-		final Spinner category = (Spinner) findViewById(R.id.catspinner);
-		final Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
+		EditText cost = (EditText) findViewById(R.id.amount);
+		Spinner category = (Spinner) findViewById(R.id.catspinner);
+		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
 		
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
@@ -80,12 +87,9 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			finish();
 		}
 		
-		//TODO - Delete Toast Later
-		Toast.makeText(this, "Expense Position " + expenseId,
-				Toast.LENGTH_SHORT).show();
-		
 		//Set currentClaim to the claim that was selected via intent
 		currentClaim = new Claim(claimId);
+		canEdit = currentClaim.getCanEdit();
 		claimController = new ClaimController(currentClaim);
 		
 		String categoryString = claimController.getExpense(expenseId).getCategory();
@@ -101,30 +105,96 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		category.setSelection(getIndex(category, categoryString));
 		currencyType.setSelection(getIndex(currencyType, currencyString));
 		
+		// Sets all the layout elements if the claim can't be edited
+				if (!canEdit) {
+					description.setFocusable(false);
+					date.setFocusable(false);
+					cost.setFocusable(false);
+					category.setEnabled(false);
+					currencyType.setEnabled(false);
+					
+					description.setOnClickListener(new View.OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							Toast.makeText(getApplicationContext(),
+									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+						}
+					});
+					
+					date.setOnClickListener(new View.OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							Toast.makeText(getApplicationContext(),
+									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+						}
+					});
+					
+					cost.setOnClickListener(new View.OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							Toast.makeText(getApplicationContext(),
+									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+						}
+					});
+					
+					category.setOnTouchListener(new View.OnTouchListener() {
+						
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							Toast.makeText(getApplicationContext(),
+									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+							return false;
+						}
+					});
+					
+					currencyType.setOnTouchListener(new View.OnTouchListener() {
+						
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							Toast.makeText(getApplicationContext(),
+									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+							return false;
+						}
+					});
+				}
+		
 		//date dialog picker
 		date.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				DialogFragment newFragment = new DatePickerFragment() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear,
-							int dayOfMonth) {
-						String dateString = convertToString(year, monthOfYear, dayOfMonth);
-						date.setHint(dateString);
-						Calendar cal = Calendar.getInstance();
-						cal.set(year, monthOfYear, dayOfMonth);
-						Date tmpDate = cal.getTime();
-						SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
-						try {
-							newDate = sdf.parse(dateString);
-						} catch (ParseException e) {
-							throw new RuntimeException();
+				
+				if (canEdit) {
+					DialogFragment newFragment = new DatePickerFragment() {
+						@Override
+						public void onDateSet(DatePicker view, int year, int monthOfYear,
+								int dayOfMonth) {
+							String dateString = convertToString(year, monthOfYear, dayOfMonth);
+							date.setHint(dateString);
+							Calendar cal = Calendar.getInstance();
+							cal.set(year, monthOfYear, dayOfMonth);
+							Date tmpDate = cal.getTime();
+							SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
+							try {
+								newDate = sdf.parse(dateString);
+							} catch (ParseException e) {
+								throw new RuntimeException();
+							}
+							newDate = tmpDate;
+							date.setText(dateString);
 						}
-						newDate = tmpDate;
-						date.setText(dateString);
-					}
-				};
-				newFragment.show(getFragmentManager(), "datePicker");
+					};
+					newFragment.show(getFragmentManager(), "datePicker");
+				}
+				
+				else {
+     			   Toast.makeText(getApplicationContext(), 
+     					   		  currentClaim.getStatus() + " claims can not be edited.", 
+     					   		  Toast.LENGTH_SHORT).show();
+     		   }
+				
 			}
 		});
 	}
@@ -148,76 +218,83 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	//is called when edit button is clicked
 	public void confirmEdit(View v) {	
-		//initialize fields again
-		final EditText description = (EditText) findViewById(R.id.description);
-		final EditText date = (EditText) findViewById(R.id.date_expense);
-		final EditText cost = (EditText) findViewById(R.id.amount);
-		final Spinner category = (Spinner) findViewById(R.id.catspinner);
-		final Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
-		
-		//parse the string input from user
-		String descrString = description.getText().toString();
-		String dateString = date.getText().toString();
-		String costString = cost.getText().toString();
-		String categoryString = category.getSelectedItem().toString();
-		String currencyTypeString = currencyType.getSelectedItem().toString();
-		
-		//check multiple user input errors and get them to correct accordingly
-		//category is required
-		if (categoryString.equals("--Choose Category--")) {
-			Toast.makeText(this, "Please include a category", Toast.LENGTH_SHORT).show();
-			return;
-		}
-		//cost is required
-		else if (costString.equals("")) {
-			cost.setError("Please include an amount");
-			cost.requestFocus();
-			return;
-		}
-		//date is required
-		else if (dateString.equals("")) {
-			Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
-			return;
-		}
-		//currency is required
-		else if (currencyTypeString.equals("--Choose Currency--")) {
-			Toast.makeText(this, "Please include a currency", Toast.LENGTH_SHORT).show();
-			return;
-		}
-		//description is required
-		else if (descrString.equals("")) {
-			description.setError("Please include a description");
-			description.requestFocus();
-			return;
-		}
-		//everything is good to be added
-		else {
-			if (costString.equals(".")) {
-				costString = "0";
-			}
-			mapper = new ClaimMapper(this.getApplicationContext());
-			Expense expense = new Expense();
+		if (canEdit) {
+			//initialize fields again
+			final EditText description = (EditText) findViewById(R.id.description);
+			final EditText date = (EditText) findViewById(R.id.date_expense);
+			final EditText cost = (EditText) findViewById(R.id.amount);
+			final Spinner category = (Spinner) findViewById(R.id.catspinner);
+			final Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
 			
-			//checks if date is unchanged
-			if (dateString.equals(claimController.getExpense(expenseId)
-				.getDateString())) {
-				expense.setDate(claimController.getExpense(expenseId).getDate());
+			//parse the string input from user
+			String descrString = description.getText().toString();
+			String dateString = date.getText().toString();
+			String costString = cost.getText().toString();
+			String categoryString = category.getSelectedItem().toString();
+			String currencyTypeString = currencyType.getSelectedItem().toString();
+			
+			//check multiple user input errors and get them to correct accordingly
+			//category is required
+			if (categoryString.equals("--Choose Category--")) {
+				Toast.makeText(this, "Please include a category", Toast.LENGTH_SHORT).show();
+				return;
 			}
-			//change to new date
+			//cost is required
+			else if (costString.equals("")) {
+				cost.setError("Please include an amount");
+				cost.requestFocus();
+				return;
+			}
+			//date is required
+			else if (dateString.equals("")) {
+				Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			//currency is required
+			else if (currencyTypeString.equals("--Choose Currency--")) {
+				Toast.makeText(this, "Please include a currency", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			//description is required
+			else if (descrString.equals("")) {
+				description.setError("Please include a description");
+				description.requestFocus();
+				return;
+			}
+			//everything is good to be added
 			else {
-				expense.setDate(newDate);
+				if (costString.equals(".")) {
+					costString = "0";
+				}
+				mapper = new ClaimMapper(this.getApplicationContext());
+				Expense expense = new Expense();
+				
+				//checks if date is unchanged
+				if (dateString.equals(claimController.getExpense(expenseId)
+					.getDateString())) {
+					expense.setDate(claimController.getExpense(expenseId).getDate());
+				}
+				//change to new date
+				else {
+					expense.setDate(newDate);
+				}
+				
+				expense.setDescription(descrString);
+				expense.setCategory(categoryString);
+				expense.setCurrencyType(currencyTypeString);
+				expense.setCost(Double.valueOf(costString));
+				claimController.updateExpense(expenseId, expense);
+				mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+				setResult(RESULT_OK);
+				
+				//Go back to ExpenseList
+				finish();
 			}
-			
-			expense.setDescription(descrString);
-			expense.setCategory(categoryString);
-			expense.setCurrencyType(currencyTypeString);
-			expense.setCost(Double.valueOf(costString));
-			claimController.updateExpense(expenseId, expense);
-			mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
-			setResult(RESULT_OK);
-			
-			//Go back to ExpenseList
-			finish();
+		}
+		else {
+			   Toast.makeText(getApplicationContext(), 
+					   		  currentClaim.getStatus() + " claims can not be edited.", 
+					   		  Toast.LENGTH_SHORT).show();
 		}
 	}
 	

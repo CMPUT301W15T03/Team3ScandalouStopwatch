@@ -49,5 +49,10 @@
 		<item >Add Expense to Claim</item>
 		<item >Delete Claim</item>
 	</string-array>
+	<string name="start_date">Start date</string>
+	<string name="end_date">End date</string>
+	<string name="destinations">Destinations</string>
+	<string name="submit">Submit</string>
+	<string name="edit_tags">Edit Tags</string>
     
 </resources>
