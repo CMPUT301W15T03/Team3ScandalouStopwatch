@@ -68,38 +68,39 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				newFragment.show(getFragmentManager(), "datePicker");
 			}
 		});
+		
+		//get widgets
 		final Spinner categorySpinner = (Spinner)findViewById(R.id.category);
 		final EditText amountEditText = (EditText)findViewById(R.id.amount2);
 		final Spinner currencySpinner = (Spinner)findViewById(R.id.currency);
 		final EditText descriptionEditText = (EditText)findViewById(R.id.description2);
+		
 		//create listener for Add button
 		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
 		addExpenseButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				//toast
+				//show warning if fields are left empty
 				if (categorySpinner.getSelectedItem().toString().equals( "--Choose Category--")) {
 					Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
 				}
-				else if(amountEditText.getText().length()==0){
+				else if (amountEditText.getText().length()==0) {
 					amountEditText.setError("Please include an amount");
 					amountEditText.requestFocus();
 				}
-				else if(dateEditText.getText().length()==0){
+				else if (dateEditText.getText().length()==0) {
 					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
 				}
 				else if ( currencySpinner.getSelectedItem().toString().equals( "--Choose Currency--")) {
 					Toast.makeText(getApplicationContext(), "Please include a currency", Toast.LENGTH_SHORT).show();
 				}
-				
-				else if(descriptionEditText.getText().length()==0){
+				else if (descriptionEditText.getText().length()==0) {
 					descriptionEditText.setError("Please include a description");
 					descriptionEditText.requestFocus();
 				}
 				
-				
-				else{
+				else {
 				
 				//create new Expense, fill in values, attach to claim, close activity
 				
@@ -141,7 +142,7 @@ public class AddExpenseActivity extends Activity implements ViewInterface {
 				mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
 				setResult(RESULT_OK);
 				finish();
-			}
+				}
 			}
 		});
 	}
