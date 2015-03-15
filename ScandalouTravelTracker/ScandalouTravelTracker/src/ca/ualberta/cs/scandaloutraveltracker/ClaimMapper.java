@@ -76,15 +76,7 @@ public class ClaimMapper {
 		
 		counterFile = this.context.getSharedPreferences("claimCounter", 0);
 		mostRecentId = counterFile.getInt("claimCount", 0);
-		
-		// Claim id started at 1 instead of 0 causing indexoutofboundsexception
-		// on methods using claim id and lists
-		if (mostRecentId == 0) {
-			newId = 0;
-		} else {
-			newId = mostRecentId+1;
-		}
-		
+		newId = mostRecentId+1;
 		editor = counterFile.edit();
 		editor.putInt("claimCount", newId);
 		editor.commit();

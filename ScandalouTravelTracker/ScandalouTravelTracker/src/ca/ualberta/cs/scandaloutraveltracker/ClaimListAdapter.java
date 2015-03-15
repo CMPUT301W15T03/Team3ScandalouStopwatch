@@ -68,11 +68,11 @@ public class ClaimListAdapter extends BaseAdapter {
 	}
 
 	/**
-	 * @return The Claim ID for the claim at position
+	 * @return The Claim associated with position 
 	 */
 	@Override
 	public long getItemId(int position) {
-		return claimList.getClaim(position).getId();
+		return position;
 	}
 
 	@Override

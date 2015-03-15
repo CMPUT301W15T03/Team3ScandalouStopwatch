@@ -132,7 +132,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param name Claimant's name
 	 */
 	public void setName(String name) {
-		this.name = name;
+		if (this.canEdit) {
+			this.name = name;
+		}
 	}
 	
 	/**
@@ -164,7 +166,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param startDate Claim's start date
 	 */
 	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+		if (canEdit) {
+			this.startDate = startDate;
+		}
 	}
 	
 	/**
