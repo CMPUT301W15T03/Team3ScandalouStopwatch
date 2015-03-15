@@ -106,6 +106,17 @@ public class ClaimListAdapter extends BaseAdapter {
 		
 		claimTagsTV.setText(currentClaim.tagsToString());
 		
+		// Setting default (empty) values
+		if (currentClaim.destinationsToString().equals("")) {
+			claimDestinationTV.setText("No destinations");
+		}
+		if (totalsStr.equals("")) {
+			claimTotalTV.setText("Totals: ");
+		}
+		if (currentClaim.tagsToString().equals("")) {
+			claimTagsTV.setText("Tags: ");
+		}
+		
 		return convertView;
 	}
 	
