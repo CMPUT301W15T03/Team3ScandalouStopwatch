@@ -16,13 +16,14 @@ limitations under the License.
 
 */
 
-/* ViewInterface.java Basic Info:
- *  Part of MVC. All the views need to implement this interface if it needs
- *  to interact with any of the models.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
+/**
+ *  Part of MVC; all the views need to implement this interface if it needs
+ *  to interact with any of the models.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public interface ViewInterface {
 	void update();
 }

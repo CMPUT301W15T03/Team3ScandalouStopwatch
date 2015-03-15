@@ -16,15 +16,16 @@ limitations under the License.
 
 */
 
-/* SModel.java Basic Info:
- *  Part of MVC. All models must extend the SModel. Allows the model to
- *  keep track of its views and to add and delete them.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 
+/**
+ *  Part of MVC; all models must extend the SModel. Allows the model to
+ *  keep track of its views and to add and delete them.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class SModel {
 	protected ArrayList<ViewInterface> views;
 	

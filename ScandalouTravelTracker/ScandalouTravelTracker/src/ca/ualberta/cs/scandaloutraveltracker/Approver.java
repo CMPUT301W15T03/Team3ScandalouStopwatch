@@ -30,7 +30,7 @@ public class Approver extends User {
 
 	/**
 	 * Constructor that just currently sets the name of the Approver.
-	 * @param name
+	 * @param name Name of the Approver
 	 */
 	public Approver(String name) {
 		super(name);

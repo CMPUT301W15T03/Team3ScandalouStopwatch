@@ -16,18 +16,11 @@ limitations under the License.
 
 */
 
-/* DestinationListAdapter.java Basic Info:
- *  Allows essential information from the Destination class to be displayed
- *  in a ListView.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,19 +29,33 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ *  Allows essential information from the Destination class to be displayed
+ *  in a ListView.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class DestinationListAdapter extends BaseAdapter {
 	protected ArrayList<Destination> destinations;
 	protected Context context;
 	protected String listLocation;
 	protected boolean canEdit;
 	
+	/**
+	 * Information that needs to be passed to the DestinationListAdapter so
+	 * it can properly display Destination information.
+	 * @param context
+	 * @param listLocation
+	 * @param destinations
+	 * @param canEdit
+	 */
 	public DestinationListAdapter(Context context, String listLocation, ArrayList<Destination> destinations, boolean canEdit) {
 		this.context = context;
 		this.destinations = destinations;
 		this.listLocation = listLocation;
 		this.canEdit = canEdit;
 	}
-
+	
 	@Override
 	public int getCount() {
 		return destinations.size();

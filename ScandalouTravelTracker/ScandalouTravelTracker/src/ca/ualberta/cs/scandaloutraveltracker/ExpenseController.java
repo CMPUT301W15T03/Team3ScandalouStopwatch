@@ -16,57 +16,96 @@ limitations under the License.
 
 */
 
-/* ExpenseController.java Basic Info:
- *  When supplied with an expense the controller allows you to edit 
- *  expense information (expense should not be edited directly).
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.io.File;
 import java.util.Date;
 
-import android.view.View;
-
+/**
+ *  When supplied with an expense the controller allows you to edit 
+ *  expense information (expense should not be edited directly).
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class ExpenseController {
 	private Expense currentExpense;
 	
+	/**
+	 * ExpenseController needs the expense it is to edit as a paramter.
+	 * @param currentExpense
+	 */
 	public ExpenseController(Expense currentExpense) {
 		this.currentExpense = currentExpense;
 	}
 	
+	/**
+	 * 
+	 * @param description
+	 */
 	public void setDescription(String description) {
 		currentExpense.setDescription(description);
 	}
 	
+	/**
+	 * 
+	 * @param category
+	 */
 	public void setCategory(String category) {
 		currentExpense.setCategory(category);
 	}
 	
+	/**
+	 * 
+	 * @param currency
+	 */
 	public void setCurrency(String currency) {
 		currentExpense.setCurrencyType(currency);
 	}
 	
+	/**
+	 * 
+	 * @param flag
+	 */
 	public void setFlag(boolean flag) {
 		currentExpense.setFlag(flag);
 	}
 	
+	/**
+	 * 
+	 * @param cost
+	 */
 	public void setCost(double cost) {
 		currentExpense.setCost(cost);
 	}
 	
+	/**
+	 * 
+	 * @param date
+	 */
 	public void setDate(Date date) {
 		currentExpense.setDate(date);
 	}
 	
+	/**
+	 * 
+	 * @param view
+	 */
 	public void addView(ViewInterface view) {
 		currentExpense.addView(view);
 	}
 	
+	/**
+	 * 
+	 * @param view
+	 */
 	public void removeView(ViewInterface view) {
 		currentExpense.removeView(view);
 	}
 	
+	/**
+	 * 
+	 * @param photo
+	 */
 	public void setPhoto(File photo) {
 		currentExpense.setPhoto(photo);
 	}

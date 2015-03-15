@@ -16,15 +16,14 @@ limitations under the License.
 
 */
 
-/* Constants.java Basic Info:
- *  Class contains all the values that are constant throughout the
- *  application.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
-import java.util.ArrayList;
-
+/**
+ *  Class contains all the values that are constant throughout the
+ *  application.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class Constants {
 
 	// Labels

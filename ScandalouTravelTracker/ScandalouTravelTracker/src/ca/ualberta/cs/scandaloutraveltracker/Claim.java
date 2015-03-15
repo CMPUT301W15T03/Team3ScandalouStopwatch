@@ -86,7 +86,13 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.status = "In Progress";
 	}
 	
-	// Constructor to quickly make a claim
+	/**
+	 * Constructor that is used in tests to quickly create a 
+	 * claim and set some necessary data.
+	 * @param name Name of user claim belongs to
+	 * @param sDate Starting date of claim
+	 * @param eDate Ending date of claim
+	 */
 	public Claim(String name, Date sDate, Date eDate) {
 		this.name = name;
 		this.startDate = sDate;
@@ -105,7 +111,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param id
+	 * @param id Claim's ID
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -139,7 +145,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param description
+	 * @param description Claim's description
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -155,7 +161,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param startDate
+	 * @param startDate Claim's start date
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -180,7 +186,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param endDate
+	 * @param endDate Claim's end date
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
@@ -205,7 +211,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param destinations
+	 * @param destinations Claim's destinations
 	 */
 	public void setDestinations(ArrayList<Destination> destinations) {
 		this.destinations = destinations;
@@ -221,7 +227,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param expenses
+	 * @param expenses Claim's expenses
 	 */
 	public void setExpenses(ArrayList<Expense> expenses) {
 		this.expenses = expenses;
@@ -238,7 +244,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param tags
+	 * @param tags Claim's tags
 	 */
 	public void setTags(ArrayList<String> tags) {
 		this.tags = tags;
@@ -246,7 +252,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @return
+	 * @return Claim's status
 	 */
 	public String getStatus(){
 		return status;
@@ -254,7 +260,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param status
+	 * @param status Claim's status
 	 */
 	public void setStatus(String status) {
 		this.status = status;
@@ -270,7 +276,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param approverName
+	 * @param approverName Name of approver who approved Claim
 	 */
 	public void setApproverName(String approverName) {
 	}
@@ -285,7 +291,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param approverComment
+	 * @param approverComment Comment approver left
 	 */
 	public void setApproverComment(String approverComment) {
 		this.approverComment = approverComment;
@@ -293,7 +299,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param canEdit
+	 * @param canEdit Boolean for if claim can be edited
 	 */
 	public void setCanEdit(boolean canEdit) {
 		this.canEdit = canEdit;
@@ -310,7 +316,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	/**
 	 * Returns an expense in the list of expenses associated
 	 * with the position passed.
-	 * @param position
+	 * @param position Position associated with claim
 	 * @return Expense located in position
 	 */
 	public Expense getExpense(int position) {
@@ -324,11 +330,11 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * be changed by a claimant and updates the claim by using
 	 * the claim's id along with a claimMapper.
 	 * 
-	 * @param startDate
-	 * @param endDate
-	 * @param description
-	 * @param destinations
-	 * @param canEdit
+	 * @param startDate Claim's start date
+	 * @param endDate Claim's end date
+	 * @param description Claim's description
+	 * @param destinations Claim's destinations
+	 * @param canEdit If the claim can be edited
 	 * @see ClaimMapper#updateClaim(int, Date, Date, String, ArrayList, boolean)
 	 */
 	public void updateClaim(Date startDate, Date endDate, String description,
@@ -352,7 +358,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * Uses the ClaimMapper to save the updated tag values
 	 * and notifies the views associated with the Claim to
 	 * update.
-	 * @param tags
+	 * @param tags Claim's tags
 	 * @see ClaimMapper#updateTags(int, ArrayList)
 	 */
 	public void updateTags(ArrayList<String> tags){
@@ -370,8 +376,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * associated with a submitted claim. This is, setting
 	 * the status to submitted and canEdit boolean to false.
 	 * Uses the ClaimMapper to save updated data.
-	 * @param status
-	 * @param canEdit
+	 * @param status Claim's status
+	 * @param canEdit If the claim can be edited or not
 	 * @see ClaimMapper#submitClaim(int, String, boolean)
 	 */
 	public void submitClaim(String status, boolean canEdit){
@@ -384,7 +390,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param destination
+	 * @param destination Claim's destination
 	 */
 	public void addDestination(Destination destination) {
 		this.destinations.add(destination);
@@ -392,7 +398,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 
 	/**
 	 * 
-	 * @param destination
+	 * @param destination Claim's destination
 	 */
 	public void removeDestination(Destination destination) {
 		this.destinations.remove(destination);
@@ -400,7 +406,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param expense
+	 * @param expense Claim's expense
 	 */
 	public void addExpense(Expense expense) {
 		this.expenses.add(expense);
@@ -408,7 +414,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param expense
+	 * @param expense Claim's expense
 	 */
 	public void deleteExpense(Expense expense) {
 		this.expenses.remove(expense);
@@ -477,7 +483,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * name. 
 	 * Currently incomplete. Should get the approverName from
 	 * user. Perhaps pass in the Approver rather than String.
-	 * @param approverName
+	 * @param approverName Name of Approver
 	 */
 	public void approveClaim(String approverName){
 		this.status = "Approved";
@@ -490,7 +496,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * name.
 	 * Currently incomplete. Should get the approverName from
 	 * user. Perhaps pass in the Approver rather than String.
-	 * @param approverName
+	 * @param approverName Name of Approver
 	 */
 	public void returnClaim(String approverName){
 		this.status = "Returned";
