@@ -16,11 +16,6 @@ limitations under the License.
 
 */
 
-/* EditClaimActivity.java Basic Info:
- *  This activity contains a claim that was selected from the ClaimListActivity
- *  and allows you to edit the claim.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.SimpleDateFormat;
@@ -28,10 +23,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
@@ -42,7 +36,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -51,6 +44,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+/**
+ *  This activity contains a claim that was selected from the ClaimListActivity
+ *  and allows you to edit the claim.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class EditClaimActivity extends Activity implements ViewInterface {
 
 	private Claim claim;
@@ -71,12 +71,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	
 	private DestinationListAdapter destinationsAdapter;
 	
-	private String name;
+
 	private Date startDate;
 	private Date endDate;
 	private String description;
 	private ArrayList<Destination> destinations;
-	private ArrayList<String> tagsString;
 	private boolean canEdit;
 	
 	@Override
@@ -113,17 +112,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		// Disable clicking on descriptionDisplay if can't edit
 		// Remove update button from the screen
 		if (!canEdit) {
-			
-			// Layout was breaking with removal of some elements
-			/*
-			ViewGroup parentOfUpdate = (ViewGroup) updateButton.getParent();
-			parentOfUpdate.removeView(updateButton);
-			ViewGroup parentOfNewDestination = (ViewGroup) newDestinationButton.getParent();
-			parentOfNewDestination.removeView(newDestinationButton);
-		    ViewGroup parentOfSendButton = (ViewGroup) sendButton.getParent();
-		    parentOfSendButton.removeView(sendButton);
-		    */
-			
 		    
 			updateButton.setVisibility(View.INVISIBLE);
 			newDestinationButton.setVisibility(View.INVISIBLE);
@@ -164,7 +152,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				
 			});
 			newDestinationButton.setOnClickListener(new View.OnClickListener() {
-				@Override
+				@SuppressLint("InflateParams") @Override
 				public void onClick(View v) {
 				// http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
 					 LayoutInflater newDestInf = LayoutInflater.from(context);
@@ -359,7 +347,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 	}
 	
-	// Function checks if the claim has all the data needed to be sent
+	/**
+	 * Checks if the Claim has enough information to be sent to
+	 * an approver.
+	 * @return boolean if claim can be sent
+	 */
 	private boolean canClaimBeSent() {
 		if (claim.getDestinations().size() < 1) {
 			Toast.makeText(getApplicationContext(), "Please add a destination before submitting",
@@ -389,8 +381,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		// Get controller
 		ClaimController claimController = new ClaimController(claim);
 		
-		// Get claim info
-		name = claimController.getName();
 		//status = claimController.getStatus();
 		startDate = claimController.getStartDate();
 		endDate = claimController.getEndDate();
@@ -413,6 +403,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 	}
 	
+	/**
+	 * Parses the tagString to give an ArrayList of tags
+	 * @param tagsString String of tags separated by commas
+	 * @return ArrayList with just the tag names
+	 */
 	public ArrayList<String> getTagsList(String tagsString){
 		
 		String[] temp = tagsString.split(", ");
@@ -424,6 +419,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		return tags;
 	}
 	
+	/**
+	 * Given the list of tags this changes it into a string
+	 * @param tagsList
+	 * @return string of tags
+	 */
 	public String getTagsString(ArrayList<String> tagsList){
 		
 		String tags = "";

@@ -16,11 +16,6 @@ limitations under the License.
 
 */
 
-/* ExpenseListAdapter.java Basic Info:
- *  An adapter that allows an expense to display its essential information
- *  in a ListView.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.DecimalFormat;
@@ -35,6 +30,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ *  An adapter that allows an expense to display its essential information
+ *  in a ListView.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class ExpenseListAdapter extends BaseAdapter {
 	private ArrayList<Expense> expenses;
 	private Context context;

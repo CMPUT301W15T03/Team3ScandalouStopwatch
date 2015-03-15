@@ -504,11 +504,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.canEdit = true; 
 	}
 
-	/**
-	 * 
-	 * @param another A second claim to be compared to
-	 * @return 0 if dates equal, >0 if date is after another, <0 if date is before another
-	 */
 	@Override
 	public int compareTo(Claim another) {
 		return another.getStartDate().compareTo(startDate);

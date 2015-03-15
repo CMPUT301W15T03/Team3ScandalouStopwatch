@@ -16,11 +16,6 @@ limitations under the License.
 
 */
 
-/* EditExpenseActivity.java Basic Info:
- *  Activity takes an expense from the ExpenseListActivity and allows 
- *  the user to edit information about the expense.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.ParseException;
@@ -29,10 +24,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +37,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+
+/**
+ *  Activity takes an expense from the ExpenseListActivity and allows 
+ *  the user to edit information about the expense.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	private ClaimController claimController;
@@ -50,13 +53,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	private Date newDate;
 	private ClaimMapper mapper;
 	private boolean canEdit;
-	private EditText description;
-	private EditText date;
-	private EditText cost;
-	private Spinner category;
-	private Spinner currenyType;
 	
-	@Override
+	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_expense);
@@ -142,7 +140,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 					
 					category.setOnTouchListener(new View.OnTouchListener() {
 						
-						@Override
+						@SuppressLint("ClickableViewAccessibility") @Override
 						public boolean onTouch(View v, MotionEvent event) {
 							Toast.makeText(getApplicationContext(),
 									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();

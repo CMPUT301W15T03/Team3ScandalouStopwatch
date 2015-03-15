@@ -16,40 +16,33 @@ limitations under the License.
 
 */
 
-/* ExpenseListActivity.java Basic Info:
- *  This activity displays the list of expenses that is related to the
- *  current claim. From here you can edit expenses.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.Spannable;
-import android.text.method.MovementMethod;
+import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ *  This activity displays the list of expenses that is related to the
+ *  current claim. From here you can edit expenses.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class ExpenseListActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
 	private ListView expenseListView ;
@@ -171,6 +164,9 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		});
 	}
 	
+	// Know that the expense list will always be ArrayList<Expense> so
+	// warning is supressed.
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -181,105 +177,14 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		setViews();
 	}
 	
-	// Need to re-set the views here after we make any save to the expense data
+	/**
+	 * Need to set the views for expenses again after the expenses are saved. 
+	 */
 	private void setViews() {
 		for (Expense expense : claimController.getExpenseList()) {
 			expense.addView(this);
 		}
 		updateTotals();
-	}
-	
-	// TODO: DELETE THIS METHOD. USED FOR TESTING EXPENSELISTACTIVITY.
-	public void addExpenses() {
-		Expense expense1 = new Expense();
-		Expense expense2 = new Expense();
-		Expense expense3 = new Expense();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-		Date date;
-		
-		// Expense 1
-		ExpenseController expenseController = new ExpenseController(expense1);
-		expenseController.setCategory("Meal");
-		expenseController.setCost(15.00);
-		expenseController.setCurrency("CAD");
-		expenseController.addView(this);
-		expenseController.setDescription("Meal at a super dope place");
-
-		try {
-			date = sdf.parse("01/01/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		
-		expenseController.setDate(date);
-		
-		// Expense 2
-		expenseController = new ExpenseController(expense2);
-		expenseController.setCategory("Accomodation");
-		expenseController.setCost(20.00);
-		expenseController.setCurrency("USD");
-		expenseController.addView(this);
-		expenseController.setDescription("Stayed at a hostel");
-
-		try {
-			date = sdf.parse("02/02/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		
-		expenseController.setDate(date);
-		
-		// Expense 3
-		expenseController = new ExpenseController(expense3);
-		expenseController.setCategory("Travel");
-		expenseController.setCost(150.00);
-		expenseController.setCurrency("JPY");
-		expenseController.addView(this);
-		expenseController.setDescription("Took an expensive taxi");
-
-		try {
-			date = sdf.parse("03/03/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		
-		expenseController.setDate(date);
-		
-		claimController.addExpense(expense3);
-		claimController.addExpense(expense1);
-		claimController.addExpense(expense2);
-		mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
-	}
-	
-	// For making a test claim (holding expenses)
-	private Claim createTestClaim() {
-		Claim newClaim = new Claim();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.CANADA);
-		Date startDate;
-		try {
-			startDate = sdf.parse("01/01/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		Date endDate;
-		try {
-			endDate = sdf.parse("02/02/2015");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		
-		ClaimController claimController = new ClaimController(newClaim);
-		claimController.setName("Test Claim");
-		claimController.setStartDate(startDate);
-		claimController.setEndDate(endDate);
-		
-		return newClaim;
 	}
 
 	@Override
@@ -294,7 +199,9 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		expenseListAdapter.notifyDataSetChanged();
 	}
 	
-	//Displays the total currency at the bottom of the page
+	/**
+	 * Function updates the totals displayed at the bottom of the activity.
+	 */
 	private void updateTotals(){
 		TextView totalView = (TextView) findViewById(R.id.totals);
 		HashMap<String,Double> totals = currentClaim.computeTotal();

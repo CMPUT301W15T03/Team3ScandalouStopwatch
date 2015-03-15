@@ -16,50 +16,38 @@ limitations under the License.
 
 */
 
-/* NewClaimActivity.java Basic Info:
- *  Activity that allows the user to add a new claim to the claim list.
- *  Accessed through the add button on the ClaimListActivity.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
-import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.DialogFragment;
-import android.text.AndroidCharacter;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-
-import android.view.View.OnLongClickListener;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import android.content.Context;
-import android.content.DialogInterface;
 //import android.content.Context;
-import android.content.Intent;
 
+/**
+ *  Activity that allows the user to add a new claim to the claim list.
+ *  Accessed through the add button on the ClaimListActivity.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class NewClaimActivity extends Activity implements ViewInterface{
 	
 	private Claim claim = new Claim();
@@ -172,7 +160,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		});
 		
 		addDestButton.setOnClickListener(new View.OnClickListener() {
-			@Override
+			@SuppressLint("InflateParams") @Override
 			public void onClick(View v) {
 			// http://newtoknow.blogspot.ca/2011/08/android-alert-dialog-with-multi-edit.html 13/3/15
 				 LayoutInflater newDestInf = LayoutInflater.from(context);
@@ -225,12 +213,21 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	
 	}
 	
+	/**
+	 * Sets the views for all the destinations after they have been removed. 
+	 */
 	private void setViews() {
 		for (Destination dest : claimController.getDestinations()) {
 			dest.addView(this);
 		}
 	}
 	
+	/**
+	 * Takes a string that contains tags separated by commas and parses it
+	 * so the ArrayList just contains the tags.
+	 * @param tagsString Comma separated tag string
+	 * @return Parsed ArrayList of tags
+	 */
 	public ArrayList<String> getTagsList(String tagsString){
 		
 		String[] temp = tagsString.split(", ");

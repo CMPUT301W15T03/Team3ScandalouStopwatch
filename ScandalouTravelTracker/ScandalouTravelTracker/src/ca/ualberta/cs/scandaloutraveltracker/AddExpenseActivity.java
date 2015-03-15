@@ -15,11 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-
-/* AddExpenseActivity.java Basic Info:
- *  This is the activity that provides functionality for adding a new
- *  expense to the current claim.
- */
 	
 package ca.ualberta.cs.scandaloutraveltracker;
 
@@ -37,6 +32,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+/**
+ *  This is the activity that provides functionality for adding a new
+ *  expense to the current claim.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class AddExpenseActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
 	private Date date;

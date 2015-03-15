@@ -16,33 +16,28 @@ limitations under the License.
 
 */
 
-/* ClaimListActivity.java Basic Info:
- *  This activity is the first activity that is displayed to the user.
- *  The activity contains the list of claims that the user has and
- *  allows the user to make modifications to the claim they choose.
- */
-
 package ca.ualberta.cs.scandaloutraveltracker;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
+/**
+ *  This activity is the first activity that is displayed to the user.
+ *  The activity contains the list of claims that the user has and
+ *  allows the user to make modifications to the claim they choose.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class ClaimListActivity extends Activity implements ViewInterface {
 	private Button addClaimButton;
 	private ListView claimsListView;
