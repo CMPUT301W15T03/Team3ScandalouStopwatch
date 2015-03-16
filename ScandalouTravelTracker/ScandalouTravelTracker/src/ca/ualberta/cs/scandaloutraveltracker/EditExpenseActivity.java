@@ -47,6 +47,7 @@ import android.widget.Toast;
 public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	private ClaimController claimController;
+	private ExpenseController expenseController;
 	private int claimId;
 	private int expenseId;
 	private Date newDate;
@@ -263,23 +264,23 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 					costString = "0";
 				}
 				mapper = new ClaimMapper(this.getApplicationContext());
-				Expense expense = new Expense();
+				expenseController = new ExpenseController(new Expense());
 				
 				//checks if date is unchanged
 				if (dateString.equals(claimController.getExpense(expenseId)
 					.getDateString())) {
-					expense.setDate(claimController.getExpense(expenseId).getDate());
+					expenseController.setDate(claimController.getExpense(expenseId).getDate());
 				}
 				//change to new date
 				else {
-					expense.setDate(newDate);
+					expenseController.setDate(newDate);
 				}
 				
-				expense.setDescription(descrString);
-				expense.setCategory(categoryString);
-				expense.setCurrencyType(currencyTypeString);
-				expense.setCost(Double.valueOf(costString));
-				claimController.updateExpense(expenseId, expense);
+				expenseController.setDescription(descrString);
+				expenseController.setCategory(categoryString);
+				expenseController.setCurrency(currencyTypeString);
+				expenseController.setCost(Double.valueOf(costString));
+				claimController.updateExpense(expenseId, expenseController.getExpense());
 				mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
 				setResult(RESULT_OK);
 				

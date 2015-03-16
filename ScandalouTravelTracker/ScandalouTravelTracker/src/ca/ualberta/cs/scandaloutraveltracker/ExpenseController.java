@@ -121,6 +121,16 @@ public class ExpenseController {
 	}
 	
 	/**
+	 * This method is specifically used for passing the newly created
+	 * expense into the ClaimController so it can be added to the
+	 * claim's expenses list.
+	 * @return The current expense
+	 */
+	public Expense getExpense() {
+		return currentExpense;
+	}
+	
+	/**
 	 *  Notifies the currentExpense views that it has been updated
 	 */
 	public void notifyViews() {
