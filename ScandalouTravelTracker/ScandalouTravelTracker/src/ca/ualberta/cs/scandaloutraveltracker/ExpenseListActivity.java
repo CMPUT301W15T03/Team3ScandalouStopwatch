@@ -73,18 +73,23 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 
 		//set layout elements
 		addExpenseButton = (Button) findViewById(R.id.add_expense);
-		//add button on click
-		addExpenseButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				//add expense
-				Intent intent = new Intent(ExpenseListActivity.this, NewExpenseActivity.class);
-				intent.putExtra(Constants.claimIdLabel, claimId);
-				startActivity(intent);
-			}
-		});
 		
+		if (!canEdit) {
+			//hide button
+			addExpenseButton.setVisibility(View.INVISIBLE);
+		} else {
+			//setup add expense listener
+			addExpenseButton.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					//add expense
+					Intent intent = new Intent(ExpenseListActivity.this, NewExpenseActivity.class);
+					intent.putExtra(Constants.claimIdLabel, claimId);
+					startActivity(intent);
+				}
+			});
+		}
 		
 		expenseListView = (ListView) findViewById(R.id.expenselistView);
 		expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
