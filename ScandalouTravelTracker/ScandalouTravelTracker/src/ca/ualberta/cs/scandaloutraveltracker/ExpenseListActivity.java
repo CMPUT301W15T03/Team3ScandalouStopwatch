@@ -115,8 +115,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 						  if (canEdit) {
 							  //delete correct expense
 							  claimController.removeExpense(claimController.getExpense(position));
-							  claimController.getExpense(position).notifyViews();
 							  mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+							  update();
 							  setViews();  
 						  }
 						  else {
