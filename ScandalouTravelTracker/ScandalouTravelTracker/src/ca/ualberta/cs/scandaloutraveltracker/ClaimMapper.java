@@ -67,7 +67,7 @@ public class ClaimMapper {
 	 * This helps us give a unique ID for each claim the user creates.
 	 * @return new unique claim ID
 	 */
-	public int incrementClaimCounter(){
+	private int incrementClaimCounter(){
 
 		int mostRecentId;
 		int newId;

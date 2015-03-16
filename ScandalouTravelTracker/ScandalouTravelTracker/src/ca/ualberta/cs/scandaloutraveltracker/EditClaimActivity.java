@@ -53,9 +53,9 @@ import android.widget.Toast;
  */
 public class EditClaimActivity extends Activity implements ViewInterface {
 
-	private Claim claim;
 	private int claimId;
 	private Context context;
+	private ClaimController claimController;
 	
 	private TextView statusDisplay;
 	private EditText startDateDisplay;
@@ -103,10 +103,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		updateButton = (Button) findViewById(R.id.edit_claim_update);
 	    statusDisplay = (TextView) findViewById(R.id.edit_claim_status);		
 		
-	    claim = new Claim(claimId);
-	    canEdit = claim.getCanEdit();
+	    claimController = new ClaimController(new Claim(claimId));
+	    canEdit = claimController.getCanEdit();
 	    
-	    claim.addView(this);
+	    claimController.addView(this);
 		update();		
 		
 		// Disable clicking on descriptionDisplay if can't edit
@@ -125,7 +125,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				@Override
 				public void onClick(View v) {
 						Toast.makeText(getApplicationContext(),
-								claim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+								claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 				}
 				
 			});
@@ -139,7 +139,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 					String description = descriptionDisplay.getText().toString();
 					boolean canEdit = true;
 					
-					ClaimController claimController = new ClaimController(claim);
 					claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
 
 					ClaimListController claimListController = new ClaimListController();
@@ -221,7 +220,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 									@Override
 									public void onClick(DialogInterface dialog, int i) {
 										
-										ClaimController claimController = new ClaimController(claim);
 										claimController.submitClaim(Constants.statusSubmitted, false);
 										
 										ClaimListController claimListController = new ClaimListController();
@@ -236,7 +234,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 						} 
 					} else {
 						Toast.makeText(getApplicationContext(),
-								claim.getStatus() + " claims cannot be sent.", Toast.LENGTH_SHORT).show();
+								claimController.getStatus() + " claims cannot be sent.", Toast.LENGTH_SHORT).show();
 					}
 					
 				}
@@ -260,14 +258,14 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							Date date = cal.getTime();
 							startDate = date;
 							startDateDisplay.setText(startDateString);
-							claim.setStartDate(date);
+							claimController.setStartDate(date);
 						}
 					};
 					newFragment.show(getFragmentManager(), "datePicker");
 				}
 				else {
 					Toast.makeText(getApplicationContext(),
-							claim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -289,14 +287,14 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							Date date = cal.getTime();
 							endDate = date;
 							endDateDisplay.setText(endDateString);
-							claim.setEndDate(date);
+							claimController.setEndDate(date);
 						}
 					};
 						newFragment.show(getFragmentManager(), "datePicker");
 				}
 				else {
 					Toast.makeText(getApplicationContext(),
-							claim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});	
@@ -328,7 +326,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							String tagsString = tagsInput.getText().toString();
 							ArrayList<String> tagsList = getTagsList(tagsString);							
 	
-							ClaimController claimController = new ClaimController(claim);
 							claimController.updateTags(tagsList);
 							
 							ClaimListController claimListController = new ClaimListController();
@@ -351,15 +348,15 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	 * @return boolean if claim can be sent
 	 */
 	private boolean canClaimBeSent() {
-		if (claim.getDestinations().size() < 1) {
+		if (claimController.getDestinations().size() < 1) {
 			Toast.makeText(getApplicationContext(), "Please add a destination before submitting",
 					Toast.LENGTH_SHORT).show();
 			return false;
-		} else if (claim.getExpenses().size() < 1) {
+		} else if (claimController.getExpenseList().size() < 1) {
 			Toast.makeText(getApplicationContext(), "Please add an expense before submitting",
 					Toast.LENGTH_SHORT).show();
 			return false;
-		} else if (claim.getDescription() == null) {
+		} else if (claimController.getDescription() == null) {
 			return false;
 		} 
 		
@@ -375,9 +372,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 
 	@Override
 	public void update() {
-		
-		// Get controller
-		ClaimController claimController = new ClaimController(claim);
 		
 		//status = claimController.getStatus();
 		startDate = claimController.getStartDate();

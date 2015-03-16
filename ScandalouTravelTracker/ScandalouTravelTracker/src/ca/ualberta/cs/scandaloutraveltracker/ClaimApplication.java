@@ -13,7 +13,6 @@ import android.content.Context;
 public class ClaimApplication extends Application {
 	
 	private User user;
-	private ClaimListController claimListController;
 	private static Context context;
 	
 	// CITATION http://stackoverflow.com/questions/21818905/get-application-context-from-non-activity-singleton-class, 2015-03-12
@@ -46,14 +45,6 @@ public class ClaimApplication extends Application {
 	 */
 	public void setUser(User user) {
 		this.user = user;
-	}
-	
-	/**
-	 * 
-	 * @return ClaimListController
-	 */
-	public ClaimListController getClaimListController() {
-		return claimListController;
 	}
 	
 }

@@ -238,6 +238,14 @@ public class ClaimController {
 	}
 	
 	/**
+	 * 
+	 * @param view
+	 */
+	public void addView(ViewInterface view) {
+		currentClaim.addView(view);
+	}
+	
+	/**
 	 * Updates the claim with the paramters passed.
 	 * @param startDate
 	 * @param endDate
