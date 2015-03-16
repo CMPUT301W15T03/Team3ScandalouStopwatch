@@ -46,6 +46,7 @@ import android.widget.Toast;
 public class ExpenseListActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
 	private ListView expenseListView ;
+	private ExpenseController expenseController;
 	private ExpenseListAdapter expenseListAdapter;
 	private int claimId;
 	private ClaimController claimController;
@@ -60,8 +61,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		// Set currentClaim to the claim that was selected via intent
 		Intent intent = getIntent();
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
-	    canEdit = claimController.getCanEdit();
 	    claimController = new ClaimController(new Claim(claimId));
+	    canEdit = claimController.getCanEdit();
 	    mapper = new ClaimMapper(this.getApplicationContext());
 	    setViews();
 	    
@@ -113,9 +114,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 						public void onClick(DialogInterface dialog, int i) {
 						  if (canEdit) {
 							  //delete correct expense
-							  Expense expense = claimController.getExpense(position);
-							  claimController.removeExpense(expense);
-							  expense.notifyViews();
+							  claimController.removeExpense(claimController.getExpense(position));
+							  claimController.getExpense(position).notifyViews();
 							  mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
 							  setViews();  
 						  }
@@ -130,19 +130,19 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 				  .setNeutralButton("Flag/Unflag", new DialogInterface.OnClickListener(){
 					  @Override
 						public void onClick(DialogInterface dialog, int i) {
-							Expense expense = claimController.getExpense(position);
+						  	expenseController = new ExpenseController(claimController.getExpense(position));
 							if (canEdit) {
 								//flag/unflag expense
-								if (expense.getFlag() == false) {
-									expense.setFlag(true);
-									expense.notifyViews();
+								if (expenseController.getFlag() == false) {
+									expenseController.setFlag(true);
+									expenseController.notifyViews();
 									mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
 									setViews();
 									Toast.makeText(getApplicationContext(), "Expense Flagged", Toast.LENGTH_SHORT).show();
 								}
 								else {
-									expense.setFlag(false);
-									expense.notifyViews();
+									expenseController.setFlag(false);
+									expenseController.notifyViews();
 									mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
 									setViews();
 									Toast.makeText(getApplicationContext(), "Expense Un-flagged", Toast.LENGTH_SHORT).show();
@@ -180,7 +180,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	 */
 	private void setViews() {
 		for (Expense expense : claimController.getExpenseList()) {
-			expense.addView(this);
+			expenseController = new ExpenseController(expense);
+			expenseController.addView(this);
 		}
 		updateTotals();
 	}

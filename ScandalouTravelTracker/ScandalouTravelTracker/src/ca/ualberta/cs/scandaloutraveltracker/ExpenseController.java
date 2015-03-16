@@ -53,6 +53,8 @@ public class ExpenseController {
 	public void setCategory(String category) {
 		currentExpense.setCategory(category);
 	}
+
+	
 	
 	/**
 	 * 
@@ -68,6 +70,14 @@ public class ExpenseController {
 	 */
 	public void setFlag(boolean flag) {
 		currentExpense.setFlag(flag);
+	}
+	
+	/**
+	 * 
+	 * @return True if the expense is flagged and false otherwise
+	 */
+	public boolean getFlag() {
+		return currentExpense.getFlag();
 	}
 	
 	/**
@@ -108,6 +118,13 @@ public class ExpenseController {
 	 */
 	public void setPhoto(File photo) {
 		currentExpense.setPhoto(photo);
+	}
+	
+	/**
+	 *  Notifies the currentExpense views that it has been updated
+	 */
+	public void notifyViews() {
+		currentExpense.notifyViews();
 	}
 	
 }

@@ -85,8 +85,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		}
 		
 		//Set currentClaim to the claim that was selected via intent
-		canEdit = claimController.getCanEdit();
 		claimController = new ClaimController(new Claim(claimId));
+		canEdit = claimController.getCanEdit();
 		
 		String categoryString = claimController.getExpense(expenseId).getCategory();
 		String currencyString = claimController.getExpense(expenseId).getCurrencyType();
