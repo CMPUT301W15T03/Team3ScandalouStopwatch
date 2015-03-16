@@ -104,6 +104,7 @@ public class ClaimStatusTest extends TestCase {
 		Claim claim1 = new Claim();
 		String status1 = "Submitted";		
 		claim1.setStatus(status1);
+		claim1.setApproverComment(comment);
 		
 		// Perform actions
 		claim1.returnClaim(approverName1);
