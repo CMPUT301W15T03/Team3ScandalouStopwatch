@@ -18,10 +18,7 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
 
