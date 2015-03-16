@@ -41,6 +41,7 @@ public class ClaimList extends SModel {
 	
 	/**
 	 * Constructor used for testing purposes
+	 * @param test
 	 */
 	public ClaimList(boolean test) {
 		claims = new ArrayList<Claim>();
