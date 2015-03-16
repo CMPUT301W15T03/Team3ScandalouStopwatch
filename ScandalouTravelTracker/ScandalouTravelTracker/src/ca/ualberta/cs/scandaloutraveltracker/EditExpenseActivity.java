@@ -279,7 +279,9 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				expenseController.setDescription(descrString);
 				expenseController.setCategory(categoryString);
 				expenseController.setCurrency(currencyTypeString);
-				expenseController.setCost(Double.valueOf(costString));
+				costString = String.format("%.2f", Double.valueOf(costString));
+				double amount = Double.valueOf(costString);
+				expenseController.setCost(Double.valueOf(amount));
 				claimController.updateExpense(expenseId, expenseController.getExpense());
 				mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
 				setResult(RESULT_OK);

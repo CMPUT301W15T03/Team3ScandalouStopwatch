@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
@@ -83,6 +84,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
 		addExpenseButton.setOnClickListener(new View.OnClickListener() {
 			
+			@SuppressLint("DefaultLocale")
 			@Override
 			public void onClick(View v) {
 				//show warning if fields are left empty
@@ -128,6 +130,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				if (costString.equals(".")) {
 					costString = "0";
 				}
+				costString = String.format("%.2f", Double.valueOf(costString));
 				double amount = Double.valueOf(costString);
 				EController.setCost(amount);
 				

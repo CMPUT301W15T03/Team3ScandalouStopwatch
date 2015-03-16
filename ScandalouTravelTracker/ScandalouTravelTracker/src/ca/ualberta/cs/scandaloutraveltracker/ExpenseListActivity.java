@@ -208,7 +208,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		for (Entry<String, Double> entry : totals.entrySet()) {
 		    String key = entry.getKey();
 		    Double value = entry.getValue();
-		    totalString = totalString + key + " = " + value + "\n"; 
+		    totalString = totalString + key + " = " + String.format("%.2f", 
+		    		Double.valueOf(value)) + "\n"; 
 		}
 		totalView.setText(totalString);
 		totalView.setMovementMethod(new ScrollingMovementMethod());
