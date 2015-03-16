@@ -40,6 +40,13 @@ public class ClaimList extends SModel {
 	}
 	
 	/**
+	 * Constructor used for testing purposes
+	 */
+	public ClaimList(boolean test) {
+		claims = new ArrayList<Claim>();
+	}
+	
+	/**
 	 * Uses lazy initialization and won't create the claimList until it
 	 * is needed to be created by the app. Also uses the Singleton design
 	 * pattern as it will return the only instance of claimList in the
