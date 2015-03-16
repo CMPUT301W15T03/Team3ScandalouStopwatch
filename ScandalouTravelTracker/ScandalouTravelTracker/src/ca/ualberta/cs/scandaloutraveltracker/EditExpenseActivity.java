@@ -47,7 +47,6 @@ import android.widget.Toast;
 public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	private ClaimController claimController;
-	private Claim currentClaim;
 	private int claimId;
 	private int expenseId;
 	private Date newDate;
@@ -86,9 +85,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		}
 		
 		//Set currentClaim to the claim that was selected via intent
-		currentClaim = new Claim(claimId);
-		canEdit = currentClaim.getCanEdit();
-		claimController = new ClaimController(currentClaim);
+		canEdit = claimController.getCanEdit();
+		claimController = new ClaimController(new Claim(claimId));
 		
 		String categoryString = claimController.getExpense(expenseId).getCategory();
 		String currencyString = claimController.getExpense(expenseId).getCurrencyType();
@@ -116,7 +114,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 						@Override
 						public void onClick(View v) {
 							Toast.makeText(getApplicationContext(),
-									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 						}
 					});
 					
@@ -125,7 +123,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 						@Override
 						public void onClick(View v) {
 							Toast.makeText(getApplicationContext(),
-									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 						}
 					});
 					
@@ -134,7 +132,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 						@Override
 						public void onClick(View v) {
 							Toast.makeText(getApplicationContext(),
-									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 						}
 					});
 					
@@ -143,7 +141,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 						@SuppressLint("ClickableViewAccessibility") @Override
 						public boolean onTouch(View v, MotionEvent event) {
 							Toast.makeText(getApplicationContext(),
-									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 							return false;
 						}
 					});
@@ -153,7 +151,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 						@Override
 						public boolean onTouch(View v, MotionEvent event) {
 							Toast.makeText(getApplicationContext(),
-									currentClaim.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 							return false;
 						}
 					});
@@ -189,7 +187,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				
 				else {
      			   Toast.makeText(getApplicationContext(), 
-     					   		  currentClaim.getStatus() + " claims can not be edited.", 
+     					   		  claimController.getStatus() + " claims can not be edited.", 
      					   		  Toast.LENGTH_SHORT).show();
      		   }
 				
@@ -291,7 +289,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		}
 		else {
 			   Toast.makeText(getApplicationContext(), 
-					   		  currentClaim.getStatus() + " claims can not be edited.", 
+					   		  claimController.getStatus() + " claims can not be edited.", 
 					   		  Toast.LENGTH_SHORT).show();
 		}
 	}

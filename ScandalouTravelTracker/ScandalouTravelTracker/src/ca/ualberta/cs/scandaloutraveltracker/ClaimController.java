@@ -19,6 +19,7 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  *  The Claim Controller class is used for making changes to a Claim that
@@ -267,6 +268,10 @@ public class ClaimController {
 	 */
 	public void submitClaim(String status, boolean canEdit){
 		currentClaim.submitClaim(status, canEdit);
+	}
+	
+	public HashMap<String, Double> computeTotal() {
+		return currentClaim.computeTotal();
 	}
 	
 	/**

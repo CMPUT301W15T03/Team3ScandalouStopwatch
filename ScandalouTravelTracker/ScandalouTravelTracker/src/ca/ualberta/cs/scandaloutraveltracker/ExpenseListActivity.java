@@ -48,7 +48,6 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	private ListView expenseListView ;
 	private ExpenseListAdapter expenseListAdapter;
 	private int claimId;
-	private Claim currentClaim;
 	private ClaimController claimController;
 	private ClaimMapper mapper;
 	private boolean canEdit;
@@ -61,9 +60,8 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		// Set currentClaim to the claim that was selected via intent
 		Intent intent = getIntent();
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
-	    currentClaim = new Claim(claimId);
-	    canEdit = currentClaim.getCanEdit();
-	    claimController = new ClaimController(currentClaim);
+	    canEdit = claimController.getCanEdit();
+	    claimController = new ClaimController(new Claim(claimId));
 	    mapper = new ClaimMapper(this.getApplicationContext());
 	    setViews();
 	    
@@ -88,7 +86,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		
 		
 		expenseListView = (ListView) findViewById(R.id.expenselistView);
-		expenseListAdapter = new ExpenseListAdapter(this, currentClaim.getExpenses());
+		expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
 		expenseListView.setAdapter(expenseListAdapter);
 		
 		expenseListView.setOnItemClickListener(new OnItemClickListener() {
@@ -123,7 +121,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 						  }
 						  else {
 	            			  Toast.makeText(getApplicationContext(), 
-	            					   		  currentClaim.getStatus() + " claims can not be edited.", 
+	            					  		  claimController.getStatus() + " claims can not be edited.", 
 	            					   		  Toast.LENGTH_SHORT).show();
 	            		  }
 					    }
@@ -152,7 +150,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 							}
 							else {
 		            			   Toast.makeText(getApplicationContext(), 
-		            					   		  currentClaim.getStatus() + " claims can not be edited.", 
+		            					   		  claimController.getStatus() + " claims can not be edited.", 
 		            					   		  Toast.LENGTH_SHORT).show();
 		            		}
 					    }
@@ -172,7 +170,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		super.onResume();
 		//refresh expense list
 		claimController.setExpenses((ArrayList<Expense>)mapper.loadClaimData(claimId, "expenses"));
-		expenseListAdapter = new ExpenseListAdapter(this, currentClaim.getExpenses());
+		expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
 		expenseListView.setAdapter(expenseListAdapter);
 		setViews();
 	}
@@ -204,7 +202,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 	 */
 	private void updateTotals(){
 		TextView totalView = (TextView) findViewById(R.id.totals);
-		HashMap<String,Double> totals = currentClaim.computeTotal();
+		HashMap<String,Double> totals = claimController.computeTotal();
 		String totalString = "Total Currency Values:" + "\n";
 		for (Entry<String, Double> entry : totals.entrySet()) {
 		    String key = entry.getKey();
