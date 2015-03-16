@@ -18,25 +18,32 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import junit.framework.TestCase;
 
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
+import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
-public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivity> {
+public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
 	
 	public ClaimTest() {
-		super(ClaimListActivity.class);
+		super(EditClaimActivity.class);
 	}
 	
 	// Test UC 01.01.01
@@ -63,23 +70,39 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    assertTrue("Place should match", newDestination.getName().equals(l1));
 	    assertTrue("Reason should match", secDestination.getDescription().equals(r2));
 	}
-	
-/*	// Test UC 01.03.01
+
+	/*
+	// Test UC 01.03.01
 	public void testClaimDisplayed() {
-	    ViewClaimActivity activity = startWithClaim();
+	    EditClaimActivity activity = startWithClaim();
 	    View allViews = activity.getWindow().getDecorView();
-	    TextView claimName = (TextView) activity.findViewById(R.id.claimNameText);
-	    TextView startDate = (TextView) activity.findViewById(R.id.startDateText);
-	    TextView endDate = (TextView) activity.findViewById(R.id.endDateText);
+	    TextView claimName = (TextView) activity.findViewById(R.id.edit_claim_claimant_name);
+	    TextView startDate = (TextView) activity.findViewById(R.id.edit_claim_start_date);
+	    TextView endDate = (TextView) activity.findViewById(R.id.edit_claim_end_date);
 	    ViewAsserts.assertOnScreen(allViews, (View) claimName);
 	    ViewAsserts.assertOnScreen(allViews, (View) startDate);
 	    ViewAsserts.assertOnScreen(allViews, (View) endDate);
-	}*/
+	}
 	
-/*	private ViewClaimActivity startWithClaim() {
-		// TODO Give a Claim for the test to start with
-		return null;
-	}*/
+	private EditClaimActivity startWithClaim() {
+		String name = "test";
+		Date sDate = new Date(123);
+		Date eDate = new Date(456);
+		Claim testClaim = new Claim(name, sDate, eDate);
+		EditClaimActivity activity = getActivity();
+		
+	    TextView nameDisplay = (TextView) activity.findViewById(R.id.edit_claim_claimant_name);
+	    TextView sDateDisplay = (EditText) activity.findViewById(R.id.edit_claim_start_date);
+	    TextView eDateDisplay = (EditText) activity.findViewById(R.id.edit_claim_end_date);
+	    
+	    nameDisplay.setText(testClaim.getName());
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
+	    sDateDisplay.setText(sdf.format(testClaim.getStartDate()));
+	    eDateDisplay.setText(sdf.format(testClaim.getStartDate()));
+	    
+		return activity;
+	}
+	*/
 
 	// Test UC 01.04.01
 	public void testCantEditClaim() {
@@ -142,21 +165,47 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<ClaimListActivit
 	    claimsList.removeClaim(0);
 	    assertEquals("Count should be zero", 0, claimsList.getCount());
 	}
-	/*
+	
 	// Test UC 01.06.01
 	public void testSavedData() {
 	    String name = "Justin";
 	    Date sDate = new Date(123);
 	    Date eDate = new Date(456);
-	    ClaimList claims = new ClaimList();
-	    Claim claim = new Claim(name, sDate, eDate); 
-	    claims.add(claim);
-	    claims.saveList();
+	    String description = "description";
+	    ArrayList<Destination> destinations = new ArrayList<Destination>();
+	    ArrayList<String> tagsList = new ArrayList<String>();
+	    String status = Constants.statusInProgress;
+	    boolean canEdit = true;
+	    ArrayList<Expense> expenses = new ArrayList<Expense>();
+	    Claim testClaim = new Claim(2, name, description, sDate, eDate, destinations, tagsList,
+	    		status, expenses, canEdit);
+	    ClaimList claims1 = new ClaimList(true);
+	    claims1.addClaim(testClaim);
+	    claims1.createClaim(name, sDate, eDate, description, destinations, 
+				tagsList, status, canEdit, expenses);
 
-	    ClaimList claims2 = new ClaimList();
-	    claims2.loadList();
+	    ClaimList claims2 = ClaimList.getClaimList();
 
-	    assertEquals("Two claim lists are not equal", claims, claims2);
+	    assertEquals("Id should be equal", claims1.getClaims().get(0).getId(), 
+	    		claims2.getClaims().get(0).getId());
+	    assertEquals("Names should be equal", claims1.getClaims().get(0).getName(), 
+	    		claims2.getClaims().get(0).getName());
+	    assertEquals("Start dates should be equal", claims1.getClaims().get(0).getStartDate(), 
+	    		claims2.getClaims().get(0).getStartDate());
+	    assertEquals("End dates should be equal", claims1.getClaims().get(0).getEndDate(), 
+	    		claims2.getClaims().get(0).getEndDate());
+	    assertEquals("Description should be equal", claims1.getClaims().get(0).getDescription(), 
+	    		claims2.getClaims().get(0).getDescription());
+	    assertEquals("Destinations should be equal", claims1.getClaims().get(0).getDestinations(), 
+	    		claims2.getClaims().get(0).getDestinations());
+	    assertEquals("Tags should be equal", claims1.getClaims().get(0).getTags(), 
+	    		claims2.getClaims().get(0).getTags());
+	    assertEquals("Status should be equal", claims1.getClaims().get(0).getStatus(), 
+	    		claims2.getClaims().get(0).getStatus());
+	    assertEquals("Expenses should be equal", claims1.getClaims().get(0).getExpenses(), 
+	    		claims2.getClaims().get(0).getExpenses());
+	    assertEquals("CanEdit flag should be equal", claims1.getClaims().get(0).getCanEdit(), 
+	    		claims2.getClaims().get(0).getCanEdit());
 	}
-	*/
+
 }

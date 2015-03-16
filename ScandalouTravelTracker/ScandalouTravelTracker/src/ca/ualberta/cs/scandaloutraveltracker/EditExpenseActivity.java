@@ -284,6 +284,9 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				expenseController.setCost(Double.valueOf(amount));
 				claimController.updateExpense(expenseId, expenseController.getExpense());
 				mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+				ClaimListController claimListController = new ClaimListController();
+				claimListController.removeClaim(claimId);
+				claimListController.addClaim(new Claim(claimId));
 				setResult(RESULT_OK);
 				
 				//Go back to ExpenseList
