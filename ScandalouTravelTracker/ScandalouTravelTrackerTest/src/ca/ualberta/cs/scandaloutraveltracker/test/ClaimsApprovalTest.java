@@ -1,6 +1,6 @@
 /*
 
-Copyright 2015 ScandalouStopwatch
+Copyright 2015 Team3ScandalouStopwatch
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
