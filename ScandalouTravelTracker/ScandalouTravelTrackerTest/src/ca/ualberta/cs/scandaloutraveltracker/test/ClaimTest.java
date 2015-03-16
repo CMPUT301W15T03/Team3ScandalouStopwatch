@@ -18,32 +18,43 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
-import junit.framework.TestCase;
-
-import ca.ualberta.cs.scandaloutraveltracker.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
-import ca.ualberta.cs.scandaloutraveltracker.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
-import ca.ualberta.cs.scandaloutraveltracker.R;
+import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
+import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.R;
 
 public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
 	
+	private Activity activity;
+	private EditText startDateET;
+	private EditText endDateET;
+	private EditText descriptionET;
+	private TextView tagsTV;
+	
 	public ClaimTest() {
 		super(EditClaimActivity.class);
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		activity = getActivity();
+		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
+		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
+		startDateET = (EditText) activity.findViewById(R.id.edit_claim_start_date);
+	    endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
 	}
 	
 	// Test UC 01.01.01
@@ -71,39 +82,16 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivit
 	    assertTrue("Reason should match", secDestination.getDescription().equals(r2));
 	}
 
-	/*
+
 	// Test UC 01.03.01
 	public void testClaimDisplayed() {
-	    EditClaimActivity activity = startWithClaim();
 	    View allViews = activity.getWindow().getDecorView();
-	    TextView claimName = (TextView) activity.findViewById(R.id.edit_claim_claimant_name);
-	    TextView startDate = (TextView) activity.findViewById(R.id.edit_claim_start_date);
-	    TextView endDate = (TextView) activity.findViewById(R.id.edit_claim_end_date);
-	    ViewAsserts.assertOnScreen(allViews, (View) claimName);
-	    ViewAsserts.assertOnScreen(allViews, (View) startDate);
-	    ViewAsserts.assertOnScreen(allViews, (View) endDate);
+	    ViewAsserts.assertOnScreen(allViews, (View) startDateET);
+	    ViewAsserts.assertOnScreen(allViews, (View) endDateET);
+	    ViewAsserts.assertOnScreen(allViews, (View) descriptionET);
+	    ViewAsserts.assertOnScreen(allViews, (View) tagsTV);
 	}
 	
-	private EditClaimActivity startWithClaim() {
-		String name = "test";
-		Date sDate = new Date(123);
-		Date eDate = new Date(456);
-		Claim testClaim = new Claim(name, sDate, eDate);
-		EditClaimActivity activity = getActivity();
-		
-	    TextView nameDisplay = (TextView) activity.findViewById(R.id.edit_claim_claimant_name);
-	    TextView sDateDisplay = (EditText) activity.findViewById(R.id.edit_claim_start_date);
-	    TextView eDateDisplay = (EditText) activity.findViewById(R.id.edit_claim_end_date);
-	    
-	    nameDisplay.setText(testClaim.getName());
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
-	    sDateDisplay.setText(sdf.format(testClaim.getStartDate()));
-	    eDateDisplay.setText(sdf.format(testClaim.getStartDate()));
-	    
-		return activity;
-	}
-	*/
-
 	// Test UC 01.04.01
 	public void testCantEditClaim() {
 	    String name = "test";
