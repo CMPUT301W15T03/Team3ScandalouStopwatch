@@ -41,7 +41,10 @@ import android.widget.Toast;
 public class NewExpenseActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
 	private Date date;
-
+	private ClaimController CController;
+	private ExpenseController EController;
+	private ClaimListController claimListController;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,12 +111,10 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				//make controller for current claim
 				Intent intent = getIntent();
 			    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
-			    Claim claim = new Claim(claimId);
-			    ClaimController CController = new ClaimController(claim);
+			    CController = new ClaimController(new Claim(claimId));
 			    
 			    //make controller for new expense
-				Expense expense = new Expense();
-				ExpenseController EController = new ExpenseController(expense);
+				EController = new ExpenseController(new Expense());
 				
 				//fill in category
 				String category = (String)categorySpinner.getSelectedItem();
@@ -139,11 +140,11 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				EController.setDescription(description);
 				
 				//add new expense to claim and exit
-				CController.addExpense(expense);
+				CController.addExpense(EController.getExpense());
 				mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
 				
 				// Reload the claim list for the ClaimListActivity
-				ClaimListController claimListController = new ClaimListController();
+				claimListController = new ClaimListController();
 				claimListController.removeClaim(claimId);
 				claimListController.addClaim(new Claim(claimId));
 				
