@@ -310,10 +310,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
 				//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
 				AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
-				builder.setMessage("Are you sure you want to submit your claim? You won't be able to make any changes " +
-						"except adding/removing tags.")
-						
-				   .setView(tagsInput)
+				builder.setView(tagsInput)
 				   .setCancelable(true)
 				   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				       	public void onClick(DialogInterface dialog, int i) {
