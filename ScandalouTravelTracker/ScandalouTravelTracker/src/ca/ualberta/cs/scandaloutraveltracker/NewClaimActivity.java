@@ -50,8 +50,7 @@ import android.widget.Toast;
  */
 public class NewClaimActivity extends Activity implements ViewInterface{
 	
-	private Claim claim = new Claim();
-	private ClaimController claimController = new ClaimController(claim);
+	private ClaimController claimController = new ClaimController(new Claim());
 	private ArrayList<Destination> destinations = new ArrayList<Destination>();
 	private Date startDate;
 	private Date endDate;
@@ -129,7 +128,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 						Date date = cal.getTime();
 						startDate = date;
 						sDateSet.setText(startDateString);
-						claim.setStartDate(date);
+						claimController.setStartDate(date);
 					}
 				};
 				newFragment.show(getFragmentManager(), "datePicker");
@@ -152,7 +151,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					Date date = cal.getTime();
 					endDate = date;
 					eDateSet.setText(endDateString);
-					claim.setEndDate(date);
+					claimController.setEndDate(date);
 				}
 			};
 				newFragment.show(getFragmentManager(), "datePicker");
