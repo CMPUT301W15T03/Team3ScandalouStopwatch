@@ -124,6 +124,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 							  ClaimListController claimListController = new ClaimListController();
 							  claimListController.removeClaim(claimId);
 							  claimListController.addClaim(new Claim(claimId));
+							  update();
 							  setViews();  
 						  }
 						  else {
