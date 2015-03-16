@@ -87,6 +87,26 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	
 	/**
+	 * Constructor that is used to create more complete claims for
+	 * testing the claims.
+	 *
+	 */
+	public Claim(int id, String name, String description, Date sDate, Date eDate,
+			ArrayList<Destination> destinations, ArrayList<String> tags, String status,
+			ArrayList<Expense> expenses, boolean canEdit) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.startDate = sDate;
+		this.endDate = eDate;
+		this.destinations = destinations;
+		this.tags = tags;
+		this.status = status;
+		this.expenses = expenses;
+		this.canEdit = canEdit;		
+	}	
+	
+	/**
 	 * Constructor that is used in tests to quickly create a 
 	 * claim and set some necessary data.
 	 * @param name Name of user claim belongs to
