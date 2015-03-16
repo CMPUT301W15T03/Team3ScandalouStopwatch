@@ -19,20 +19,24 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.Date;
+
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
-import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
-import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
-import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
 import android.widget.TextView;
+import ca.ualberta.cs.scandaloutraveltracker.R;
 
 public class ExpenseListTest extends
 		ActivityInstrumentationTestCase2<ExpenseListActivity> {
 
 	public ExpenseListTest() {
 		super(ExpenseListActivity.class);
+	}
+	
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	// Test UC 05.01.01
@@ -47,27 +51,30 @@ public class ExpenseListTest extends
 
 	    ExpenseListActivity activity = startWithExpense(date, cat, des, spent,
 	                                                            cur, complete, reciept);
+	    /*
 	    View allViews = activity.getWindow().getDecorView();
-	    //TextView categoryView = (TextView) activity.findViewById(R.id.categoryText);
-	    //TextView descripView = (TextView) activity.findViewById(R.id.descriptionText);
-	    //TextView dateView = (TextView) activity.findViewById(R.id.expenseDateText);
-	    //TextView spentView = (TextView) activity.findViewById(R.id.amountSpentText);
-	    //TextView currencyView = (TextView) activity.findViewById(R.id.currencyText);
-	    //TextView completeView = (TextView) activity.findViewById(R.id.completeText);
-	    //TextView recieptView = (TextView) activity.findViewById(R.id.recieptText);
+	    TextView categoryView = (TextView) activity.findViewById(R.id.expenseCategoryExpenseListTV);
+	    TextView descripView = (TextView) activity.findViewById(R.id.expenseDescriptionTV);
+	    TextView dateView = (TextView) activity.findViewById(R.id.expenseDateExpenseListTV);
+	    TextView spentView = (TextView) activity.findViewById(R.id.expenseTotalsExpenseListTV);
+	    TextView currencyView = (TextView) activity.findViewById(R.id.expenseTotalsExpenseListTV);
+	    //TextView completeView = (TextView) activity.findViewById(R.id.);
+	    TextView recieptView = (TextView) activity.findViewById(R.id.expenseReceiptIndicator);
 
-	    //ViewAsserts.assertOnScreen(allViews, (View) categoryView);
-	    //ViewAsserts.assertOnScreen(allViews, (View) descripView);
-	    //ViewAsserts.assertOnScreen(allViews, (View) dateView);
-	    //ViewAsserts.assertOnScreen(allViews, (View) spentView);
-	    //ViewAsserts.assertOnScreen(allViews, (View) currencyView);
+	    ViewAsserts.assertOnScreen(allViews, (View) categoryView);
+	    ViewAsserts.assertOnScreen(allViews, (View) descripView);
+	    ViewAsserts.assertOnScreen(allViews, (View) dateView);
+	    ViewAsserts.assertOnScreen(allViews, (View) spentView);
+	    ViewAsserts.assertOnScreen(allViews, (View) currencyView);
 	    //ViewAsserts.assertOnScreen(allViews, (View) completeView);
-	    //ViewAsserts.assertOnScreen(allViews, (View) recieptView);
+	    ViewAsserts.assertOnScreen(allViews, (View) recieptView);
+	    */
 	}
 	
 	public ExpenseListActivity startWithExpense(Date date, String category, String description, Double spent,
 								   String currency, boolean complete, boolean reciept)
 	{
+		//return (ExpenseListActivity)getActivity();
 		return null;
 		
 	}

@@ -266,9 +266,10 @@ public class ExpenseOverallTests extends TestCase {
 	}
 	
 	// Test UC 04.08.01
-	// Test if navigation to add an expense is 2-3 screen/clicks
+	// Test if navigation to add an expense is 2 clicks
 	public void testExpenseNavigation() {
-		//manually test if expense add screen can be added in 2-3 screens/clicks when app starts up
-		//when UI made will make intent test
+		//manually test if expense add screen can be added in 2 clicks when app starts up
+		// TODO change to intent test
+		assertTrue("This should always pass",true);
 	}
 }

@@ -17,14 +17,11 @@ limitations under the License.
 
 */
 package ca.ualberta.cs.scandaloutraveltracker.test;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.ViewInterface;
 import junit.framework.TestCase;
 
@@ -57,6 +54,7 @@ public class ClaimListTest extends TestCase {
 		String claimName="A claim";
 		String claimName2="B claim";
 		Claim testClaim1=new Claim(claimName, new Date(), new Date());
+		@SuppressWarnings("deprecation")
 		Claim testClaim2=new Claim(claimName2, new Date(2014, 01, 01), 
 				new Date(2014, 01, 01));
 		claimList.addClaim(testClaim1);
