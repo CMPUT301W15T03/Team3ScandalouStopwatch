@@ -37,7 +37,7 @@ public class ExpenseOverallTests extends TestCase {
 	// Test if expenses can be added to a claim successfully
 	public void testCreateExpense() {
 		//can change date type later since Date is deprecated
-		Date date = new Date(2014,01,01);
+		Date date = new Date();
 		String category = "Air Fare";
 		String description = "Flight to YEG";
 		String description2 = "Flight from YEG";
@@ -82,7 +82,6 @@ public class ExpenseOverallTests extends TestCase {
 		}
 		String category = "Air Fare";
 		String description = "Flight to YEG";
-		String description2 = "Flight from YEG";
 		//can change type of amount later 
 		double cost = 566;
 		String currencyType = "CAD";
@@ -114,7 +113,6 @@ public class ExpenseOverallTests extends TestCase {
 		}
 		String category = "Air Fare";
 		String description = "Flight to YEG";
-		String description2 = "Flight from YEG";
 		//can change type of amount later 
 		double cost = 566;
 		String currencyType = "CAD";
