@@ -38,7 +38,7 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class AddExpenseActivity extends Activity implements ViewInterface {
+public class NewExpenseActivity extends Activity implements ViewInterface {
 	private Button addExpenseButton;
 	private Date date;
 

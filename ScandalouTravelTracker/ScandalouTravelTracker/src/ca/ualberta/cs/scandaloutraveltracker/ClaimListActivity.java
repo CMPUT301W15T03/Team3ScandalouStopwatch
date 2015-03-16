@@ -104,7 +104,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            		   
 		            		   // If/Else Checks if the Claim can actually be edited
 		            		   if (currentClaim.getCanEdit()) {
-		            			   Intent intent = new Intent(ClaimListActivity.this, AddExpenseActivity.class);
+		            			   Intent intent = new Intent(ClaimListActivity.this, NewExpenseActivity.class);
 								   intent.putExtra(Constants.claimIdLabel, claimId);
 			            		   startActivity(intent);
 		            		   }
