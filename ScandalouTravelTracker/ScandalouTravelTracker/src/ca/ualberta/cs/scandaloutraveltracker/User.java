@@ -23,12 +23,37 @@ package ca.ualberta.cs.scandaloutraveltracker;
  * @author Team3ScandalouStopwatch
  *
  */
-public abstract class User {
+public class User extends SModel implements Comparable<User> {
 
-	String name;
-	
-	public User(String name) {
-		this.name = name;
+	private int id;
+	private String name;
+
+	public User(int id) {
+		UserMapper mapper = new UserMapper(ClaimApplication.getContext());		
+		
+		this.id = (Integer)mapper.loadUserData(id, "id");
+		this.name = (String)mapper.loadUserData(id, "name");
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}	
+	
+	@Override
+	public int compareTo(User another) {
+		return another.getName().compareTo(name);
+	}	
+	
 }
