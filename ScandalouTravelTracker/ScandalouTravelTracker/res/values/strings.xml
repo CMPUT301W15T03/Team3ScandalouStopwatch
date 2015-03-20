@@ -9,6 +9,9 @@
     <string name="title_activity_view_expense">ViewExpenseActivity</string>
     <string name="title_activity_edit_expense">EditExpenseActivity</string>
     <string name="title_activity_expense_list">ExpenseListActivity</string>
+    <string name="claim_tracking_text">Claim Tracking:</string>
+    <string name="create_user_text">New User</string>
+    <string name="current_users_text">Select a User:</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
     <string name="description">Description</string>
@@ -26,34 +29,37 @@
     <string name="date_text_filler">Date range goes here </string>
     <string name="location_text_filler">Cities goes here</string>
     <string name="status_text_filler">Claim status goes here</string>
-	<string name="total_text_filler">Totals for the claim goes here</string>
-	<string name="tag_text_filler">Tags for the claim goes here</string>
-	<string name="expense_totals_text_filler">Expense Totals</string>
-	<string name="expense_date_text_filler">Date Here</string>
-	<string name="expense_category_text_filler">Expense Category</string>
-	<string name="expense_description_text_filler">Expense Description</string>
-	<string name="expense_incomplete_image_description">Image for incompleteness</string>
-	<string name="claim_text">Claims</string>
-	<string name="plus_sign_text">+</string>
-	<string name="edit_expense">Edit Expense</string>
-	<string name="approval_seeker">Approval Seeker</string>
-	<string name="update">Update</string>
-	<string name="send_for_approval">Send for Approval</string>
-	<string name="edit">Edit</string>
-	<string name="expenses">Expenses</string>
-	<string name="new_dest">New Destination</string>
-	<string name="totals_">Totals:</string>
-	<string name="receipt_text">Receipt: </string>
-	<string-array name="claim_menu" >
-		<item >Edit/View Claim</item>
-		<item >List Expenses for Claim</item>
-		<item >Add Expense to Claim</item>
-		<item >Delete Claim</item>
-	</string-array>
-	<string name="start_date">Start date</string>
-	<string name="end_date">End date</string>
-	<string name="destinations">Destinations</string>
-	<string name="submit">Submit</string>
-	<string name="edit_tags">Edit Tags</string>
-    
+    <string name="total_text_filler">Totals for the claim goes here</string>
+    <string name="tag_text_filler">Tags for the claim goes here</string>
+    <string name="expense_totals_text_filler">Expense Totals</string>
+    <string name="expense_date_text_filler">Date Here</string>
+    <string name="expense_category_text_filler">Expense Category</string>
+    <string name="expense_description_text_filler">Expense Description</string>
+    <string name="expense_incomplete_image_description">Image for incompleteness</string>
+    <string name="claim_text">Claims</string>
+    <string name="plus_sign_text">+</string>
+    <string name="edit_expense">Edit Expense</string>
+    <string name="approval_seeker">Approval Seeker</string>
+    <string name="update">Update</string>
+    <string name="send_for_approval">Send for Approval</string>
+    <string name="edit">Edit</string>
+    <string name="expenses">Expenses</string>
+    <string name="new_dest">New Destination</string>
+    <string name="totals_">Totals:</string>
+    <string name="receipt_text">Receipt: </string>
+
+    <string-array name="claim_menu">
+        <item>Edit/View Claim</item>
+        <item>List Expenses for Claim</item>
+        <item>Add Expense to Claim</item>
+        <item>Delete Claim</item>
+    </string-array>
+
+    <string name="start_date">Start date</string>
+    <string name="end_date">End date</string>
+    <string name="destinations">Destinations</string>
+    <string name="submit">Submit</string>
+    <string name="edit_tags">Edit Tags</string>
+    <string name="title_activity_select_user">SelectUser</string>
+
 </resources>
