@@ -34,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -65,6 +66,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		EditText cost = (EditText) findViewById(R.id.amount);
 		Spinner category = (Spinner) findViewById(R.id.catspinner);
 		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
+		
+		ImageButton imageButton = (ImageButton) findViewById(R.id.recipt_image_button);
 		
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
@@ -157,6 +160,23 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 						}
 					});
 				}
+				
+				//sets image button for recipt
+				imageButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+					
+						if (!canEdit) {
+							
+							Toast.makeText(getApplicationContext(),
+									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+						}
+						else {
+							
+							setReciptImage();
+						}
+					}
+				});
 		
 		//date dialog picker
 		date.setOnClickListener(new View.OnClickListener() {
@@ -312,4 +332,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		return index;
 	 }  
 
+	public void setReciptImage(){
+		
+		//
+	}
 }
