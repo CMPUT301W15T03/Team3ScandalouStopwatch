@@ -85,8 +85,9 @@
         android:layout_alignBottom="@+id/edit_claim_edit_tags"
         android:layout_alignLeft="@+id/edit_claim_update"
         android:layout_alignTop="@+id/edit_claim_edit_tags"
+        android:layout_toLeftOf="@+id/edit_claim_edit_tags"
         android:gravity="center_vertical"
-        android:textSize="20sp" />
+        android:textSize="@dimen/tags" />
 
     <Button
         android:id="@+id/edit_claim_edit_tags"
