@@ -33,8 +33,8 @@ public class Claimant extends User {
 	 * Sets the Claimant's name to the string passed.
 	 * @param name
 	 */
-	public Claimant(String name) {
-		super(name);
+	public Claimant(int id) {
+		super(id);
 	}
 
 }
