@@ -61,5 +61,6 @@
 	<string name="edit_tags">Edit Tags</string>
 	<string name="change_user">Change User</string>
 	<string name="change_screen">Change Screen</string>
+	<string name="user_name_filler">Name of User</string>
 
 </resources>
