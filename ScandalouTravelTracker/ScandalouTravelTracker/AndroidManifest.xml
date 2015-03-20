@@ -7,6 +7,18 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
+    
+    <!--  Copied from BogoPicGen lab 20/3/2015 -->
+        <!-- Add permission for camera (android.permission.CAMERA) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Add permission for writing to external storage (android.permission.WRITE_EXTERNAL_STORAGE) -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- As our application does not require a real camera -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:name="ca.ualberta.cs.scandaloutraveltracker.ClaimApplication"
@@ -36,10 +48,6 @@
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.EditExpenseActivity"
             android:label="@string/title_activity_view_expense" >
-        </activity>
-        <activity
-            android:name="ca.ualberta.cs.scandaloutraveltracker.NewExpenseActivity"
-            android:label="@string/title_activity_edit_expense" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity"

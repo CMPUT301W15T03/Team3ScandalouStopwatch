@@ -88,11 +88,11 @@ public class ExpenseListAdapter extends BaseAdapter {
 		
 		// Setting the receipt indicator
 		if (currentExpense.getReceiptAttached()) {
-			String indicator = "Reciept: Attached";
+			String indicator = "Receipt: Attached";
 			expenseReceiptIndicator.setText(indicator);
 		}
 		else {
-			String indicator = "Reciept: Unavailable";
+			String indicator = "Receipt: Unavailable";
 			expenseReceiptIndicator.setText(indicator);
 		}
 		

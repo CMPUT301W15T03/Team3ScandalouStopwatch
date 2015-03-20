@@ -16,7 +16,7 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	private TextView selectUserTV;
 	private ListView usersLV; 
 	private ArrayAdapter adapter; 
-	private UserListController ulc;
+	//private UserListController ulc;
 	
 
 	@Override
@@ -26,7 +26,7 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 		
 		setUpDisplay();
 		
-		ulc = new UserListController();
+		//ulc = new UserListController();
 		
 	}
 	
@@ -58,7 +58,7 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 		});
 		
 		// Set up ListView and Adapter
-		adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, ulc.getUserList());
+		//adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, ulc.getUserList());
 		usersLV.setAdapter(adapter);
 	}
 

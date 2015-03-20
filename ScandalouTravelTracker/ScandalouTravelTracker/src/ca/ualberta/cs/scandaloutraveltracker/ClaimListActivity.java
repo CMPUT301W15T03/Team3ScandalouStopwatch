@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -38,7 +39,7 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class ClaimListActivity extends Activity implements ViewInterface {
+public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private Button addClaimButton;
 	private ListView claimsListView;
 	private ClaimListAdapter claimListAdapter;
@@ -152,13 +153,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				alert.show();
 			}
 		});
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.claim_list, menu);
-		return true;
 	}
 
 	@Override
