@@ -54,6 +54,11 @@
 		<item >Add Expense to Claim</item>
 		<item >Delete Claim</item>
 	</string-array>
+	<string-array name="tag_menu" >
+	    <item>Rename Tag</item>
+	    <item>Delete Tag</item>
+	    <item>Get Claims with Tag</item>
+	</string-array>
 	<string name="start_date">Start date</string>
 	<string name="end_date">End date</string>
 	<string name="destinations">Destinations</string>

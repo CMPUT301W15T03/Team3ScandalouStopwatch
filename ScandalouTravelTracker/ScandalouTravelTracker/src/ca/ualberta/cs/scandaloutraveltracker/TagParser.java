@@ -1,8 +1,6 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 import java.util.ArrayList;
 
-import android.util.Log;
-
 /**
  * TagParser returns a list of starting and ending indices of
  * tags prefixed with a # and post-fixed with a comma.  

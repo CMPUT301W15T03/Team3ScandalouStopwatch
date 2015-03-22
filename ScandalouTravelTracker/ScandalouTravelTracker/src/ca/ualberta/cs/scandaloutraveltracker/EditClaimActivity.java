@@ -433,7 +433,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		for (int i = 0; i < indices.size(); i++) {
 			IntegerPair currentIndex = indices.get(i);
 			Log.d("TAG", ""+currentIndex.getX()+", "+currentIndex.getY());
-			spannableString.setSpan(new TagClickableSpan(), currentIndex.getX(), 
+			spannableString.setSpan(new TagClickableSpan(EditClaimActivity.this), currentIndex.getX(), 
 									currentIndex.getY(), 0);
 		}
 
