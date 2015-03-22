@@ -33,6 +33,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -71,7 +74,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	
 	private DestinationListAdapter destinationsAdapter;
 	
-
+	private SpannableString spannableString;
+	
 	private Date startDate;
 	private Date endDate;
 	private String description;
@@ -414,9 +418,27 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		startDateDisplay.setText(sdf.format(startDate));
 		endDateDisplay.setText(sdf.format(endDate));
 		descriptionDisplay.setText(description);
-		tagsDisplay.setText(tagsString);
 		destinationsAdapter = new DestinationListAdapter(this, "editClaim", destinations, canEdit);
 		destinationList.setAdapter(destinationsAdapter);
+		
+		// Update the tags to be clickable
+		// http://stackoverflow.com/questions/10696986/how-to-set-the-part-of-the-text-view-is-clickable 03/19/2015
+		spannableString = new SpannableString(tagsString);
+
+		TagParser parser = new TagParser();
+		ArrayList<IntegerPair> indices = parser.parse(tagsString);
+		Log.d("TAG", tagsString);
+		Log.d("TAG", "Indices size: " + indices.size());
+
+		for (int i = 0; i < indices.size(); i++) {
+			IntegerPair currentIndex = indices.get(i);
+			Log.d("TAG", ""+currentIndex.getX()+", "+currentIndex.getY());
+			spannableString.setSpan(new TagClickableSpan(), currentIndex.getX(), 
+									currentIndex.getY(), 0);
+		}
+
+		tagsDisplay.setText(spannableString);
+		tagsDisplay.setMovementMethod(LinkMovementMethod.getInstance());
 		
 	}
 	
