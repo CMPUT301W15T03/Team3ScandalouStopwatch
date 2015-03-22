@@ -34,7 +34,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -433,7 +435,90 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		for (int i = 0; i < indices.size(); i++) {
 			IntegerPair currentIndex = indices.get(i);
 			Log.d("TAG", ""+currentIndex.getX()+", "+currentIndex.getY());
-			spannableString.setSpan(new TagClickableSpan(EditClaimActivity.this), currentIndex.getX(), 
+			spannableString.setSpan(new ClickableSpan() {
+
+				// Sets the onClick for the clickable span (tags)
+				// When the tag is clicked it will bring up an alert dialog
+				@Override
+				public void onClick(View widget) {
+					TextView tv = (TextView) widget;
+					Spanned s = (Spanned) tv.getText();
+					int start = s.getSpanStart(this);
+					int end = s.getSpanEnd(this);
+					final String currentTag = s.subSequence(start, end).toString();
+					
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
+					builder.setTitle("Options for " + s.subSequence(start, end).toString())
+					.setCancelable(true)
+					.setView(tagsInput)
+					.setItems(R.array.tag_menu, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (which == 0) {
+								tagsInput = new EditText(EditClaimActivity.this);	
+								final AlertDialog alert = new AlertDialog.Builder(EditClaimActivity.this)
+								   .setMessage("Enter new tag name (no spaces): ")	
+								   .setView(tagsInput)
+								   .setCancelable(true)
+								   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+								       	public void onClick(DialogInterface dialog, int i) {
+								       	}
+								   })
+									.setPositiveButton("Rename", null)
+									.create();			
+								
+								alert.setOnShowListener(new DialogInterface.OnShowListener() {
+									
+									@Override
+									public void onShow(DialogInterface dialog) {
+										Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+										button.setOnClickListener(new View.OnClickListener() {
+											
+											@Override
+											public void onClick(View v) {
+
+												String tagString = "#"+tagsInput.getText().toString();		
+												
+												// Check if the tag contains a space
+												if (tagString.contains(" ")) {
+													Toast.makeText(getApplicationContext(), "Please remove the space from your tag.", 
+																   Toast.LENGTH_SHORT).show();
+												} else {
+													// Remove current tag from current claim
+													claimController.removeTag(currentTag);
+													
+													// Add tag to current claim and then update/save tags
+													claimController.addTag(tagString);
+													claimController.updateTags(claimController.getTags());
+													
+													// Updates the ClaimList on the main screen and saves the ClaimList
+													ClaimListController claimListController = new ClaimListController();
+													claimListController.removeClaim(claimId);
+													claimListController.addClaim(new Claim(claimId));		
+													update();
+													alert.dismiss();
+												}
+
+											}
+										});
+									}
+								});
+								
+								alert.show();
+							} else if (which == 1) {
+								
+							} else if (which == 2) {
+								
+							}
+						}
+					});
+					
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+				
+			}, currentIndex.getX(), 
 									currentIndex.getY(), 0);
 		}
 
