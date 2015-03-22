@@ -425,6 +425,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 		// Update the tags to be clickable
 		// http://stackoverflow.com/questions/10696986/how-to-set-the-part-of-the-text-view-is-clickable 03/19/2015
+		setClickableTags(tagsString);
+		
+	}
+	
+	private void setClickableTags(String tagsString) {
 		spannableString = new SpannableString(tagsString);
 
 		TagParser parser = new TagParser();
@@ -450,16 +455,15 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 					AlertDialog.Builder builder = new AlertDialog.Builder(context);
 					builder.setTitle("Options for " + s.subSequence(start, end).toString())
 					.setCancelable(true)
-					.setView(tagsInput)
 					.setItems(R.array.tag_menu, new DialogInterface.OnClickListener() {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							if (which == 0) {
-								tagsInput = new EditText(EditClaimActivity.this);	
+								final EditText tagRename = new EditText(EditClaimActivity.this);
 								final AlertDialog alert = new AlertDialog.Builder(EditClaimActivity.this)
 								   .setMessage("Enter new tag name (no spaces): ")	
-								   .setView(tagsInput)
+								   .setView(tagRename)
 								   .setCancelable(true)
 								   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 								       	public void onClick(DialogInterface dialog, int i) {
@@ -478,7 +482,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 											@Override
 											public void onClick(View v) {
 
-												String tagString = "#"+tagsInput.getText().toString();		
+												String tagString = "#"+tagRename.getText().toString();		
 												
 												// Check if the tag contains a space
 												if (tagString.contains(" ")) {
@@ -507,7 +511,14 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 								
 								alert.show();
 							} else if (which == 1) {
+								claimController.removeTag(currentTag);
+								claimController.updateTags(claimController.getTags());
 								
+								// Updates the ClaimList on the main screen and saves the ClaimList
+								ClaimListController claimListController = new ClaimListController();
+								claimListController.removeClaim(claimId);
+								claimListController.addClaim(new Claim(claimId));		
+								update();
 							} else if (which == 2) {
 								
 							}
@@ -524,9 +535,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 
 		tagsDisplay.setText(spannableString);
 		tagsDisplay.setMovementMethod(LinkMovementMethod.getInstance());
-		
 	}
-	
+
 	/**
 	 * Parses the tagString to give an ArrayList of tags
 	 * @param tagsString String of tags separated by commas
