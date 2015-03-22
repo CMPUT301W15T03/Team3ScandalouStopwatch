@@ -77,6 +77,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	private String description;
 	private ArrayList<Destination> destinations;
 	private boolean canEdit;
+	private boolean alertReady;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -303,38 +304,59 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			
 			@Override
 			public void onClick(View v){
-			
 			    tagsInput = new EditText(EditClaimActivity.this);	
-			    tagsInput.setText(tagsDisplay.getText().toString());
 				
 				//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
-				//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
-				AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
-				builder.setMessage("Please include a comma between tags.")
-						
+				//http://stackoverflow.com/questions/2620444/how-to-prevent-a-dialog-from-closing-when-a-button-is-clicked 2015-03-22
+				final AlertDialog alert = new AlertDialog.Builder(EditClaimActivity.this)
+				   .setMessage("Enter name of tag (no spaces): ")	
 				   .setView(tagsInput)
 				   .setCancelable(true)
 				   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				       	public void onClick(DialogInterface dialog, int i) {
 				       	}
 				   })
-				   .setPositiveButton("Save Changes", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int i) {
-
-							String tagsString = tagsInput.getText().toString();
-							ArrayList<String> tagsList = getTagsList(tagsString);							
-	
-							claimController.updateTags(tagsList);
-							
-							ClaimListController claimListController = new ClaimListController();
-							claimListController.removeClaim(claimId);
-							claimListController.addClaim(new Claim(claimId));							
-						}  
-				   });
-				AlertDialog alert = builder.create();
-				alert.show();				
+					.setPositiveButton("Add", null)
+					.create();			
 				
+				alert.setOnShowListener(new DialogInterface.OnShowListener() {
+					
+					@Override
+					public void onShow(DialogInterface dialog) {
+						if (alertReady == false) {
+							Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+							button.setOnClickListener(new View.OnClickListener() {
+								
+								@Override
+								public void onClick(View v) {
+
+									String tagString = "#"+tagsInput.getText().toString();		
+									
+									// Check if the tag contains a space
+									if (tagString.contains(" ")) {
+										Toast.makeText(getApplicationContext(), "Please remove the space from your tag.", 
+													   Toast.LENGTH_SHORT).show();
+									} else {
+										// Add tag to current claim and then update/save tags
+										claimController.addTag(tagString);
+										claimController.updateTags(claimController.getTags());
+										
+										// Updates the ClaimList on the main screen and saves the ClaimList
+										ClaimListController claimListController = new ClaimListController();
+										claimListController.removeClaim(claimId);
+										claimListController.addClaim(new Claim(claimId));		
+										update();
+										alert.dismiss();
+									}
+
+								}
+							});
+						}
+						
+					}
+				});
+				
+				alert.show();
 			}
 			
 		});					
@@ -425,7 +447,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 		for (int i = 0; i < tagsList.size(); i++){
 			if (i != tagsList.size() - 1){
-				tags += tagsList.get(i) + ", ";
+				tags += tagsList.get(i) + " ";
 			} else {
 				tags += tagsList.get(i);
 			}

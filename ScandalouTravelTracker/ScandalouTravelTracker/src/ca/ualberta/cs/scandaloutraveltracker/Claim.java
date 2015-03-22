@@ -549,7 +549,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 					tags += tag;
 				}
 				else {
-					tags += tag + ", ";
+					tags += tag + " ";
 				}
 				counter++;
 			}
