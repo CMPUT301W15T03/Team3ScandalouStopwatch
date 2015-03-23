@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.Iterator;
 
 import android.app.AlertDialog;
+import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
@@ -18,13 +18,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
@@ -37,6 +35,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	EditText userNameET;
 	UserListController ulc;
 	UserController uc;
+	Instrumentation instrumentation;
 	
 	public UserTest() {
 		super(UserSelectActivity.class);
@@ -49,13 +48,17 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		 
 		 // Get activity
 		 userSelectActivity = getActivity();
+		 
+		 instrumentation = getInstrumentation();
+		 ulc = new UserListController();
 
 		 // Get UI components
 		 newUserButton = (Button) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectCreateUserButton);
 		 usersLV = (ListView) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectUsersLV);
 		 
-		 // Start with empty list
+		 // Start with empty user and claim list
 		 clearUL();
+		 clearCL();
 	}
 	
 	public void testAddUserButton() {
@@ -71,6 +74,9 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	
 	// http://stackoverflow.com/questions/9405561/test-if-a-button-starts-a-new-activity-in-android-junit-pref-without-robotium 03/23/2015
 	public void testSelectUser() {
+		// Start with fresh list
+		clearUL();
+		
 		// Add user for test to select
 		int newUserId = ulc.createUser("New User");
 		ulc.addUser(new User(newUserId));
@@ -79,7 +85,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		ActivityMonitor am = getInstrumentation().addMonitor(ClaimListActivity.class.getName(), null, false);
 		
 		// Run a click on listview in current activity
-		userSelectActivity.runOnUiThread(new Runnable() {
+		instrumentation.runOnMainSync(new Runnable() {
 
 			@Override
 			public void run() {
@@ -90,12 +96,13 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Test that next activity was launched
 		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
 		assertNotNull(nextActivity);
-		nextActivity.finish();
 		
 		// Test that the user in application is set to the new user
 		ClaimApplication app = (ClaimApplication) userSelectActivity.getApplicationContext();
 		User currentUser = app.getUser();
 		assertEquals("New User", currentUser.getName());
+		
+		nextActivity.finish();
 	}
 	
 	public void testAddingUser() {		
@@ -128,10 +135,33 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	public void testIsUsersClaims() {
 		 // Start with empty list
 		 clearUL();
+		 
+		 // New userSelectActivity
+		 userSelectActivity = getActivity();
 		
 		// Create two users and add them to the list
 		makeTwoUsersWithClaims();
 		assertEquals(2, ulc.getCount());
+		
+		// Run a click on listview in current activity
+		instrumentation.runOnMainSync(new Runnable() {
+
+			@Override
+			public void run() {
+				usersLV.performItemClick(usersLV, 0, 0);
+			}
+		});
+		
+		// Registers next activity to be monitored
+		ActivityMonitor am = getInstrumentation().addMonitor(ClaimListActivity.class.getName(), null, false);
+
+		// Test that next activity was launched
+		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
+		nextActivity.finish();
+		
+		// Get the ClaimList
+		ClaimListController clc = new ClaimListController(userSelectActivity);
+		assertEquals(1, clc.getClaimList().getCount());
 	}
 	
 	// http://stackoverflow.com/questions/17526005/how-to-test-an-alertdialog-in-android 03/23/2015
@@ -144,6 +174,20 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 			}
 		});
 		getInstrumentation().waitForIdleSync();
+	}
+	
+	// User to start the tests with an empty claim list
+	private void clearCL() {
+		ClaimListController clc = new ClaimListController(userSelectActivity);
+		ArrayList<Claim> claims = clc.getClaimList().getClaims();
+		Iterator<Claim> iterator = claims.iterator();
+		
+		while (iterator.hasNext()) {
+			Claim currentClaim = iterator.next();
+			int id = currentClaim.getId();
+			clc.deleteClaim(id);
+			iterator.remove();
+		}
 	}
 	
 	// Used to start the tests with an empty user list
@@ -171,7 +215,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
-		ClaimListController clc = new ClaimListController();
+		ClaimListController clc = new ClaimListController(userSelectActivity);
 		String status = Constants.statusInProgress;
 		ArrayList<String> tagsList = new ArrayList<String>();
 		boolean canEdit = true;
