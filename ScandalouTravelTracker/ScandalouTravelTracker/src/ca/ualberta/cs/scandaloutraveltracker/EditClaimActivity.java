@@ -143,8 +143,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				public void onClick(View v){
 					
 					// Get fields
-					String description = descriptionDisplay.getText().toString();
-					boolean canEdit = true;
+					description = descriptionDisplay.getText().toString();
+					canEdit = true;
 					
 					claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
 
@@ -227,6 +227,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 									@Override
 									public void onClick(DialogInterface dialog, int i) {
 										
+										//save claim details
+										description = descriptionDisplay.getText().toString();
+										claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+										
+										//submit claim
 										claimController.submitClaim(Constants.statusSubmitted, false);
 										
 										ClaimListController claimListController = new ClaimListController();
