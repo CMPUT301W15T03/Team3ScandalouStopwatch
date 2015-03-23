@@ -58,11 +58,12 @@ public class ClaimMapper {
 	 * @param status
 	 * @param canEdit
 	 * @param expenses
+	 * @param user
 	 * @return The new claim's ID
 	 */
 	public int createClaim(String name, Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tags, String status, 
-			boolean canEdit, ArrayList<Expense> expenses) {
+			boolean canEdit, ArrayList<Expense> expenses, User user) {
 		
 		int claimId = incrementClaimCounter();		
 		
@@ -76,6 +77,7 @@ public class ClaimMapper {
 		saveClaimData(claimId, "status", status);
 		saveClaimData(claimId, "canEdit", canEdit);		
 		saveClaimData(claimId, "expenses", expenses);
+		saveClaimData(claimId, "user", user);
 		
 		return claimId;
 	}
@@ -197,6 +199,9 @@ public class ClaimMapper {
 			removeExpenseViews(claimId, key, data);
 			String expensesJson = gson.toJson((ArrayList<Expense>)data);
 			editor.putString(key, expensesJson);
+		} else if (key.equals("user")) {
+			String userJson = gson.toJson((User) data);
+			editor.putString(key, userJson);
 		}
 		
 		editor.commit();	
@@ -268,6 +273,10 @@ public class ClaimMapper {
 	    	String expensesJson = claimFile.getString(key, "");
 	    	Type type = new TypeToken<ArrayList<Expense>>(){}.getType();
 	    	data = gson.fromJson(expensesJson, type);
+	    } else if (key.equals("user")) {
+	    	String userJson = claimFile.getString(key, "");
+	    	Type type = new TypeToken<User>(){}.getType();
+	    	data = gson.fromJson(userJson, type);
 	    }
 	    
 		return data;

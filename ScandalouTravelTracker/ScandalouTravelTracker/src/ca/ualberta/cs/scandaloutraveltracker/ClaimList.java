@@ -97,11 +97,11 @@ public class ClaimList extends SModel {
 	 */
 	public int createClaim(String name, Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tagsList, String status,
-			boolean canEdit, ArrayList<Expense> expenses){
+			boolean canEdit, ArrayList<Expense> expenses, User user){
 
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 		int newClaimId = mapper.createClaim(name, startDate, endDate, description, destinations, 
-				tagsList, status, canEdit, expenses);
+				tagsList, status, canEdit, expenses, user);
 		
 		return newClaimId;
 	}	

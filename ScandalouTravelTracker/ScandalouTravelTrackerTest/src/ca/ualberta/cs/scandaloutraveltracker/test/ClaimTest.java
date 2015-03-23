@@ -34,6 +34,8 @@ import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.User;
+import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
 public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
 	
@@ -156,6 +158,8 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivit
 	
 	// Test UC 01.06.01
 	public void testSavedData() {
+		UserListController ulc = new UserListController();
+		int newUserId = ulc.createUser("User1");
 	    String name = "Justin";
 	    Date sDate = new Date(123);
 	    Date eDate = new Date(456);
@@ -170,7 +174,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivit
 	    ClaimList claims1 = new ClaimList(true);
 	    claims1.addClaim(testClaim);
 	    claims1.createClaim(name, sDate, eDate, description, destinations, 
-				tagsList, status, canEdit, expenses);
+				tagsList, status, canEdit, expenses, new User(newUserId));
 
 	    ClaimList claims2 = ClaimList.getClaimList();
 

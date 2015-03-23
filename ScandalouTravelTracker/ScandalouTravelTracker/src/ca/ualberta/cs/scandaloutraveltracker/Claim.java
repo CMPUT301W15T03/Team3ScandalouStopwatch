@@ -44,7 +44,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String status;
 	private String approverName;
 	private String approverComment;
-	// private User user;
+	private User user;
 
 	/**
 	 * Fetches a claim corresponding to the id passed to it. Uses

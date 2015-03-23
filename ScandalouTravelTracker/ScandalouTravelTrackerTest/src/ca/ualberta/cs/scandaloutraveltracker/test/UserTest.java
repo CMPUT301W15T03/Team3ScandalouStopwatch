@@ -1,7 +1,12 @@
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+
 import android.app.AlertDialog;
 import android.app.Instrumentation.ActivityMonitor;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
@@ -11,8 +16,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
@@ -59,9 +71,6 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	
 	// http://stackoverflow.com/questions/9405561/test-if-a-button-starts-a-new-activity-in-android-junit-pref-without-robotium 03/23/2015
 	public void testSelectUser() {
-		 // Start with empty list
-		 clearUL();
-		
 		// Add user for test to select
 		int newUserId = ulc.createUser("New User");
 		ulc.addUser(new User(newUserId));
@@ -116,6 +125,15 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	
 	}
 	
+	public void testIsUsersClaims() {
+		 // Start with empty list
+		 clearUL();
+		
+		// Create two users and add them to the list
+		makeTwoUsersWithClaims();
+		assertEquals(2, ulc.getCount());
+	}
+	
 	// http://stackoverflow.com/questions/17526005/how-to-test-an-alertdialog-in-android 03/23/2015
 	private void performClick(final Button button) throws Throwable {
 		runTestOnUiThread(new Runnable() {
@@ -132,12 +150,46 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	private void clearUL() {
 		// Initialize UserListController
 		ulc = new UserListController();
+		ArrayList<User> users = ulc.getUserList().getUsers();
+		Iterator<User> iterator = users.iterator();
 		
-		for (User currentUser : ulc.getUserList().getUsers()) {
-			int currentId = currentUser.getId();
-			ulc.deleteUser(currentId);
-			ulc.removeUser(currentId);
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			int id = user.getId();
+			ulc.deleteUser(id);
+			iterator.remove();
 		}
+	}
+	
+	// Used to create two users and have one claim associated with each
+	private void makeTwoUsersWithClaims() {
+		// Create two users and add them to the list
+		int userId = ulc.createUser("User1");
+		ulc.addUser(new User(userId));
+		int userId2 = ulc.createUser("User2");
+		ulc.addUser(new User(userId2));
+		
+		// Create one ClaimList associated with user1
+		ArrayList<Destination> destinations = new ArrayList<Destination>();
+		ClaimListController clc = new ClaimListController();
+		String status = Constants.statusInProgress;
+		ArrayList<String> tagsList = new ArrayList<String>();
+		boolean canEdit = true;
+		ArrayList<Expense> expenses = new ArrayList<Expense>();
+		
+		// Create the claim
+		int newClaimId = clc.createClaim("a1", new Date(), new Date(), "d1", destinations, 
+				tagsList, status, canEdit, expenses, new User(userId));	
+		
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
+		
+		// Create another ClaimList associated with user2
+		newClaimId = clc.createClaim("a2", new Date(), new Date(), "d2", destinations, 
+				tagsList, status, canEdit, expenses, new User(userId2));	
+		
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
 	}
 	
 }

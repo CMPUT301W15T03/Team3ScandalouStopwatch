@@ -101,9 +101,13 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					ArrayList<Expense> expenses = new ArrayList<Expense>();
 					
 					ClaimListController claimListController = new ClaimListController();
+					// Get user
+					Context context = NewClaimActivity.this;
+					ClaimApplication app = (ClaimApplication) context.getApplicationContext();
+					User user = app.getUser();
 					// Create the claim
 					int newClaimId = claimListController.createClaim(name, startDate, endDate, description, destinations, 
-							tagsList, status, canEdit, expenses);	
+							tagsList, status, canEdit, expenses, user);	
 					// Add the claim to list
 					claimListController.addClaim(new Claim(newClaimId));
 					
