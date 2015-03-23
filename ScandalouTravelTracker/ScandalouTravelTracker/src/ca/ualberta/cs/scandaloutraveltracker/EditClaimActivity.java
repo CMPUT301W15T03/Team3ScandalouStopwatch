@@ -227,18 +227,52 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 									@Override
 									public void onClick(DialogInterface dialog, int i) {
 										
-										//save claim details
-										description = descriptionDisplay.getText().toString();
-										claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
-										
-										//submit claim
-										claimController.submitClaim(Constants.statusSubmitted, false);
-										
-										ClaimListController claimListController = new ClaimListController();
-										claimListController.removeClaim(claimId);
-										claimListController.addClaim(new Claim(claimId));
-										
-										finish();
+										//check for flagged expense(s) first
+										if (checkIncompleteExpenses()) {	//expense(s) are flagged
+											//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
+											//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
+											AlertDialog.Builder builder2 = new AlertDialog.Builder(EditClaimActivity.this);
+											builder2.setMessage("Expense(s) are flagged as incomplete. Submit anyway?")
+											   .setCancelable(true)
+											   .setNegativeButton("Don't Submit", new DialogInterface.OnClickListener() {
+											       	public void onClick(DialogInterface dialog, int i) {
+												    	dialog.cancel();
+											       	}
+											   })
+											   .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+													@Override
+													public void onClick(DialogInterface dialog, int i) {
+														
+														//save claim details
+														description = descriptionDisplay.getText().toString();
+														claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+														
+														//submit claim
+														claimController.submitClaim(Constants.statusSubmitted, false);
+														
+														ClaimListController claimListController = new ClaimListController();
+														claimListController.removeClaim(claimId);
+														claimListController.addClaim(new Claim(claimId));
+														
+														finish();
+													}  
+											   });
+											AlertDialog alert2 = builder2.create();
+											alert2.show();
+										} else {
+											//save claim details
+											description = descriptionDisplay.getText().toString();
+											claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+											
+											//submit claim
+											claimController.submitClaim(Constants.statusSubmitted, false);
+											
+											ClaimListController claimListController = new ClaimListController();
+											claimListController.removeClaim(claimId);
+											claimListController.addClaim(new Claim(claimId));
+											
+											finish();
+										}
 									}  
 							   });
 							AlertDialog alert = builder.create();
@@ -393,6 +427,20 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		} 
 		
 		return true;
+	}
+	
+	/**
+	 * Checks if the Claim has any flagged Expenses
+	 * @return boolean if a flagged Expense exists
+	 */
+	private boolean checkIncompleteExpenses() {
+		ArrayList<Expense> expenses = claimController.getExpenseList();
+		for (int i = 0; i < expenses.size(); i++) {
+			if (expenses.get(i).getFlag() == true) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
