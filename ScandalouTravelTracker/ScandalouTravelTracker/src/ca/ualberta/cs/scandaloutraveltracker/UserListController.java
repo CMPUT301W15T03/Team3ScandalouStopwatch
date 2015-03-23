@@ -116,4 +116,12 @@ public class UserListController {
 	public UserList getUserList() {
 		return userList;
 	}
+	
+	/**
+	 * 
+	 * @return Size of UserList
+	 */
+	public int getCount() {
+		return userList.getCount();
+	}
 }
