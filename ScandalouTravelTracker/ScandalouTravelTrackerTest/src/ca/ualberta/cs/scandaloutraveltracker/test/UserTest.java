@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
-import ca.ualberta.cs.scandaloutraveltracker.UserMapper;
 import ca.ualberta.cs.scandaloutraveltracker.UserSelectActivity;
 
 public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivity> {
@@ -25,7 +25,6 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	EditText userNameET;
 	UserListController ulc;
 	UserController uc;
-	
 	
 	public UserTest() {
 		super(UserSelectActivity.class);
@@ -38,7 +37,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		 
 		 // Get activity
 		 userSelectActivity = getActivity();
-		 
+
 		 // Get UI components
 		 newUserButton = (Button) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectCreateUserButton);
 		 usersLV = (ListView) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectUsersLV);
@@ -58,6 +57,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		assertNotNull(layoutParams);
 	}
 	
+	// http://stackoverflow.com/questions/9405561/test-if-a-button-starts-a-new-activity-in-android-junit-pref-without-robotium 03/23/2015
 	public void testSelectUser() {
 		 // Start with empty list
 		 clearUL();
@@ -78,9 +78,15 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 			}
 		});
 
+		// Test that next activity was launched
 		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
 		assertNotNull(nextActivity);
 		nextActivity.finish();
+		
+		// Test that the user in application is set to the new user
+		ClaimApplication app = (ClaimApplication) userSelectActivity.getApplicationContext();
+		User currentUser = app.getUser();
+		assertEquals("New User", currentUser.getName());
 	}
 	
 	public void testAddingUser() {		
@@ -104,9 +110,8 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Assert that user list size increased
 		assertEquals(1, ulc.getUserList().getCount());
 		
-		String name = ulc.getUserList().getUser(0).getName();
-		
 		// Assert that user in list has the same name as one entered
+		String name = ulc.getUserList().getUser(0).getName();
 		assertEquals(name, "New User");
 	
 	}

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	private int newUserId;
 	private EditText userNameET;
 	private AlertDialog alert;
+	private UserController uc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,12 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int position,
 					long claimPos) {
+				
+				// Set user in ClaimApplication
+				ClaimApplication app = (ClaimApplication) getApplicationContext();
+				app.setUser(ulc.getUser(position));
+				
+				// Launch the ClaimListActivity
 				Intent intent = new Intent(UserSelectActivity.this, ClaimListActivity.class);
 				startActivity(intent);
 			}
