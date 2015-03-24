@@ -275,8 +275,13 @@ public class ClaimMapper {
 	    	data = gson.fromJson(expensesJson, type);
 	    } else if (key.equals("user")) {
 	    	String userJson = claimFile.getString(key, "");
-	    	Type type = new TypeToken<User>(){}.getType();
-	    	data = gson.fromJson(userJson, type);
+	    	if (userJson == "") {
+	    		data = null;
+	    	} else {
+		    	Type type = new TypeToken<User>(){}.getType();
+		    	data = gson.fromJson(userJson, type);	    		
+	    	}
+
 	    }
 	    
 		return data;

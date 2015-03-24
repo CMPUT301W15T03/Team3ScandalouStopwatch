@@ -36,7 +36,7 @@ public class ClaimsApprovalTest extends TestCase {
 	public void testGetSubmittedClaims(){
 		
 		// Create a claim list
-		ClaimList claimList1 = ClaimList.getClaimList();
+		ClaimList claimList1 = new ClaimList();
 		
 		// Create claims
 		ClaimGenerator claimGenerator = new ClaimGenerator();
@@ -57,7 +57,7 @@ public class ClaimsApprovalTest extends TestCase {
 	public void testShowClaimDetailsInList(){
 		
 		// Create a claim list
-		ClaimList claimList1 = ClaimList.getClaimList();
+		ClaimList claimList1 = new ClaimList();
 
 		// Create a claim
 		ClaimGenerator claimGenerator = new ClaimGenerator();
@@ -94,7 +94,7 @@ public class ClaimsApprovalTest extends TestCase {
 	public void testClaimListOrder(){
 		
 		// Create a claim list
-		ClaimList claimList1 = ClaimList.getClaimList();
+		ClaimList claimList1 = new ClaimList();
 		
 		// Create claims
 		ClaimGenerator claimGenerator = new ClaimGenerator();

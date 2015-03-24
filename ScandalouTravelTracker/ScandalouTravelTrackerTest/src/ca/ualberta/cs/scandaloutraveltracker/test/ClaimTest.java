@@ -176,7 +176,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivit
 	    claims1.createClaim(name, sDate, eDate, description, destinations, 
 				tagsList, status, canEdit, expenses, new User(newUserId));
 
-	    ClaimList claims2 = ClaimList.getClaimList();
+	    ClaimList claims2 = new ClaimList();
 
 	    assertEquals("Id should be equal", claims1.getClaims().get(0).getId(), 
 	    		claims2.getClaims().get(0).getId());

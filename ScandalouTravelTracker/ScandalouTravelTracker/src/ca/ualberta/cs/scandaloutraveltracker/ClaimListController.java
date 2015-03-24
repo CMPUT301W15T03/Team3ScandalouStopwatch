@@ -40,6 +40,10 @@ public class ClaimListController {
 		claimList = new ClaimList();
 	}
 	
+	public ClaimListController(User user) {
+		claimList = new ClaimList(user);
+	}
+	
 	/**
 	 * Adds a view that the ClaimList is on.
 	 * @param view

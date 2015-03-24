@@ -71,6 +71,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.approverComment = (String)mapper.loadClaimData(id, "approverComment");
 		this.expenses = (ArrayList<Expense>)mapper.loadClaimData(id, "expenses");
 		this.canEdit = (Boolean)mapper.loadClaimData(id, "canEdit");
+		this.user = (User)mapper.loadClaimData(id, "user");
 	}
 	
 	/**
@@ -121,6 +122,14 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	
 	// Getter and Setter Methods
+	
+	public User getUser() {
+		return this.user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 	/**
 	 * @return Claim id

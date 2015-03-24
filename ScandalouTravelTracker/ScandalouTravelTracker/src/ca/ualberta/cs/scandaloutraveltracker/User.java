@@ -53,7 +53,7 @@ public class User extends SModel implements Comparable<User> {
 	
 	@Override
 	public int compareTo(User another) {
-		return another.getName().compareTo(name);
+		return name.compareTo(another.getName());
 	}	
 	
 }

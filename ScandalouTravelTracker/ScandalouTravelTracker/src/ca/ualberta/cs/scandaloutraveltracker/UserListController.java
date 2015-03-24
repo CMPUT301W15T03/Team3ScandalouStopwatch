@@ -124,4 +124,5 @@ public class UserListController {
 	public int getCount() {
 		return userList.getCount();
 	}
+	
 }

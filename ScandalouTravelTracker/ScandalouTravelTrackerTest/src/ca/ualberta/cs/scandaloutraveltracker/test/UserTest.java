@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
@@ -131,7 +132,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Assert that user in list has the same name as one entered
 		String name = ulc.getUserList().getUser(0).getName();
 		assertEquals(name, "New User");
-	
+		clearUL();
 	}
 	
 	public void testIsUsersClaims() {
@@ -156,10 +157,15 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		
 		// Registers next activity to be monitored
 		ActivityMonitor am = getInstrumentation().addMonitor(ClaimListActivity.class.getName(), null, false);
-
+		
 		// Test that next activity was launched
 		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
-
+		ClaimList currentClaimList = nextActivity.getCurrentClaimList();
+		nextActivity.finish();
+		
+		Claim currentClaim = currentClaimList.getClaim(0);
+		assertEquals("a1", currentClaim.getName());
+		assertEquals(1, currentClaimList.getCount());
 	}
 	
 	// http://stackoverflow.com/questions/17526005/how-to-test-an-alertdialog-in-android 03/23/2015
@@ -208,7 +214,6 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Create two users and add them to the list
 		int userId = ulc.createUser("User1");
 		ulc.addUser(new User(userId));
-		testUser = new User(userId);
 		int userId2 = ulc.createUser("User2");
 		ulc.addUser(new User(userId2));
 		

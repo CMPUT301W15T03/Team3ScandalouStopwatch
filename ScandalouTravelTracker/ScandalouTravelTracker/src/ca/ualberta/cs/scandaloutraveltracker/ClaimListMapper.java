@@ -40,6 +40,10 @@ public class ClaimListMapper {
 		this.context = context;
 	}	
 	
+	public ClaimListMapper(Context context, User user) {
+		this.context = context;
+	}
+	
 	/**
 	 * 
 	 * @return List of all the saved claims
@@ -62,5 +66,30 @@ public class ClaimListMapper {
 		return claims;
 		
 	}	
+	
+	public ArrayList<Claim> loadUserClaims(User user) {
+		ArrayList<Claim> claims = new ArrayList<Claim>();
+		
+		SharedPreferences claimCounterFile = this.context.getSharedPreferences("claimCounter", 0);
+		int mostRecentClaimId = claimCounterFile.getInt("claimCount", 0);	
+		
+		Claim claim;
+		User currentUser;
+		int currentUserId;
+		int actualUserId = user.getId();
+		
+		for (int i = 1; i <= mostRecentClaimId; i++){
+			claim = new Claim(i);
+			currentUser = claim.getUser();
+			if (currentUser != null) {
+				currentUserId = currentUser.getId();
+				if (claim.getId() != -1 && currentUserId == actualUserId){
+					claims.add(claim);
+				}
+			}
+		}
+		
+		return claims;
+	}
 	
 }

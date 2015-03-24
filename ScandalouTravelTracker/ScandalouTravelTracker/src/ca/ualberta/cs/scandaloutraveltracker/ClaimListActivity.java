@@ -41,6 +41,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private ListView claimsListView;
 	private ClaimListAdapter claimListAdapter;
 	private ClaimListController claimListController;
+	private User currentUser;
 	
 	
 	@Override
@@ -49,7 +50,8 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		setContentView(R.layout.activity_claim_list);
 		
 		// Get Claims
-		claimListController = new ClaimListController();
+		currentUser = ( (ClaimApplication) getApplication()).getUser();
+		claimListController = new ClaimListController(currentUser);
 		
 		// Set layout elements
 		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);
@@ -152,10 +154,15 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		});
 	}
 	
+	// Used for testing that users have the correct claim list
+	public ClaimList getCurrentClaimList() {
+		return claimListController.getClaimList();
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
-		claimListController = new ClaimListController();
+		claimListController = new ClaimListController(currentUser);
 		claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
 		claimsListView.setAdapter(claimListAdapter);
 	}

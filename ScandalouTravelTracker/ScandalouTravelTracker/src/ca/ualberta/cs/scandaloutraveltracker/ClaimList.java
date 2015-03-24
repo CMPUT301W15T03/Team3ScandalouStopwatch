@@ -38,6 +38,11 @@ public class ClaimList extends SModel {
 		claims = mapper.loadClaims();
 	}
 	
+	public ClaimList(User user) {
+		ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
+		claims = mapper.loadUserClaims(user);
+	}
+	
 	/**
 	 * Constructor used for testing purposes
 	 * @param test
