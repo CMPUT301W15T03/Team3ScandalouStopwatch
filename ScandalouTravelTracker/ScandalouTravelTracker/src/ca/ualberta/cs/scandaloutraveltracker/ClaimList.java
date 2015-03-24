@@ -27,14 +27,13 @@ import java.util.Date;
  *
  */
 public class ClaimList extends SModel {
-	private static ClaimList claimList;
-	protected static ArrayList<Claim> claims;
+	protected ArrayList<Claim> claims;
     	
 	/**
 	 * Constructor is set to private as the ClaimList class uses the 
 	 * Singleton design pattern.
 	 */
-	private ClaimList(){
+	public ClaimList(){
 		ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
 		claims = mapper.loadClaims();
 	}
@@ -46,27 +45,8 @@ public class ClaimList extends SModel {
 	public ClaimList(boolean test) {
 		claims = new ArrayList<Claim>();
 	}
-	
-	/**
-	 * Uses lazy initialization and won't create the claimList until it
-	 * is needed to be created by the app. Also uses the Singleton design
-	 * pattern as it will return the only instance of claimList in the
-	 * entire app.
-	 * @return List of claims
-	 */
-	public static ClaimList getClaimList() {
-		if (claimList == null) {
-			claimList = new ClaimList();
-		}
-		
-		return claimList;
-	}
-	
-	/**
-	 * 
-	 * @return ArrayList of claims
-	 */
-	public ArrayList<Claim> getClaims(){
+
+	public ArrayList<Claim> getClaims() {
 		return claims;
 	}
 	
@@ -170,7 +150,7 @@ public class ClaimList extends SModel {
 	 * 
 	 * @return True if the list is empty and false if not
 	 */
-	public static boolean isEmpty(){
+	public boolean isEmpty(){
 		return claims.size()==0;
 	}
 	

@@ -37,7 +37,7 @@ public class ClaimListController {
 	 * that exists in the app (ClaimList is a Singleton).
 	 */
 	public ClaimListController() {
-		claimList = ClaimList.getClaimList();
+		claimList = new ClaimList();
 	}
 	
 	/**

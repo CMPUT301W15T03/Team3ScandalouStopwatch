@@ -151,6 +151,14 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			}
 		});
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		claimListController = new ClaimListController();
+		claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+		claimsListView.setAdapter(claimListAdapter);
+	}
 
 	@Override
 	public void update() {
