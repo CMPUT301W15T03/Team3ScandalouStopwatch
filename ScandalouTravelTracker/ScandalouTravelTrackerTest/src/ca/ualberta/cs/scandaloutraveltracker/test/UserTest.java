@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -132,7 +131,6 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Assert that user in list has the same name as one entered
 		String name = ulc.getUserList().getUser(0).getName();
 		assertEquals(name, "New User");
-		clearUL();
 	}
 	
 	public void testIsUsersClaims() {
@@ -161,11 +159,23 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Test that next activity was launched
 		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
 		ClaimList currentClaimList = nextActivity.getCurrentClaimList();
+		nextActivity.update();
 		nextActivity.finish();
 		
 		Claim currentClaim = currentClaimList.getClaim(0);
 		assertEquals("a1", currentClaim.getName());
 		assertEquals(1, currentClaimList.getCount());
+	}
+	
+	public void testCanDeleteUser() {
+		instrumentation.runOnMainSync(new Runnable() {
+
+			@Override
+			public void run() {
+				
+			}
+			
+		});
 	}
 	
 	// http://stackoverflow.com/questions/17526005/how-to-test-an-alertdialog-in-android 03/23/2015
