@@ -62,6 +62,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);
 		claimsListView = (ListView) findViewById(R.id.claimListActivityList);
 		
+		// Claimant mode
 		if (currentUserController.getMode() == 0) { 
 			claimListController = new ClaimListController(currentUser);
 			claimListController.addView(this); // Testing to add view for claimsLists
@@ -69,6 +70,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			claimsListView.setAdapter(claimListAdapter);
 		}
 		
+		// Approver mode
 		else if (currentUserController.getMode() == 1) {
 			Toast.makeText(getApplicationContext(),
 					"SHOULD BE IN APPROVER MODE",
@@ -183,6 +185,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	@Override
 	public void onResume() {
 		super.onResume();
+		// Claimant mode
 		if (currentUserController.getMode() == 0) { 
 			claimListController = new ClaimListController(currentUser);
 			claimListController.addView(this); // Testing to add view for claimsLists
@@ -190,6 +193,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			claimsListView.setAdapter(claimListAdapter);
 		}
 		
+		// Approver mode
 		else if (currentUserController.getMode() == 1) {
 			claimListController = new ClaimListController(currentUser, true);
 			claimListController.addView(this);
@@ -215,8 +219,6 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 				startActivity(intent);
 	            return true;
 	        // Change the User from approver to claimant or vice versa.
-	        //	   TODO - implement similar thing for Expense List Viewing or go back to ClaimListActivity
-	        //		   when change screen is confirmed?
 	        case R.id.action_screen:
 	        	Toast.makeText(getApplicationContext(), "change screen selected",Toast.LENGTH_SHORT).show();
 	        	screenTypeTemp = -1;
@@ -232,11 +234,11 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 				// change the screen type to the one selected
 				.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						// screenType should not change since nothing except confirm was clicked
+						// Mode should not change since nothing except confirm was clicked
 						if (screenTypeTemp == -1) {
 							Toast.makeText(getApplicationContext(), "Screen Unchanged",Toast.LENGTH_SHORT).show();
 						}
-						// set screen to approver
+						// Claimant Mode
 						if (screenTypeTemp == 0) {
 							Toast.makeText(getApplicationContext(), "Change to Claimant",Toast.LENGTH_SHORT).show();
 							currentUserController.setMode(0);
@@ -245,7 +247,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
 							claimsListView.setAdapter(claimListAdapter);
 						}
-						// set screen to claimant
+						// Approver mode
 						if (screenTypeTemp == 1) {
 							Toast.makeText(getApplicationContext(), "change to Approver",Toast.LENGTH_SHORT).show();
 							currentUserController.setMode(1);
