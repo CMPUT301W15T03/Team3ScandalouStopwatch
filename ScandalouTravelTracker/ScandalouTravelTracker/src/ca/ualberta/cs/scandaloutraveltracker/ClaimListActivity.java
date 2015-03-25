@@ -210,14 +210,12 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	    switch (item.getItemId()) {
 	    	// Goes to "main" menu of the app while clearing the activity stack.
 	        case R.id.action_user:
-	        	Toast.makeText(getApplicationContext(), "change user selected",Toast.LENGTH_SHORT).show();
 	        	Intent intent = new Intent(ClaimListActivity.this, UserSelectActivity.class);
 	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 	            return true;
 	        // Change the User from approver to claimant or vice versa.
 	        case R.id.action_screen:
-	        	Toast.makeText(getApplicationContext(), "change screen selected",Toast.LENGTH_SHORT).show();
 	        	screenTypeTemp = -1;
 	        	AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
 				builder.setTitle("Switch Screen View")
