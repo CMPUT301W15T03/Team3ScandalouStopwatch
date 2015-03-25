@@ -44,14 +44,8 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private ClaimListAdapter claimListAdapter;
 	private ClaimListController claimListController;
 	private User currentUser;
-	
-	// need to make this easier to get. for testing right now and
-	// should be 0 for approver screen, 1 for claimant screen
-	private int screenType = -1;
-	
-	// is for picking between screens, screenType should only change
-	// when confirm is clicked.  
-	private int screenTypeTemp = -1;
+	private UserController currentUserController;
+	private int screenTypeTemp;
 	
 	
 	@Override
@@ -62,6 +56,8 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		// Get Claims
 		currentUser = ( (ClaimApplication) getApplication()).getUser();
 		claimListController = new ClaimListController(currentUser);
+		currentUserController = new UserController(currentUser);
+		screenTypeTemp = -1;
 		
 		// Set layout elements
 		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);
@@ -191,14 +187,13 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	    switch (item.getItemId()) {
 	    	// Goes to "main" menu of the app while clearing the activity stack.
 	        case R.id.action_user:
-	        	Toast.makeText(getApplicationContext(), "change user selected",Toast.LENGTH_SHORT).show();
+	        	Toast.makeText(getApplicationContext(), "change user selected " + currentUser.getMode(),Toast.LENGTH_SHORT).show();
 	        	Intent intent = new Intent(ClaimListActivity.this, UserSelectActivity.class);
 	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 	            return true;
 	        // Change the User from approver to claimant or vice versa.
-	        // TODO - get which screen the user is currently on so it can be changed
-	        //	     - implement similar thing for Expense List Viewing or go back to ClaimListActivity
+	        //	   TODO - implement similar thing for Expense List Viewing or go back to ClaimListActivity
 	        //		   when change screen is confirmed?
 	        case R.id.action_screen:
 	        	Toast.makeText(getApplicationContext(), "change screen selected",Toast.LENGTH_SHORT).show();
@@ -221,18 +216,18 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 						}
 						// set screen to approver
 						if (screenTypeTemp == 0) {
-							Toast.makeText(getApplicationContext(), "Change to Approver",Toast.LENGTH_SHORT).show();
-							screenType = 0;
+							Toast.makeText(getApplicationContext(), "Change to Claimant",Toast.LENGTH_SHORT).show();
+							currentUserController.setMode(0);
 						}
 						// set screen to claimant
 						if (screenTypeTemp == 1) {
-							Toast.makeText(getApplicationContext(), "change to Claimant",Toast.LENGTH_SHORT).show();
-							screenType = 1;
+							Toast.makeText(getApplicationContext(), "change to Approver",Toast.LENGTH_SHORT).show();
+							currentUserController.setMode(1);
 						}
 					}
 				})
 				// record which one was selected for confirmation
-				.setSingleChoiceItems(R.array.screen_menu, screenType, new OnClickListener() {
+				.setSingleChoiceItems(R.array.screen_menu, currentUserController.getMode(), new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						screenTypeTemp = which;

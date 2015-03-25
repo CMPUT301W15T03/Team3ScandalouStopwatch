@@ -69,8 +69,8 @@
 	<string name="change_screen">Change Screen</string>
 	<string name="user_name_filler">Name of User</string>
 	<string-array name="screen_menu" >
-		<item >Approver</item>
 		<item >Claimant</item>
+		<item >Approver</item>
 	</string-array>
 	<string name="view_all_tags">View All Tags</string>
 

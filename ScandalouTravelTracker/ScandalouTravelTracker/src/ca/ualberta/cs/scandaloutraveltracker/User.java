@@ -27,12 +27,15 @@ public class User extends SModel implements Comparable<User> {
 
 	private int id;
 	private String name;
+	// mode = 0 (Claimant View), mode = 1 (Approver View)
+	private int mode;
 
 	public User(int id) {
 		UserMapper mapper = new UserMapper(ClaimApplication.getContext());		
 		
 		this.id = (Integer)mapper.loadUserData(id, "id");
 		this.name = (String)mapper.loadUserData(id, "name");
+		this.mode = 0;
 	}
 
 	public int getId() {
@@ -50,6 +53,14 @@ public class User extends SModel implements Comparable<User> {
 	public void setName(String name) {
 		this.name = name;
 	}	
+	
+	public int getMode() {
+		return mode;
+	}
+	
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
 	
 	@Override
 	public int compareTo(User another) {
