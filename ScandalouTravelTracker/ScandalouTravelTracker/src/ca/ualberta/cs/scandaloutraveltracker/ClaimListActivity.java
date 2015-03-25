@@ -135,6 +135,9 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			                        	   claimListController.removeClaim(claimId);
 			                        	   // Delete the claim from storage
 			                        	   claimListController.deleteClaim(claimId);
+			                        	   
+			                        	   // Update ListView
+			                        	   update();
 			                           }
 			                       });
 			            		   AlertDialog alert = builder.create();
