@@ -113,7 +113,7 @@ public class ClaimListMapper {
 				// user and that the claims have a submitted status
 				if ( (claim.getId() != -1) &&
 					 (actualUserId != currentUserId) && 
-					 (claim.getStatus() == Constants.statusSubmitted)){
+					 (claim.getStatus().equals(Constants.statusSubmitted))){
 					claims.add(claim);	
 				}
 			}

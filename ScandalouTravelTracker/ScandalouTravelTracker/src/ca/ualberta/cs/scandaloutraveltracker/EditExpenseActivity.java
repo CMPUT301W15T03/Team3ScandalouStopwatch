@@ -18,6 +18,7 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,10 +29,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -54,6 +60,9 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	private Date newDate;
 	private ClaimMapper mapper;
 	private boolean canEdit;
+	private Uri imageFileUri;
+	private ImageButton imageButton;
+	private String newReceiptPath;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +76,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		Spinner category = (Spinner) findViewById(R.id.catspinner);
 		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
 		
-		ImageButton imageButton = (ImageButton) findViewById(R.id.recipt_image_button);
+		imageButton = (ImageButton) findViewById(R.id.recipt_image_button);		
 		
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
@@ -103,7 +112,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		cost.setText(""+claimController.getExpense(expenseId)
 				.getCost());
 		category.setSelection(getIndex(category, categoryString));
-		currencyType.setSelection(getIndex(currencyType, currencyString));
+		currencyType.setSelection(getIndex(currencyType, currencyString));	
 		
 		// Sets all the layout elements if the claim can't be edited
 				if (!canEdit) {
@@ -172,8 +181,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 						}
 						else {
-							
-							setReciptImage();
+							takeAPhoto();
 						}
 					}
 				});
@@ -330,10 +338,51 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			}
 		}
 		return index;
-	 }  
+	}  
 
-	public void setReciptImage(){
+	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;	
+	
+	public void takeAPhoto() {
+
+		// Create a folder to store the receipts
+		String folderPath = Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/receipts";
+		File folderFile = new File(folderPath);
+		if (!folderFile.exists()) {
+			folderFile.mkdir();
+		}
+
+		// Create an URI for the picture file
+		newReceiptPath = folderPath + "/"
+				+ String.valueOf(System.currentTimeMillis()) + ".jpg";
+		File imageFile = new File(newReceiptPath);
+		imageFileUri = Uri.fromFile(imageFile);
+
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
 		
-		//
-	}
+		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+		
+	}	
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
+			if (resultCode == RESULT_OK){
+				
+				// Display the receipt
+				Drawable receipt = Drawable.createFromPath(imageFileUri.getPath());
+				imageButton.setImageDrawable(receipt);
+				
+			} else if (resultCode == RESULT_CANCELED){
+				//TextView statusDisplay = (TextView) findViewById(R.id.status);
+				//statusDisplay.setText("Good choice, you're a shitty photographer anyway.");				
+			} else {
+				//TextView statusDisplay = (TextView) findViewById(R.id.status);
+				//statusDisplay.setText("Congratulations, you broke it.");				
+			}
+		}
+		
+	}	
+
 }
