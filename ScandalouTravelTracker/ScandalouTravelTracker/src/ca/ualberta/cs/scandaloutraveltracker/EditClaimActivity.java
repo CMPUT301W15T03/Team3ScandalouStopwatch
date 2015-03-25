@@ -147,7 +147,12 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 					description = descriptionDisplay.getText().toString();
 					canEdit = true;
 					
-					claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+					try {
+						claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+					} catch (DateException e) {
+						// TODO Auto-generated catch block
+						System.out.println(e.getMessage());
+					}
 
 					ClaimListController claimListController = new ClaimListController();
 					claimListController.removeClaim(claimId);
@@ -246,7 +251,12 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 														
 														//save claim details
 														description = descriptionDisplay.getText().toString();
-														claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+														try {
+															claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+														} catch (DateException e) {
+															// TODO Auto-generated catch block
+															System.out.println(e.getMessage());
+														}
 														
 														//submit claim
 														claimController.submitClaim(Constants.statusSubmitted, false);
@@ -263,7 +273,12 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 										} else {
 											//save claim details
 											description = descriptionDisplay.getText().toString();
-											claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+											try {
+												claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+											} catch (DateException e) {
+												// TODO Auto-generated catch block
+												System.out.println(e.getMessage());
+											}
 											
 											//submit claim
 											claimController.submitClaim(Constants.statusSubmitted, false);
@@ -306,6 +321,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							startDate = date;
 							startDateDisplay.setText(startDateString);
 							claimController.setStartDate(date);
+							
 						}
 					};
 					newFragment.show(getFragmentManager(), "datePicker");
@@ -335,6 +351,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							endDate = date;
 							endDateDisplay.setText(endDateString);
 							claimController.setEndDate(date);
+							
 						}
 					};
 						newFragment.show(getFragmentManager(), "datePicker");
@@ -479,6 +496,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			return;
 		}
 		
+		
 		// Process more complicated claim info
 		String tagsString = getTagsString(tagsList);
 		
@@ -494,6 +512,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		// Update the tags to be clickable
 		// http://stackoverflow.com/questions/10696986/how-to-set-the-part-of-the-text-view-is-clickable 03/19/2015
 		setClickableTags(tagsString);
+		
 		
 	}
 	
@@ -642,5 +661,5 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 		return tags;
 	}
-
+	
 }

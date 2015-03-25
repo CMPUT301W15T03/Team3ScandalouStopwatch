@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import android.widget.Toast;
+
 /**
  *  Class that contains the Claim model. Edits to any instance of a Claim
  *  should be done through the ClaimController class.
@@ -45,6 +47,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String approverName;
 	private String approverComment;
 	private User user;
+	private DateException dateExc= new DateException("Please set End Date to a time after Start Date");
 
 	/**
 	 * Fetches a claim corresponding to the id passed to it. Uses
@@ -371,7 +374,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @see ClaimMapper#updateClaim(int, Date, Date, String, ArrayList, boolean)
 	 */
 	public void updateClaim(Date startDate, Date endDate, String description,
-			ArrayList<Destination> destinations, boolean canEdit){
+			ArrayList<Destination> destinations, boolean canEdit) throws DateException{
 		
 		setStartDate(startDate);
 		setEndDate(endDate);
@@ -380,10 +383,15 @@ public class Claim extends SModel implements Comparable<Claim> {
 		setCanEdit(canEdit);
 		setExpenses(expenses);
 		
+		if (endDate.before(startDate)){
+			throw dateExc;
+		}
+		else{
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 		mapper.updateClaim(this.id, startDate, endDate, description, destinations, canEdit);
 		
 		notifyViews();
+		}
 	}
 	
 	/**

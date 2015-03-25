@@ -253,9 +253,10 @@ public class ClaimController {
 	 * @param description
 	 * @param destinations
 	 * @param canEdit
+	 * @throws DateException 
 	 */
 	public void updateClaim(Date startDate, Date endDate, String description,
-			ArrayList<Destination> destinations, boolean canEdit){
+			ArrayList<Destination> destinations, boolean canEdit) throws DateException{
 		
 		currentClaim.updateClaim(startDate, endDate, description, destinations, canEdit);
 	}
