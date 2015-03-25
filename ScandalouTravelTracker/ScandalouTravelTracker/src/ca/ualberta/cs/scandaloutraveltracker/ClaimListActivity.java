@@ -49,6 +49,10 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	// should be 0 for approver screen, 1 for claimant screen
 	private int screenType = -1;
 	
+	// is for picking between screens, screenType should only change
+	// when confirm is clicked.  
+	private int screenTypeTemp = -1;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -194,8 +198,11 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	            return true;
 	        // Change the User from approver to claimant or vice versa.
 	        // TODO - get which screen the user is currently on so it can be changed
+	        //	     - implement similar thing for Expense List Viewing or go back to ClaimListActivity
+	        //		   when change screen is confirmed?
 	        case R.id.action_screen:
 	        	Toast.makeText(getApplicationContext(), "change screen selected",Toast.LENGTH_SHORT).show();
+	        	screenTypeTemp = -1;
 	        	AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
 				builder.setTitle("Switch Screen View")
 				.setCancelable(true)
@@ -208,13 +215,19 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 				// change the screen type to the one selected
 				.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
+						// screenType should not change since nothing except confirm was clicked
+						if (screenTypeTemp == -1) {
+							Toast.makeText(getApplicationContext(), "Screen Unchanged",Toast.LENGTH_SHORT).show();
+						}
 						// set screen to approver
-						if (screenType == 0) {
+						if (screenTypeTemp == 0) {
 							Toast.makeText(getApplicationContext(), "Change to Approver",Toast.LENGTH_SHORT).show();
+							screenType = 0;
 						}
 						// set screen to claimant
-						if (screenType == 1) {
+						if (screenTypeTemp == 1) {
 							Toast.makeText(getApplicationContext(), "change to Claimant",Toast.LENGTH_SHORT).show();
+							screenType = 1;
 						}
 					}
 				})
@@ -222,7 +235,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 				.setSingleChoiceItems(R.array.screen_menu, screenType, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						screenType = which;
+						screenTypeTemp = which;
 					}
 				}); 
 				AlertDialog alert = builder.create();
