@@ -72,9 +72,6 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		
 		// Approver mode
 		else if (currentUserController.getMode() == 1) {
-			Toast.makeText(getApplicationContext(),
-					"SHOULD BE IN APPROVER MODE",
-					Toast.LENGTH_SHORT).show();
 			claimListController = new ClaimListController(currentUser, true);
 			claimListController.addView(this);
 			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
@@ -213,7 +210,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	    switch (item.getItemId()) {
 	    	// Goes to "main" menu of the app while clearing the activity stack.
 	        case R.id.action_user:
-	        	Toast.makeText(getApplicationContext(), "change user selected " + currentUser.getMode(),Toast.LENGTH_SHORT).show();
+	        	Toast.makeText(getApplicationContext(), "change user selected",Toast.LENGTH_SHORT).show();
 	        	Intent intent = new Intent(ClaimListActivity.this, UserSelectActivity.class);
 	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
@@ -249,7 +246,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 						}
 						// Approver mode
 						if (screenTypeTemp == 1) {
-							Toast.makeText(getApplicationContext(), "change to Approver",Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "Change to Approver",Toast.LENGTH_SHORT).show();
 							currentUserController.setMode(1);
 							claimListController = new ClaimListController(currentUser, true);
 							claimListController.addView(ClaimListActivity.this);
