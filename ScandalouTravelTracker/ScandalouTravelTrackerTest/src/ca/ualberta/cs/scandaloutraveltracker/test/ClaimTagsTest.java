@@ -71,8 +71,35 @@ public class ClaimTagsTest extends ActivityInstrumentationTestCase2<EditClaimAct
 		addTagsButton = (Button) editClaimActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.edit_claim_add_tag);
 	}
 
-	// Tests adding a tag to a claim
+	// US03.01.01
+	// Tests that user can have a claim with 0 or more tags associated
+	// with it
 	public void testTaggingNewClaim() {
+		assertEquals(0, claimController.getTags().size());
+		
+		// Testing add first tag
+		addTag("Test1");
+		getInstrumentation().waitForIdleSync();
+		claimController = new ClaimController(new Claim(newClaimId));
+		assertEquals(1, claimController.getTags().size());
+		
+		// Testing add second tag
+		addTag("Test2");
+		getInstrumentation().waitForIdleSync();
+		claimController = new ClaimController(new Claim(newClaimId));
+		assertEquals(2, claimController.getTags().size());
+	}
+	
+	// UC03.03.01
+	// Tests that the user can search for claims that have the same
+	// tag as the one used to search
+	public void testSearchClaims() {
+		// Creates 5 Claims, 3 of them have the tag: "TAGGED"
+		
+		// Click on Tagged and click Search
+	}
+	
+	private void addTag(String tagName) {
 		AlertDialog alert;
 		
 		// Click on add tag button, enter tag, and add
@@ -86,21 +113,16 @@ public class ClaimTagsTest extends ActivityInstrumentationTestCase2<EditClaimAct
 		});
 		
 		getInstrumentation().waitForIdleSync();
-		getInstrumentation().sendStringSync("TestTag");
+		getInstrumentation().sendStringSync(tagName);
 		getInstrumentation().waitForIdleSync();
 		alert = editClaimActivity.getAlertDialog();
 		
 		// Try to add
 		try {
-			
 			performClick(alert.getButton(DialogInterface.BUTTON_POSITIVE));
 		} catch (Throwable e) {
 			new Throwable(e);
 		}
-		
-		getInstrumentation().waitForIdleSync();
-		claimController = new ClaimController(new Claim(newClaimId));
-		assertEquals(1, claimController.getTags().size());
 	}
 	
 	/*// Test UC 03.03.01

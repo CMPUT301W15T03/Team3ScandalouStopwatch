@@ -37,9 +37,9 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -450,6 +450,20 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		getMenuInflater().inflate(R.menu.edit_claim, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses
+		switch(item.getItemId()) {
+		
+		// Go to activity that displays all the tags
+		case R.id.action_view_all_tags:
+			
+		// Default do nothing
+		default: 
+			return false;
+		}
+	}
 
 	@Override
 	public void update() {
@@ -581,7 +595,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				}
 				
 			}, currentIndex.getX(), 
-									currentIndex.getY(), 0);
+			   currentIndex.getY(), 0);
 		}
 
 		tagsDisplay.setText(spannableString);

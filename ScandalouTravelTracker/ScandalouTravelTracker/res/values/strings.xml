@@ -72,5 +72,6 @@
 		<item >Approver</item>
 		<item >Claimant</item>
 	</string-array>
+	<string name="view_all_tags">View All Tags</string>
 
 </resources>
