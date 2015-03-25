@@ -112,7 +112,7 @@ public class ClaimListMapper {
 				// Checks to make sure the Claim does NOT belong to the Actual
 				// user and that the claims have a submitted status
 				if ( (claim.getId() != -1) &&
-					 (currentUserId != actualUserId) && 
+					 (actualUserId != currentUserId) && 
 					 (claim.getStatus() == Constants.statusSubmitted)){
 					claims.add(claim);	
 				}

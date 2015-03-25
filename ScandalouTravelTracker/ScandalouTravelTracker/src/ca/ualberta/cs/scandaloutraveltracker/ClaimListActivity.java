@@ -55,17 +55,29 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		
 		// Get Claims
 		currentUser = ( (ClaimApplication) getApplication()).getUser();
-		claimListController = new ClaimListController(currentUser);
 		currentUserController = new UserController(currentUser);
 		screenTypeTemp = -1;
 		
 		// Set layout elements
 		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);
 		claimsListView = (ListView) findViewById(R.id.claimListActivityList);
-
-		claimListController.addView(this); // Testing to add view for claimsLists
-		claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
-		claimsListView.setAdapter(claimListAdapter);
+		
+		if (currentUserController.getMode() == 0) { 
+			claimListController = new ClaimListController(currentUser);
+			claimListController.addView(this); // Testing to add view for claimsLists
+			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+			claimsListView.setAdapter(claimListAdapter);
+		}
+		
+		else if (currentUserController.getMode() == 1) {
+			Toast.makeText(getApplicationContext(),
+					"SHOULD BE IN APPROVER MODE",
+					Toast.LENGTH_SHORT).show();
+			claimListController = new ClaimListController(currentUser, true);
+			claimListController.addView(this);
+			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+			claimsListView.setAdapter(claimListAdapter);
+		}
 		
 		// Add claim button on click
 		addClaimButton.setOnClickListener(new View.OnClickListener() {
@@ -171,9 +183,19 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	@Override
 	public void onResume() {
 		super.onResume();
-		claimListController = new ClaimListController(currentUser);
-		claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
-		claimsListView.setAdapter(claimListAdapter);
+		if (currentUserController.getMode() == 0) { 
+			claimListController = new ClaimListController(currentUser);
+			claimListController.addView(this); // Testing to add view for claimsLists
+			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+			claimsListView.setAdapter(claimListAdapter);
+		}
+		
+		else if (currentUserController.getMode() == 1) {
+			claimListController = new ClaimListController(currentUser, true);
+			claimListController.addView(this);
+			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+			claimsListView.setAdapter(claimListAdapter);
+		}
 	}
 
 	@Override
@@ -218,11 +240,19 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 						if (screenTypeTemp == 0) {
 							Toast.makeText(getApplicationContext(), "Change to Claimant",Toast.LENGTH_SHORT).show();
 							currentUserController.setMode(0);
+							claimListController = new ClaimListController(currentUser);
+							claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
+							claimsListView.setAdapter(claimListAdapter);
 						}
 						// set screen to claimant
 						if (screenTypeTemp == 1) {
 							Toast.makeText(getApplicationContext(), "change to Approver",Toast.LENGTH_SHORT).show();
 							currentUserController.setMode(1);
+							claimListController = new ClaimListController(currentUser, true);
+							claimListController.addView(ClaimListActivity.this);
+							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
+							claimsListView.setAdapter(claimListAdapter);
 						}
 					}
 				})
