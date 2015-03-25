@@ -92,4 +92,34 @@ public class ClaimListMapper {
 		return claims;
 	}
 	
+	public ArrayList<Claim> loadNotUserClaims(User user) {
+		ArrayList<Claim> claims = new ArrayList<Claim>();
+		
+		SharedPreferences claimCounterFile = this.context.getSharedPreferences("claimCounter", 0);
+		int mostRecentClaimId = claimCounterFile.getInt("claimCount", 0);	
+		
+		Claim claim;
+		User currentUser;
+		int currentUserId;
+		int actualUserId = user.getId();
+		
+		for (int i = 1; i <= mostRecentClaimId; i++){
+			claim = new Claim(i);
+			currentUser = claim.getUser();
+			if (currentUser != null) {
+				currentUserId = currentUser.getId();
+				
+				// Checks to make sure the Claim does NOT belong to the Actual
+				// user and that the claims have a submitted status
+				if ( (claim.getId() != -1) &&
+					 (currentUserId != actualUserId) && 
+					 (claim.getStatus() == Constants.statusSubmitted)){
+					claims.add(claim);	
+				}
+			}
+		}
+		
+		return claims;
+	}
+	
 }

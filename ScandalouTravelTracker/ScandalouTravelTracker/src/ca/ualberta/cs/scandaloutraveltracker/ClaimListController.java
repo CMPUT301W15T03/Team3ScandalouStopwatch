@@ -44,6 +44,12 @@ public class ClaimListController {
 		claimList = new ClaimList(user);
 	}
 	
+	public ClaimListController(User user, boolean isApprover) {
+		if (isApprover == true) {
+			claimList = new ClaimList(user, true);
+		}
+	}
+	
 	/**
 	 * Adds a view that the ClaimList is on.
 	 * @param view

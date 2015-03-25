@@ -43,6 +43,13 @@ public class ClaimList extends SModel {
 		claims = mapper.loadUserClaims(user);
 	}
 	
+	public ClaimList(User user, boolean isApprover) {
+		if (isApprover = true) {
+			ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
+			claims = mapper.loadNotUserClaims(user);
+		}
+	}
+	
 	/**
 	 * Constructor used for testing purposes
 	 * @param test
