@@ -149,17 +149,20 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 					
 					try {
 						claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+						ClaimListController claimListController = new ClaimListController();
+						claimListController.removeClaim(claimId);
+						claimListController.addClaim(new Claim(claimId));
+						
+						Toast.makeText(getApplicationContext(),
+								"Changes saved.", Toast.LENGTH_SHORT).show();
 					} catch (DateException e) {
 						// TODO Auto-generated catch block
 						System.out.println(e.getMessage());
+						Toast.makeText(getApplicationContext(),
+								e.getMessage(), Toast.LENGTH_SHORT).show();
 					}
 
-					ClaimListController claimListController = new ClaimListController();
-					claimListController.removeClaim(claimId);
-					claimListController.addClaim(new Claim(claimId));
 					
-					Toast.makeText(getApplicationContext(),
-							"Changes saved.", Toast.LENGTH_SHORT).show();
 				}
 				
 			});
@@ -253,19 +256,23 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 														description = descriptionDisplay.getText().toString();
 														try {
 															claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+															//submit claim
+															claimController.submitClaim(Constants.statusSubmitted, false);
+															
+															ClaimListController claimListController = new ClaimListController();
+															claimListController.removeClaim(claimId);
+															claimListController.addClaim(new Claim(claimId));
+															
+															finish();
+															
 														} catch (DateException e) {
 															// TODO Auto-generated catch block
 															System.out.println(e.getMessage());
+															Toast.makeText(getApplicationContext(),
+																	e.getMessage(), Toast.LENGTH_SHORT).show();
 														}
 														
-														//submit claim
-														claimController.submitClaim(Constants.statusSubmitted, false);
 														
-														ClaimListController claimListController = new ClaimListController();
-														claimListController.removeClaim(claimId);
-														claimListController.addClaim(new Claim(claimId));
-														
-														finish();
 													}  
 											   });
 											AlertDialog alert2 = builder2.create();
@@ -275,19 +282,23 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 											description = descriptionDisplay.getText().toString();
 											try {
 												claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+												//submit claim
+												claimController.submitClaim(Constants.statusSubmitted, false);
+												
+												ClaimListController claimListController = new ClaimListController();
+												claimListController.removeClaim(claimId);
+												claimListController.addClaim(new Claim(claimId));
+												
+												finish();
+												
 											} catch (DateException e) {
 												// TODO Auto-generated catch block
 												System.out.println(e.getMessage());
+												Toast.makeText(getApplicationContext(),
+														e.getMessage(), Toast.LENGTH_SHORT).show();
 											}
 											
-											//submit claim
-											claimController.submitClaim(Constants.statusSubmitted, false);
 											
-											ClaimListController claimListController = new ClaimListController();
-											claimListController.removeClaim(claimId);
-											claimListController.addClaim(new Claim(claimId));
-											
-											finish();
 										}
 									}  
 							   });
