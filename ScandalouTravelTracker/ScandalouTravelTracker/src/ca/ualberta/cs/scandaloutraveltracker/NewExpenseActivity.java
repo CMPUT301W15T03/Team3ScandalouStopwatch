@@ -18,8 +18,10 @@ limitations under the License.
 	
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -46,6 +48,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 	private ExpenseController EController;
 	private ClaimListController claimListController;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,6 +68,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 							int dayOfMonth) {
 						String dateString = convertToString(year, monthOfYear, dayOfMonth);
 						Calendar cal = Calendar.getInstance();
+						cal.clear(Calendar.MILLISECOND);
 						cal.set(year, monthOfYear, dayOfMonth);
 						date = cal.getTime();
 						dateEditText.setText(dateString);
@@ -87,6 +91,10 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 			@SuppressLint("DefaultLocale")
 			@Override
 			public void onClick(View v) {
+				Intent intent = getIntent();
+			    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
+			    CController = new ClaimController(new Claim(claimId));
+			    
 				//show warning if fields are left empty
 				if (categorySpinner.getSelectedItem().toString().equals( "--Choose Category--")) {
 					Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
@@ -105,15 +113,31 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 					descriptionEditText.setError("Please include a description");
 					descriptionEditText.requestFocus();
 				}
+				else if(date.before(CController.getStartDate())){
+					Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
+				}
+				else{
+				Calendar cal = Calendar.getInstance();
+			    cal.setTime(date);
+			    cal.add(Calendar.DATE, -1);
+			    Date date = cal.getTime();
+				if(date.after(CController.getEndDate())){
+					
+					SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
+					
+					
+					String endDate=(sdf.format(date));
+					
+					Toast.makeText(getApplicationContext(),endDate , Toast.LENGTH_SHORT).show();
+				}
 				
 				else {
 				
 				//create new Expense, fill in values, attach to claim, close activity
 				
 				//make controller for current claim
-				Intent intent = getIntent();
-			    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
-			    CController = new ClaimController(new Claim(claimId));
+				
+			    
 			    
 			    //make controller for new expense
 				EController = new ExpenseController(new Expense());
@@ -155,7 +179,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				finish();
 				}
 			}
-		});
+			}});
 	}
 
 	/*@Override

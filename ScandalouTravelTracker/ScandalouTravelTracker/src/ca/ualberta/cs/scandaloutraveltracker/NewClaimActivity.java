@@ -89,6 +89,11 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				else if (eDateSet.getText().length() == 0) {
 					Toast.makeText(getApplicationContext(), "Please include an End Date", Toast.LENGTH_SHORT).show();
 				}
+				else if (startDate.after(endDate)){
+					Toast.makeText(getApplicationContext(), "Please set End Date to a time after Start Date", Toast.LENGTH_SHORT).show();
+					
+					
+				}
 				
 				else {
 					
