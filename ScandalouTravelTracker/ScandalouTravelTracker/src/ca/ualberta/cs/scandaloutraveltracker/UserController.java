@@ -54,4 +54,21 @@ public class UserController {
 		currentUser.setName(name);
 	}
 	
+	/**
+	 * 
+	 * @return Status of the user associated with the user.
+	 */
+	public int getMode() {
+		return currentUser.getMode();
+	}
+	
+	/**
+	 * Set status of user associated with user. Should be set
+	 * via the User's status.
+	 * @param status
+	 */
+	public void setMode(int mode) {
+		currentUser.setMode(mode);
+	}
+	
 }
