@@ -68,5 +68,9 @@
 	<string name="change_user">Change User</string>
 	<string name="change_screen">Change Screen</string>
 	<string name="user_name_filler">Name of User</string>
+	<string-array name="screen_menu" >
+		<item >Approver</item>
+		<item >Claimant</item>
+	</string-array>
 
 </resources>

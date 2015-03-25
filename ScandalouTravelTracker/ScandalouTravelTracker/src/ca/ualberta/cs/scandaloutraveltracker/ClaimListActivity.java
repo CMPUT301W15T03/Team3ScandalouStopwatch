@@ -20,8 +20,10 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -42,6 +44,10 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private ClaimListAdapter claimListAdapter;
 	private ClaimListController claimListController;
 	private User currentUser;
+	
+	// need to make this easier to get. for testing right now and
+	// should be 0 for approver screen, 1 for claimant screen
+	private int screenType = -1;
 	
 	
 	@Override
@@ -173,6 +179,58 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	@Override
 	public void update() {
 		claimListAdapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items.
+	    switch (item.getItemId()) {
+	    	// Goes to "main" menu of the app while clearing the activity stack.
+	        case R.id.action_user:
+	        	Toast.makeText(getApplicationContext(), "change user selected",Toast.LENGTH_SHORT).show();
+	        	Intent intent = new Intent(ClaimListActivity.this, UserSelectActivity.class);
+	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+	            return true;
+	        // Change the User from approver to claimant or vice versa.
+	        // TODO - get which screen the user is currently on so it can be changed
+	        case R.id.action_screen:
+	        	Toast.makeText(getApplicationContext(), "change screen selected",Toast.LENGTH_SHORT).show();
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
+				builder.setTitle("Switch Screen View")
+				.setCancelable(true)
+				// don't change the screen type
+				.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						return;
+					}
+				})
+				// change the screen type to the one selected
+				.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// set screen to approver
+						if (screenType == 0) {
+							Toast.makeText(getApplicationContext(), "Change to Approver",Toast.LENGTH_SHORT).show();
+						}
+						// set screen to claimant
+						if (screenType == 1) {
+							Toast.makeText(getApplicationContext(), "change to Claimant",Toast.LENGTH_SHORT).show();
+						}
+					}
+				})
+				// record which one was selected for confirmation
+				.setSingleChoiceItems(R.array.screen_menu, screenType, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						screenType = which;
+					}
+				}); 
+				AlertDialog alert = builder.create();
+				alert.show();
+				return true;
+			default:
+	        	return false;
+	    }
 	}
 
 }
