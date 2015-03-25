@@ -17,77 +17,90 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import android.app.AlertDialog;
+import android.app.Instrumentation;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
+import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.User;
+import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
-import junit.framework.TestCase;
+public class ClaimTagsTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
+	EditClaimActivity editClaimActivity;
+	Instrumentation instrumentation;
+	TextView tagsDisplay;
+	EditText tagsInput;
+	Button addTagsButton;
+	ClaimController claimController;
+	UserListController ulc;
+	ClaimListController clc;
+	int newClaimId;
+	
+	public ClaimTagsTest() {
+		super(EditClaimActivity.class);
+	}
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		
+		ulc = new UserListController();
+		clc = new ClaimListController();
+		
+		// Create mock objects needed to test activity
+		Intent mockIntent = makeMockIntent();
+		setActivityIntent(mockIntent);
+		
+		editClaimActivity = getActivity();
+		instrumentation = getInstrumentation();
+		
+		// Get UI components
+		tagsDisplay = (TextView) editClaimActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.edit_claim_tags);
+		addTagsButton = (Button) editClaimActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.edit_claim_add_tag);
+	}
 
-public class ClaimTagsTest extends TestCase {
-	
-	// Test UC 03.01.01
-	public void testTagClaim() {
-		Claim claim = new Claim();
-		ArrayList<String> tags = new ArrayList<String>();
-		tags.add("Tag1");
-		claim.setTags(tags);
-		assertTrue("Tag1 not added to claim", (claim.getTags().size() == 1));
-		tags.add("Tag2");
-		claim.setTags(tags);
-		assertTrue("Tag2 not added to claim", (claim.getTags().size() == 2));
-	}
-	
-	//TODO: this test is incomplete; finish once desired functionality is decided
-	// Test UC 03.02.01
-	public void testViewTags() {
-		assertTrue("Complete testViewTags()!", false);
-		/*Claim claim = new Claim();
-		ArrayList<String> tags = new ArrayList<String>();
-		tags.add("Tag1");
-		tags.add("Tag2");
-		claim.setTags(tags);
-		ArrayList<String> usedTags = GET_ALL_USED_TAGS();
-		assertFalse("Insufficient tags in list", (usedTags.size() < 2));
-		if (usedTags.size() == 2) {
-			assertTrue("Tag1 not in list", (usedTags.get(0) == tags.get(0)));
-			assertTrue("Tag2 not in list", (usedTags.get(1) == tags.get(1)));
-		}*/
-	}
-	
-	// Test UC 03.02.02
-	public void testAddTag() {
-		Claim claim = new Claim();
-		ArrayList<String> tags = new ArrayList<String>();
-		tags.add("Tag1");
-		claim.setTags(tags);
-		ArrayList<String> usedTags = claim.getTags();
-		assertTrue("Tag not added to list", (usedTags.size() == 1));
-		assertTrue("Wrong tag", (usedTags.get(0) == "Tag1"));
-	}
-	
-	// Test UC 03.02.03
-	public void testRenameTag() {
-		Claim claim = new Claim();
-		ArrayList<String> tags = new ArrayList<String>();
-		tags.add("Tag1");
-		claim.setTags(tags);
-		String rename = "Renamed tag";
-		tags.set(0, rename);
-		claim.setTags(tags);
-		ArrayList<String> usedTags = claim.getTags();
-		assertTrue("Rename failed", (usedTags.get(0).equals(rename)));
-	}
-	
-	// Test UC 03.02.04
-	public void testDeleteTag() {
-		Claim claim = new Claim();
-		ArrayList<String> tags = new ArrayList<String>();
-		tags.add("Tag1");
-		claim.setTags(tags);
-		tags.remove(0);
-		claim.setTags(tags);
-		ArrayList<String> usedTags = claim.getTags();
-		assertTrue("Delete failed", (usedTags.size() == 0));
+	// Tests adding a tag to a claim
+	public void testTaggingNewClaim() {
+		AlertDialog alert;
+		
+		// Click on add tag button, enter tag, and add
+		instrumentation.runOnMainSync(new Runnable() {
+
+			@Override
+			public void run() {
+				addTagsButton.performClick();
+			}
+			
+		});
+		
+		getInstrumentation().waitForIdleSync();
+		getInstrumentation().sendStringSync("TestTag");
+		getInstrumentation().waitForIdleSync();
+		alert = editClaimActivity.getAlertDialog();
+		
+		// Try to add
+		try {
+			
+			performClick(alert.getButton(DialogInterface.BUTTON_POSITIVE));
+		} catch (Throwable e) {
+			new Throwable(e);
+		}
+		
+		getInstrumentation().waitForIdleSync();
+		claimController = new ClaimController(new Claim(newClaimId));
+		assertEquals(1, claimController.getTags().size());
 	}
 	
 	/*// Test UC 03.03.01
@@ -108,4 +121,40 @@ public class ClaimTagsTest extends TestCase {
 		assertTrue("Wrong claim", (filteredList.get(0) == claim1));
 	}
 */
+	
+	// Used to create a mock intent to give to the activity
+	private Intent makeMockIntent() {
+		
+		ArrayList<Destination> destinations = new ArrayList<Destination>();
+		String status = Constants.statusInProgress;
+		ArrayList<String> tagsList = new ArrayList<String>();
+		boolean canEdit = true;
+		ArrayList<Expense> expenses = new ArrayList<Expense>();
+		
+		int userId = ulc.createUser("User1");
+		ulc.addUser(new User(userId));
+		
+		// Create the claim
+		newClaimId = clc.createClaim("a1", new Date(), new Date(), "d1", destinations, 
+				tagsList, status, canEdit, expenses, new User(userId));	
+		
+		Intent mockIntent = new Intent();
+		mockIntent.putExtra(Constants.claimIdLabel, newClaimId);
+		
+		// Set ClaimController
+		claimController = new ClaimController(new Claim(newClaimId));
+		
+		return mockIntent;
+	}
+	
+	private void performClick(final Button button) throws Throwable {
+		runTestOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				button.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+	}
 }

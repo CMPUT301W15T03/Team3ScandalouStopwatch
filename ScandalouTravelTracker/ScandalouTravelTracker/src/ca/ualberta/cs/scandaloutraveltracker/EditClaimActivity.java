@@ -70,9 +70,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	private ImageButton newDestinationButton;
 	private ListView destinationList;
 	private EditText tagsInput;
-	private Button editTagsButton;
+	private Button addTagsButton;
 	private Button updateButton;
 	private Button sendButton;
+	private AlertDialog alert;
 	
 	private DestinationListAdapter destinationsAdapter;
 	
@@ -105,7 +106,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		tagsDisplay = (TextView) findViewById(R.id.edit_claim_tags);
 		newDestinationButton = (ImageButton) findViewById(R.id.edit_claim_new_destination);
 		destinationList = (ListView) findViewById(R.id.edit_claim_destinations);
-		editTagsButton = (Button) findViewById(R.id.edit_claim_edit_tags);
+		addTagsButton = (Button) findViewById(R.id.edit_claim_add_tag);
 		sendButton = (Button) findViewById(R.id.edit_claim_send);	
 		updateButton = (Button) findViewById(R.id.edit_claim_update);
 	    statusDisplay = (TextView) findViewById(R.id.edit_claim_status);		
@@ -345,7 +346,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			}
 		});	
 		
-		editTagsButton.setOnClickListener(new View.OnClickListener(){
+		addTagsButton.setOnClickListener(new View.OnClickListener(){
 			
 			@Override
 			public void onClick(View v){
@@ -353,7 +354,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				
 				//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
 				//http://stackoverflow.com/questions/2620444/how-to-prevent-a-dialog-from-closing-when-a-button-is-clicked 2015-03-22
-				final AlertDialog alert = new AlertDialog.Builder(EditClaimActivity.this)
+				alert = new AlertDialog.Builder(EditClaimActivity.this)
 				   .setMessage("Enter name of tag (no spaces): ")	
 				   .setView(tagsInput)
 				   .setCancelable(true)
@@ -487,12 +488,9 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 
 		TagParser parser = new TagParser();
 		ArrayList<IntegerPair> indices = parser.parse(tagsString);
-		Log.d("TAG", tagsString);
-		Log.d("TAG", "Indices size: " + indices.size());
 
 		for (int i = 0; i < indices.size(); i++) {
 			IntegerPair currentIndex = indices.get(i);
-			Log.d("TAG", ""+currentIndex.getX()+", "+currentIndex.getY());
 			spannableString.setSpan(new ClickableSpan() {
 
 				// Sets the onClick for the clickable span (tags)
@@ -604,6 +602,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		ArrayList<String> tags = new ArrayList<String>(Arrays.asList(temp));
 		
 		return tags;
+	}
+	
+	// Used for testing the add tags alert
+	public AlertDialog getAlertDialog() {
+		return alert;
 	}
 	
 	/**

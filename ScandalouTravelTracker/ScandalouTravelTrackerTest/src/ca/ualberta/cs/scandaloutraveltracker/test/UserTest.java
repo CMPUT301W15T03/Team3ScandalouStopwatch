@@ -167,17 +167,6 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		assertEquals(1, currentClaimList.getCount());
 	}
 	
-	public void testCanDeleteUser() {
-		instrumentation.runOnMainSync(new Runnable() {
-
-			@Override
-			public void run() {
-				
-			}
-			
-		});
-	}
-	
 	// http://stackoverflow.com/questions/17526005/how-to-test-an-alertdialog-in-android 03/23/2015
 	private void performClick(final Button button) throws Throwable {
 		runTestOnUiThread(new Runnable() {

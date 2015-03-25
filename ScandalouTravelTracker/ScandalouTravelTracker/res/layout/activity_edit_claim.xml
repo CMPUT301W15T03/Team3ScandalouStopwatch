@@ -82,20 +82,20 @@
         android:id="@+id/edit_claim_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_claim_edit_tags"
+        android:layout_alignBottom="@+id/edit_claim_add_tag"
         android:layout_alignLeft="@+id/edit_claim_update"
-        android:layout_alignTop="@+id/edit_claim_edit_tags"
-        android:layout_toLeftOf="@+id/edit_claim_edit_tags"
+        android:layout_alignTop="@+id/edit_claim_add_tag"
+        android:layout_toLeftOf="@+id/edit_claim_add_tag"
         android:gravity="center_vertical"
         android:textSize="@dimen/tags" />
 
     <Button
-        android:id="@+id/edit_claim_edit_tags"
+        android:id="@+id/edit_claim_add_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/edit_claim_send"
-        android:text="@string/edit_tags" />
+        android:text="@string/add_tag" />
 
     <ImageButton
         android:id="@+id/edit_claim_new_destination"
@@ -109,7 +109,7 @@
         android:id="@+id/edit_claim_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_claim_edit_tags"
+        android:layout_above="@+id/edit_claim_add_tag"
         android:layout_alignRight="@+id/edit_claim_destinations"
         android:text="@string/submit" />
 

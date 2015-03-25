@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,10 +37,13 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	}
 	
 	public void setUpDisplay() {
+		
 		// Setup display elements
 		newUserButton = (Button) findViewById(R.id.userSelectCreateUserButton);
 		selectUserTV = (TextView) findViewById(R.id.userSelectCurrentUsersTV);
 		usersLV = (ListView) findViewById(R.id.userSelectUsersLV);
+		
+		registerForContextMenu(usersLV);
 		
 		// Set newUserButton onClick functionality
 		newUserButton.setOnClickListener(new View.OnClickListener() {
@@ -94,11 +96,6 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 		adapter = new UserListAdapter(this, ulc.getUserList());
 		usersLV.setAdapter(adapter);
 	}
-	
-	// Returns last AlertDialog displayed on the screen
-	public AlertDialog getDialog() {
-		return alert;
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,6 +106,14 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	@Override
 	public void update() {
 		adapter.notifyDataSetChanged();
+	}
+	
+	// Testing Methods
+	
+	// Returns last AlertDialog displayed on the screen
+	// Used for testing
+	public AlertDialog getDialog() {
+		return alert;
 	}
 
 }
