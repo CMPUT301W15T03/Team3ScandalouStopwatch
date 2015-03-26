@@ -74,5 +74,6 @@
 	</string-array>
 	<string name="view_all_tags">View All Tags</string>
 	<string name="filter_claims">Filter Claims</string>
+	<string name="restore_claims">Restore Claims</string>
 
 </resources>

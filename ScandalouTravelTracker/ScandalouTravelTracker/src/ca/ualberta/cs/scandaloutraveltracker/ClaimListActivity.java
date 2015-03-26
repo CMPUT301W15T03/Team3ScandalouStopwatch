@@ -318,6 +318,12 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	        	tagSelectDialog = tagFilterBuilder.create();
 	        	tagSelectDialog.show();
 	        	return true;
+	        case R.id.action_restore_claims:
+	        	claimListController = new ClaimListController(currentUser);
+				claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+				claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
+				claimsListView.setAdapter(claimListAdapter);
+	        	return true;
 			default:
 	        	return false;
 	    }

@@ -54,6 +54,9 @@ public class ClaimListActivityTest extends
 		
 	} 
 	
+	// Adds three claims with a total of 5 tags and selects tag1 and tag2
+	// to filter. The final list has 2 of the 3 claims. Finally, the last
+	// assert is to ensure the claim list can be restored to it's original state.
 	public void testFilterClaims() {
 		getInstrumentation().waitForIdleSync();
 		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
@@ -90,6 +93,15 @@ public class ClaimListActivityTest extends
 		}
 		
 		assertEquals(2, claimsListView.getCount());
+
+		// Test will now check original list can be restored
+		getInstrumentation().waitForIdleSync();
+		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+		getInstrumentation().invokeMenuActionSync(claimListActivity, 
+				ca.ualberta.cs.scandaloutraveltracker.R.id.action_restore_claims, 0);
+		getInstrumentation().waitForIdleSync();
+		
+		assertEquals(3, claimsListView.getCount());
 	}
 	
 	private void createClaimWithTags(int userId, ArrayList<String> tags) {
