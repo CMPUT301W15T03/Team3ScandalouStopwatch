@@ -73,5 +73,6 @@
 		<item >Approver</item>
 	</string-array>
 	<string name="view_all_tags">View All Tags</string>
+	<string name="filter_claims">Filter Claims</string>
 
 </resources>

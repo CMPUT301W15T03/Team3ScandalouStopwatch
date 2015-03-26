@@ -46,12 +46,19 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private User currentUser;
 	private UserController currentUserController;
 	private int screenTypeTemp;
+	private AlertDialog tagSelectDialog;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_claim_list);
+		
+		// Set user in ClaimApplication
+		ClaimApplication app = (ClaimApplication) getApplicationContext();
+		Intent intent = getIntent();
+		int userId = intent.getIntExtra("userId", 0);
+		app.setUser(new User(userId));
 		
 		// Get Claims
 		currentUser = ( (ClaimApplication) getApplication()).getUser();
@@ -266,6 +273,11 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			default:
 	        	return false;
 	    }
+	    
 	}
+	
+    public AlertDialog getTagDialog() {
+    	return tagSelectDialog;
+    }
 
 }

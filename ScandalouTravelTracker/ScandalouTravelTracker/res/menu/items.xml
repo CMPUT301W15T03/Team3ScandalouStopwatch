@@ -9,4 +9,9 @@
         android:id="@+id/action_screen"
         android:title="@string/change_screen"
         android:showAsAction="never"/>
+    
+    <item
+        android:id="@+id/action_filter_claims"
+        android:title="@string/filter_claims"
+        android:showAsAction="never"/>
 </menu>

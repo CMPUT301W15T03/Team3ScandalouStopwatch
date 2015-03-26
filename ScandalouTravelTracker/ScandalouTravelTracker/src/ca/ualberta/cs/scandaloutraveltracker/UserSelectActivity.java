@@ -82,12 +82,9 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 			public void onItemClick(AdapterView<?> arg0, View view, int position,
 					long claimPos) {
 				
-				// Set user in ClaimApplication
-				ClaimApplication app = (ClaimApplication) getApplicationContext();
-				app.setUser(ulc.getUser(position));
-				
 				// Launch the ClaimListActivity
 				Intent intent = new Intent(UserSelectActivity.this, ClaimListActivity.class);
+				intent.putExtra("userId", ulc.getUser(position).getId());
 				startActivity(intent);
 			}
 		});
