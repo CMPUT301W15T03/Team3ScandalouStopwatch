@@ -18,6 +18,8 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -47,6 +49,8 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private UserController currentUserController;
 	private int screenTypeTemp;
 	private AlertDialog tagSelectDialog;
+	private ArrayList<String> tagsList;
+	private boolean tagsBooleanArray[];
 	
 	
 	@Override
@@ -270,14 +274,52 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 				AlertDialog alert = builder.create();
 				alert.show();
 				return true;
+	        case R.id.action_filter_claims:
+	        	tagsList = getAllTagsSequence();
+	        	AlertDialog.Builder tagFilterBuilder = new AlertDialog.Builder(ClaimListActivity.this);
+	        	tagFilterBuilder.setTitle("Select Tags to Include")
+	        	.setCancelable(true)
+	        	.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Clicking on the Cancel button exits dialog
+						return;
+					}
+				})
+				.setMultiChoiceItems(tagsList.toArray(new CharSequence[tagsList.size()]), 
+						tagsBooleanArray, new DialogInterface.OnMultiChoiceClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+	        	tagSelectDialog = tagFilterBuilder.create();
+	        	tagSelectDialog.show();
+	        	return true;
 			default:
 	        	return false;
 	    }
 	    
 	}
 	
-    public AlertDialog getTagDialog() {
-    	return tagSelectDialog;
-    }
+	private ArrayList<String> getAllTagsSequence() {
+		ClaimListMapper clm = new ClaimListMapper(getApplicationContext(), currentUser);
+		tagsList = clm.getAllTags();
+		
+		tagsBooleanArray = new boolean[tagsList.size()];
+		
+		return tagsList;
+	}
 
+	// Methods that are used for testing
+	public AlertDialog getTagDialog() {
+		return tagSelectDialog;
+	}
+	
+	public ArrayList<String> getAllTagsList() {
+		return tagsList;
+	}
 }

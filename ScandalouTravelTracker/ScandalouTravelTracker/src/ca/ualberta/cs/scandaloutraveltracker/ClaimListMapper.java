@@ -31,6 +31,7 @@ import android.content.SharedPreferences;
 public class ClaimListMapper {
 
 	private Context context;
+	private User user;
 	
 	/**
 	 * Constructor needs the current context to make a ClaimListMapper.
@@ -42,8 +43,9 @@ public class ClaimListMapper {
 	
 	public ClaimListMapper(Context context, User user) {
 		this.context = context;
+		this.user = user;
 	}
-	
+
 	/**
 	 * 
 	 * @return List of all the saved claims
@@ -122,4 +124,38 @@ public class ClaimListMapper {
 		return claims;
 	}
 	
+	public ArrayList<String> getAllTags() {
+		ArrayList<String> tags = new ArrayList<String>();
+		ArrayList<String> currentTags;
+		
+		SharedPreferences claimCounterFile = this.context.getSharedPreferences("claimCounter", 0);
+		int mostRecentClaimId = claimCounterFile.getInt("claimCount", 0);	
+		
+		Claim claim;
+		User currentUser;
+		int currentUserId;
+		int actualUserId = user.getId();
+		
+		for (int i = 1; i <= mostRecentClaimId; i++){
+			claim = new Claim(i);
+			currentUser = claim.getUser();
+			if (currentUser != null) {
+				currentUserId = currentUser.getId();
+				
+				// Checks to make sure the Claim belongs to the actual user and
+				// adds the tag to the CharSequence if it is not already included
+				if ( (claim.getId() != -1) && (actualUserId == currentUserId) ){
+					currentTags = claim.getTags();
+					
+					for (String tag : currentTags) {
+						if (!tags.contains(tag)) {
+							tags.add(tag);
+						}
+					}
+				}
+			}
+		}
+		
+		return tags;
+	}
 }
