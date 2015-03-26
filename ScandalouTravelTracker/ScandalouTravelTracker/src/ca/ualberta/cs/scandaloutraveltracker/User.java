@@ -18,6 +18,8 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import android.location.Location;
+
 /**
  *  The superclass that all types of users will have to inherit.
  * @author Team3ScandalouStopwatch
@@ -29,6 +31,7 @@ public class User extends SModel implements Comparable<User> {
 	private String name;
 	// mode = 0 (Claimant View), mode = 1 (Approver View)
 	private int mode;
+	private Location homeLocation;
 
 	public User(int id) {
 		UserMapper mapper = new UserMapper(ClaimApplication.getContext());		
@@ -36,6 +39,17 @@ public class User extends SModel implements Comparable<User> {
 		this.id = (Integer)mapper.loadUserData(id, "id");
 		this.name = (String)mapper.loadUserData(id, "name");
 		this.mode = 0;
+		this.homeLocation = (Location)mapper.loadUserData(id, "location");
+	}
+	
+	public void setCurrentLocation(Location location) {
+		this.homeLocation = location;
+		UserMapper mapper = new UserMapper(ClaimApplication.getContext());	
+		mapper.saveUserData(id, "location", location);
+	}
+	
+	public Location getHomeLocation() {
+		return this.homeLocation;
 	}
 
 	public int getId() {

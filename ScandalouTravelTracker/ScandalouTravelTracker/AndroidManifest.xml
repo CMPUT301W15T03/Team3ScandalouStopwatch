@@ -19,7 +19,10 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
+    <!--  Permissions to use GPS location and mock locations for testing -->
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+    
     <application
         android:name="ca.ualberta.cs.scandaloutraveltracker.ClaimApplication"
         android:allowBackup="true"

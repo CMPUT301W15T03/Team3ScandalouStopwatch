@@ -2,9 +2,13 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +28,8 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	private EditText userNameET;
 	private AlertDialog alert;
 	private UserController uc;
+	private LocationManager lm;
+	private Location location;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,9 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 		setContentView(R.layout.activity_user_select);
 		
 		ulc = new UserListController();
+		
+		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
 		setUpDisplay();
 		
@@ -65,7 +74,15 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						newUserId = ulc.createUser(userNameET.getText().toString());
+						UserController uc = new UserController(new User(newUserId));
+						uc.setCurrentLocation(location);
 						ulc.addUser(new User(newUserId));
+						
+						// QUICK TEST - REMOVE
+						User user = new User(newUserId);
+						Location locale = user.getHomeLocation();
+						Log.d("TAGGED", ""+locale.getLatitude());
+						
 						update();
 					}
 				});

@@ -18,9 +18,16 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class UserMapper {
 
@@ -77,11 +84,15 @@ public class UserMapper {
 		
 		SharedPreferences userFile = this.context.getSharedPreferences("user"+Integer.toString(userId), 0);
 		Editor editor = userFile.edit();		
+		Gson gson = new Gson();
 		
 		if (key.equals("id")){
 			editor.putInt("id", (Integer)data);
 		} else if (key.equals("name")){
 			editor.putString(key, (String)data);
+		} else if (key.equals("location")) {
+			String locationsJson = gson.toJson((Location)data);
+		    editor.putString(key, locationsJson);
 		}
 		
 		editor.commit();	
@@ -98,11 +109,16 @@ public class UserMapper {
 		
 		Object data = 0;
 		SharedPreferences userFile = this.context.getSharedPreferences("user"+Integer.toString(userId), 0);
+		Gson gson = new Gson();
 		
 	    if (key.equals("id")){
 	    	data = userFile.getInt(key, -1);	    
 	    } else if (key.equals("name")){
 	    	data = userFile.getString(key, "");
+	    } else if (key.equals("location")) {
+	    	String locationsJson = userFile.getString(key, "");
+		    Type type = new TypeToken<Location>(){}.getType();
+		    data = gson.fromJson(locationsJson, type);		    
 	    }
 	    
 		return data;

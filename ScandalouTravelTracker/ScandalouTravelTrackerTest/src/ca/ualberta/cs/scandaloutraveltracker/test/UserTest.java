@@ -80,6 +80,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		clearUL();
 		
 		// Add user for test to select
+		ulc = new UserListController();
 		int newUserId = ulc.createUser("New User");
 		ulc.addUser(new User(newUserId));
 		
@@ -131,6 +132,37 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Assert that user in list has the same name as one entered
 		String name = ulc.getUserList().getUser(0).getName();
 		assertEquals(name, "New User");
+	}
+	
+	// The user has a default userLocationSet which is where they last were
+	// This location is set when the user is created
+	public void testUserLocationSet() {
+		clearUL();
+		
+		TouchUtils.clickView(this, newUserButton);
+		AlertDialog dialog = userSelectActivity.getDialog();
+		assertTrue(dialog.isShowing());
+		assertEquals(0, ulc.getUserList().getCount());
+		
+		// Type in the AlertDialog EditText: "New User"
+		getInstrumentation().waitForIdleSync();
+		getInstrumentation().sendStringSync("New User");
+		getInstrumentation().waitForIdleSync();
+		
+		// Try to press the add new user button
+		try {
+			performClick(dialog.getButton(DialogInterface.BUTTON_POSITIVE));
+		} catch (Throwable e) {
+			new Throwable(e);
+		}
+		
+		// Get only user in list
+		User user = ulc.getUser(0);
+		
+		// This test will only pass if you set the Emulators GPS controls
+		// to have a Longitude of -100 and a Latitude of 37
+		assertEquals((double) -100, user.getHomeLocation().getLongitude());
+		assertEquals((double) 37, user.getHomeLocation().getLatitude());
 	}
 	
 	public void testIsUsersClaims() {
@@ -196,7 +228,6 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	// Used to start the tests with an empty user list
 	private void clearUL() {
 		// Initialize UserListController
-		ulc = new UserListController();
 		ArrayList<User> users = ulc.getUserList().getUsers();
 		Iterator<User> iterator = users.iterator();
 		

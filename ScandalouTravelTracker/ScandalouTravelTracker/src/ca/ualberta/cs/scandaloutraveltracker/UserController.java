@@ -18,6 +18,8 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import android.location.Location;
+
 /**
  *  The User Controller class is used for making changes to a User that
  *  is supplied to the controller. You should not be making changes to a
@@ -35,6 +37,10 @@ public class UserController {
 	 */
 	public UserController(User currentUser) {
 		this.currentUser = currentUser;
+	}
+	
+	public void setCurrentLocation(Location location) {
+		this.currentUser.setCurrentLocation(location);
 	}
 	
 	/**
