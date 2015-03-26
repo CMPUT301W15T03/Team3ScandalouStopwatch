@@ -3,11 +3,14 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Instrumentation;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
+import android.widget.Button;
+import android.widget.ListView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
@@ -21,6 +24,8 @@ public class ClaimListActivityTest extends
 		ActivityInstrumentationTestCase2<ClaimListActivity> {
 	
 	ClaimListActivity claimListActivity; 
+	Instrumentation instrumentation;
+	ListView claimsListView; 
 
 	public ClaimListActivityTest() {
 		super(ClaimListActivity.class);
@@ -43,6 +48,10 @@ public class ClaimListActivityTest extends
 		setActivityIntent(mockIntent);
 		claimListActivity = (ClaimListActivity) getActivity();
 		
+		claimsListView = (ListView) claimListActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListActivityList);
+		
+		instrumentation = getInstrumentation();
+		
 	} 
 	
 	public void testFilterClaims() {
@@ -53,13 +62,37 @@ public class ClaimListActivityTest extends
 		getInstrumentation().waitForIdleSync();
 		
 		AlertDialog alert = claimListActivity.getTagDialog();
-		ArrayList<String> tags = claimListActivity.getAllTagsList();
 		
+		// Assert the alert is showing and has 5 tags to choose from
 		assertTrue(alert.isShowing());
-		assertEquals(5, tags.size());
+		final ListView lv = alert.getListView();
+		assertEquals(5, lv.getCount());
+		
+		// Selects Tag1 and Tag2 from the list
+		instrumentation.runOnMainSync(new Runnable() {
+
+			@Override
+			public void run() {
+				lv.performItemClick(lv, 0, 0);
+				lv.performItemClick(lv, 1, 0);
+			}
+
+		});
+		
+		ArrayList<String> selectedTags = claimListActivity.getSelectedTags();
+		assertEquals(2, selectedTags.size());
+		
+		// Click search
+		try {
+			performClick((alert.getButton(DialogInterface.BUTTON_POSITIVE)));
+		} catch (Throwable e) {
+			new Throwable(e);
+		}
+		
+		assertEquals(2, claimsListView.getCount());
 	}
 	
-	public void createClaimWithTags(int userId, ArrayList<String> tags) {
+	private void createClaimWithTags(int userId, ArrayList<String> tags) {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
 		ClaimListController clc = new ClaimListController();
@@ -76,7 +109,7 @@ public class ClaimListActivityTest extends
 		clc.addClaim(new Claim(newClaimId));
 	}
 	
-	public void createClaims_Tagged(int newUserId) {
+	private void createClaims_Tagged(int newUserId) {
 		ArrayList<String> tags = new ArrayList<String>();
 		tags.add("#tag1");
 		tags.add("#tag2");
@@ -91,5 +124,16 @@ public class ClaimListActivityTest extends
 		tags = new ArrayList<String>();
 		tags.add("#tag5");
 		createClaimWithTags(newUserId, tags);
+	}
+	
+	private void performClick(final Button button) throws Throwable {
+		runTestOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				button.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
 	}
 }

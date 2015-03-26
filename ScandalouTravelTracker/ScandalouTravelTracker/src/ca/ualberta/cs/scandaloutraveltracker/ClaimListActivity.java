@@ -52,6 +52,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private ArrayList<String> tagsList;
 	private boolean tagsBooleanArray[];
 	private ArrayList<String> selectedTags = new ArrayList<String>();
+	private CharSequence[] tagsSequence;
 	
 	
 	@Override
@@ -277,7 +278,8 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 				return true;
 	        case R.id.action_filter_claims:
 	        	tagsList = getAllTagsSequence();
-	        	final CharSequence[] tagsSequence = tagsList.toArray(new CharSequence[tagsList.size()]);
+	        	selectedTags = new ArrayList<String>();
+	        	tagsSequence = tagsList.toArray(new CharSequence[tagsList.size()]);	
 	        	AlertDialog.Builder tagFilterBuilder = new AlertDialog.Builder(ClaimListActivity.this);
 	        	tagFilterBuilder.setTitle("Select Tags to Include")
 	        	.setCancelable(true)
@@ -307,7 +309,10 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						
+						claimListController = new ClaimListController(currentUser, Constants.TAG_MODE, selectedTags);
+						claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+						claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
+						claimsListView.setAdapter(claimListAdapter);
 					}
 				});
 	        	tagSelectDialog = tagFilterBuilder.create();

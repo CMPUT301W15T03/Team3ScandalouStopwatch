@@ -148,7 +148,7 @@ public class ClaimListMapper {
 					currentTags = claim.getTags();
 					
 					for (String tag : currentTags) {
-						if (!tags.contains(tag)) {
+						if (!tags.contains(tag) && !tag.equals("")) {
 							tags.add(tag);
 						}
 					}
@@ -157,5 +157,42 @@ public class ClaimListMapper {
 		}
 		
 		return tags;
+	}
+	
+	public ArrayList<Claim> getFilteredClaims(User user, ArrayList<String> selectedTags) {
+		ArrayList<Claim> claims = new ArrayList<Claim>();
+		
+		SharedPreferences claimCounterFile = this.context.getSharedPreferences("claimCounter", 0);
+		int mostRecentClaimId = claimCounterFile.getInt("claimCount", 0);	
+		
+		Claim claim;
+		User currentUser;
+		int currentUserId;
+		int actualUserId = user.getId();
+		ArrayList<String> currentTags;
+		
+		for (int i = 1; i <= mostRecentClaimId; i++){
+			claim = new Claim(i);
+			currentUser = claim.getUser();
+			// Check that the current user loaded is not null and that it
+			// is actually the user that is logged in
+			if (currentUser != null) {
+				currentUserId = currentUser.getId();
+				if (claim.getId() != -1 && currentUserId == actualUserId){
+					currentTags = claim.getTags();
+					
+					// For all the tags in the current tags tag list, if any tag
+					// is in the list, it will add it to the claims list
+					for (String tag : currentTags) {
+						if (selectedTags.contains(tag)) {
+							claims.add(claim);
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		return claims;
 	}
 }

@@ -47,8 +47,12 @@ public class ClaimListController {
 	public ClaimListController(User user, String mode) {
 		if (mode.equals(Constants.APPROVER_MODE)) {
 			claimList = new ClaimList(user, mode);
-		} else if (mode.equals(Constants.TAG_MODE)) {
-			claimList = new ClaimList(user, mode);
+		}
+	}
+	
+	public ClaimListController(User user, String mode, ArrayList<String> selectedTags) {
+		if (mode.equals(Constants.TAG_MODE)) {
+			claimList = new ClaimList(user, mode, selectedTags);
 		}
 	}
 	

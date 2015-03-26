@@ -47,8 +47,13 @@ public class ClaimList extends SModel {
 		if (mode.equals(Constants.APPROVER_MODE)) {
 			ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
 			claims = mapper.loadNotUserClaims(user);
-		} else if (mode.equals(Constants.TAG_MODE)) {
-			
+		} 
+	}
+	
+	public ClaimList(User user, String mode, ArrayList<String> selectedTags) {
+		if (mode.equals(Constants.TAG_MODE)) {
+			ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
+			claims = mapper.getFilteredClaims(user, selectedTags);
 		}
 	}
 	
