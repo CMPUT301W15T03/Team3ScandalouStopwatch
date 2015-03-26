@@ -78,11 +78,6 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 						uc.setCurrentLocation(location);
 						ulc.addUser(new User(newUserId));
 						
-						// QUICK TEST - REMOVE
-						User user = new User(newUserId);
-						Location locale = user.getHomeLocation();
-						Log.d("TAGGED", ""+locale.getLatitude());
-						
 						update();
 					}
 				});
@@ -128,6 +123,12 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	// Used for testing
 	public AlertDialog getDialog() {
 		return alert;
+	}
+	
+	// Gets the phones actual location to see if it was 
+	// set properly for the user
+	public Location getLocation() {
+		return location;
 	}
 
 }

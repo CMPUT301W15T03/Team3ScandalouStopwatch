@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
@@ -159,10 +160,13 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Get only user in list
 		User user = ulc.getUser(0);
 		
+		// Get the location
+		Location location = userSelectActivity.getLocation();
+		
 		// This test will only pass if you set the Emulators GPS controls
 		// to have a Longitude of -100 and a Latitude of 37
-		assertEquals((double) -100, user.getHomeLocation().getLongitude());
-		assertEquals((double) 37, user.getHomeLocation().getLatitude());
+		assertEquals(location.getLongitude(), user.getHomeLocation().getLongitude());
+		assertEquals(location.getLatitude(), user.getHomeLocation().getLatitude());
 	}
 	
 	public void testIsUsersClaims() {
