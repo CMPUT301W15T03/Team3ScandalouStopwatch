@@ -51,6 +51,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private AlertDialog tagSelectDialog;
 	private ArrayList<String> tagsList;
 	private boolean tagsBooleanArray[];
+	private ArrayList<String> selectedTags = new ArrayList<String>();
 	
 	
 	@Override
@@ -83,7 +84,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		
 		// Approver mode
 		else if (currentUserController.getMode() == 1) {
-			claimListController = new ClaimListController(currentUser, true);
+			claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 			claimListController.addView(this);
 			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
 			claimsListView.setAdapter(claimListAdapter);
@@ -203,7 +204,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		
 		// Approver mode
 		else if (currentUserController.getMode() == 1) {
-			claimListController = new ClaimListController(currentUser, true);
+			claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 			claimListController.addView(this);
 			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
 			claimsListView.setAdapter(claimListAdapter);
@@ -257,7 +258,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 						if (screenTypeTemp == 1) {
 							Toast.makeText(getApplicationContext(), "Change to Approver",Toast.LENGTH_SHORT).show();
 							currentUserController.setMode(1);
-							claimListController = new ClaimListController(currentUser, true);
+							claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 							claimListController.addView(ClaimListActivity.this);
 							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
 							claimsListView.setAdapter(claimListAdapter);
@@ -276,6 +277,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 				return true;
 	        case R.id.action_filter_claims:
 	        	tagsList = getAllTagsSequence();
+	        	final CharSequence[] tagsSequence = tagsList.toArray(new CharSequence[tagsList.size()]);
 	        	AlertDialog.Builder tagFilterBuilder = new AlertDialog.Builder(ClaimListActivity.this);
 	        	tagFilterBuilder.setTitle("Select Tags to Include")
 	        	.setCancelable(true)
@@ -287,12 +289,24 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 						return;
 					}
 				})
-				.setMultiChoiceItems(tagsList.toArray(new CharSequence[tagsList.size()]), 
+				.setMultiChoiceItems(tagsSequence, 
 						tagsBooleanArray, new DialogInterface.OnMultiChoiceClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-						// TODO Auto-generated method stub
+						// If item is checked, add it to the list. If the item is in the
+						// list, remove it.
+						if (isChecked) {
+							selectedTags.add( (String) tagsSequence[which]);
+						} else if (selectedTags.contains((String)tagsSequence[which])) {
+							selectedTags.remove((String)tagsSequence[which]);
+						}
+					}
+				})
+				.setPositiveButton("Filter Claims", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
 						
 					}
 				});
@@ -321,5 +335,9 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	
 	public ArrayList<String> getAllTagsList() {
 		return tagsList;
+	}
+	
+	public ArrayList<String> getSelectedTags() {
+		return selectedTags;
 	}
 }

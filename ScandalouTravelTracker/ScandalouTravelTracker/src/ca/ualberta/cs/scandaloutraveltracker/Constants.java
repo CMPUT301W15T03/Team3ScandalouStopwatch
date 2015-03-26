@@ -38,4 +38,7 @@ public class Constants {
 	// Misc.
 	public final static String dateFormat = "M/d/yyyy";	
 	
+	// Modes for the ClaimList
+	public final static String APPROVER_MODE = "approver";
+	public final static String TAG_MODE = "tag";
 }

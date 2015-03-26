@@ -44,9 +44,11 @@ public class ClaimListController {
 		claimList = new ClaimList(user);
 	}
 	
-	public ClaimListController(User user, boolean isApprover) {
-		if (isApprover == true) {
-			claimList = new ClaimList(user, true);
+	public ClaimListController(User user, String mode) {
+		if (mode.equals(Constants.APPROVER_MODE)) {
+			claimList = new ClaimList(user, mode);
+		} else if (mode.equals(Constants.TAG_MODE)) {
+			claimList = new ClaimList(user, mode);
 		}
 	}
 	
@@ -116,7 +118,7 @@ public class ClaimListController {
 	}
 	
 	/**
-	 * Removes the claim from the list
+)	 * Removes the claim from the list
 	 * @param claimId
 	 */
 	public void removeClaim(int claimId) {
