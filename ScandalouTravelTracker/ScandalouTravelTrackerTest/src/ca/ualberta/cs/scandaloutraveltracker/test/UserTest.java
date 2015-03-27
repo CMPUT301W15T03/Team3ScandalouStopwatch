@@ -28,6 +28,7 @@ import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserController;
+import ca.ualberta.cs.scandaloutraveltracker.UserInformationDialog;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.UserSelectActivity;
 
@@ -81,6 +82,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	public void testSelectUser() {
 		// Start with fresh list
 		clearUL();
+		getInstrumentation().waitForIdleSync();
 		
 		// Add user for test to select
 		ulc = new UserListController();
@@ -98,6 +100,8 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 				usersLV.performItemClick(usersLV, 0, 0);
 			}
 		});
+		
+		userSelectActivity.onDialogPositiveClick(userSelectActivity.getUserDialog());
 
 		// Test that next activity was launched
 		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
@@ -106,9 +110,8 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Test that the user in application is set to the new user
 		ClaimApplication app = (ClaimApplication) userSelectActivity.getApplicationContext();
 		User currentUser = app.getUser();
-		assertEquals("New User", currentUser.getName());
-		
 		nextActivity.finish();
+		assertEquals("New User", currentUser.getName());
 	}
 	
 	public void testAddingUser() {		
@@ -128,7 +131,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		} catch (Throwable e) {
 			new Throwable(e);
 		}
-		
+
 		// Assert that user list size increased
 		assertEquals(1, ulc.getUserList().getCount());
 		
@@ -203,6 +206,8 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 				usersLV.performItemClick(usersLV, 0, 0);
 			}
 		});
+		
+		userSelectActivity.onDialogPositiveClick(userSelectActivity.getUserDialog());
 		
 		// Registers next activity to be monitored
 		ActivityMonitor am = getInstrumentation().addMonitor(ClaimListActivity.class.getName(), null, false);

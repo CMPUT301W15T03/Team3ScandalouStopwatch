@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -33,10 +34,11 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 	private UserController uc;
 	private EditText userNameET;
 	private AlertDialog alert;
+	private AlertDialog userInfoDialog;
 	private LocationManager lm;
 	private Location location;
 	private ContextMenu contextMenu;
-	private DialogFragment dialog;
+	private UserInformationDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -127,12 +129,8 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 				
 				// Display user information dialog
 				User user = (User) usersLV.getItemAtPosition(position);
-				buildUserInfoAlert(user.getName());
-				
-				// Launch the ClaimListActivity
-				Intent intent = new Intent(UserSelectActivity.this, ClaimListActivity.class);
-				intent.putExtra("userId", ulc.getUser(position).getId());
-				startActivity(intent);
+				userPos = position;
+				buildUserInfoAlert(user);
 			}
 		});
 		
@@ -143,15 +141,27 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 	
 	// USER INFORMATION ALERT METHODS STARTS HERE
 	
-	public void buildUserInfoAlert(String name) {
+	public void buildUserInfoAlert(User currentUser) {
+		String name = currentUser.getName();
+		String latitude = "Not Set";
+		String longitude = "Not Set";
+		
+		if (currentUser.getHomeLocation() != null) {
+			latitude = ""+currentUser.getHomeLocation().getLatitude();
+			longitude = ""+currentUser.getHomeLocation().getLongitude();
+		}
+		
 		dialog = new UserInformationDialog();
+		dialog.setViews(name, latitude, longitude);
 		dialog.show(getFragmentManager(), "UserInformationDialogFragment");
 	}
 	
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
+		// Launch the ClaimListActivity
+		Intent intent = new Intent(UserSelectActivity.this, ClaimListActivity.class);
+		intent.putExtra("userId", ulc.getUser(userPos).getId());
+		startActivity(intent);
 	}
 
 	@Override
@@ -195,7 +205,7 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 	
 	// Gets the user information dialog to verify and
 	// check information set (location)
-	public DialogFragment getDialogFragment() {
+	public UserInformationDialog getUserDialog() {
 		return dialog;
 	}
 
