@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -146,7 +147,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		            		   }
 		            	   }
 		            	   //when delete claim is pressed
-		            	   else if(which == 3){
+		            	   else if (which == 3){
 		            		   Claim currentClaim = claimListController.getClaim((int)claimPos);
 		            		   
 		            		   // If/Else Checks if the Claim can actually be edited
@@ -179,6 +180,46 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		            					   		  currentClaim.getStatus() + " claims can not be edited.", 
 		            					   		  Toast.LENGTH_SHORT).show();
 		            		   }
+		            	   }
+		            	   //when rejecting/approving claim is pressed
+		            	   else if (which == 4) {
+		            		   if (currentUser.getMode() == 0) {
+		            			   Toast.makeText(getApplicationContext(), 
+	            					   		 "Can only change claim status in approver mode!", 
+	            					   		  Toast.LENGTH_SHORT).show();
+		            		   }
+		            		   if (currentUser.getMode() == 1) {
+		            			   AlertDialog.Builder b = new AlertDialog.Builder(ClaimListActivity.this);
+		            			   b.setTitle("Change Claim Status")
+		            			   .setCancelable(true)
+		            			   .setItems(R.array.approver_choices, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										ClaimController claimController = new ClaimController(new Claim(claimId));
+										if (which == 0) {
+											claimController.returnClaim(Constants.statusApproved, false, currentUser.getName());
+											claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
+											claimListController.addView(ClaimListActivity.this);
+											claimListController.sortLastFirst();
+											claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
+											claimsListView.setAdapter(claimListAdapter);
+											update();
+										}
+										if (which == 1) {
+											claimController.returnClaim(Constants.statusReturned, true, currentUser.getName());
+											claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
+											claimListController.addView(ClaimListActivity.this);
+											claimListController.sortLastFirst();
+											claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
+											claimsListView.setAdapter(claimListAdapter);
+											update();
+										}
+									}
+		            			   	});
+		            			   	AlertDialog alert = b.create();
+		            			   	alert.show();   
+		            		   }
+		            		   
 		            	   }
 		           }
 				});

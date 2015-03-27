@@ -313,6 +313,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param approverName Name of approver who approved Claim
 	 */
 	public void setApproverName(String approverName) {
+		this.approverName = approverName;
 	}
 
 	/**
@@ -426,19 +427,19 @@ public class Claim extends SModel implements Comparable<Claim> {
 		notifyViews();
 	}
 	
-	public void approveClaim(String status, boolean canEdit){
+	public void approveClaim(String status, boolean canEdit, String approverName){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 		mapper.changeClaimStatus(this.id, Constants.statusApproved, canEdit);	
-		
+		mapper.changeApproverName(this.id, approverName);
 		notifyViews();
 	}
 	
-	public void returnClaim(String status, boolean canEdit){
+	public void returnClaim(String status, boolean canEdit, String approverName){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 		mapper.changeClaimStatus(this.id, Constants.statusReturned, canEdit);	
-		
+		mapper.changeApproverName(this.id, approverName);
 		notifyViews();
 	}	
 	

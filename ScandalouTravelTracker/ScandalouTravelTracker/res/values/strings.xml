@@ -63,6 +63,10 @@
 	    <item>Delete Tag</item>
 	    <item>Get Claims with Tag</item>
 	</string-array>
+	<string-array name="approver_choices" >
+	    <item>Change status to appoved</item>
+	    <item>Change status to returned</item>
+	</string-array>
 	<string name="start_date">Start date</string>
 	<string name="end_date">End date</string>
 	<string name="destinations">Destinations</string>

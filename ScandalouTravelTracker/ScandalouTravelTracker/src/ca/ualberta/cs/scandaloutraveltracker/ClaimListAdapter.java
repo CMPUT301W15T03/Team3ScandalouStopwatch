@@ -126,9 +126,25 @@ public class ClaimListAdapter extends BaseAdapter {
 		// Set TextViews
 		claimNameTV.setText("Claimant Name: " + currentClaim.getUser().getName());
 		claimApproverTV.setText("Last Approver Name: " + currentClaim.getApproverName());
-		if (!this.approverMode) {
+		// show approver on returned claims
+		if (currentClaim.getStatus().equals(Constants.statusReturned)) {
+			claimNameTV.setVisibility(View.GONE);
+			claimApproverTV.setVisibility(View.VISIBLE);
+		}
+		// show approver on returned claims
+		else if (currentClaim.getStatus().equals(Constants.statusApproved)) {
+			claimNameTV.setVisibility(View.GONE);
+			claimApproverTV.setVisibility(View.VISIBLE);
+		}
+		// don't show approver on in progress or submitted claims
+		else {
 			claimNameTV.setVisibility(View.GONE);
 			claimApproverTV.setVisibility(View.GONE);
+		}
+		// approver can see previous approver and claimant name
+		if (this.approverMode) {
+			claimNameTV.setVisibility(View.VISIBLE);
+			claimApproverTV.setVisibility(View.VISIBLE);
 		}
 		claimDateTV.setText(currentClaim.getStartDateString() + 
 							" - " + 

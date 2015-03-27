@@ -299,6 +299,10 @@ public class ClaimMapper {
 		editor = claimFile.edit();
 		editor.clear();
 		editor.commit();
+	}
+
+	public void changeApproverName(int claimId, String approverName) {
+		saveClaimData(claimId, "approverName", approverName);
 	}	
 	
 }
