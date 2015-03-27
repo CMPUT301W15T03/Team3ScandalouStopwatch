@@ -421,10 +421,27 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public void submitClaim(String status, boolean canEdit){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		mapper.submitClaim(this.id, Constants.statusSubmitted, false);	
+		mapper.changeClaimStatus(this.id, Constants.statusSubmitted, canEdit);	
 		
 		notifyViews();
 	}
+	
+	public void approveClaim(String status, boolean canEdit){
+		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.changeClaimStatus(this.id, Constants.statusApproved, canEdit);	
+		
+		notifyViews();
+	}
+	
+	public void returnClaim(String status, boolean canEdit){
+		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.changeClaimStatus(this.id, Constants.statusReturned, canEdit);	
+		
+		notifyViews();
+	}	
+	
 	
 	/**
 	 * 

@@ -146,13 +146,12 @@ public class ClaimMapper {
 	}	
 	
 	/**
-	 * Updates the claim associated with claimId to that of a
-	 * submitted claim.
+	 * Updates the claim status.
 	 * @param claimId
 	 * @param status
 	 * @param canEdit
 	 */
-	public void submitClaim(int claimId, String status, boolean canEdit){
+	public void changeClaimStatus(int claimId, String status, boolean canEdit){
 		
 		saveClaimData(claimId, "status", status);	
 		saveClaimData(claimId, "canEdit", canEdit);

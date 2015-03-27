@@ -271,6 +271,26 @@ public class ClaimController {
 		currentClaim.submitClaim(status, canEdit);
 	}
 	
+	/**
+	 * Approves the claim and edits the details of the claim to 
+	 * reflect an approved claim.
+	 * @param status
+	 * @param canEdit
+	 */
+	public void approveClaim(String status, boolean canEdit){
+		currentClaim.approveClaim(status, canEdit);
+	}
+	
+	/**
+	 * Returns the claim and edits the details of the claim to 
+	 * reflect a returned claim.
+	 * @param status
+	 * @param canEdit
+	 */
+	public void returnClaim(String status, boolean canEdit){
+		currentClaim.returnClaim(status, canEdit);
+	}	
+	
 	public HashMap<String, Double> computeTotal() {
 		return currentClaim.computeTotal();
 	}
