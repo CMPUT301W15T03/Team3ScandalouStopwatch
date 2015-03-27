@@ -18,6 +18,7 @@ import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.User;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
 public class ClaimListActivityTest extends
@@ -104,7 +105,7 @@ public class ClaimListActivityTest extends
 		assertEquals(3, claimsListView.getCount());
 	}
 	
-	private void createClaimWithTags(int userId, ArrayList<String> tags) {
+	private void createClaimWithTags(int userId, ArrayList<String> tags) throws UserInputException {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
 		ClaimListController clc = new ClaimListController();
@@ -121,7 +122,7 @@ public class ClaimListActivityTest extends
 		clc.addClaim(new Claim(newClaimId));
 	}
 	
-	private void createClaims_Tagged(int newUserId) {
+	private void createClaims_Tagged(int newUserId) throws UserInputException {
 		ArrayList<String> tags = new ArrayList<String>();
 		tags.add("#tag1");
 		tags.add("#tag2");

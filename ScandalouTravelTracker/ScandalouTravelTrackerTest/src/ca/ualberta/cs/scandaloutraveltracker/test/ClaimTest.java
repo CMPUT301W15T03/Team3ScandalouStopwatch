@@ -36,6 +36,7 @@ import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.User;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
 public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity> {
@@ -158,7 +159,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 	}
 	
 	// Test UC 01.06.01
-	public void testSavedData() {
+	public void testSavedData() throws UserInputException {
 		UserListController ulc = new UserListController();
 		int newUserId = ulc.createUser("User1");
 	    String name = "Justin";

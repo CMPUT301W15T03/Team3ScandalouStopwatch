@@ -96,13 +96,21 @@ public class ClaimList extends SModel {
 	 */
 	public int createClaim(String name, Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tagsList, String status,
-			boolean canEdit, ArrayList<Expense> expenses, User user){
+			boolean canEdit, ArrayList<Expense> expenses, User user) throws UserInputException {
 
-		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		int newClaimId = mapper.createClaim(name, startDate, endDate, description, destinations, 
-				tagsList, status, canEdit, expenses, user.getId());
-		
-		return newClaimId;
+		if (startDate == null){
+			throw new UserInputException("Please include a start date");
+		} else if (endDate == null){
+			throw new UserInputException("Please include an end date");
+		} else if (endDate.before(startDate)){
+			throw new UserInputException("The end date can't be before the start date");
+		} else {	
+			ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+			int newClaimId = mapper.createClaim(name, startDate, endDate, description, destinations, 
+					tagsList, status, canEdit, expenses, user.getId());
+			
+			return newClaimId;		
+		}
 	}	
 	
 	/**

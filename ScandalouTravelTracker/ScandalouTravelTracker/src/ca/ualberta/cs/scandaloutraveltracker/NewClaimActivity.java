@@ -89,42 +89,40 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			@Override
 			public void onClick(View v) {
 				
-				if (sDateSet.getText().length() == 0) {
-					Toast.makeText(getApplicationContext(), "Please include a Start Date", Toast.LENGTH_SHORT).show();
-				}
+				// Get fields
+				String name = nameSet.getText().toString();
+				String description = descriptionSet.getText().toString();
+				String status = Constants.statusInProgress;
+				String tagsString = tagsSet.getText().toString();
+				ArrayList<String> tagsList = getTagsList(tagsString);
+				boolean canEdit = true;
+				ArrayList<Expense> expenses = new ArrayList<Expense>();
 				
-				else if (eDateSet.getText().length() == 0) {
-					Toast.makeText(getApplicationContext(), "Please include an End Date", Toast.LENGTH_SHORT).show();
-				}
-				else if (startDate.after(endDate)){
-					Toast.makeText(getApplicationContext(), "Please set End Date to a time after Start Date", Toast.LENGTH_SHORT).show();
-					
-					
-				}
-				
-				else {
-					
-					String name = nameSet.getText().toString();
-					String description = descriptionSet.getText().toString();
-					String status = Constants.statusInProgress;
-					String tagsString = tagsSet.getText().toString();
-					ArrayList<String> tagsList = getTagsList(tagsString);
-					boolean canEdit = true;
-					ArrayList<Expense> expenses = new ArrayList<Expense>();
+				try {
 					
 					ClaimListController claimListController = new ClaimListController();
+					
 					// Get user
 					Context context = NewClaimActivity.this;
 					ClaimApplication app = (ClaimApplication) context.getApplicationContext();
 					User user = app.getUser();
+					
 					// Create the claim
 					int newClaimId = claimListController.createClaim(name, startDate, endDate, description, destinations, 
-							tagsList, status, canEdit, expenses, user);	
+							tagsList, status, canEdit, expenses, user);
+					
 					// Add the claim to list
 					claimListController.addClaim(new Claim(newClaimId));
 					
 					finish();
-				}
+					
+				} catch (UserInputException e) {
+
+					System.out.println(e.getMessage());
+					Toast.makeText(getApplicationContext(),
+							e.getMessage(), Toast.LENGTH_SHORT).show();
+				}		
+
 			}
 		});			
 		

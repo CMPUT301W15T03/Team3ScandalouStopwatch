@@ -29,6 +29,7 @@ import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.UserInformationDialog;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.UserSelectActivity;
 
@@ -188,7 +189,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		assertEquals(location.getLatitude(), user.getHomeLocation().getLatitude());
 	}
 	
-	public void testIsUsersClaims() {
+	public void testIsUsersClaims() throws UserInputException {
 		 // Start with empty list
 		 clearUL();
 		 
@@ -265,7 +266,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	}
 	
 	// Used to create two users and have one claim associated with each
-	private void makeTwoUsersWithClaims() {
+	private void makeTwoUsersWithClaims() throws UserInputException {
 		// Create two users and add them to the list
 		int userId = ulc.createUser("User1");
 		ulc.addUser(new User(userId));

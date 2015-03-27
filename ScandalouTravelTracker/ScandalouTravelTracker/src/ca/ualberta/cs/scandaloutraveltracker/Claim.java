@@ -45,7 +45,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private String approverName;
 	private String approverComment;
 	private User user;
-	private DateException dateExc= new DateException("Please set End Date to a time after Start Date");
 
 	/**
 	 * Fetches a claim corresponding to the id passed to it. Uses
@@ -373,24 +372,23 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @see ClaimMapper#updateClaim(int, Date, Date, String, ArrayList, boolean)
 	 */
 	public void updateClaim(Date startDate, Date endDate, String description,
-			ArrayList<Destination> destinations, boolean canEdit) throws DateException{
+			ArrayList<Destination> destinations, boolean canEdit) throws UserInputException {
 		
 		setStartDate(startDate);
 		setEndDate(endDate);
 		setDescription(description);
 		setDestinations(destinations);
 		setCanEdit(canEdit);
-		setExpenses(expenses);
 		
 		if (endDate.before(startDate)){
-			throw dateExc;
+			throw new UserInputException("The end date can't be before the start date.");
+		} else {
+			ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+			mapper.updateClaim(this.id, startDate, endDate, description, destinations, canEdit);
 		}
-		else{
-		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		mapper.updateClaim(this.id, startDate, endDate, description, destinations, canEdit);
 		
+		// You should still see the changes you made, even if some were illegal
 		notifyViews();
-		}
 	}
 	
 	/**

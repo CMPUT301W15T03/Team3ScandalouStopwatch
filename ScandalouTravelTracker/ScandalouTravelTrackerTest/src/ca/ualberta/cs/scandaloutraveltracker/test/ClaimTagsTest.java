@@ -35,6 +35,7 @@ import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.User;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
 public class ClaimTagsTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
@@ -145,7 +146,7 @@ public class ClaimTagsTest extends ActivityInstrumentationTestCase2<EditClaimAct
 */
 	
 	// Used to create a mock intent to give to the activity
-	private Intent makeMockIntent() {
+	private Intent makeMockIntent() throws UserInputException {
 		
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
 		String status = Constants.statusInProgress;

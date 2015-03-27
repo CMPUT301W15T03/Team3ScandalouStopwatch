@@ -148,15 +148,19 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 					canEdit = true;
 					
 					try {
+						
+						// Throws exception
 						claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
+						
 						ClaimListController claimListController = new ClaimListController();
 						claimListController.removeClaim(claimId);
 						claimListController.addClaim(new Claim(claimId));
 						
 						Toast.makeText(getApplicationContext(),
 								"Changes saved.", Toast.LENGTH_SHORT).show();
-					} catch (DateException e) {
-						// TODO Auto-generated catch block
+						
+					} catch (UserInputException e) {
+
 						System.out.println(e.getMessage());
 						Toast.makeText(getApplicationContext(),
 								e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -265,7 +269,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 															
 															finish();
 															
-														} catch (DateException e) {
+														} catch (UserInputException e) {
 															// TODO Auto-generated catch block
 															System.out.println(e.getMessage());
 															Toast.makeText(getApplicationContext(),
@@ -291,7 +295,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 												
 												finish();
 												
-											} catch (DateException e) {
+											} catch (UserInputException e) {
 												// TODO Auto-generated catch block
 												System.out.println(e.getMessage());
 												Toast.makeText(getApplicationContext(),

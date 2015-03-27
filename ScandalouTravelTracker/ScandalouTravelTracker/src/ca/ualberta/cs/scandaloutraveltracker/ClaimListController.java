@@ -96,7 +96,7 @@ public class ClaimListController {
 	 */
 	public int createClaim(String name, Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tagsList, String status,
-			boolean canEdit, ArrayList<Expense> expenses, User user){
+			boolean canEdit, ArrayList<Expense> expenses, User user) throws UserInputException {
 		
 		int newClaimId = claimList.createClaim(name, startDate, endDate, description, 
 				destinations, tagsList, status, canEdit, expenses, user);
