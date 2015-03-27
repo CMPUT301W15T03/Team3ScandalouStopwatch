@@ -39,16 +39,19 @@ import android.widget.TextView;
 public class ClaimListAdapter extends BaseAdapter {
 	protected ClaimList claimList;
 	protected Context context;
+	protected boolean approverMode;
 	
 	/**
 	 * Context of the activity that list is to be displayed in and
 	 * the ClaimList that is to be displayed.
 	 * @param context
 	 * @param claimList
+	 * @param approverMode
 	 */
-	public ClaimListAdapter(Context context, ClaimList claimList) {
+	public ClaimListAdapter(Context context, ClaimList claimList, boolean approverMode) {
 		this.context = context;
 		this.claimList = claimList;
+		this.approverMode = approverMode;
 	}
 
 	/**
@@ -93,6 +96,8 @@ public class ClaimListAdapter extends BaseAdapter {
 		}
 		
 		// Create TextViewscurrentClaim.get
+		TextView claimNameTV = (TextView) convertView.findViewById(R.id.claimListNameTV);
+		TextView claimApproverTV = (TextView) convertView.findViewById(R.id.claimListApproverTV);
 		TextView claimDateTV = (TextView) convertView.findViewById(R.id.claimListDateTV);
 		TextView claimDestinationTV = (TextView) convertView.findViewById(R.id.claimListDestinationsTV);
 		TextView claimStatusTV = (TextView) convertView.findViewById(R.id.claimListStatusTV);
@@ -119,11 +124,17 @@ public class ClaimListAdapter extends BaseAdapter {
 		}		
 		
 		// Set TextViews
+		claimNameTV.setText("Claimant Name: " + currentClaim.getUser().getName());
+		claimApproverTV.setText("Last Approver Name: " + currentClaim.getApproverName());
+		if (!this.approverMode) {
+			claimNameTV.setVisibility(View.GONE);
+			claimApproverTV.setVisibility(View.GONE);
+		}
 		claimDateTV.setText(currentClaim.getStartDateString() + 
 							" - " + 
 							currentClaim.getEndDateString());
 		
-		claimDestinationTV.setText(currentClaim.destinationsToString());
+		claimDestinationTV.setText("Destinations: " + currentClaim.destinationsToString());
 		claimStatusTV.setText("Status: " + currentClaim.getStatus());
 		claimTotalTV.setText(totalsStr);
 		

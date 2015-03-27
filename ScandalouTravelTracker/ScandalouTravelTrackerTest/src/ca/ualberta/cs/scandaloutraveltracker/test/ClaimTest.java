@@ -21,17 +21,22 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Instrumentation;
+import android.content.DialogInterface;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
@@ -41,11 +46,15 @@ import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
 public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity> {
 	
-	private Activity activity;
+	private NewClaimActivity newClaimActivity;
 	private EditText startDateET;
 	private EditText endDateET;
 	private EditText descriptionET;
 	private TextView tagsTV;
+	private Button submitButton;
+	private ImageButton destinationButton;
+	private int userId;
+	private Instrumentation instrumentation;
 	
 	public ClaimTest() {
 		super(NewClaimActivity.class);
@@ -54,25 +63,88 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		activity = getActivity();
-		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
-		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
-		startDateET = (EditText) activity.findViewById(R.id.edit_claim_start_date);
-	    endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
+		newClaimActivity = getActivity();
+		
+		// Create fake user and set application 
+		UserListController ulc = new UserListController();
+		userId = ulc.createUser("Tester");
+		ClaimApplication app = (ClaimApplication) newClaimActivity.getApplicationContext();
+		app.setUser(new User(userId));
+		instrumentation = getInstrumentation();
+		
+		// Get UI elements
+		descriptionET = (EditText) newClaimActivity.findViewById(R.id.edit_claim_descr);
+		tagsTV = (TextView) newClaimActivity.findViewById(R.id.edit_claim_tags);
+		startDateET = (EditText) newClaimActivity.findViewById(R.id.start_date);
+	    endDateET = (EditText) newClaimActivity.findViewById(R.id.end_date);
+	    submitButton = (Button) newClaimActivity.findViewById(R.id.claim_ok_button);
+	    destinationButton = (ImageButton) newClaimActivity.findViewById(R.id.add_dest_button);
 	}
 	
-	// Test UC 01.01.01
-	public void testNewClaim() {
-	    String name = "test";
-	    Date sDate = new Date(123);
-	    Date eDate = new Date(456);
-	    Claim newClaim = new Claim(name, sDate, eDate);
-	    assertTrue("Names should match", newClaim.getName().equals(name));
-	    assertTrue("Start date should match", newClaim.getStartDate().equals(sDate));
-	    assertTrue("End date should match", newClaim.getEndDate().equals(eDate));
+	// Tests adding a new claim
+	// US01.01.01
+	public void testNewClaim() throws Throwable {
+		newClaimActivity.setStartDate(new Date());
+		newClaimActivity.setEndDate(new Date());
+		
+		instrumentation.runOnMainSync(new Runnable() {
+
+			@Override
+			public void run() {
+				startDateET.setText("filler");
+				endDateET.setText("filler");
+			}			
+		});
+		
+		getInstrumentation().waitForIdleSync();
+		runTestOnUiThread(new Runnable() {
+			@Override
+			public void run() {				
+				submitButton.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		ClaimListController clc = new ClaimListController(new User(userId));
+		assertEquals(1, clc.getClaimList().getCount());
 	}
 	
-	// Test UC 01.02.01
+	// Tests adding a claim with a destination
+	// US01.02.01
+	public void testAddDestination() throws Throwable {
+		
+		assertEquals(0, newClaimActivity.getDestinationsList().size());
+		
+		runTestOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				destinationButton.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		// Set the destination values
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				newClaimActivity.setDestinationName("Harlem");
+				newClaimActivity.setDestinationReason("Dat WORK vid shoot");
+			}
+		});
+		
+		final AlertDialog dialog = newClaimActivity.getDestinationDialog();
+		
+		// Clicks the add new destination button
+		try {
+			performClick(dialog.getButton(DialogInterface.BUTTON_POSITIVE));
+		} catch (Throwable e) {
+			throw new Throwable(e);
+		}
+		
+		assertEquals(1, newClaimActivity.getDestinationsList().size());
+	}
+	
+	/*
 	public void testAddDestinaion() {
 	    String l1 = "Place";
 	    String r1 = "Reason";
@@ -86,10 +158,9 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 	    assertTrue("Reason should match", secDestination.getDescription().equals(r2));
 	}
 
-
 	// Test UC 01.03.01
 	public void testClaimDisplayed() {
-	    View allViews = activity.getWindow().getDecorView();
+	    View allViews = newClaimActivity.getWindow().getDecorView();
 	    ViewAsserts.assertOnScreen(allViews, (View) startDateET);
 	    ViewAsserts.assertOnScreen(allViews, (View) endDateET);
 	    ViewAsserts.assertOnScreen(allViews, (View) descriptionET);
@@ -201,5 +272,17 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 	    assertEquals("CanEdit flag should be equal", claims1.getClaims().get(0).getCanEdit(), 
 	    		claims2.getClaims().get(0).getCanEdit());
 	}
+	
+	*/
+	
+	private void performClick(final Button button) throws Throwable {
+		runTestOnUiThread(new Runnable() {
 
+			@Override
+			public void run() {
+				button.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+	}
 }

@@ -38,6 +38,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -76,7 +77,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		Spinner category = (Spinner) findViewById(R.id.catspinner);
 		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
 		
-		imageButton = (ImageButton) findViewById(R.id.recipt_image_button);		
+		Button editButton = (Button) findViewById(R.id.edit_expense_button);
+		imageButton = (ImageButton) findViewById(R.id.receipt_image_button);		
 		
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
@@ -115,76 +117,78 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		currencyType.setSelection(getIndex(currencyType, currencyString));	
 		
 		// Sets all the layout elements if the claim can't be edited
-				if (!canEdit) {
-					description.setFocusable(false);
-					date.setFocusable(false);
-					cost.setFocusable(false);
-					category.setEnabled(false);
-					currencyType.setEnabled(false);
-					
-					description.setOnClickListener(new View.OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							Toast.makeText(getApplicationContext(),
-									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
-						}
-					});
-					
-					date.setOnClickListener(new View.OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							Toast.makeText(getApplicationContext(),
-									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
-						}
-					});
-					
-					cost.setOnClickListener(new View.OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							Toast.makeText(getApplicationContext(),
-									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
-						}
-					});
-					
-					category.setOnTouchListener(new View.OnTouchListener() {
-						
-						@SuppressLint("ClickableViewAccessibility") @Override
-						public boolean onTouch(View v, MotionEvent event) {
-							Toast.makeText(getApplicationContext(),
-									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
-							return false;
-						}
-					});
-					
-					currencyType.setOnTouchListener(new View.OnTouchListener() {
-						
-						@Override
-						public boolean onTouch(View v, MotionEvent event) {
-							Toast.makeText(getApplicationContext(),
-									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
-							return false;
-						}
-					});
-				}
+		if (!canEdit) {
+			description.setFocusable(false);
+			date.setFocusable(false);
+			cost.setFocusable(false);
+			category.setEnabled(false);
+			currencyType.setEnabled(false);
+			
+			description.setOnClickListener(new View.OnClickListener() {
 				
-				//sets image button for recipt
-				imageButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(getApplicationContext(),
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
+			});
+			
+			date.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(getApplicationContext(),
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
+			});
+			
+			cost.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(getApplicationContext(),
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
+			});
+			
+			category.setOnTouchListener(new View.OnTouchListener() {
+				
+				@SuppressLint("ClickableViewAccessibility") @Override
+				public boolean onTouch(View v, MotionEvent event) {
+					Toast.makeText(getApplicationContext(),
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+					return false;
+				}
+			});
+			
+			currencyType.setOnTouchListener(new View.OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					Toast.makeText(getApplicationContext(),
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+					return false;
+				}
+			});
+			//hide edit button
+			editButton.setVisibility(View.INVISIBLE);
+		}
+		
+		//sets image button for receipt
+		imageButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			
+				if (!canEdit) {
 					
-						if (!canEdit) {
-							
-							Toast.makeText(getApplicationContext(),
-									claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
-						}
-						else {
-							takeAPhoto();
-						}
-					}
-				});
+					Toast.makeText(getApplicationContext(),
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
+				else {
+					takeAPhoto();
+				}
+			}
+		});
 		
 		//date dialog picker
 		date.setOnClickListener(new View.OnClickListener() {
@@ -216,7 +220,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				
 				else {
      			   Toast.makeText(getApplicationContext(), 
-     					   		  claimController.getStatus() + " claims can not be edited.", 
+     					   		  claimController.getStatus() + " claims cannot be edited.", 
      					   		  Toast.LENGTH_SHORT).show();
      		   }
 				
@@ -323,7 +327,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		}
 		else {
 			   Toast.makeText(getApplicationContext(), 
-					   		  claimController.getStatus() + " claims can not be edited.", 
+					   		  claimController.getStatus() + " claims cannot be edited.", 
 					   		  Toast.LENGTH_SHORT).show();
 		}
 	}

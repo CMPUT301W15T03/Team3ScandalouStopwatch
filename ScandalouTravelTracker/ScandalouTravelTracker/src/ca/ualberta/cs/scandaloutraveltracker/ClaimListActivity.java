@@ -79,7 +79,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		if (currentUserController.getMode() == 0) { 
 			claimListController = new ClaimListController(currentUser);
 			claimListController.addView(this); // Testing to add view for claimsLists
-			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList(), false);
 			claimsListView.setAdapter(claimListAdapter);
 		}
 		
@@ -88,7 +88,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 			claimListController.addView(this);
 			claimListController.sortLastFirst();
-			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList(), true);
 			claimsListView.setAdapter(claimListAdapter);
 		}
 		
@@ -200,7 +200,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		if (currentUserController.getMode() == 0) { 
 			claimListController = new ClaimListController(currentUser);
 			claimListController.addView(this); // Testing to add view for claimsLists
-			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList(), false);
 			claimsListView.setAdapter(claimListAdapter);
 		}
 		
@@ -209,7 +209,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 			claimListController.addView(this);
 			claimListController.sortLastFirst();
-			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
+			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList(), true);
 			claimsListView.setAdapter(claimListAdapter);
 		}
 	}
@@ -254,7 +254,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 							currentUserController.setMode(0);
 							claimListController = new ClaimListController(currentUser);
 							claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
-							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
+							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
 							claimsListView.setAdapter(claimListAdapter);
 						}
 						// Approver mode
@@ -264,7 +264,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 							claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 							claimListController.addView(ClaimListActivity.this);
 							claimListController.sortLastFirst();
-							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
+							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
 							claimsListView.setAdapter(claimListAdapter);
 						}
 					}
@@ -314,7 +314,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 					public void onClick(DialogInterface dialog, int which) {
 						claimListController = new ClaimListController(currentUser, Constants.TAG_MODE, selectedTags);
 						claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
-						claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
+						claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
 						claimsListView.setAdapter(claimListAdapter);
 					}
 				});
@@ -324,7 +324,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	        case R.id.action_restore_claims:
 	        	claimListController = new ClaimListController(currentUser);
 				claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
-				claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
+				claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
 				claimsListView.setAdapter(claimListAdapter);
 	        	return true;
 			default:
