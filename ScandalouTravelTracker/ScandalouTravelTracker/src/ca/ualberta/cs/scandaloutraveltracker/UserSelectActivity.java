@@ -34,7 +34,6 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 	private UserController uc;
 	private EditText userNameET;
 	private AlertDialog alert;
-	private AlertDialog userInfoDialog;
 	private LocationManager lm;
 	private Location location;
 	private ContextMenu contextMenu;
@@ -70,9 +69,12 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 		switch(item.getItemId()) {
 		case R.id.user_context_add_location_gps:
 			User selectedUser = (User) usersLV.getItemAtPosition(userPos);
+			int selectedId = selectedUser.getId();
+			ulc.removeUser(selectedId);
 			uc = new UserController(new User(selectedUser.getId()));
 			location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			uc.setCurrentLocation(location);
+			ulc.addUser(new User(selectedId));
 		default:
 			return super.onContextItemSelected(item);
 		}	
@@ -108,7 +110,6 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 					public void onClick(DialogInterface dialog, int which) {
 						newUserId = ulc.createUser(userNameET.getText().toString());
 						UserController uc = new UserController(new User(newUserId));
-						uc.setCurrentLocation(location);
 						ulc.addUser(new User(newUserId));
 						
 						update();
@@ -166,8 +167,7 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 
 	@Override
 	public void onDialogNegativeClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
+		// Doesn't do anything (exits alert)
 	}
 	
 	// USER INFORMATION ALERT METHODS ENDS HERE
@@ -180,6 +180,9 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 
 	@Override
 	public void update() {
+		ulc = new UserListController();
+		adapter = new UserListAdapter(this, ulc.getUserList());
+		usersLV.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
 	
