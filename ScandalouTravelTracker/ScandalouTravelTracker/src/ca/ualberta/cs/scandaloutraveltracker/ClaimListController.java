@@ -20,6 +20,7 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -144,5 +145,20 @@ public class ClaimListController {
 	 */
 	public ClaimList getClaimList() {
 		return claimList;
+	}
+	
+	/**
+	 * 
+	 * Sorts the claim list with the oldest claims appearing first
+	 */
+	public void sortLastFirst() {
+		ArrayList<Claim> temp = claimList.getClaims();
+		Collections.sort(temp, new Comparator<Claim>() {
+			@Override
+			public int compare(Claim first, Claim second) {
+				return first.getStartDate().compareTo(second.getStartDate());
+			}
+		});
+		claimList.claims = temp;
 	}
 }

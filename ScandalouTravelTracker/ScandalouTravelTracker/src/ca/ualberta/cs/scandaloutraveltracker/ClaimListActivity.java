@@ -87,6 +87,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		else if (currentUserController.getMode() == 1) {
 			claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 			claimListController.addView(this);
+			claimListController.sortLastFirst();
 			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
 			claimsListView.setAdapter(claimListAdapter);
 		}
@@ -207,6 +208,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		else if (currentUserController.getMode() == 1) {
 			claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 			claimListController.addView(this);
+			claimListController.sortLastFirst();
 			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList());
 			claimsListView.setAdapter(claimListAdapter);
 		}
@@ -261,6 +263,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 							currentUserController.setMode(1);
 							claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 							claimListController.addView(ClaimListActivity.this);
+							claimListController.sortLastFirst();
 							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList());
 							claimsListView.setAdapter(claimListAdapter);
 						}
