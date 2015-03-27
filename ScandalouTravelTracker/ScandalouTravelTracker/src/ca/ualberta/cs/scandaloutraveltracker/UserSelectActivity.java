@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,11 +27,12 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	private UserListAdapter adapter; 
 	private UserListController ulc;
 	private int newUserId;
+	private int userPos;
 	private EditText userNameET;
 	private AlertDialog alert;
-	private UserController uc;
 	private LocationManager lm;
 	private Location location;
+	private ContextMenu contextMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,16 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 		setUpDisplay();
 		
 	}
+	
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+    	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+    	userPos = (int) info.id;
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    	contextMenu = menu;
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.user_context_menu, menu);
+    }
 	
 	public void setUpDisplay() {
 		
@@ -129,6 +142,12 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	// set properly for the user
 	public Location getLocation() {
 		return location;
+	}
+	
+	// Gets the context menu for testing deleting and
+	// setting user locations
+	public ContextMenu getContextMenu() {
+		return contextMenu;
 	}
 
 }

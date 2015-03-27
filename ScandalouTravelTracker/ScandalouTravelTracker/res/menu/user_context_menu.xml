@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/user_context_add_location"
+        android:title="@string/add_location"
+        android:showAsAction="never"/>
+    
+    <item
+       	android:id="@+id/user_context_delete_user"
+       	android:title="@string/delete_user"
+       	android:showAsAction="never"/>
+    
+
+</menu>

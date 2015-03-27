@@ -8,10 +8,10 @@ import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.DialogInterface;
-import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -39,6 +39,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	UserController uc;
 	Instrumentation instrumentation;
 	User testUser;
+	
 	
 	public UserTest() {
 		super(UserSelectActivity.class);
@@ -153,20 +154,25 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		// Try to press the add new user button
 		try {
 			performClick(dialog.getButton(DialogInterface.BUTTON_POSITIVE));
+			usersLV.getChildAt(0).performLongClick();
 		} catch (Throwable e) {
 			new Throwable(e);
 		}
+		getInstrumentation().waitForIdleSync();
+		
+		ContextMenu contextMenu = userSelectActivity.getContextMenu();
+		assertTrue(contextMenu.hasVisibleItems());
 		
 		// Get only user in list
-		User user = ulc.getUser(0);
+		// User user = ulc.getUser(0);
 		
 		// Get the location
-		Location location = userSelectActivity.getLocation();
+		// Location location = userSelectActivity.getLocation();
 		
 		// This test will only pass if you set the Emulators GPS controls
 		// to have a Longitude of -100 and a Latitude of 37
-		assertEquals(location.getLongitude(), user.getHomeLocation().getLongitude());
-		assertEquals(location.getLatitude(), user.getHomeLocation().getLatitude());
+		// assertEquals(location.getLongitude(), user.getHomeLocation().getLongitude());
+		// assertEquals(location.getLatitude(), user.getHomeLocation().getLatitude());
 	}
 	
 	public void testIsUsersClaims() {
