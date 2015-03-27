@@ -2,13 +2,13 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class UserSelectActivity extends Activity implements ViewInterface {
+public class UserSelectActivity extends Activity implements ViewInterface, UserInformationDialog.UserInformationDialogListener {
 	private Button newUserButton;
 	private TextView selectUserTV;
 	private ListView usersLV; 
@@ -36,6 +36,7 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	private LocationManager lm;
 	private Location location;
 	private ContextMenu contextMenu;
+	private DialogFragment dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +141,26 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 		usersLV.setAdapter(adapter);
 	}
 	
+	// USER INFORMATION ALERT METHODS STARTS HERE
+	
 	public void buildUserInfoAlert(String name) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(UserSelectActivity.this);
-		builder.setTitle("User Information:")
-		.setCancelable(true);
+		dialog = new UserInformationDialog();
+		dialog.show(getFragmentManager(), "UserInformationDialogFragment");
 	}
+	
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDialogNegativeClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	// USER INFORMATION ALERT METHODS ENDS HERE
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -175,6 +191,12 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	// setting user locations
 	public ContextMenu getContextMenu() {
 		return contextMenu;
+	}
+	
+	// Gets the user information dialog to verify and
+	// check information set (location)
+	public DialogFragment getDialogFragment() {
+		return dialog;
 	}
 
 }
