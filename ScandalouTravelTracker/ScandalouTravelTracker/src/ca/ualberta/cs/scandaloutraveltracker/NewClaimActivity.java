@@ -63,10 +63,16 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	private EditText descriptionSet;
 	private EditText tagsSet;
 	private Button claimOkButton;
+	private ImageButton addDestButton;
 	
 	private ListView destList;
 	private DestinationListAdapter destinationListAdapter;
-
+	
+	// For the destination alert
+	private EditText nameInput;
+	private EditText descriptionInput;
+	private AlertDialog alertDialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,7 +85,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
 		tagsSet = (EditText)findViewById(R.id.tags_tv);
 		
-		ImageButton addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
+		addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
 		claimOkButton = (Button) findViewById(R.id.claim_ok_button);
 		
 		destList = (ListView)findViewById(R.id.destinations_lv);
@@ -184,8 +190,8 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 
 				 //text_entry is an Layout XML file containing two text field to display in alert dialog
 				 final View newDestView= newDestInf.inflate(R.layout.edit_destination, null);
-				 final EditText nameInput = (EditText) newDestView.findViewById(R.id.edit_destination_name);
-				 final EditText descriptionInput = (EditText) newDestView.findViewById(R.id.edit_destination_description);
+				 nameInput = (EditText) newDestView.findViewById(R.id.edit_destination_name);
+				 descriptionInput = (EditText) newDestView.findViewById(R.id.edit_destination_description);
 		
 				 final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
 				 	newDest.setTitle("New Destination")
@@ -221,7 +227,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				       	}
 					});
 					 	
-				AlertDialog alertDialog =newDest.create();
+				alertDialog = newDest.create();
 				alertDialog.show();
 			}
 		});
@@ -276,6 +282,22 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	
 	public void setEndDate(Date date) {
 		endDate = date;
+	}
+	
+	public void setDestinationName(String name) {
+		nameInput.setText(name);
+	}
+	
+	public void setDestinationReason(String reason) {
+		descriptionInput.setText(reason);
+	}
+	
+	public AlertDialog getDestinationDialog() {
+		return alertDialog;
+	}
+	
+	public ArrayList<Destination> getDestinationsList() {
+		return destinations;
 	}
 }
 
