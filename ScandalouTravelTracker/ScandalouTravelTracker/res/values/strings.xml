@@ -28,6 +28,8 @@
     <string name="title_activity_add_expense">AddExpenseActivity</string>
     <string name="add_expense">Add Expense</string>
     <string name="title_activity_view_expense_list">ViewExpenseListActivity</string>
+    <string name="name_text_filler">User who made claim goes here </string>
+    <string name="approver_text_filler">Approver who approved last goes here </string>
     <string name="date_text_filler">Date range goes here </string>
     <string name="location_text_filler">Cities goes here</string>
     <string name="status_text_filler">Claim status goes here</string>
