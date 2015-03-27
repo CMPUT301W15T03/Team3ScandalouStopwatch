@@ -30,6 +30,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -61,6 +62,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	private EditText eDateSet;
 	private EditText descriptionSet;
 	private EditText tagsSet;
+	private Button claimOkButton;
 	
 	private ListView destList;
 	private DestinationListAdapter destinationListAdapter;
@@ -78,7 +80,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		tagsSet = (EditText)findViewById(R.id.tags_tv);
 		
 		ImageButton addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
-		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
+		claimOkButton = (Button) findViewById(R.id.claim_ok_button);
 		
 		destList = (ListView)findViewById(R.id.destinations_lv);
 		destinationListAdapter = new DestinationListAdapter(this, "newClaim", destinations, true);
@@ -103,7 +105,6 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				}
 				
 				else {
-					
 					String name = nameSet.getText().toString();
 					String description = descriptionSet.getText().toString();
 					String status = Constants.statusInProgress;
@@ -117,6 +118,7 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 					Context context = NewClaimActivity.this;
 					ClaimApplication app = (ClaimApplication) context.getApplicationContext();
 					User user = app.getUser();
+					
 					// Create the claim
 					int newClaimId = claimListController.createClaim(name, startDate, endDate, description, destinations, 
 							tagsList, status, canEdit, expenses, user);	
@@ -267,5 +269,13 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		destList.setAdapter(destinationListAdapter);
 	}
 	
+	// TEST METHODS BELOW
+	public void setStartDate(Date date) {
+		startDate = date;
+	}
+	
+	public void setEndDate(Date date) {
+		endDate = date;
+	}
 }
 

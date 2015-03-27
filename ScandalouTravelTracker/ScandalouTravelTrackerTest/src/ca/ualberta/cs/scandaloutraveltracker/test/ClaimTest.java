@@ -21,17 +21,19 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 import java.util.ArrayList;
 import java.util.Date;
 
-import android.app.Activity;
+import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
@@ -40,11 +42,14 @@ import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
 public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity> {
 	
-	private Activity activity;
+	private NewClaimActivity newClaimActivity;
 	private EditText startDateET;
 	private EditText endDateET;
 	private EditText descriptionET;
 	private TextView tagsTV;
+	private Button submitButton;
+	private Instrumentation instrumentation;
+	private int userId;
 	
 	public ClaimTest() {
 		super(NewClaimActivity.class);
@@ -53,14 +58,43 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		activity = getActivity();
-		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
-		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
-		startDateET = (EditText) activity.findViewById(R.id.edit_claim_start_date);
-	    endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
+		newClaimActivity = getActivity();
+		instrumentation = getInstrumentation();
+		
+		// Create fake user and set application 
+		UserListController ulc = new UserListController();
+		userId = ulc.createUser("Tester");
+		ClaimApplication app = (ClaimApplication) newClaimActivity.getApplicationContext();
+		app.setUser(new User(userId));
+		
+		// Get UI elements
+		descriptionET = (EditText) newClaimActivity.findViewById(R.id.edit_claim_descr);
+		tagsTV = (TextView) newClaimActivity.findViewById(R.id.edit_claim_tags);
+		startDateET = (EditText) newClaimActivity.findViewById(R.id.start_date);
+	    endDateET = (EditText) newClaimActivity.findViewById(R.id.end_date);
+	    submitButton = (Button) newClaimActivity.findViewById(R.id.claim_ok_button);
 	}
 	
-	// Test UC 01.01.01
+	public void testNewClaim() throws Throwable {
+		newClaimActivity.setStartDate(new Date());
+		newClaimActivity.setEndDate(new Date());
+		
+		getInstrumentation().waitForIdleSync();
+		runTestOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				startDateET.setText("Filler");
+				endDateET.setText("Filler");
+				submitButton.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		ClaimListController clc = new ClaimListController(new User(userId));
+		assertEquals(1, clc.getClaimList().getCount());
+	}
+	
+	/*
 	public void testNewClaim() {
 	    String name = "test";
 	    Date sDate = new Date(123);
@@ -70,6 +104,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 	    assertTrue("Start date should match", newClaim.getStartDate().equals(sDate));
 	    assertTrue("End date should match", newClaim.getEndDate().equals(eDate));
 	}
+	*/
 	
 	// Test UC 01.02.01
 	public void testAddDestinaion() {
@@ -88,7 +123,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 
 	// Test UC 01.03.01
 	public void testClaimDisplayed() {
-	    View allViews = activity.getWindow().getDecorView();
+	    View allViews = newClaimActivity.getWindow().getDecorView();
 	    ViewAsserts.assertOnScreen(allViews, (View) startDateET);
 	    ViewAsserts.assertOnScreen(allViews, (View) endDateET);
 	    ViewAsserts.assertOnScreen(allViews, (View) descriptionET);
