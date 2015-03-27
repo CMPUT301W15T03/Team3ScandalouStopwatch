@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -28,6 +30,7 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 	private UserListController ulc;
 	private int newUserId;
 	private int userPos;
+	private UserController uc;
 	private EditText userNameET;
 	private AlertDialog alert;
 	private LocationManager lm;
@@ -41,6 +44,7 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 		
 		ulc = new UserListController();
 		
+		// Get most recent location
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
@@ -56,6 +60,19 @@ public class UserSelectActivity extends Activity implements ViewInterface {
     	contextMenu = menu;
     	MenuInflater inflater = getMenuInflater();
     	inflater.inflate(R.menu.user_context_menu, menu);
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.user_context_add_location_gps:
+			User selectedUser = (User) usersLV.getItemAtPosition(userPos);
+			uc = new UserController(new User(selectedUser.getId()));
+			location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			uc.setCurrentLocation(location);
+		default:
+			return super.onContextItemSelected(item);
+		}	
     }
 	
 	public void setUpDisplay() {
@@ -107,6 +124,10 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 			public void onItemClick(AdapterView<?> arg0, View view, int position,
 					long claimPos) {
 				
+				// Display user information dialog
+				User user = (User) usersLV.getItemAtPosition(position);
+				buildUserInfoAlert(user.getName());
+				
 				// Launch the ClaimListActivity
 				Intent intent = new Intent(UserSelectActivity.this, ClaimListActivity.class);
 				intent.putExtra("userId", ulc.getUser(position).getId());
@@ -117,6 +138,12 @@ public class UserSelectActivity extends Activity implements ViewInterface {
 		// Set up ListView and Adapter
 		adapter = new UserListAdapter(this, ulc.getUserList());
 		usersLV.setAdapter(adapter);
+	}
+	
+	public void buildUserInfoAlert(String name) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(UserSelectActivity.this);
+		builder.setTitle("User Information:")
+		.setCancelable(true);
 	}
 
 	@Override

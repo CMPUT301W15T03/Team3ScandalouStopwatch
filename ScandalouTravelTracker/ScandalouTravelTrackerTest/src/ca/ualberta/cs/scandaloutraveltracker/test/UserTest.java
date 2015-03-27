@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
@@ -160,19 +161,27 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		}
 		getInstrumentation().waitForIdleSync();
 		
-		ContextMenu contextMenu = userSelectActivity.getContextMenu();
+		final ContextMenu contextMenu = userSelectActivity.getContextMenu();
 		assertTrue(contextMenu.hasVisibleItems());
 		
+		// Click on add user location 
+		instrumentation.runOnMainSync(new Runnable() {
+
+			@Override
+			public void run() {
+				contextMenu.performIdentifierAction(ca.ualberta.cs.scandaloutraveltracker.R.id.user_context_add_location_gps, 0);
+			}
+			
+		});
+		
 		// Get only user in list
-		// User user = ulc.getUser(0);
+		User user = ulc.getUser(0);
 		
 		// Get the location
-		// Location location = userSelectActivity.getLocation();
+		Location location = userSelectActivity.getLocation();
 		
-		// This test will only pass if you set the Emulators GPS controls
-		// to have a Longitude of -100 and a Latitude of 37
-		// assertEquals(location.getLongitude(), user.getHomeLocation().getLongitude());
-		// assertEquals(location.getLatitude(), user.getHomeLocation().getLatitude());
+		assertEquals(location.getLongitude(), user.getHomeLocation().getLongitude());
+		assertEquals(location.getLatitude(), user.getHomeLocation().getLatitude());
 	}
 	
 	public void testIsUsersClaims() {

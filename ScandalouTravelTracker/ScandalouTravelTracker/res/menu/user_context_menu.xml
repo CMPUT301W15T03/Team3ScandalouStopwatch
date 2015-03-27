@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/user_context_add_location"
-        android:title="@string/add_location"
+        android:id="@+id/user_context_add_location_gps"
+        android:title="@string/add_location_gps"
+        android:showAsAction="never"/>
+    
+    <item
+        android:id="@+id/user_context_add_location_map"
+        android:title="@string/add_location_map"
         android:showAsAction="never"/>
     
     <item

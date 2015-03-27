@@ -76,5 +76,9 @@
 	<string name="filter_claims">Filter Claims</string>
 	<string name="restore_claims">Restore Claims</string>
 	<string name="delete_user">Delete User</string>
-	<string name="add_location">Add Location</string>
+	<string name="add_location_gps">Add Location using GPS</string>
+	<string name="add_location_map">Add Location using Map</string>
+	<string name="user_name">User Name: </string>
+	<string name="user_latitude">Current Latitude: </string>
+	<string name="user_longitude">Current Longitude: </string>
 </resources>
