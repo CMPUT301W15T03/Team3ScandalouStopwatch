@@ -33,11 +33,12 @@ import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.EditClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
-public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
+public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity> {
 	
 	private Activity activity;
 	private EditText startDateET;
@@ -46,7 +47,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<EditClaimActivit
 	private TextView tagsTV;
 	
 	public ClaimTest() {
-		super(EditClaimActivity.class);
+		super(NewClaimActivity.class);
 	}
 	
 	@Override

@@ -55,6 +55,13 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	private Date startDate;
 	private Date endDate;
 	
+	private Context context;
+	private TextView nameSet; 
+	private EditText sDateSet;
+	private EditText eDateSet;
+	private EditText descriptionSet;
+	private EditText tagsSet;
+	
 	private ListView destList;
 	private DestinationListAdapter destinationListAdapter;
 
@@ -63,12 +70,12 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_claim);
 		
-		final Context context = this;
-		final TextView nameSet = (TextView)findViewById(R.id.claimant_name);
-		final EditText sDateSet = (EditText)findViewById(R.id.start_date);	
-		final EditText eDateSet = (EditText)findViewById(R.id.end_date);	
-		final EditText descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
-		final EditText tagsSet = (EditText)findViewById(R.id.tags_tv);
+		context = this;
+		nameSet = (TextView)findViewById(R.id.claimant_name);
+		sDateSet = (EditText)findViewById(R.id.start_date);	
+		eDateSet = (EditText)findViewById(R.id.end_date);	
+		descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
+		tagsSet = (EditText)findViewById(R.id.tags_tv);
 		
 		ImageButton addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
 		Button claimOkButton = (Button) findViewById(R.id.claim_ok_button);
