@@ -56,6 +56,7 @@
 		<item >List Expenses for Claim</item>
 		<item >Add Expense to Claim</item>
 		<item >Delete Claim</item>
+		<item >Approve/Reject Claim</item>
 	</string-array>
 	<string-array name="tag_menu" >
 	    <item>Rename Tag</item>
