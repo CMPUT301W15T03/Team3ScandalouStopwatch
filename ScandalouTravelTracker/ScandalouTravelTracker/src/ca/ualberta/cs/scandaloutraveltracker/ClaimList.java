@@ -100,7 +100,7 @@ public class ClaimList extends SModel {
 
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 		int newClaimId = mapper.createClaim(name, startDate, endDate, description, destinations, 
-				tagsList, status, canEdit, expenses, user);
+				tagsList, status, canEdit, expenses, user.getId());
 		
 		return newClaimId;
 	}	

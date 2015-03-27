@@ -71,7 +71,7 @@ public class ClaimMapper {
 	 */
 	public int createClaim(String name, Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tags, String status, 
-			boolean canEdit, ArrayList<Expense> expenses, User user) {
+			boolean canEdit, ArrayList<Expense> expenses, int userId) {
 		
 		int claimId = incrementClaimCounter();		
 		
@@ -85,7 +85,7 @@ public class ClaimMapper {
 		saveClaimData(claimId, "status", status);
 		saveClaimData(claimId, "canEdit", canEdit);		
 		saveClaimData(claimId, "expenses", expenses);
-		saveClaimData(claimId, "user", user);
+		saveClaimData(claimId, "userId", userId);
 		
 		return claimId;
 	}
@@ -207,9 +207,8 @@ public class ClaimMapper {
 			removeExpenseViews(claimId, key, data);
 			String expensesJson = gson.toJson((ArrayList<Expense>)data);
 			editor.putString(key, expensesJson);
-		} else if (key.equals("user")) {
-			String userJson = gson.toJson((User) data);
-			editor.putString(key, userJson);
+		} else if (key.equals("userId")) {;
+			editor.putInt("userId", (Integer)data);
 		}
 		
 		editor.commit();	
@@ -281,15 +280,8 @@ public class ClaimMapper {
 	    	String expensesJson = claimFile.getString(key, "");
 	    	Type type = new TypeToken<ArrayList<Expense>>(){}.getType();
 	    	data = gson.fromJson(expensesJson, type);
-	    } else if (key.equals("user")) {
-	    	String userJson = claimFile.getString(key, "");
-	    	if (userJson == "") {
-	    		data = null;
-	    	} else {
-		    	Type type = new TypeToken<User>(){}.getType();
-		    	data = gson.fromJson(userJson, type);	    		
-	    	}
-
+	    } else if (key.equals("userId")) {
+		    data = claimFile.getInt("userId", 0);   		
 	    }
 	    
 		return data;
@@ -310,40 +302,4 @@ public class ClaimMapper {
 		editor.commit();
 	}	
 	
-}
-
-// http://stackoverflow.com/questions/13944346/runtimeexception-in-gson-parsing-json-failed-to-invoke-protected-java-lang-clas
-// 03/26/2015
-class LocationSerializer implements JsonSerializer<Location>
-{
-	@Override
-	public JsonElement serialize(Location location, Type arg1,
-			JsonSerializationContext arg2) {
-		
-		JsonObject jo = new JsonObject();
-		jo.addProperty("provider", location.getProvider());
-		jo.addProperty("accuracy", location.getAccuracy());
-		jo.addProperty("longitude", location.getLongitude());
-		jo.addProperty("latitude", location.getLatitude());
-		
-		return jo;
-	}
-
-}
-
-class LocationDeserializer implements JsonDeserializer<Location>
-{
-	@Override
-	public Location deserialize(JsonElement element, Type arg1,
-			JsonDeserializationContext jdc) throws JsonParseException {
-		
-		JsonObject jo = element.getAsJsonObject();
-		Location location = new Location(jo.getAsJsonPrimitive("provider").getAsString());
-		location.setAccuracy(jo.getAsJsonPrimitive("accuracy").getAsFloat());
-		location.setLatitude(jo.getAsJsonPrimitive("latitude").getAsDouble());
-		location.setLongitude(jo.getAsJsonPrimitive("longitude").getAsDouble());
-		
-		return location;
-	}
-
 }

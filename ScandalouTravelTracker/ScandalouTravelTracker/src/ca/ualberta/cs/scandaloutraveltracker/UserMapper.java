@@ -27,6 +27,14 @@ import android.content.SharedPreferences.Editor;
 import android.location.Location;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 public class UserMapper {
@@ -84,7 +92,10 @@ public class UserMapper {
 		
 		SharedPreferences userFile = this.context.getSharedPreferences("user"+Integer.toString(userId), 0);
 		Editor editor = userFile.edit();		
-		Gson gson = new Gson();
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Location.class, new LocationDeserializer());
+		gsonBuilder.registerTypeAdapter(Location.class, new LocationSerializer());
+		Gson gson = gsonBuilder.create(); 
 		
 		if (key.equals("id")){
 			editor.putInt("id", (Integer)data);
@@ -109,7 +120,10 @@ public class UserMapper {
 		
 		Object data = 0;
 		SharedPreferences userFile = this.context.getSharedPreferences("user"+Integer.toString(userId), 0);
-		Gson gson = new Gson();
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Location.class, new LocationDeserializer());
+		gsonBuilder.registerTypeAdapter(Location.class, new LocationSerializer());
+		Gson gson = gsonBuilder.create(); 
 		
 	    if (key.equals("id")){
 	    	data = userFile.getInt(key, -1);	    
@@ -139,4 +153,40 @@ public class UserMapper {
 		editor.commit();
 	}	
 	
+}
+
+//http://stackoverflow.com/questions/13944346/runtimeexception-in-gson-parsing-json-failed-to-invoke-protected-java-lang-clas
+//03/26/2015
+class LocationSerializer implements JsonSerializer<Location>
+{
+	@Override
+	public JsonElement serialize(Location location, Type arg1,
+			JsonSerializationContext arg2) {
+		
+		JsonObject jo = new JsonObject();
+		jo.addProperty("provider", location.getProvider());
+		jo.addProperty("accuracy", location.getAccuracy());
+		jo.addProperty("longitude", location.getLongitude());
+		jo.addProperty("latitude", location.getLatitude());
+		
+		return jo;
+	}
+
+}
+
+class LocationDeserializer implements JsonDeserializer<Location>
+{
+	@Override
+	public Location deserialize(JsonElement element, Type arg1,
+			JsonDeserializationContext jdc) throws JsonParseException {
+		
+		JsonObject jo = element.getAsJsonObject();
+		Location location = new Location(jo.getAsJsonPrimitive("provider").getAsString());
+		location.setAccuracy(jo.getAsJsonPrimitive("accuracy").getAsFloat());
+		location.setLatitude(jo.getAsJsonPrimitive("latitude").getAsDouble());
+		location.setLongitude(jo.getAsJsonPrimitive("longitude").getAsDouble());
+		
+		return location;
+	}
+
 }

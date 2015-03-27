@@ -24,8 +24,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-import android.widget.Toast;
-
 /**
  *  Class that contains the Claim model. Edits to any instance of a Claim
  *  should be done through the ClaimController class.
@@ -74,7 +72,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.approverComment = (String)mapper.loadClaimData(id, "approverComment");
 		this.expenses = (ArrayList<Expense>)mapper.loadClaimData(id, "expenses");
 		this.canEdit = (Boolean)mapper.loadClaimData(id, "canEdit");
-		this.user = (User)mapper.loadClaimData(id, "user");
+		int userId = (Integer)mapper.loadClaimData(id, "userId");
+		this.user = new User(userId);
 	}
 	
 	/**
