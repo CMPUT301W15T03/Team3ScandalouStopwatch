@@ -49,7 +49,11 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	private User currentUser;
 	private UserController currentUserController;
 	private int screenTypeTemp;
+	
 	private AlertDialog tagSelectDialog;
+	private AlertDialog claimAlert;
+	private AlertDialog deleteAlert;
+	
 	private ArrayList<String> tagsList;
 	private boolean tagsBooleanArray[];
 	private ArrayList<String> selectedTags = new ArrayList<String>();
@@ -172,8 +176,8 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			                        	   update();
 			                           }
 			                       });
-			            		   AlertDialog alert = builder.create();
-			            		   alert.show();
+			            		   deleteAlert = builder.create();
+			            		   deleteAlert.show();
 		            		   }
 		            		   else {
 		            			   Toast.makeText(getApplicationContext(), 
@@ -223,8 +227,8 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 		            	   }
 		           }
 				});
-				AlertDialog alert = builder.create();
-				alert.show();
+				claimAlert = builder.create();
+				claimAlert.show();
 			}
 		});
 	}
@@ -386,6 +390,14 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	// Methods that are used for testing
 	public AlertDialog getTagDialog() {
 		return tagSelectDialog;
+	}
+	
+	public AlertDialog getClaimOptionsDialog() {
+		return claimAlert;
+	}
+	
+	public AlertDialog getDeleteDialog() {
+		return deleteAlert;
 	}
 	
 	public ArrayList<String> getAllTagsList() {

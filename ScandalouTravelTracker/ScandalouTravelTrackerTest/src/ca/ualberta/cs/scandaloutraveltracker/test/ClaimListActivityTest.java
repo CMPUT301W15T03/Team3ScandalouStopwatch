@@ -1,6 +1,7 @@
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.app.AlertDialog;
@@ -8,6 +9,7 @@ import android.app.Instrumentation;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,6 +29,7 @@ public class ClaimListActivityTest extends
 	ClaimListActivity claimListActivity; 
 	Instrumentation instrumentation;
 	ListView claimsListView; 
+	int newUserId;
 
 	public ClaimListActivityTest() {
 		super(ClaimListActivity.class);
@@ -35,15 +38,21 @@ public class ClaimListActivityTest extends
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		setActivityInitialTouchMode(true);
 		
 		// Create mock user
 		UserListController userListController = new UserListController();
-		int newUserId = userListController.createUser("Test User");
+		newUserId = userListController.createUser("Test User");
 		Intent mockIntent = new Intent();
 		mockIntent.putExtra("userId", newUserId);
 		
 		// Create 3 Claims with a total of 5 different tags
+		// Also create 1 submitted claim
+		// The list will have the first claim as submitted and the rest as in progress
 		createClaims_Tagged(newUserId);
+		Date startDate = createDate(0, 14, 2015);
+		Date endDate = createDate(0, 15, 2015);
+		createSubmittedClaim(newUserId, startDate, endDate);
 		
 		// Inject activity with mock intent
 		setActivityIntent(mockIntent);
@@ -102,41 +111,112 @@ public class ClaimListActivityTest extends
 				ca.ualberta.cs.scandaloutraveltracker.R.id.action_restore_claims, 0);
 		getInstrumentation().waitForIdleSync();
 		
+		assertEquals(4, claimsListView.getCount());
+	}
+	
+	public void testDeletingClaim() {
+		// Select last claim in list
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimsListView.performItemClick(claimsListView, 0, 0);
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		// Assert that the claim options alert is showing
+		AlertDialog claimAlert = claimListActivity.getClaimOptionsDialog();
+		assertTrue(claimAlert.isShowing());
+		final ListView claimOptions = claimAlert.getListView();
+		
+		// Click on the delete option
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimOptions.performItemClick(claimOptions, 3, 0);
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		// Assert that the delete warning is showing
+		final AlertDialog deleteAlert = claimListActivity.getDeleteDialog();
+		assertTrue(deleteAlert.isShowing());
+		
+		// Try to delete claim
+		try {
+			performClick(deleteAlert.getButton(DialogInterface.BUTTON_NEGATIVE));
+		} catch (Throwable e) {
+			new Throwable(e);
+		}
+		getInstrumentation().waitForIdleSync();
+		
+		// Assert listview size has decreased by 1
 		assertEquals(3, claimsListView.getCount());
 	}
 	
-	private void createClaimWithTags(int userId, ArrayList<String> tags) throws UserInputException {
+	private void createClaimWithTags(int userId, ArrayList<String> tags, Date startDate, Date endDate) throws UserInputException {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
 		ClaimListController clc = new ClaimListController();
-		String status = Constants.statusInProgress;
 		ArrayList<String> tagsList = tags;
 		boolean canEdit = true;
 		ArrayList<Expense> expenses = new ArrayList<Expense>();
 		
 		// Create the claim
-		int newClaimId = clc.createClaim("a1", new Date(), new Date(), "d1", destinations, 
-				tagsList, status, canEdit, expenses, new User(userId));	
+		int newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
+				tagsList, Constants.statusInProgress, canEdit, expenses, new User(userId));	
+		
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
+	}
+	
+	private void createSubmittedClaim(int userId, Date startDate, Date endDate) {
+		// Create one ClaimList associated with user1
+		ArrayList<Destination> destinations = new ArrayList<Destination>();
+		ClaimListController clc = new ClaimListController();
+		ArrayList<String> tagsList = new ArrayList<String>();
+		boolean canEdit = true;
+		ArrayList<Expense> expenses = new ArrayList<Expense>();
+		int newClaimId = 0;
+		
+		// Create the claim
+		try {
+			newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
+					tagsList, Constants.statusSubmitted, canEdit, expenses, new User(userId));
+		} catch (UserInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			fail();
+		}	
 		
 		// Add the claim to list
 		clc.addClaim(new Claim(newClaimId));
 	}
 	
 	private void createClaims_Tagged(int newUserId) throws UserInputException {
+		Date startDate;
+		Date endDate;
+		
 		ArrayList<String> tags = new ArrayList<String>();
 		tags.add("#tag1");
 		tags.add("#tag2");
-		createClaimWithTags(newUserId, tags);
+		startDate = createDate(0, 1, 2014);
+		endDate= createDate(0, 2, 2014);
+		createClaimWithTags(newUserId, tags, startDate, endDate);
 		
 		tags = new ArrayList<String>();
 		tags.add("#tag1");
 		tags.add("#tag3");
 		tags.add("#tag4");
-		createClaimWithTags(newUserId, tags);
+		startDate = createDate(0, 1, 2014);
+		endDate= createDate(0, 2, 2014);
+		createClaimWithTags(newUserId, tags, startDate, endDate);
 		
 		tags = new ArrayList<String>();
 		tags.add("#tag5");
-		createClaimWithTags(newUserId, tags);
+		startDate = createDate(0, 1, 2014);
+		endDate= createDate(0, 2, 2014);
+		createClaimWithTags(newUserId, tags, startDate, endDate);
 	}
 	
 	private void performClick(final Button button) throws Throwable {
@@ -148,5 +228,13 @@ public class ClaimListActivityTest extends
 			}
 		});
 		getInstrumentation().waitForIdleSync();
+	}
+	
+	private Date createDate(int month, int day, int year) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, day);
+		Date date = cal.getTime();
+		
+		return date;
 	}
 }
