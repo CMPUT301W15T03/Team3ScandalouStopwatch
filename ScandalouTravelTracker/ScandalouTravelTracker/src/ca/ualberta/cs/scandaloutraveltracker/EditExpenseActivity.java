@@ -115,6 +115,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				.getCost());
 		category.setSelection(getIndex(category, categoryString));
 		currencyType.setSelection(getIndex(currencyType, currencyString));
+		receiptPath = claimController.getExpense(expenseId).getReceiptPath();
 		setReceiptPhoto(claimController.getExpense(expenseId).getReceiptPath());
 		
 		// Sets all the layout elements if the claim can't be edited
@@ -315,21 +316,25 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				expenseController.setReceiptPath(receiptPath);
 				
 				try {
+					
+					// Throws exception on failure
 					claimController.updateExpense(expenseId, expenseController.getExpense());
+					
+					// Refresh the claim list
+					ClaimListController claimListController = new ClaimListController();
+					claimListController.removeClaim(claimId);
+					claimListController.addClaim(new Claim(claimId));
+					
+					setResult(RESULT_OK);
+					
+					// Go back to ExpenseList
+					finish();					
+					
 				} catch (UserInputException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(e.getMessage());
+					Toast.makeText(getApplicationContext(),
+							e.getMessage(), Toast.LENGTH_SHORT).show();
 				}
-				
-				// Refresh the claim list
-				ClaimListController claimListController = new ClaimListController();
-				claimListController.removeClaim(claimId);
-				claimListController.addClaim(new Claim(claimId));
-				
-				setResult(RESULT_OK);
-				
-				// Go back to ExpenseList
-				finish();
 				
 			}
 

@@ -18,6 +18,7 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -393,9 +394,16 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	
 	public void updateExpenses(ArrayList<Expense> expenses, Expense newExpense) throws UserInputException {
+	
+		File receiptFile = new File(newExpense.getReceiptPath());
 		
-		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		mapper.updateExpenses(this.id, expenses);
+		if (receiptFile.length() > Expense.MAX_RECEIPT_SIZE){
+			throw new UserInputException("The receipt image cannot exceed " +
+					Long.toString(Expense.MAX_RECEIPT_SIZE / (1024*1024)) + " MB");
+		} else {
+			ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+			mapper.updateExpenses(this.id, expenses);
+		}
 
 	}
 	

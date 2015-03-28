@@ -20,12 +20,15 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +45,7 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class ClaimListActivity extends MenuActivity implements ViewInterface {
+public class ClaimListActivity extends Activity implements ViewInterface {
 	private Button addClaimButton;
 	private ListView claimsListView;
 	private ClaimListAdapter claimListAdapter;
@@ -109,7 +112,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			}
 		});
 		
-		//when claim is clicked alert dialog appears with edit/view claim, add expense, delete claim
+		//when claim is clicked alert dialog appears with edit/view claim, list expenses, add expense, delete claim, approve/reject claim
 		claimsListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -206,15 +209,25 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										ClaimController claimController = new ClaimController(new Claim(claimId));
-										if (which == 0) {
+										if (which == 0) {	//approve
 											Editable value = input.getText();
-											claimController.returnClaim(Constants.statusApproved, false, currentUser.getName());
-											Toast.makeText(getApplicationContext(), value.toString(),Toast.LENGTH_SHORT).show();
+											claimController.approveClaim(Constants.statusApproved, false, currentUser.getName());
+											// add the comment
+											if (!value.toString().equals("")) {
+												Toast.makeText(getApplicationContext(), currentUser.getName() + " changed the status of the claim to " 
+														+ Constants.statusApproved + " and left the comment: '" + value.toString() + "'",Toast.LENGTH_LONG).show();
+												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusApproved);
+											}
 										}
-										if (which == 1) {
+										if (which == 1) {	//return
 											Editable value = input.getText();
 											claimController.returnClaim(Constants.statusReturned, true, currentUser.getName());
-											Toast.makeText(getApplicationContext(), value.toString(),Toast.LENGTH_SHORT).show();
+											// add the comment
+											if (!value.toString().equals("")) {
+												Toast.makeText(getApplicationContext(), currentUser.getName() + " changed the status of the claim to " 
+														+ Constants.statusReturned + " and left the comment: '" + value.toString() + "'",Toast.LENGTH_LONG).show();
+												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusReturned);
+											}
 										}
 										claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 										claimListController.addView(ClaimListActivity.this);
@@ -267,6 +280,14 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	@Override
 	public void update() {
 		claimListAdapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.items, menu);
+        return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override

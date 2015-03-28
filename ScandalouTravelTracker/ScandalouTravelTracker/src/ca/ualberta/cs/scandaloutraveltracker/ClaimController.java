@@ -311,4 +311,17 @@ public class ClaimController {
 	public void updateTags(ArrayList<String> tags){
 		currentClaim.updateTags(tags);	
 	}
+	
+	/**
+	 * 
+	 * @param comment
+	 * @param approverName
+	 * @param changeStatus
+	 */
+	public void addComment(String comment, String approverName, String changeStatus) {
+		String finalComment = approverName + "changed the status of the claim to " 
+				+ changeStatus + " and left the comment: '" + comment + "'";
+		//currentClaim.addApproverComment(finalComment);
+		
+	}
 }
