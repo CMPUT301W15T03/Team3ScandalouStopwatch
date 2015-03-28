@@ -209,12 +209,22 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 										if (which == 0) {
 											Editable value = input.getText();
 											claimController.returnClaim(Constants.statusApproved, false, currentUser.getName());
-											Toast.makeText(getApplicationContext(), value.toString(),Toast.LENGTH_SHORT).show();
+											// add the comment
+											if (!value.toString().equals("")) {
+												Toast.makeText(getApplicationContext(), currentUser.getName() + "changed the status of the claim to " 
+														+ Constants.statusApproved + " and left the comment: '" + value.toString() + "'",Toast.LENGTH_LONG).show();
+												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusApproved);
+											}
 										}
 										if (which == 1) {
 											Editable value = input.getText();
 											claimController.returnClaim(Constants.statusReturned, true, currentUser.getName());
-											Toast.makeText(getApplicationContext(), value.toString(),Toast.LENGTH_SHORT).show();
+											// add the comment
+											if (!value.toString().equals("")) {
+												Toast.makeText(getApplicationContext(), currentUser.getName() + " changed the status of the claim to " 
+														+ Constants.statusReturned + " and left the comment: '" + value.toString() + "'",Toast.LENGTH_LONG).show();
+												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusReturned);
+											}
 										}
 										claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
 										claimListController.addView(ClaimListActivity.this);
