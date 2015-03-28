@@ -114,10 +114,10 @@ public class ExpenseController {
 	
 	/**
 	 * 
-	 * @param photo
+	 * @param receiptPath
 	 */
-	public void setPhoto(File photo) {
-		currentExpense.setPhoto(photo);
+	public void setReceiptPath(String receiptPath) {
+		currentExpense.setReceiptPath(receiptPath);
 	}
 	
 	/**

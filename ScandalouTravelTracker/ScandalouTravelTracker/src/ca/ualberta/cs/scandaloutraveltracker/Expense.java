@@ -36,7 +36,7 @@ public class Expense extends SModel {
 	private String currencyType;
 	private boolean flag;
 	private boolean receiptAttached;
-	private File photo;
+	private String receiptPath;
 	
 	/**
 	 * Constructor creates an empty expense for the user to populate.
@@ -48,8 +48,8 @@ public class Expense extends SModel {
 		this.cost = null;
 		this.currencyType = null;
 		this.flag = false;
-		this.photo = null;
 		this.receiptAttached = false;
+		this.receiptPath = null;
 	}
 
 	/**
@@ -168,18 +168,18 @@ public class Expense extends SModel {
 	
 	/**
 	 * 
-	 * @return Photo of the receipt
+	 * @return Path of the receipt photo
 	 */
-	public File getPhoto() {
-		return photo;
+	public String getReceiptPath() {
+		return receiptPath;
 	}
 
 	/**
 	 * 
-	 * @param photo
+	 * @param receiptPath
 	 */
-	public void setPhoto(File photo) {
-		this.photo = photo;
+	public void setReceiptPath(String receiptPath) {
+		this.receiptPath = receiptPath;
 	}
 	
 	/**

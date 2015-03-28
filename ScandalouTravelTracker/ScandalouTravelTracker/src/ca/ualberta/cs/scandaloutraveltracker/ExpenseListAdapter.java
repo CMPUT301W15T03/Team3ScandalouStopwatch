@@ -87,7 +87,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 		}
 		
 		// Setting the receipt indicator
-		if (currentExpense.getReceiptAttached()) {
+		if (currentExpense.getReceiptPath() != null) {
 			String indicator = "Receipt: Attached";
 			expenseReceiptIndicator.setText(indicator);
 		}

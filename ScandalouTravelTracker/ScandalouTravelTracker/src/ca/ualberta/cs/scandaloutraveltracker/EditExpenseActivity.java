@@ -63,7 +63,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	private boolean canEdit;
 	private Uri imageFileUri;
 	private ImageButton imageButton;
-	private String newReceiptPath;
+	private String receiptPath;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		cost.setText(""+claimController.getExpense(expenseId)
 				.getCost());
 		category.setSelection(getIndex(category, categoryString));
-		currencyType.setSelection(getIndex(currencyType, currencyString));	
+		currencyType.setSelection(getIndex(currencyType, currencyString));
+		setReceiptPhoto(claimController.getExpense(expenseId).getReceiptPath());
 		
 		// Sets all the layout elements if the claim can't be edited
 		if (!canEdit) {
@@ -311,6 +312,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				costString = String.format("%.2f", Double.valueOf(costString));
 				double amount = Double.valueOf(costString);
 				expenseController.setCost(Double.valueOf(amount));
+				expenseController.setReceiptPath(receiptPath);
 				
 				try {
 					claimController.updateExpense(expenseId, expenseController.getExpense());
@@ -364,9 +366,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		}
 
 		// Create an URI for the picture file
-		newReceiptPath = folderPath + "/"
-				+ String.valueOf(System.currentTimeMillis()) + ".jpg";
-		File imageFile = new File(newReceiptPath);
+		receiptPath = folderPath + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+		File imageFile = new File(receiptPath);
 		imageFileUri = Uri.fromFile(imageFile);
 
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -394,6 +395,15 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			}
 		}
 		
-	}	
+	}
+	
+	protected void setReceiptPhoto(String receiptPath){
+		if (receiptPath != null){
+			File receiptFile = new File(receiptPath);
+			Uri receiptFileUri = Uri.fromFile(receiptFile);
+			Drawable receipt = Drawable.createFromPath(receiptFileUri.getPath());
+			imageButton.setImageDrawable(receipt);	
+		}
+	}
 
 }
