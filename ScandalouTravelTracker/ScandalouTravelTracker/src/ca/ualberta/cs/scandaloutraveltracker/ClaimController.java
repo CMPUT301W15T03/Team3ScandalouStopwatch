@@ -47,17 +47,6 @@ public class ClaimController {
 	public void setExpenses(ArrayList<Expense> expenses) {
 		currentClaim.setExpenses(expenses);
 	}
-
-	/**
-	 * Updates the expense (e) located at position i. 
-	 * @param i
-	 * @param e
-	 */
-	public void updateExpense(int i, Expense e) {
-		ArrayList<Expense> newExpenseList = currentClaim.getExpenses();
-		newExpenseList.set(i, e);
-		currentClaim.setExpenses(newExpenseList);
-	}
 	
 	/**
 	 * 
@@ -259,7 +248,25 @@ public class ClaimController {
 			ArrayList<Destination> destinations, boolean canEdit) throws UserInputException{
 		
 		currentClaim.updateClaim(startDate, endDate, description, destinations, canEdit);
-	}
+	}	
+	
+	/**
+	 * Updates the expense (e) located at position i. 
+	 * @param i
+	 * @param e
+	 */
+	public void updateExpense(int expensePos, Expense newExpense) throws UserInputException {
+
+		// Get the updated list
+		ArrayList<Expense> newExpenseList = currentClaim.getExpenses();
+		newExpenseList.set(expensePos, newExpense);
+		
+		// Save the new list in storage
+		currentClaim.updateExpenses(newExpenseList, newExpense);
+		
+		// Save the new list in the current claim
+		currentClaim.setExpenses(newExpenseList);
+	}	
 	
 	/**
 	 * Submits the claim and edits the details of the claim to 

@@ -246,8 +246,10 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	}
 	
 	//is called when edit button is clicked
-	public void confirmEdit(View v) {	
+	public void confirmEdit(View v) {
+		
 		if (canEdit) {
+			
 			//initialize fields again
 			final EditText description = (EditText) findViewById(R.id.description);
 			final EditText date = (EditText) findViewById(R.id.date_expense);
@@ -291,39 +293,44 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				return;
 			}
 			//everything is good to be added
-			else {
-				if (costString.equals(".")) {
-					costString = "0";
-				}
-				mapper = new ClaimMapper(this.getApplicationContext());
+			else {			
+			
 				expenseController = new ExpenseController(new Expense());
 				
 				//checks if date is unchanged
-				if (dateString.equals(claimController.getExpense(expenseId)
-					.getDateString())) {
+				if (dateString.equals(claimController.getExpense(expenseId).getDateString())) {
 					expenseController.setDate(claimController.getExpense(expenseId).getDate());
 				}
 				//change to new date
 				else {
 					expenseController.setDate(newDate);
 				}
-				
 				expenseController.setDescription(descrString);
 				expenseController.setCategory(categoryString);
 				expenseController.setCurrency(currencyTypeString);
 				costString = String.format("%.2f", Double.valueOf(costString));
 				double amount = Double.valueOf(costString);
 				expenseController.setCost(Double.valueOf(amount));
-				claimController.updateExpense(expenseId, expenseController.getExpense());
-				mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+				
+				try {
+					claimController.updateExpense(expenseId, expenseController.getExpense());
+				} catch (UserInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				// Refresh the claim list
 				ClaimListController claimListController = new ClaimListController();
 				claimListController.removeClaim(claimId);
 				claimListController.addClaim(new Claim(claimId));
+				
 				setResult(RESULT_OK);
 				
-				//Go back to ExpenseList
+				// Go back to ExpenseList
 				finish();
+				
 			}
+
 		}
 		else {
 			   Toast.makeText(getApplicationContext(), 

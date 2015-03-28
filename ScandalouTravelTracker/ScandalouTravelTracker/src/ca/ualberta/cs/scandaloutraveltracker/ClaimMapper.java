@@ -135,6 +135,15 @@ public class ClaimMapper {
 	}
 	
 	/**
+	 * Updates the claim associated with claimId with all the other
+	 * parameters passed.
+	 * @param expenses
+	 */
+	public void updateExpenses(int claimId, ArrayList<Expense> expenses){
+		saveClaimData(claimId, "expenses", expenses);
+	}	
+	
+	/**
 	 * Updates the tags of the claim associated with claimId.
 	 * @param claimId
 	 * @param tags

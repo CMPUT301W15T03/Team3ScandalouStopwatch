@@ -392,6 +392,13 @@ public class Claim extends SModel implements Comparable<Claim> {
 		notifyViews();
 	}
 	
+	public void updateExpenses(ArrayList<Expense> expenses, Expense newExpense) throws UserInputException {
+		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.updateExpenses(this.id, expenses);
+
+	}
+	
 	/**
 	 * Updates the list of tags associated with the claim. 
 	 * Uses the ClaimMapper to save the updated tag values
