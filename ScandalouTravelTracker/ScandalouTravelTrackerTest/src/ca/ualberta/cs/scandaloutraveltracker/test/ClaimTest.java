@@ -18,30 +18,22 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.content.DialogInterface;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.ViewAsserts;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
-import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.User;
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
 public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity> {
@@ -51,6 +43,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 	private EditText endDateET;
 	private EditText descriptionET;
 	private TextView tagsTV;
+	private ListView destinationsList;
 	private Button submitButton;
 	private ImageButton destinationButton;
 	private int userId;
@@ -79,6 +72,7 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 	    endDateET = (EditText) newClaimActivity.findViewById(R.id.end_date);
 	    submitButton = (Button) newClaimActivity.findViewById(R.id.claim_ok_button);
 	    destinationButton = (ImageButton) newClaimActivity.findViewById(R.id.add_dest_button);
+	    destinationsList = (ListView) newClaimActivity.findViewById(R.id.destinations_lv);
 	}
 	
 	// Tests adding a new claim
@@ -142,21 +136,10 @@ public class ClaimTest extends ActivityInstrumentationTestCase2<NewClaimActivity
 		}
 		
 		assertEquals(1, newClaimActivity.getDestinationsList().size());
+		assertEquals(1, destinationsList.getCount());
 	}
 	
 	/*
-	public void testAddDestinaion() {
-	    String l1 = "Place";
-	    String r1 = "Reason";
-	    String l2 = "Place 2";
-	    String r2 = "Reason 2";
-	    Destination newDestination = new Destination(l1, r1);
-	    Destination secDestination = new Destination(l2, r2);
-	    assertFalse("The two destinations should be different", 
-	                newDestination.equals(secDestination));
-	    assertTrue("Place should match", newDestination.getName().equals(l1));
-	    assertTrue("Reason should match", secDestination.getDescription().equals(r2));
-	}
 
 	// Test UC 01.03.01
 	public void testClaimDisplayed() {

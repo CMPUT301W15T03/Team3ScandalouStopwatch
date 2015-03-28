@@ -37,6 +37,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,6 +79,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	private DestinationListAdapter destinationsAdapter;
 	
 	private SpannableString spannableString;
+	private ArrayList<IntegerPair> indices;
 	
 	private Date startDate;
 	private Date endDate;
@@ -535,7 +537,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		spannableString = new SpannableString(tagsString);
 
 		TagParser parser = new TagParser();
-		ArrayList<IntegerPair> indices = parser.parse(tagsString);
+		indices = parser.parse(tagsString);
 
 		for (int i = 0; i < indices.size(); i++) {
 			IntegerPair currentIndex = indices.get(i);
@@ -631,7 +633,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			}, currentIndex.getX(), 
 			   currentIndex.getY(), 0);
 		}
-
 		tagsDisplay.setText(spannableString);
 		tagsDisplay.setMovementMethod(LinkMovementMethod.getInstance());
 	}
@@ -655,6 +656,16 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	// Used for testing the add tags alert
 	public AlertDialog getAlertDialog() {
 		return alert;
+	}
+	
+	public SpannableString getSpannableString() {
+		return spannableString;
+	}
+	
+	public void editClaim(Date startDate, Date endDate, ArrayList<Destination> destinations) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.destinations = destinations;
 	}
 	
 	/**
