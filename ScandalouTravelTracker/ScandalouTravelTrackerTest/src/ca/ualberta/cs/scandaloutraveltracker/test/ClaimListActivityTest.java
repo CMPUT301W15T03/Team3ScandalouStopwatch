@@ -119,7 +119,7 @@ public class ClaimListActivityTest extends
 		instrumentation.runOnMainSync(new Runnable() {
 			@Override
 			public void run() {
-				claimsListView.performItemClick(claimsListView, 0, 0);
+				claimsListView.performItemClick(claimsListView, claimsListView.getCount()-1, 0);
 			}
 		});
 		getInstrumentation().waitForIdleSync();

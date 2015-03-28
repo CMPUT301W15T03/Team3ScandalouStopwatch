@@ -119,7 +119,6 @@ public class ClaimListController {
 	 */
 	public void addClaim(Claim claim) {
 		claimList.addClaim(claim);
-		Collections.sort(claimList.getClaims());
 	}
 	
 	/**
@@ -145,6 +144,21 @@ public class ClaimListController {
 	 */
 	public ClaimList getClaimList() {
 		return claimList;
+	}
+	
+	/**
+	 * 
+	 * Sorts the claim list with the newest claims appearing first
+	 */
+	public void sortNewFirst() {
+		ArrayList<Claim> temp = claimList.getClaims();
+		Collections.sort(temp, new Comparator<Claim>() {
+			@Override
+			public int compare(Claim first, Claim second) {
+				return second.getStartDate().compareTo(first.getStartDate());
+			}
+		});
+		claimList.claims = temp;
 	}
 	
 	/**
