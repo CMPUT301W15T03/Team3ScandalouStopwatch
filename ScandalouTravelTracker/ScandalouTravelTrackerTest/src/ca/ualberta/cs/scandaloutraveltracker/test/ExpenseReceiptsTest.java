@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 public class ExpenseReceiptsTest extends TestCase {
 
+	/*
 	// Test UC 06.01.01
 	public void testAttachPhoto() {
 		File photo = new File("TestPhoto1.jpg");	//a test photo that complies with the size limit
@@ -57,5 +58,5 @@ public class ExpenseReceiptsTest extends TestCase {
 		expense.setPhoto(badPhoto);
 		assertTrue("Size guard failed", (expense.getPhoto() == null));
 	}
-
+	*/
 }
