@@ -627,8 +627,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 								claimListController.removeClaim(claimId);
 								claimListController.addClaim(new Claim(claimId));		
 								update();
-							} else if (which == 2) {
-								
 							}
 						}
 					});

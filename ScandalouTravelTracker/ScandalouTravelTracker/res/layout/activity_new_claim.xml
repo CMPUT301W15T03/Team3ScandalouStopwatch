@@ -34,7 +34,7 @@
         android:id="@+id/destinations_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tags_tv"
+        android:layout_above="@+id/new_claim_tags_tv"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/add_dest_button"
         android:layout_toRightOf="@+id/tags_sv" >
@@ -117,20 +117,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="@string/add" />
+        android:text="@string/add_claim" />
 
-    <EditText
-        android:id="@+id/tags_tv"
+    <TextView
+        android:id="@+id/new_claim_tags_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/claim_ok_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:ems="10"
-        android:hint="@string/tags_tv"
-        android:inputType="textMultiLine" >
+        android:layout_marginTop="3dp"
+        android:textSize="@dimen/tags" >
+    </TextView>
 
-        <requestFocus />
-    </EditText>
+    <Button
+        android:id="@+id/new_claim_add_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/new_claim_tags_tv"
+        android:layout_below="@+id/new_claim_tags_tv"
+        android:text="@string/add_tag" />
 
 </RelativeLayout>

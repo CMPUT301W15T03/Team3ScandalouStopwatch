@@ -30,6 +30,10 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,7 +45,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-//import android.content.Context;
 
 /**
  *  Activity that allows the user to add a new claim to the claim list.
@@ -58,12 +61,14 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	
 	private Context context;
 	private TextView nameSet; 
+	private TextView tagsTV;
 	private EditText sDateSet;
 	private EditText eDateSet;
 	private EditText descriptionSet;
-	private EditText tagsSet;
 	private Button claimOkButton;
 	private ImageButton addDestButton;
+	private Button addTagsButton;
+	private ArrayList<String> tagsList;
 	
 	private ListView destList;
 	private DestinationListAdapter destinationListAdapter;
@@ -72,6 +77,12 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 	private EditText nameInput;
 	private EditText descriptionInput;
 	private AlertDialog alertDialog;
+	
+	// For the tag alert
+	private EditText tagsInput;
+	private AlertDialog alert;
+	private boolean alertReady;
+	private SpannableString spannableString;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +94,11 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		sDateSet = (EditText)findViewById(R.id.start_date);	
 		eDateSet = (EditText)findViewById(R.id.end_date);	
 		descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
-		tagsSet = (EditText)findViewById(R.id.tags_tv);
+		
+		tagsTV = (TextView)findViewById(R.id.new_claim_tags_tv);
+		addTagsButton = (Button)findViewById(R.id.new_claim_add_tag);
+		tagsList = new ArrayList<String>();
+		tagsList.add("");
 		
 		addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
 		claimOkButton = (Button) findViewById(R.id.claim_ok_button);
@@ -101,8 +116,6 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				String name = nameSet.getText().toString();
 				String description = descriptionSet.getText().toString();
 				String status = Constants.statusInProgress;
-				String tagsString = tagsSet.getText().toString();
-				ArrayList<String> tagsList = getTagsList(tagsString);
 				boolean canEdit = true;
 				ArrayList<Expense> expenses = new ArrayList<Expense>();
 				
@@ -233,7 +246,59 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 			}
 		});
 		
+		// Add tag button
+		addTagsButton.setOnClickListener(new View.OnClickListener(){
+			
+			@Override
+			public void onClick(View v){
+			    tagsInput = new EditText(NewClaimActivity.this);	
+				
+				alert = new AlertDialog.Builder(NewClaimActivity.this)
+				   .setMessage("Enter name of tag (no spaces): ")	
+				   .setView(tagsInput)
+				   .setCancelable(true)
+				   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				       	public void onClick(DialogInterface dialog, int i) {
+				       	}
+				   })
+					.setPositiveButton("Add", null)
+					.create();			
+				
+				alert.setOnShowListener(new DialogInterface.OnShowListener() {
+					
+					@Override
+					public void onShow(DialogInterface dialog) {
+						if (alertReady == false) {
+							Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+							button.setOnClickListener(new View.OnClickListener() {
+								
+								@Override
+								public void onClick(View v) {
 
+									String tagString = "#"+tagsInput.getText().toString();		
+									
+									// Check if the tag contains a space
+									if (tagString.contains(" ")) {
+										Toast.makeText(getApplicationContext(), "Please remove the space from your tag.", 
+													   Toast.LENGTH_SHORT).show();
+									} else {
+										// Add tag to current claim and then update/save tags
+										tagsList.add(tagString);
+										update();
+										alert.dismiss();
+									}
+
+								}
+							});
+						}
+						
+					}
+				});
+				
+				alert.show();
+			}
+			
+		});					
 	
 	}
 	
@@ -246,23 +311,6 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		}
 	}
 	
-	/**
-	 * Takes a string that contains tags separated by commas and parses it
-	 * so the ArrayList just contains the tags.
-	 * @param tagsString Comma separated tag string
-	 * @return Parsed ArrayList of tags
-	 */
-	public ArrayList<String> getTagsList(String tagsString){
-		
-		String[] temp = tagsString.split(", ");
-		// CITATION http://stackoverflow.com/questions/10530353/convert-string-array-to-arraylist
-		// 2015-03-13
-		// Matten's answer
-		ArrayList<String> tags = new ArrayList<String>(Arrays.asList(temp));
-		
-		return tags;
-	}	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -272,8 +320,123 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		destList.setAdapter(destinationListAdapter);
+		
+		Log.d("TAG", "Size: " + tagsList.size());
+		String tagsString = getTagsString(tagsList);
+		setClickableTags(tagsString);
+	}
+	
+	private void setClickableTags(String tagsString) {
+		spannableString = new SpannableString(tagsString);
+		Log.d("TAG", tagsString);
+
+		TagParser parser = new TagParser();
+		ArrayList<IntegerPair> indices = parser.parse(tagsString);
+
+		for (int i = 0; i < indices.size(); i++) {
+			IntegerPair currentIndex = indices.get(i);
+			spannableString.setSpan(new ClickableSpan() {
+
+				// Sets the onClick for the clickable span (tags)
+				// When the tag is clicked it will bring up an alert dialog
+				@Override
+				public void onClick(View widget) {
+					TextView tv = (TextView) widget;
+					Spanned s = (Spanned) tv.getText();
+					int start = s.getSpanStart(this);
+					int end = s.getSpanEnd(this);
+					final String currentTag = s.subSequence(start, end).toString();
+					
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
+					builder.setTitle("Options for " + s.subSequence(start, end).toString())
+					.setCancelable(true)
+					.setItems(R.array.tag_menu, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (which == 0) {
+								final EditText tagRename = new EditText(NewClaimActivity.this);
+								final AlertDialog alert = new AlertDialog.Builder(NewClaimActivity.this)
+								   .setMessage("Enter new tag name (no spaces): ")	
+								   .setView(tagRename)
+								   .setCancelable(true)
+								   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+								       	public void onClick(DialogInterface dialog, int i) {
+								       	}
+								   })
+									.setPositiveButton("Rename", null)
+									.create();			
+								
+								alert.setOnShowListener(new DialogInterface.OnShowListener() {
+									
+									@Override
+									public void onShow(DialogInterface dialog) {
+										Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+										button.setOnClickListener(new View.OnClickListener() {
+											
+											@Override
+											public void onClick(View v) {
+
+												String tagString = "#"+tagRename.getText().toString();		
+												
+												// Check if the tag contains a space
+												if (tagString.contains(" ")) {
+													Toast.makeText(getApplicationContext(), "Please remove the space from your tag.", 
+																   Toast.LENGTH_SHORT).show();
+												} else {
+													// Remove current tag from current claim
+													tagsList.remove(currentTag);
+													
+													// Add tag to current claim and then update/save tags
+													tagsList.add(tagString);
+															
+													update();
+													alert.dismiss();
+												}
+
+											}
+										});
+									}
+								});
+								
+								alert.show();
+							} else if (which == 1) {
+								tagsList.remove(currentTag);
+								update();
+							}
+						}
+					});
+					
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+				
+			}, currentIndex.getX(), 
+			   currentIndex.getY(), 0);
+		}
+		tagsTV.setText(spannableString);
+		tagsTV.setMovementMethod(LinkMovementMethod.getInstance());
+	}
+	
+	/**
+	 * Given the list of tags this changes it into a string
+	 * @param tagsList
+	 * @return string of tags
+	 */
+	public String getTagsString(ArrayList<String> tagsList){
+		
+		String tags = "";
+		
+		for (int i = 0; i < tagsList.size(); i++){
+			if (i != tagsList.size() - 1){
+				tags += tagsList.get(i) + " ";
+			} else {
+				tags += tagsList.get(i);
+			}
+		}
+		
+		return tags;
 	}
 	
 	// TEST METHODS BELOW

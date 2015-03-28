@@ -92,16 +92,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	// UI elements. Also tests that a newly created claim has its data saved
 	// for when passed to this screen. 
 	// (Tested by creating a new mock claim which gets saved and then loaded)
-	// US01.03.01	private void performClick(final Button button) throws Throwable {
-	runTestOnUiThread(new Runnable() {
-
-		@Override
-		public void run() {
-			button.performClick();
-		}
-	});
-	getInstrumentation().waitForIdleSync();
-}
+	// US01.03.01
 	// US01.06.01
 	public void testClaimDataDisplayed() throws UserInputException {
 		SpannableString span = activity.getSpannableString();
