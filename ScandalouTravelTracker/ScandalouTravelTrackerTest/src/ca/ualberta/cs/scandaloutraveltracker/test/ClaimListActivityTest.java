@@ -202,8 +202,11 @@ public class ClaimListActivityTest extends
 		assertEquals(4, claimsListView.getCount());
 	}
 	
+	// Tests that a claim in the listview has the proper data shown
+	// US02.01.01
 	public void testClaimInformationShown() {
 		View claimView = claimsListView.getChildAt(0);
+		assertTrue(claimView.isShown());
 		TextView claimDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDateTV);
 		TextView claimDestinationTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDestinationsTV);
 		TextView claimStatusTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListStatusTV);
@@ -215,6 +218,27 @@ public class ClaimListActivityTest extends
 		assertTrue(claimStatusTV.getText().toString().equals("Status: Submitted"));
 		assertTrue(claimTotalTV.getText().toString().equals("GBP 5.00"));
 		assertTrue(claimTagsTV.getText().toString().equals(" #NY"));
+	}
+	
+	// Tests that the claims are sorted from most recent claim to the oldest claim
+	// US02.02.01
+	public void testClaimsSorted() {
+		Claim currentClaim = null;
+		Claim previousClaim = null;
+		
+		for (int i = 0; i < claimsListView.getChildCount(); i++) {
+			if (currentClaim == null) {
+				currentClaim = (Claim) claimsListView.getItemAtPosition(0);
+			} else {
+				currentClaim = (Claim) claimsListView.getItemAtPosition(i);
+				previousClaim = (Claim) claimsListView.getItemAtPosition(i-1);
+			
+				// If using currentClaimStartDate.compareTo(previousClaimStartDate), then compareTo
+				// will return less than 0 if the currentClaim is before the previous claim
+				assertTrue(currentClaim.getStartDate().compareTo(previousClaim.getStartDate()) < 0);
+			}
+		}
+		
 	}
 	
 	private void createClaimWithTags(int userId, ArrayList<String> tags, Date startDate, Date endDate) throws UserInputException {
