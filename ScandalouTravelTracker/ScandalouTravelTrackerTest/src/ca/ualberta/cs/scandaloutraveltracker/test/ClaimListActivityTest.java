@@ -114,12 +114,14 @@ public class ClaimListActivityTest extends
 		assertEquals(4, claimsListView.getCount());
 	}
 	
+	// Tests that you can delete a claim that has not been submitted
+	// US01.05.01
 	public void testDeletingClaim() {
-		// Select last claim in list
+		// Select second claim in list
 		instrumentation.runOnMainSync(new Runnable() {
 			@Override
 			public void run() {
-				claimsListView.performItemClick(claimsListView, claimsListView.getCount()-1, 0);
+				claimsListView.performItemClick(claimsListView, 1, 1);
 			}
 		});
 		getInstrumentation().waitForIdleSync();
@@ -154,6 +156,44 @@ public class ClaimListActivityTest extends
 		assertEquals(3, claimsListView.getCount());
 	}
 	
+	// Tests that you can't delete a claim that has been submitted
+	// US01.04.01
+	public void testCantDeleteClaim() {
+		// Select first claim in list
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimsListView.performItemClick(claimsListView, 0, 0);
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		AlertDialog claimAlert = claimListActivity.getClaimOptionsDialog();
+		final ListView claimOptions = claimAlert.getListView();
+		
+		// Click on the delete option
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimOptions.performItemClick(claimOptions, 3, 0);
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		final AlertDialog deleteAlert = claimListActivity.getDeleteDialog();
+		
+		// Try to delete claim
+		try {
+			performClick(deleteAlert.getButton(DialogInterface.BUTTON_NEGATIVE));
+		} catch (Throwable e) {
+			new Throwable(e);
+		}
+		getInstrumentation().waitForIdleSync();
+		
+		// Assert listview size has not decreased by 1
+		assertEquals(4, claimsListView.getCount());
+	}
+	
 	private void createClaimWithTags(int userId, ArrayList<String> tags, Date startDate, Date endDate) throws UserInputException {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
@@ -175,14 +215,13 @@ public class ClaimListActivityTest extends
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
 		ClaimListController clc = new ClaimListController();
 		ArrayList<String> tagsList = new ArrayList<String>();
-		boolean canEdit = true;
 		ArrayList<Expense> expenses = new ArrayList<Expense>();
 		int newClaimId = 0;
 		
 		// Create the claim
 		try {
 			newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
-					tagsList, Constants.statusSubmitted, canEdit, expenses, new User(userId));
+					tagsList, Constants.statusSubmitted, false, expenses, new User(userId));
 		} catch (UserInputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
