@@ -20,12 +20,15 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +45,7 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class ClaimListActivity extends MenuActivity implements ViewInterface {
+public class ClaimListActivity extends Activity implements ViewInterface {
 	private Button addClaimButton;
 	private ListView claimsListView;
 	private ClaimListAdapter claimListAdapter;
@@ -277,6 +280,14 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	@Override
 	public void update() {
 		claimListAdapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.items, menu);
+        return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
