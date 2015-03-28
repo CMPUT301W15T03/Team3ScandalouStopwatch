@@ -190,7 +190,9 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 				 //text_entry is an Layout XML file containing two text field to display in alert dialog
 				 final View newDestView= newDestInf.inflate(R.layout.edit_destination, null);
 				 nameInput = (EditText) newDestView.findViewById(R.id.edit_destination_name);
+				 nameInput.setLines(2);
 				 descriptionInput = (EditText) newDestView.findViewById(R.id.edit_destination_description);
+				 descriptionInput.setLines(2);
 		
 				 final AlertDialog.Builder newDest = new AlertDialog.Builder(context);
 				 	newDest.setTitle("New Destination")
