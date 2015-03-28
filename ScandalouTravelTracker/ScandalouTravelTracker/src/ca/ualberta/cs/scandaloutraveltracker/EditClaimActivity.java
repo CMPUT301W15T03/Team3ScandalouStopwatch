@@ -80,6 +80,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	
 	private SpannableString spannableString;
 	private ArrayList<IntegerPair> indices;
+	private int toastsShown;
 	
 	private Date startDate;
 	private Date endDate;
@@ -115,6 +116,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 	    claimController = new ClaimController(new Claim(claimId));
 	    canEdit = claimController.getCanEdit();
+	    toastsShown = 0;
 	    
 	    claimController.addView(this);
 		update();		
@@ -136,6 +138,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				public void onClick(View v) {
 						Toast.makeText(getApplicationContext(),
 								claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+						toastsShown++;
 				}
 				
 			});
@@ -281,8 +284,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 														
 													}  
 											   });
-											AlertDialog alert2 = builder2.create();
-											alert2.show();
+											alert = builder2.create();
+											alert.show();
 										} else {
 											//save claim details
 											description = descriptionDisplay.getText().toString();
@@ -308,7 +311,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 										}
 									}  
 							   });
-							AlertDialog alert = builder.create();
+							alert = builder.create();
 							alert.show();
 						} 
 					} else {
@@ -346,6 +349,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				else {
 					Toast.makeText(getApplicationContext(),
 							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+					toastsShown++;
 				}
 			}
 		});
@@ -376,6 +380,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				else {
 					Toast.makeText(getApplicationContext(),
 							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+					toastsShown++;
 				}
 			}
 		});	
@@ -653,7 +658,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		return tags;
 	}
 	
-	// Used for testing the add tags alert
+	// TESTING METHODS
 	public AlertDialog getAlertDialog() {
 		return alert;
 	}
@@ -666,6 +671,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.destinations = destinations;
+	}
+	
+	public int getToastCount() {
+		return toastsShown;
 	}
 	
 	/**

@@ -22,13 +22,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.AlertDialog;
 import android.app.Instrumentation;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
@@ -50,11 +54,14 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 	ClaimController cc;
 	Button subButton;
 	Button updateButton;
+	ImageButton addDestButton;
 	Toast testToast;
 	EditText startDateET;
 	EditText endDateET;
 	EditText descriptionET;
 	ListView destinationsLV;
+	AlertDialog alert;
+	int newClaimId;
 	
 	public ClaimStatusTest() {
 		super(EditClaimActivity.class);
@@ -63,6 +70,8 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		
+		setActivityInitialTouchMode(true);
 		
 		Intent intent = new Intent();
 		int newId = createMockClaim();
@@ -78,8 +87,7 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 		destinationsLV = (ListView) activity.findViewById(R.id.edit_claim_destinations);
 		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
 		updateButton = (Button) activity.findViewById(R.id.edit_claim_update);
-		
-		testToast = Toast.makeText(activity, "test", Toast.LENGTH_LONG);
+		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
 	}
 	
 	// Tests that the mock claim has all its data properly displayed in the
@@ -118,6 +126,53 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 		assertTrue(endDateET.getText().toString().equals("3/17/2015"));
 		assertTrue(descriptionET.getText().toString().equals("new one"));
 	}
+	
+	// Tests that UI elements disappear and you can't edit the claim after submitting
+	// US01.04.01
+	public void testClaimNotEditable() throws UserInputException {
+		// Submit the claim created
+		ClaimController claimController = new ClaimController(new Claim(newClaimId));
+		claimController.submitClaim(Constants.statusSubmitted, false);
+		
+		ClaimListController claimListController = new ClaimListController();
+		claimListController.removeClaim(newClaimId);
+		claimListController.addClaim(new Claim(newClaimId));
+		
+		// Pack the intent with the new submitted claimID and
+		// restart the activity and get new instrumentation
+		Intent intent = new Intent();
+		intent.putExtra(Constants.claimIdLabel, newClaimId);
+	    activity.finish();
+	    setActivity(null);
+	    setActivityIntent(intent);
+	    activity = getActivity();
+	    getInstrumentation().callActivityOnRestart(activity);
+	    
+	    // Set all the old view references to new ones
+		startDateET = (EditText) activity.findViewById(R.id.edit_claim_start_date);
+		endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
+		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
+		subButton = (Button) activity.findViewById(R.id.edit_claim_send);
+		updateButton = (Button) activity.findViewById(R.id.edit_claim_update);
+		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
+	    
+		// Attempt to change data (toasts display if cant)
+	    getInstrumentation().runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				startDateET.performClick();
+				endDateET.performClick();
+				descriptionET.performClick();
+			}
+	    	
+	    });
+	    getInstrumentation().waitForIdleSync();
+	    
+		assertEquals(3, activity.getToastCount());
+		assertFalse(updateButton.isShown());
+		assertFalse(addDestButton.isShown());
+		assertFalse(subButton.isShown());
+	}
 
 	private int createMockClaim() throws UserInputException {
 		// Create two users and add them to the list
@@ -154,7 +209,7 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 		Date endDate = createDate(2, 17, 2014);
 		
 		// Create the claim
-		int newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
+		newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
 				tagsList, status, canEdit, expenses, new User(userId));	
 		
 		// Add the claim to list
@@ -268,4 +323,15 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 		assertTrue("comments should say Hello jim", claim1.getApproverComment().equals(comment));
 	}
 	*/
+	
+	private void performClick(final Button button) throws Throwable {
+		runTestOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				button.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+	}
 }
