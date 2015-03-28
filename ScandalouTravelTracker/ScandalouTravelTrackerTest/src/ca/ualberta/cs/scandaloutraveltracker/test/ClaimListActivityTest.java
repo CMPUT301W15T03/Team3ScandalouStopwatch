@@ -9,7 +9,6 @@ import android.app.Instrumentation;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.ListView;

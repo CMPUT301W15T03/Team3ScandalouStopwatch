@@ -144,6 +144,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	// The user has a default userLocationSet which is where they last were
 	// This location is set when the user is created. Need to send the location
 	// first if using the emulator before running the app.
+	// US01.07.01
 	public void testUserLocationSet() {
 		clearUL();
 		

@@ -91,8 +91,11 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 	}
 	
 	// Tests that the mock claim has all its data properly displayed in the
-	// UI elements
+	// UI elements. Also tests that a newly created claim has its data saved
+	// for when passed to this screen. 
+	// (Tested by creating a new mock claim which gets saved and then loaded)
 	// US01.03.01
+	// US01.06.01
 	public void testClaimDataDisplayed() throws UserInputException {
 		SpannableString span = activity.getSpannableString();
 		ClickableSpan[] tags = span.getSpans(0, span.length(), ClickableSpan.class);
