@@ -109,7 +109,7 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 			}
 		});
 		
-		//when claim is clicked alert dialog appears with edit/view claim, add expense, delete claim
+		//when claim is clicked alert dialog appears with edit/view claim, list expenses, add expense, delete claim, approve/reject claim
 		claimsListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -206,17 +206,17 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										ClaimController claimController = new ClaimController(new Claim(claimId));
-										if (which == 0) {
+										if (which == 0) {	//approve
 											Editable value = input.getText();
-											claimController.returnClaim(Constants.statusApproved, false, currentUser.getName());
+											claimController.approveClaim(Constants.statusApproved, false, currentUser.getName());
 											// add the comment
 											if (!value.toString().equals("")) {
-												Toast.makeText(getApplicationContext(), currentUser.getName() + "changed the status of the claim to " 
+												Toast.makeText(getApplicationContext(), currentUser.getName() + " changed the status of the claim to " 
 														+ Constants.statusApproved + " and left the comment: '" + value.toString() + "'",Toast.LENGTH_LONG).show();
 												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusApproved);
 											}
 										}
-										if (which == 1) {
+										if (which == 1) {	//return
 											Editable value = input.getText();
 											claimController.returnClaim(Constants.statusReturned, true, currentUser.getName());
 											// add the comment
