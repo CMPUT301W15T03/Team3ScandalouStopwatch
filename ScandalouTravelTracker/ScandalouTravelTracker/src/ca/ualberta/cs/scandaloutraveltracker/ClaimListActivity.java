@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -194,31 +195,33 @@ public class ClaimListActivity extends MenuActivity implements ViewInterface {
 	            					   		  Toast.LENGTH_SHORT).show();
 		            		   }
 		            		   if (currentUser.getMode() == 1) {
+		            			   final EditText input = new EditText(ClaimListActivity.this);
+		            			   input.setHint("Add optional comment here before clicking");
+		            			   input.setLines(10);
 		            			   AlertDialog.Builder b = new AlertDialog.Builder(ClaimListActivity.this);
 		            			   b.setTitle("Change Claim Status")
 		            			   .setCancelable(true)
+		            			   .setView(input)
 		            			   .setItems(R.array.approver_choices, new DialogInterface.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										ClaimController claimController = new ClaimController(new Claim(claimId));
 										if (which == 0) {
+											Editable value = input.getText();
 											claimController.returnClaim(Constants.statusApproved, false, currentUser.getName());
-											claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
-											claimListController.addView(ClaimListActivity.this);
-											claimListController.sortLastFirst();
-											claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
-											claimsListView.setAdapter(claimListAdapter);
-											update();
+											Toast.makeText(getApplicationContext(), value.toString(),Toast.LENGTH_SHORT).show();
 										}
 										if (which == 1) {
+											Editable value = input.getText();
 											claimController.returnClaim(Constants.statusReturned, true, currentUser.getName());
-											claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
-											claimListController.addView(ClaimListActivity.this);
-											claimListController.sortLastFirst();
-											claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
-											claimsListView.setAdapter(claimListAdapter);
-											update();
+											Toast.makeText(getApplicationContext(), value.toString(),Toast.LENGTH_SHORT).show();
 										}
+										claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
+										claimListController.addView(ClaimListActivity.this);
+										claimListController.sortLastFirst();
+										claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
+										claimsListView.setAdapter(claimListAdapter);
+										update();
 									}
 		            			   	});
 		            			   	AlertDialog alert = b.create();
