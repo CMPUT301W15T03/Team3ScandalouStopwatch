@@ -29,6 +29,7 @@ import java.util.Locale;
  * @author Team3ScandalouStopwatch
  */
 public class Expense extends SModel {
+	
 	private Date date;
 	private String category;
 	private String description;
@@ -37,6 +38,8 @@ public class Expense extends SModel {
 	private boolean flag;
 	private boolean receiptAttached;
 	private String receiptPath;
+	
+	public static final long MAX_RECEIPT_SIZE = 5*1024*1024; // 5 MB
 	
 	/**
 	 * Constructor creates an empty expense for the user to populate.
