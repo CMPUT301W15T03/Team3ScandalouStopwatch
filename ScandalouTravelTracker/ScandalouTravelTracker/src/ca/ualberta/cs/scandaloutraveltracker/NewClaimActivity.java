@@ -52,7 +52,7 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class NewClaimActivity extends Activity implements ViewInterface{
+public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	
 	private ClaimController claimController = new ClaimController(new Claim());
 	private ArrayList<Destination> destinations = new ArrayList<Destination>();
@@ -309,13 +309,6 @@ public class NewClaimActivity extends Activity implements ViewInterface{
 		for (Destination dest : claimController.getDestinations()) {
 			dest.addView(this);
 		}
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.view_claim, menu);
-		return true;
 	}
 
 	@Override

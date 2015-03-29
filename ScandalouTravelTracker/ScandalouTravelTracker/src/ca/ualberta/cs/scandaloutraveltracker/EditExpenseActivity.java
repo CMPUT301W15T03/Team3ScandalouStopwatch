@@ -53,7 +53,7 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class EditExpenseActivity extends Activity implements ViewInterface {
+public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	
 	private ClaimController claimController;
 	private ExpenseController expenseController;
@@ -250,13 +250,6 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				
 			}
 		});
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.view_expense, menu);
-		return true;
 	}
 	
 	@Override
