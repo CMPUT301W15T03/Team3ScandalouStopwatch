@@ -28,7 +28,6 @@ import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserController;
-import ca.ualberta.cs.scandaloutraveltracker.UserInformationDialog;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.UserSelectActivity;

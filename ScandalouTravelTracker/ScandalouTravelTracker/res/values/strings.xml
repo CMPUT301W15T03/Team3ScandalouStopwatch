@@ -23,7 +23,7 @@
     <string name="claimant_name">Claimant Name</string>
     <string name="edit_claim_update">Update</string>
     <string name="send">Send</string>
-    <string name="add">Add</string>
+    <string name="add_claim">Add Claim</string>
     <string name="tags_tv">tags (separate by comma)</string>
     <string name="title_activity_add_expense">AddExpenseActivity</string>
     <string name="add_expense">Add Expense</string>
@@ -61,7 +61,6 @@
 	<string-array name="tag_menu" >
 	    <item>Rename Tag</item>
 	    <item>Delete Tag</item>
-	    <item>Get Claims with Tag</item>
 	</string-array>
 	<string-array name="approver_choices" >
 	    <item>Change status to appoved</item>
@@ -72,6 +71,7 @@
 	<string name="destinations">Destinations</string>
 	<string name="submit">Submit</string>
 	<string name="add_tag">Add Tag</string>
+	<string name="add">Add</string>
 	<string name="change_user">Change User</string>
 	<string name="change_screen">Change Screen</string>
 	<string name="user_name_filler">Name of User</string>

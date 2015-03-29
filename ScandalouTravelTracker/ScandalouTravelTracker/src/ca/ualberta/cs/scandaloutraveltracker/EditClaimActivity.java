@@ -128,7 +128,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			updateButton.setVisibility(View.INVISIBLE);
 			newDestinationButton.setVisibility(View.INVISIBLE);
 			sendButton.setVisibility(View.INVISIBLE);
-		    statusDisplay.setText(Constants.statusSubmitted);
+		    statusDisplay.setText(claimController.getStatus());
 		    statusDisplay.setVisibility(View.VISIBLE);			
 			
 			descriptionDisplay.setFocusable(false);
@@ -627,8 +627,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 								claimListController.removeClaim(claimId);
 								claimListController.addClaim(new Claim(claimId));		
 								update();
-							} else if (which == 2) {
-								
 							}
 						}
 					});

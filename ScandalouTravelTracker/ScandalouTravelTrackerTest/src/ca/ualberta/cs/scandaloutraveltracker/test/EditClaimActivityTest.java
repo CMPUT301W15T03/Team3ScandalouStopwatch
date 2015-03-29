@@ -24,10 +24,8 @@ import java.util.Date;
 
 import android.app.AlertDialog;
 import android.app.Instrumentation;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
 import android.widget.Button;
@@ -47,7 +45,7 @@ import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
 
-public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
+public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
 
 	Instrumentation instrumentation;
 	EditClaimActivity activity;
@@ -63,7 +61,7 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 	AlertDialog alert;
 	int newClaimId;
 	
-	public ClaimStatusTest() {
+	public EditClaimActivityTest() {
 		super(EditClaimActivity.class);
 	}
 	
@@ -326,15 +324,5 @@ public class ClaimStatusTest extends ActivityInstrumentationTestCase2<EditClaimA
 		assertTrue("comments should say Hello jim", claim1.getApproverComment().equals(comment));
 	}
 	*/
-	
-	private void performClick(final Button button) throws Throwable {
-		runTestOnUiThread(new Runnable() {
 
-			@Override
-			public void run() {
-				button.performClick();
-			}
-		});
-		getInstrumentation().waitForIdleSync();
-	}
 }

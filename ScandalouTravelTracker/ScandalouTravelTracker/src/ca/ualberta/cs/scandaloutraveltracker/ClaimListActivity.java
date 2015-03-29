@@ -217,20 +217,32 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            			   .setSingleChoiceItems(R.array.approver_choices, -1, new DialogInterface.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
+<<<<<<< HEAD
 										if (which == 0) {
 											statusTemp = 0;
 											/*Editable value = input.getText();
 											claimController.returnClaim(Constants.statusApproved, false, currentUser.getName());
+=======
+										ClaimController claimController = new ClaimController(new Claim(claimId));
+										if (which == 0) {	//approve
+											Editable value = input.getText();
+											claimController.approveClaim(Constants.statusApproved, false, currentUser.getName());
+>>>>>>> 1e534fed40f1d34f044a257444604d758be1bb8f
 											// add the comment
 											if (!value.toString().equals("")) {
-												Toast.makeText(getApplicationContext(), currentUser.getName() + "changed the status of the claim to " 
+												Toast.makeText(getApplicationContext(), currentUser.getName() + " changed the status of the claim to " 
 														+ Constants.statusApproved + " and left the comment: '" + value.toString() + "'",Toast.LENGTH_LONG).show();
 												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusApproved);
 											}*/
 										}
+<<<<<<< HEAD
 										if (which == 1) {
 											statusTemp = 1;
 											/*Editable value = input.getText();
+=======
+										if (which == 1) {	//return
+											Editable value = input.getText();
+>>>>>>> 1e534fed40f1d34f044a257444604d758be1bb8f
 											claimController.returnClaim(Constants.statusReturned, true, currentUser.getName());
 											if (value.toString().equals("")) {
 												input.setError("Please include a comment");

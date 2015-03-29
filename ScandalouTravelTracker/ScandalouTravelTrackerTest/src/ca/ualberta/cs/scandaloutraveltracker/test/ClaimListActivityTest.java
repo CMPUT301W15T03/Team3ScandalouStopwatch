@@ -10,8 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
@@ -39,19 +41,26 @@ public class ClaimListActivityTest extends
 		super.setUp();
 		setActivityInitialTouchMode(true);
 		
+		// Launch activity to get context
+		Intent mockIntent = new Intent();
+		mockIntent.putExtra("userId", 0);
+		claimListActivity = getActivity();
+		
 		// Create mock user
 		UserListController userListController = new UserListController();
 		newUserId = userListController.createUser("Test User");
-		Intent mockIntent = new Intent();
+		mockIntent = new Intent();
 		mockIntent.putExtra("userId", newUserId);
 		
-		// Create 3 Claims with a total of 5 different tags
+		// Create 4 Claims with a total of 5 different tags
 		// Also create 1 submitted claim
 		// The list will have the first claim as submitted and the rest as in progress
 		createClaims_Tagged(newUserId);
 		Date startDate = createDate(0, 14, 2015);
 		Date endDate = createDate(0, 15, 2015);
 		createSubmittedClaim(newUserId, startDate, endDate);
+		claimListActivity.finish();
+		setActivity(null);
 		
 		// Inject activity with mock intent
 		setActivityIntent(mockIntent);
@@ -64,7 +73,7 @@ public class ClaimListActivityTest extends
 	} 
 	
 	// Adds three claims with a total of 5 tags and selects tag1 and tag2
-	// to filter. The final list has 2 of the 3 claims. Finally, the last
+	// to filter. The final list has 2 of the 3 claidims. Finally, the last
 	// assert is to ensure the claim list can be restored to it's original state.
 	public void testFilterClaims() {
 		getInstrumentation().waitForIdleSync();
@@ -75,10 +84,10 @@ public class ClaimListActivityTest extends
 		
 		AlertDialog alert = claimListActivity.getTagDialog();
 		
-		// Assert the alert is showing and has 5 tags to choose from
+		// Assert the alert is showing and has 6 tags to choose from
 		assertTrue(alert.isShowing());
 		final ListView lv = alert.getListView();
-		assertEquals(5, lv.getCount());
+		assertEquals(6, lv.getCount());
 		
 		// Selects Tag1 and Tag2 from the list
 		instrumentation.runOnMainSync(new Runnable() {
@@ -193,6 +202,45 @@ public class ClaimListActivityTest extends
 		assertEquals(4, claimsListView.getCount());
 	}
 	
+	// Tests that a claim in the listview has the proper data shown
+	// US02.01.01
+	public void testClaimInformationShown() {
+		View claimView = claimsListView.getChildAt(0);
+		assertTrue(claimView.isShown());
+		TextView claimDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDateTV);
+		TextView claimDestinationTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDestinationsTV);
+		TextView claimStatusTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListStatusTV);
+		TextView claimTotalTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListTotalsTV);
+		TextView claimTagsTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListTagsTV);
+		
+		assertTrue(claimDateTV.getText().toString().equals("1/14/2015 - 1/15/2015"));
+		assertTrue(claimDestinationTV.getText().toString().equals("Destinations: Brooklyn"));
+		assertTrue(claimStatusTV.getText().toString().equals("Status: Submitted"));
+		assertTrue(claimTotalTV.getText().toString().equals("GBP 5.00"));
+		assertTrue(claimTagsTV.getText().toString().equals(" #NY"));
+	}
+	
+	// Tests that the claims are sorted from most recent claim to the oldest claim
+	// US02.02.01
+	public void testClaimsSorted() {
+		Claim currentClaim = null;
+		Claim previousClaim = null;
+		
+		for (int i = 0; i < claimsListView.getChildCount(); i++) {
+			if (currentClaim == null) {
+				currentClaim = (Claim) claimsListView.getItemAtPosition(0);
+			} else {
+				currentClaim = (Claim) claimsListView.getItemAtPosition(i);
+				previousClaim = (Claim) claimsListView.getItemAtPosition(i-1);
+			
+				// If using currentClaimStartDate.compareTo(previousClaimStartDate), then compareTo
+				// will return less than 0 if the currentClaim is before the previous claim
+				assertTrue(currentClaim.getStartDate().compareTo(previousClaim.getStartDate()) < 0);
+			}
+		}
+		
+	}
+	
 	private void createClaimWithTags(int userId, ArrayList<String> tags, Date startDate, Date endDate) throws UserInputException {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
@@ -216,6 +264,13 @@ public class ClaimListActivityTest extends
 		ArrayList<String> tagsList = new ArrayList<String>();
 		ArrayList<Expense> expenses = new ArrayList<Expense>();
 		int newClaimId = 0;
+		tagsList.add("");
+		tagsList.add("#NY");
+		destinations.add(new Destination("Brooklyn", "Meet up with Jay"));
+		Expense newExpense = new Expense();
+		newExpense.setCurrencyType("GBP");
+		newExpense.setCost(5.00);
+		expenses.add(newExpense);
 		
 		// Create the claim
 		try {

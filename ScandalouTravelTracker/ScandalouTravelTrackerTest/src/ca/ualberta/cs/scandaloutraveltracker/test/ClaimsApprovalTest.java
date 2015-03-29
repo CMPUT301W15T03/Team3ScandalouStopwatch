@@ -32,6 +32,7 @@ import junit.framework.TestCase;
 
 public class ClaimsApprovalTest extends TestCase {
 	
+	/*
 	// Test UC 08.01.01
 	public void testGetSubmittedClaims(){
 		
@@ -318,5 +319,5 @@ public class ClaimsApprovalTest extends TestCase {
 		assertTrue("claim1 should not be returned.", claim1.getStatus().equals(targetStatus));
 		
 	}
-	
+	*/
 }
