@@ -259,7 +259,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 											if (statusTemp == 0) {
 												claimController.approveClaim(Constants.statusApproved, 
 														false, currentUser.getName(), value.toString());
-												alert.dismiss();
 											}
 											// Change the claim status to Returned
 											else if (statusTemp == 1) {
