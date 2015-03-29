@@ -349,7 +349,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 						public void onClick(DialogInterface dialog, int which) {
 							if (which == 0) {
 								final EditText tagRename = new EditText(NewClaimActivity.this);
-								final AlertDialog alert = new AlertDialog.Builder(NewClaimActivity.this)
+								alert = new AlertDialog.Builder(NewClaimActivity.this)
 								   .setMessage("Enter new tag name (no spaces): ")	
 								   .setView(tagRename)
 								   .setCancelable(true)
@@ -400,7 +400,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 						}
 					});
 					
-					AlertDialog alert = builder.create();
+					alert = builder.create();
 					alert.show();
 				}
 				
@@ -454,6 +454,18 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	
 	public ArrayList<Destination> getDestinationsList() {
 		return destinations;
+	}
+	
+	public AlertDialog getAlert() {
+		return alert;
+	}
+	
+	public ArrayList<String> getTagsList() {
+		return tagsList;
+	}
+	
+	public SpannableString getSpannableString() {
+		return spannableString;
 	}
 }
 

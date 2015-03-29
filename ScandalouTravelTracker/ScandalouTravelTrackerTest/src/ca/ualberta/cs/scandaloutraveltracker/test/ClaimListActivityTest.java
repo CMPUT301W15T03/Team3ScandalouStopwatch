@@ -75,6 +75,7 @@ public class ClaimListActivityTest extends
 	// Adds three claims with a total of 5 tags and selects tag1 and tag2
 	// to filter. The final list has 2 of the 3 claidims. Finally, the last
 	// assert is to ensure the claim list can be restored to it's original state.
+	// US03.03.01
 	public void testFilterClaims() {
 		getInstrumentation().waitForIdleSync();
 		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
@@ -122,6 +123,44 @@ public class ClaimListActivityTest extends
 		assertEquals(4, claimsListView.getCount());
 	}
 	
+	// Tests that you can't delete a claim that has been submitted
+	// US01.04.01
+	public void testCantDeleteClaim() {
+		// Select first claim in list
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimsListView.performItemClick(claimsListView, 0, 0);
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		AlertDialog claimAlert = claimListActivity.getClaimOptionsDialog();
+		final ListView claimOptions = claimAlert.getListView();
+		
+		// Click on the delete option
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimOptions.performItemClick(claimOptions, 3, 0);
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		final AlertDialog deleteAlert = claimListActivity.getDeleteDialog();
+		
+		// Try to delete claim
+		try {
+			performClick(deleteAlert.getButton(DialogInterface.BUTTON_NEGATIVE));
+		} catch (Throwable e) {
+			new Throwable(e);
+		}
+		getInstrumentation().waitForIdleSync();
+		
+		// Assert listview size has not decreased by 1
+		assertEquals(4, claimsListView.getCount());
+	}	
+	
 	// Tests that you can delete a claim that has not been submitted
 	// US01.05.01
 	public void testDeletingClaim() {
@@ -162,44 +201,6 @@ public class ClaimListActivityTest extends
 		
 		// Assert listview size has decreased by 1
 		assertEquals(3, claimsListView.getCount());
-	}
-	
-	// Tests that you can't delete a claim that has been submitted
-	// US01.04.01
-	public void testCantDeleteClaim() {
-		// Select first claim in list
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				claimsListView.performItemClick(claimsListView, 0, 0);
-			}
-		});
-		getInstrumentation().waitForIdleSync();
-		
-		AlertDialog claimAlert = claimListActivity.getClaimOptionsDialog();
-		final ListView claimOptions = claimAlert.getListView();
-		
-		// Click on the delete option
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				claimOptions.performItemClick(claimOptions, 3, 0);
-			}
-		});
-		getInstrumentation().waitForIdleSync();
-		
-		final AlertDialog deleteAlert = claimListActivity.getDeleteDialog();
-		
-		// Try to delete claim
-		try {
-			performClick(deleteAlert.getButton(DialogInterface.BUTTON_NEGATIVE));
-		} catch (Throwable e) {
-			new Throwable(e);
-		}
-		getInstrumentation().waitForIdleSync();
-		
-		// Assert listview size has not decreased by 1
-		assertEquals(4, claimsListView.getCount());
 	}
 	
 	// Tests that a claim in the listview has the proper data shown

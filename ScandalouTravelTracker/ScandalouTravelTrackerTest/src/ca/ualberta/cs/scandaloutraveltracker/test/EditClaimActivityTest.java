@@ -24,6 +24,7 @@ import java.util.Date;
 
 import android.app.AlertDialog;
 import android.app.Instrumentation;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
@@ -55,6 +56,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	ClaimController cc;
 	Button subButton;
 	Button updateButton;
+	Button addTagButton;
 	ImageButton addDestButton;
 	Toast testToast;
 	TextView tagsTV;
@@ -99,6 +101,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		updateButton = (Button) activity.findViewById(R.id.edit_claim_update);
 		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
 		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
+		addTagButton = (Button)activity.findViewById(R.id.edit_claim_add_tag);
 	}
 	
 	// Tests that the mock claim has all its data properly displayed in the
@@ -188,7 +191,11 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertFalse(subButton.isShown());
 	}
 	
-	public void testDeleteAddTags() {
+	// This test starts with a claim that has two tags. It deletes the two tags,
+	// adds one new tag, and then renames that tag and has assertions for the
+	// size of the list and for the name of the tag after being renamed.
+	// US03.02.01
+	public void testDeleteAddRenameTags() {
 		AlertDialog alert;
 		ClaimController cc = new ClaimController(new Claim(newClaimId));
 		SpannableString spannableString = activity.getSpannableString();
@@ -197,6 +204,8 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		
 		assertEquals(2, tagsSize);
 		
+		// Deleting two tags and asserting that the size of tags list
+		// decreases upon each deletion
 		for (int i = 0; i < 2; i++) {
 			TouchUtils.clickView(this, tagsTV);
 			alert = activity.getAlertDialog();
@@ -212,12 +221,53 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 				}
 			});
 			getInstrumentation().waitForIdleSync();
-			Log.d("TAG", "Loop: "+i);
 			cc = new ClaimController(new Claim(newClaimId));
 			assertEquals(2-(i+1), cc.getTags().size());
 		}
 		
-		// Add tag
+		// Adding a tag to the list and asserting the size increased
+		performClick(addTagButton);
+		alert = activity.getAlertDialog();
+		assertTrue(alert.isShowing());
+		
+		getInstrumentation().waitForIdleSync();
+		getInstrumentation().sendStringSync("NewYork");
+		getInstrumentation().waitForIdleSync();
+		
+		performClick(alert.getButton(DialogInterface.BUTTON_POSITIVE));
+		
+		cc = new ClaimController(new Claim(newClaimId));
+		assertEquals(1, cc.getTags().size());
+		
+		
+		// Click on the tag and change its name
+		// Assert that the only spannable string is the new name
+		TouchUtils.clickView(this, tagsTV);
+		alert = activity.getAlertDialog();
+		alertChoices = alert.getListView();
+		assertTrue(alert.isShowing());
+		
+		getInstrumentation().runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				alertChoices.performItemClick(alertChoices, 0, 0);
+			}
+		});
+		
+		alert = activity.getAlertDialog();
+		assertTrue(alert.isShowing());
+		
+		getInstrumentation().waitForIdleSync();
+		getInstrumentation().sendStringSync("NewTag");
+		getInstrumentation().waitForIdleSync();
+		
+		performClick(alert.getButton(DialogInterface.BUTTON_POSITIVE));
+		
+		spannableString = activity.getSpannableString();
+		cc = new ClaimController(new Claim(newClaimId));
+		assertTrue("#NewTag".equals(spannableString.toString()));
+		assertEquals(1, cc.getTags().size());
+		
 	}
 
 	private int createMockClaim() throws UserInputException {
@@ -368,4 +418,18 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	}
 	*/
 
+	private void performClick(final Button button) {
+		try {
+			runTestOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					button.performClick();
+				}
+			});
+		} catch (Throwable e) {
+			fail();
+		}
+		getInstrumentation().waitForIdleSync();
+	}
 }
