@@ -41,7 +41,7 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class NewExpenseActivity extends Activity implements ViewInterface {
+public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private Button addExpenseButton;
 	private Date date;
 	private ClaimController CController;
@@ -191,13 +191,6 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 			}
 		});
 	}
-
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.add_expense, menu);
-		return true;
-	}*/
 	
 	@Override
 	public void update() {
