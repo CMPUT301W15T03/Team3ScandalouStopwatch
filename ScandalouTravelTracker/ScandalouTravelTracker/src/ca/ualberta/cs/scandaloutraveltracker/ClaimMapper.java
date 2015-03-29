@@ -86,6 +86,7 @@ public class ClaimMapper {
 		saveClaimData(claimId, "canEdit", canEdit);		
 		saveClaimData(claimId, "expenses", expenses);
 		saveClaimData(claimId, "userId", userId);
+		saveClaimData(claimId, "approverComments", new ArrayList<String>());
 		
 		return claimId;
 	}
@@ -207,8 +208,9 @@ public class ClaimMapper {
 			editor.putString(key, (String)data);
 		} else if (key.equals("approverName")){
 			editor.putString(key, (String)data);
-		} else if (key.equals("approverComment")){
-			editor.putString(key, (String)data);
+		} else if (key.equals("approverComments")){
+			String commentsJson = gson.toJson((ArrayList<String>)data);
+		    editor.putString(key, commentsJson);
 		} else if (key.equals("canEdit")){
 			editor.putBoolean(key, (Boolean)data);
 		} else if (key.equals("expenses")) {
@@ -280,8 +282,9 @@ public class ClaimMapper {
 		    data = claimFile.getString(key, "");
 	    } else if (key.equals("approverName")){
 		    data = claimFile.getString(key, "");
-	    } else if (key.equals("approverComment")){
-		    data = claimFile.getString(key, "");
+	    } else if (key.equals("approverComments")){
+	    	String commentsJson = claimFile.getString(key, "");
+		    data = gson.fromJson(commentsJson, ArrayList.class);
 	    } else if (key.equals("canEdit")){
 	    	data = claimFile.getBoolean(key, false);
 	    } else if (key.equals("expenses")) {
@@ -312,6 +315,10 @@ public class ClaimMapper {
 
 	public void changeApproverName(int claimId, String approverName) {
 		saveClaimData(claimId, "approverName", approverName);
+	}
+
+	public void updateComments(int claimId, ArrayList<String> comments) {
+		saveClaimData(claimId, "approverComments", comments);
 	}	
 	
 }

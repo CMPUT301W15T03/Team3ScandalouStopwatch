@@ -44,7 +44,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private Boolean canEdit;
 	private String status;
 	private String approverName;
-	private String approverComment;
+	private ArrayList<String> approverComments;
 	private User user;
 
 	/**
@@ -69,7 +69,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.tags = (ArrayList<String>)mapper.loadClaimData(id, "tags");
 		this.status = (String)mapper.loadClaimData(id, "status");
 		this.approverName = (String)mapper.loadClaimData(id, "approverName");
-		this.approverComment = (String)mapper.loadClaimData(id, "approverComment");
+		this.approverComments = (ArrayList<String>)mapper.loadClaimData(id, "approverComments");
 		this.expenses = (ArrayList<Expense>)mapper.loadClaimData(id, "expenses");
 		this.canEdit = (Boolean)mapper.loadClaimData(id, "canEdit");
 		int userId = (Integer)mapper.loadClaimData(id, "userId");
@@ -86,6 +86,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.expenses = new ArrayList<Expense>();
 		this.destinations = new ArrayList<Destination>();
 		this.tags = new ArrayList<String>();
+		this.approverComments = new ArrayList<String>();
 		this.status = "In Progress";
 	}
 	
@@ -106,7 +107,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.tags = tags;
 		this.status = status;
 		this.expenses = expenses;
-		this.canEdit = canEdit;		
+		this.canEdit = canEdit;	
+		this.approverComments = new ArrayList<String>();
 	}	
 	
 	/**
@@ -321,17 +323,33 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * 
 	 * @return Comment that the approver left on the claim
 	 */
-	public String getApproverComment(){
-		return approverComment;
+	public ArrayList<String> getApproverComments(){
+		return approverComments;
 	}
+	
+	/**
+	 * 
+	 * @param approverComments List of every comment made by the approver
+	 */
+	public void setApproverComment(ArrayList<String> approverComments) {
+		this.approverComments = approverComments;
+	}	
 	
 	/**
 	 * 
 	 * @param approverComment Comment approver left
 	 */
-	public void setApproverComment(String approverComment) {
-		this.approverComment = approverComment;
+	public void addApproverComment(String approverComment) {
+		this.approverComments.add(approverComment);
 	}	
+	
+	/**
+	 * 
+	 * @param approverComment Comment approver left
+	 */
+	public void removeApproverComment(String approverComment) {
+		this.approverComments.remove(approverComment);
+	}
 	
 	/**
 	 * 
@@ -442,19 +460,23 @@ public class Claim extends SModel implements Comparable<Claim> {
 		notifyViews();
 	}
 	
-	public void approveClaim(String status, boolean canEdit, String approverName){
+	public void approveClaim(String status, boolean canEdit, String approverName, String comment, int claimId){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 		mapper.changeClaimStatus(this.id, Constants.statusApproved, canEdit);	
 		mapper.changeApproverName(this.id, approverName);
+		this.approverComments.add(comment);
+		mapper.updateComments(claimId, this.approverComments);
 		notifyViews();
 	}
 	
-	public void returnClaim(String status, boolean canEdit, String approverName){
+	public void returnClaim(String status, boolean canEdit, String approverName, String comment, int claimId){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 		mapper.changeClaimStatus(this.id, Constants.statusReturned, canEdit);	
 		mapper.changeApproverName(this.id, approverName);
+		this.approverComments.add(comment);
+		mapper.updateComments(claimId, this.approverComments);
 		notifyViews();
 	}	
 	
@@ -603,6 +625,25 @@ public class Claim extends SModel implements Comparable<Claim> {
 		}
 		
 		return tags;
+	}
+	
+	/**
+	 * returns a string of all comments made to the claim with the newest appearing first
+	 * @return String that displays comments with newest appearing first
+	 */
+	public String getApproverCommentsString() {
+		String commentString = "";
+		int i = 0;
+		for (String temp : this.approverComments) {
+			if (i == 0) {
+				commentString = "-" + temp;
+			}
+			else {
+				commentString = "-" + temp + "\n" + commentString;
+			}
+			i++;
+		}
+		return commentString;
 	}
 
 }

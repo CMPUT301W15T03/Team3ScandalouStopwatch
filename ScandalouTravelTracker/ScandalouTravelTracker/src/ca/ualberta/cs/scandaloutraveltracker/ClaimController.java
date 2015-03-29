@@ -285,8 +285,8 @@ public class ClaimController {
 	 * @param canEdit
 	 * @param approverName
 	 */
-	public void approveClaim(String status, boolean canEdit, String approverName, String comment){
-		currentClaim.approveClaim(status, canEdit, approverName);
+	public void approveClaim(String status, boolean canEdit, String approverName, String comment, int claimId){
+		currentClaim.approveClaim(status, canEdit, approverName, comment, claimId);
 	}
 	
 	/**
@@ -297,8 +297,8 @@ public class ClaimController {
 	 * @param approverName
 	 * @param comment 
 	 */
-	public void returnClaim(String status, boolean canEdit, String approverName, String comment){
-		currentClaim.returnClaim(status, canEdit, approverName);
+	public void returnClaim(String status, boolean canEdit, String approverName, String comment, int claimId){
+		currentClaim.returnClaim(status, canEdit, approverName, comment, claimId);
 	}	
 	
 	public HashMap<String, Double> computeTotal() {
