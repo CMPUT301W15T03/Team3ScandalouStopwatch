@@ -395,15 +395,15 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	public void updateExpenses(ArrayList<Expense> expenses, Expense newExpense) throws UserInputException {
 	
-		File receiptFile = new File(newExpense.getReceiptPath());
-		
-		if (receiptFile.length() > Expense.MAX_RECEIPT_SIZE){
-			throw new UserInputException("The receipt image cannot exceed " +
-					Long.toString(Expense.MAX_RECEIPT_SIZE / (1024*1024)) + " MB");
-		} else {
-			ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-			mapper.updateExpenses(this.id, expenses);
+		if (newExpense.getReceiptPath() != null){
+			File receiptFile = new File(newExpense.getReceiptPath());
+			if (receiptFile.length() > Expense.MAX_RECEIPT_SIZE)
+				throw new UserInputException("The receipt image cannot exceed " +
+						Long.toString(Expense.MAX_RECEIPT_SIZE / (1024*1024)) + " MB");
 		}
+		
+		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
+		mapper.updateExpenses(this.id, expenses);
 
 	}
 	

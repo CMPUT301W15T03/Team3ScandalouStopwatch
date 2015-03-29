@@ -96,6 +96,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 			    CController = new ClaimController(new Claim(claimId));
 			    
 				//show warning if fields are left empty
+			    /* commenting out the error checking for now, only leaving the date checking 
 				if (categorySpinner.getSelectedItem().toString().equals( "--Choose Category--")) {
 					Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
 				}
@@ -116,7 +117,14 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				else if(date.before(CController.getStartDate())){
 					Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
 				}
-				else{
+				else{*/
+			    if (dateEditText.getText().length()==0) {
+					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
+			    }
+			    else if(date.before(CController.getStartDate())){
+					Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
+				}
+			    else{
 				Calendar cal = Calendar.getInstance();
 			    cal.setTime(date);
 			    cal.add(Calendar.DATE, -1);
@@ -136,9 +144,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				//create new Expense, fill in values, attach to claim, close activity
 				
 				//make controller for current claim
-				
-			    
-			    
+							    			    
 			    //make controller for new expense
 				EController = new ExpenseController(new Expense());
 				
@@ -152,6 +158,9 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				//fill in amount
 				String costString = amountEditText.getText().toString();
 				if (costString.equals(".")) {
+					costString = "0";
+				}
+				else if(costString.isEmpty()){
 					costString = "0";
 				}
 				costString = String.format("%.2f", Double.valueOf(costString));
@@ -179,7 +188,8 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				finish();
 				}
 			}
-			}});
+			}
+		});
 	}
 
 	/*@Override
