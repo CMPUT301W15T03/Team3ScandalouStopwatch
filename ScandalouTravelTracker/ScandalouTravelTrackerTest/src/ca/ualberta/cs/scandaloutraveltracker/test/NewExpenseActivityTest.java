@@ -108,6 +108,32 @@ public class NewExpenseActivityTest extends
 		
 	}
 
+	// Checks the category spinner to ensure the correct values are being displayed
+	// US04.02.01
+	public void testCategorySpinner() {
+		ArrayList<String> categories = new ArrayList<String>();
+		
+		for (int i = 0; i < categorySpinner.getCount(); i++) {
+			String category = categorySpinner.getItemAtPosition(i).toString();
+			categories.add(category);
+		}
+		
+		assertTrue(categories.contains("Air Fare"));
+		assertTrue(categories.contains("Ground Transport"));
+		assertTrue(categories.contains("Vehicle Rental"));
+		assertTrue(categories.contains("Private Automobile"));
+		assertTrue(categories.contains("Fuel"));
+		assertTrue(categories.contains("Parking"));
+		assertTrue(categories.contains("Registration"));
+		assertTrue(categories.contains("Accomodation"));
+		assertTrue(categories.contains("Meal"));
+		assertTrue(categories.contains("Supplies"));
+	}
+	
+	// Checks the currency spinner to ensure the correct values are being displayed
+	// US04.03.01
+	
+	
 	private void performClick(final Button button) {
 		try {
 			runTestOnUiThread(new Runnable() {
