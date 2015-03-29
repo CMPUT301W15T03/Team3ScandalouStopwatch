@@ -217,7 +217,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            			   .setSingleChoiceItems(R.array.approver_choices, -1, new DialogInterface.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
-<<<<<<< HEAD
 										if (which == 0) {
 											statusTemp = 0;
 											/*Editable value = input.getText();
@@ -235,7 +234,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusApproved);
 											}*/
 										}
-<<<<<<< HEAD
 										if (which == 1) {
 											statusTemp = 1;
 											/*Editable value = input.getText();
