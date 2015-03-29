@@ -43,6 +43,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -63,7 +64,9 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	private boolean canEdit;
 	private Uri imageFileUri;
 	private ImageButton imageButton;
+	private ImageButton deleteReceiptButton;
 	private String receiptPath;
+	private TextView addReceiptText;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +79,13 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		EditText cost = (EditText) findViewById(R.id.amount);
 		Spinner category = (Spinner) findViewById(R.id.catspinner);
 		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
+		imageButton = (ImageButton) findViewById(R.id.edit_expense_add_receipt);
+		addReceiptText = (TextView) findViewById(R.id.edit_expense_add_receipt_text);
+		deleteReceiptButton = (ImageButton) findViewById(R.id.edit_expense_delete_receipt);
+		deleteReceiptButton.setVisibility(View.INVISIBLE);
 		
 		Button editButton = (Button) findViewById(R.id.edit_expense_button);
-		imageButton = (ImageButton) findViewById(R.id.receipt_image_button);		
+
 		
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
@@ -188,6 +195,21 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 				}
 				else {
 					takeAPhoto();
+				}
+			}
+		});
+		
+		deleteReceiptButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			
+				if (!canEdit) {
+					
+					Toast.makeText(getApplicationContext(),
+							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
+				else {
+					deletePhoto();
 				}
 			}
 		});
@@ -362,7 +384,13 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	public void takeAPhoto() {
 
-		// Create a folder to store the receipts
+		// If there was already a receipt for this expense, delete it
+		if (receiptPath != null){
+			File imageFile = new File(receiptPath);
+			imageFile.delete();
+		}
+		
+		// Create a folder to store the receipts if necessary
 		String folderPath = Environment.getExternalStorageDirectory()
 				.getAbsolutePath() + "/receipts";
 		File folderFile = new File(folderPath);
@@ -370,7 +398,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			folderFile.mkdir();
 		}
 
-		// Create an URI for the picture file
+		// Create a URI for the picture file
 		receiptPath = folderPath + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg";
 		File imageFile = new File(receiptPath);
 		imageFileUri = Uri.fromFile(imageFile);
@@ -386,17 +414,11 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
 			if (resultCode == RESULT_OK){
-				
-				// Display the receipt
-				Drawable receipt = Drawable.createFromPath(imageFileUri.getPath());
-				imageButton.setImageDrawable(receipt);
-				
+				setReceiptPhoto(receiptPath);
 			} else if (resultCode == RESULT_CANCELED){
-				//TextView statusDisplay = (TextView) findViewById(R.id.status);
-				//statusDisplay.setText("Good choice, you're a shitty photographer anyway.");				
+				deletePhoto();			
 			} else {
-				//TextView statusDisplay = (TextView) findViewById(R.id.status);
-				//statusDisplay.setText("Congratulations, you broke it.");				
+				deletePhoto();			
 			}
 		}
 		
@@ -407,8 +429,23 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			File receiptFile = new File(receiptPath);
 			Uri receiptFileUri = Uri.fromFile(receiptFile);
 			Drawable receipt = Drawable.createFromPath(receiptFileUri.getPath());
-			imageButton.setImageDrawable(receipt);	
+			imageButton.setImageDrawable(receipt);
+			deleteReceiptButton.setVisibility(View.VISIBLE);
+			addReceiptText.setVisibility(View.INVISIBLE);
 		}
+	}
+	
+	public void deletePhoto(){
+		File imageFile = new File(receiptPath);
+		imageFile.delete();
+
+		// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
+		imageButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+		deleteReceiptButton.setVisibility(View.INVISIBLE);
+		addReceiptText.setVisibility(View.VISIBLE);
+		
+		receiptPath = null;
+		
 	}
 
 }
