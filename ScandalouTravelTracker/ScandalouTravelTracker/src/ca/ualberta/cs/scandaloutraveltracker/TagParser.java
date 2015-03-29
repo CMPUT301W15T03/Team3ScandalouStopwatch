@@ -23,7 +23,7 @@ public class TagParser {
 		int endIndex = -1;
 		char currentCharacter;
 		
-		for (int cursor = 1; cursor < stringLength; cursor++) {
+		for (int cursor = 0; cursor < stringLength; cursor++) {
 			currentCharacter = tags.charAt(cursor);
 			
 			// Setting start and end index if found

@@ -98,7 +98,6 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		tagsTV = (TextView)findViewById(R.id.new_claim_tags_tv);
 		addTagsButton = (Button)findViewById(R.id.new_claim_add_tag);
 		tagsList = new ArrayList<String>();
-		tagsList.add("");
 		
 		addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
 		claimOkButton = (Button) findViewById(R.id.claim_ok_button);

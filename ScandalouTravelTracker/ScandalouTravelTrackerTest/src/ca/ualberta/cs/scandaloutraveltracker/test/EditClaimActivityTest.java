@@ -29,6 +29,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -61,6 +62,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	EditText endDateET;
 	EditText descriptionET;
 	ListView destinationsLV;
+	ListView alertChoices;
 	AlertDialog alert;
 	int newClaimId;
 	
@@ -144,7 +146,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	public void testClaimNotEditable() throws UserInputException {
 		// Submit the claim created
 		ClaimController claimController = new ClaimController(new Claim(newClaimId));
-		claimController.submitClaim(Constants.statusSubmitted, false);
+		claimController.submitClaim();
 		
 		ClaimListController claimListController = new ClaimListController();
 		claimListController.removeClaim(newClaimId);
@@ -186,21 +188,36 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertFalse(subButton.isShown());
 	}
 	
-	public void testAddTags() {
+	public void testDeleteAddTags() {
+		AlertDialog alert;
+		ClaimController cc = new ClaimController(new Claim(newClaimId));
 		SpannableString spannableString = activity.getSpannableString();
 		final ClickableSpan[] spans = spannableString.getSpans(0, spannableString.length()-1, ClickableSpan.class);
 		int tagsSize = spans.length;
 		
 		assertEquals(2, tagsSize);
 		
-		TouchUtils.clickView(this, tagsTV);
+		for (int i = 0; i < 2; i++) {
+			TouchUtils.clickView(this, tagsTV);
+			alert = activity.getAlertDialog();
+			assertTrue(alert.isShowing());
+			
+			// Delete the last tag in the list twice
+			alertChoices = alert.getListView();
+			
+			getInstrumentation().runOnMainSync(new Runnable() {
+				@Override
+				public void run() {
+					alertChoices.performItemClick(alertChoices, 1, 0);	
+				}
+			});
+			getInstrumentation().waitForIdleSync();
+			Log.d("TAG", "Loop: "+i);
+			cc = new ClaimController(new Claim(newClaimId));
+			assertEquals(2-(i+1), cc.getTags().size());
+		}
 		
-		AlertDialog alert = activity.getAlertDialog();
-		assertTrue(alert.isShowing());
-		
-		// Delete the claims and assert each step size decreased
-		
-		// Add Claim
+		// Add tag
 	}
 
 	private int createMockClaim() throws UserInputException {
@@ -223,9 +240,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		testDestination = new Destination("Brookyln", "Meet up with Rocky");
 		destinations.add(testDestination);
 		
-		String testTag = "";
-		tagsList.add(testTag);
-		testTag = "#stoked";
+		String testTag = "#stoked";
 		tagsList.add(testTag);
 		testTag = "#NY";
 		tagsList.add(testTag);

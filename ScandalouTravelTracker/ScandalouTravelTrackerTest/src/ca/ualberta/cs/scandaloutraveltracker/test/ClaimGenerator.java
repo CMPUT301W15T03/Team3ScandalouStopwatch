@@ -106,7 +106,7 @@ public class ClaimGenerator {
 		claim.setDestinations(destinations);
 		claim.setStatus(status);
 		claim.setApproverName(approverName);
-		claim.setApproverComment(approverComment);
+		//claim.setApproverComment(approverComment);
 		
 		return claim;	
 	}

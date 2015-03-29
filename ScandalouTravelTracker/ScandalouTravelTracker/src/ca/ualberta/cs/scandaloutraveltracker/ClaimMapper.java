@@ -25,16 +25,9 @@ import java.util.Date;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.location.Location;
+import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -277,7 +270,11 @@ public class ClaimMapper {
 		    data = gson.fromJson(destinationsJson, type);		    
 	    } else if (key.equals("tags")){
 		    String tagsJson = claimFile.getString(key, "");
-		    data = gson.fromJson(tagsJson, ArrayList.class);
+		    if (tagsJson == "") {
+		    	data = new ArrayList<String>();
+		    } else {
+			    data = gson.fromJson(tagsJson, ArrayList.class);
+		    }
 	    } else if (key.equals("status")){
 		    data = claimFile.getString(key, "");
 	    } else if (key.equals("approverName")){
