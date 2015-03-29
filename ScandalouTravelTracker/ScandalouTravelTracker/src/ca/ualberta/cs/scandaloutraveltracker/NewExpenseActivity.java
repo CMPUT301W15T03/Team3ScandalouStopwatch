@@ -23,11 +23,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import android.os.Bundle;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -195,6 +194,11 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	@Override
 	public void update() {
 		//leave empty, never need to update
+	}
+	
+	// TESTING METHODS
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }
