@@ -285,7 +285,7 @@ public class ClaimController {
 	 * @param canEdit
 	 * @param approverName
 	 */
-	public void approveClaim(String status, boolean canEdit, String approverName){
+	public void approveClaim(String status, boolean canEdit, String approverName, String comment){
 		currentClaim.approveClaim(status, canEdit, approverName);
 	}
 	
@@ -295,8 +295,9 @@ public class ClaimController {
 	 * @param status
 	 * @param canEdit
 	 * @param approverName
+	 * @param comment 
 	 */
-	public void returnClaim(String status, boolean canEdit, String approverName){
+	public void returnClaim(String status, boolean canEdit, String approverName, String comment){
 		currentClaim.returnClaim(status, canEdit, approverName);
 	}	
 	
