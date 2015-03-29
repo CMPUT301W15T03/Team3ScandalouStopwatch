@@ -51,6 +51,7 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 	private int claimId;
 	private ClaimController claimController;
 	private ClaimMapper mapper;
+	private AlertDialog alert;
 	private boolean canEdit;
 	
 	@Override
@@ -64,7 +65,9 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 	    claimController = new ClaimController(new Claim(claimId));
 	    canEdit = claimController.getCanEdit();
 	    mapper = new ClaimMapper(this.getApplicationContext());
-	    setViews();
+	    if (claimId != 0) {
+	    	setViews();
+	    }
 	    
 	    // Currently checking for expenseList being null (Until Mapper can map expenses)
 	    if (claimController.getExpenseList() == null) {
@@ -164,7 +167,7 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 					    }
 				  
 			      });
-				  AlertDialog alert = builder.create();
+				  alert = builder.create();
 				  alert.show();		
 			}
 		});
@@ -177,10 +180,12 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 	protected void onResume() {
 		super.onResume();
 		//refresh expense list
-		claimController.setExpenses((ArrayList<Expense>)mapper.loadClaimData(claimId, "expenses"));
-		expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
-		expenseListView.setAdapter(expenseListAdapter);
-		setViews();
+		if (claimId != 0) {
+			claimController.setExpenses((ArrayList<Expense>)mapper.loadClaimData(claimId, "expenses"));
+			expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
+			expenseListView.setAdapter(expenseListAdapter);
+			setViews();	
+		}
 	}
 	
 	/**
@@ -214,6 +219,15 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 		}
 		totalView.setText(totalString);
 		totalView.setMovementMethod(new ScrollingMovementMethod());
+	}
+	
+	// Testing Methods
+	public AlertDialog getAlert() {
+		return alert;
+	}
+	
+	public ExpenseListAdapter getAdapter() {
+		return expenseListAdapter;
 	}
 
 }

@@ -39,10 +39,12 @@ import android.widget.TextView;
 public class ExpenseListAdapter extends BaseAdapter {
 	private ArrayList<Expense> expenses;
 	private Context context;
+	private boolean flagOn;
 	
 	public ExpenseListAdapter(Context context, ArrayList<Expense> expenses) {
 		this.expenses = expenses;
 		this.context = context;
+		this.flagOn = false;
 	}
 
 	@Override
@@ -81,9 +83,11 @@ public class ExpenseListAdapter extends BaseAdapter {
 		// Setting the ImageView for flag (star)
 		if (currentExpense.getFlag()) {
 			expenseFlag.setImageResource(android.R.drawable.btn_star_big_on);
+			this.flagOn = true;
 		}
 		else {
 			expenseFlag.setImageResource(android.R.drawable.btn_star_big_off);
+			this.flagOn = false;
 		}
 		
 		// Setting the receipt indicator
@@ -110,4 +114,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
+	public boolean getFlag() {
+		return flagOn;
+	}
 }
