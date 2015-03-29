@@ -53,6 +53,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private User currentUser;
 	private UserController currentUserController;
 	private int screenTypeTemp;
+	private int statusTemp;
 	
 	private AlertDialog tagSelectDialog;
 	private AlertDialog claimAlert;
@@ -192,53 +193,95 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            	   }
 		            	   //when rejecting/approving claim is pressed
 		            	   else if (which == 4) {
+		            		   statusTemp = -1;
 		            		   if (currentUser.getMode() == 0) {
 		            			   Toast.makeText(getApplicationContext(), 
 	            					   		 "Can only change claim status in approver mode!", 
 	            					   		  Toast.LENGTH_SHORT).show();
 		            		   }
 		            		   if (currentUser.getMode() == 1) {
+		            			   if (!(new Claim(claimId).getApproverName().equals(""))) {
+		            				   if (!new Claim(claimId).getApproverName().equals(currentUser.getName())) {
+		            					   Toast.makeText(getApplicationContext(), "Only " + new Claim(claimId).getApproverName() 
+		            							   + " is allowed to change the status of this claim",Toast.LENGTH_LONG).show();
+		            					   return;
+		            				   }
+		            			   }
 		            			   final EditText input = new EditText(ClaimListActivity.this);
-		            			   input.setHint("Add optional comment here before clicking");
+		            			   input.setHint("Add comment here");
 		            			   input.setLines(10);
 		            			   AlertDialog.Builder b = new AlertDialog.Builder(ClaimListActivity.this);
 		            			   b.setTitle("Change Claim Status")
 		            			   .setCancelable(true)
 		            			   .setView(input)
-		            			   .setItems(R.array.approver_choices, new DialogInterface.OnClickListener() {
+		            			   .setSingleChoiceItems(R.array.approver_choices, -1, new DialogInterface.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
-										ClaimController claimController = new ClaimController(new Claim(claimId));
-										if (which == 0) {	//approve
-											Editable value = input.getText();
-											claimController.approveClaim(Constants.statusApproved, false, currentUser.getName());
-											// add the comment
-											if (!value.toString().equals("")) {
-												Toast.makeText(getApplicationContext(), currentUser.getName() + " changed the status of the claim to " 
-														+ Constants.statusApproved + " and left the comment: '" + value.toString() + "'",Toast.LENGTH_LONG).show();
-												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusApproved);
-											}
+										if (which == 0) {
+											statusTemp = 0;
 										}
-										if (which == 1) {	//return
-											Editable value = input.getText();
-											claimController.returnClaim(Constants.statusReturned, true, currentUser.getName());
-											// add the comment
-											if (!value.toString().equals("")) {
-												Toast.makeText(getApplicationContext(), currentUser.getName() + " changed the status of the claim to " 
-														+ Constants.statusReturned + " and left the comment: '" + value.toString() + "'",Toast.LENGTH_LONG).show();
-												claimController.addComment(value.toString(), currentUser.getName(), Constants.statusReturned);
-											}
+										if (which == 1) {
+											statusTemp = 1;
 										}
-										claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
-										claimListController.addView(ClaimListActivity.this);
-										claimListController.sortLastFirst();
-										claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
-										claimsListView.setAdapter(claimListAdapter);
-										update();
 									}
-		            			   	});
-		            			   	AlertDialog alert = b.create();
-		            			   	alert.show();   
+		            			   	})
+		            			   	.setPositiveButton("Cancel", new OnClickListener() {
+										
+										@Override
+										public void onClick(DialogInterface dialog, int which) {
+											return;
+										}
+									})
+									.setNegativeButton("Confirm", null)
+		            			   	;
+		            			   	final AlertDialog alert = b.create();
+		            			   	alert.show();  
+		            			   	//http://stackoverflow.com/questions/2620444/how-to-prevent-a-dialog-from-closing-when-a-button-is-clicked 2015-03-28
+		            			   	alert.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+										
+										@Override
+										public void onClick(View v) {
+											ClaimController claimController = new ClaimController(new Claim(claimId));
+											if (statusTemp == -1) {
+												Toast.makeText(getApplicationContext(), "You need to pick a status to change the claim to"
+														,Toast.LENGTH_SHORT).show();
+												alert.show();
+												return;
+											}
+											Editable value = input.getText();
+											if (value.toString().equals("")) {
+												input.setError("A comment needs to be included");
+												input.requestFocus();
+												alert.show();
+												return;
+											}
+											// Change the claim status to Approved
+											if (statusTemp == 0) {
+												claimController.approveClaim(Constants.statusApproved, 
+														false, currentUser.getName(), value.toString());
+											}
+											// Change the claim status to Returned
+											else if (statusTemp == 1) {
+												claimController.returnClaim(Constants.statusReturned, 
+														true, currentUser.getName(), value.toString());
+											}
+											// should never reach this, just in case
+											else {
+												try {
+													throw new Exception();
+												} catch (Exception e) {
+													throw new RuntimeException(e);
+												}
+											}
+											claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
+											claimListController.addView(ClaimListActivity.this);
+											claimListController.sortLastFirst();
+											claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
+											claimsListView.setAdapter(claimListAdapter);
+											update();
+											alert.dismiss();
+										}
+									});
 		            		   }
 		            		   
 		            	   }
