@@ -7,6 +7,7 @@ import java.util.Date;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -132,7 +133,21 @@ public class NewExpenseActivityTest extends
 	
 	// Checks the currency spinner to ensure the correct values are being displayed
 	// US04.03.01
-	
+	public void testCurrencySpinner() {
+		ArrayList<String> currencies = new ArrayList<String>();
+
+		for (int i = 0; i < currencySpinner.getCount(); i++) {
+			currencies.add(currencySpinner.getItemAtPosition(i).toString());
+		}
+		
+		assertTrue(currencies.contains("CAD"));
+		assertTrue(currencies.contains("USD"));
+		assertTrue(currencies.contains("EUR"));
+		assertTrue(currencies.contains("GBP"));
+		assertTrue(currencies.contains("CHF"));
+		assertTrue(currencies.contains("JPY"));
+		assertTrue(currencies.contains("CNY"));
+	}
 	
 	private void performClick(final Button button) {
 		try {
