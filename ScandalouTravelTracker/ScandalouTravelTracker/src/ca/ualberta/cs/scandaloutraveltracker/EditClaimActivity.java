@@ -501,7 +501,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		// Go to user select menu
 		case R.id.action_user:
 			Intent intent = new Intent(getApplicationContext(), UserSelectActivity.class);
-        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
             return true;
 		
