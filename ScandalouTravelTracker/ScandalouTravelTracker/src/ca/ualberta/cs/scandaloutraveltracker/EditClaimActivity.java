@@ -119,7 +119,9 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	    toastsShown = 0;
 	    
 	    claimController.addView(this);
-		update();		
+	    if (claimId != 0) {
+	    	update();		
+	    }	
 		
 		// Disable clicking on descriptionDisplay if can't edit
 		// Remove update button from the screen
@@ -569,7 +571,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 						public void onClick(DialogInterface dialog, int which) {
 							if (which == 0) {
 								final EditText tagRename = new EditText(EditClaimActivity.this);
-								final AlertDialog alert = new AlertDialog.Builder(EditClaimActivity.this)
+								alert = new AlertDialog.Builder(EditClaimActivity.this)
 								   .setMessage("Enter new tag name (no spaces): ")	
 								   .setView(tagRename)
 								   .setCancelable(true)
@@ -631,7 +633,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 						}
 					});
 					
-					AlertDialog alert = builder.create();
+					alert = builder.create();
 					alert.show();
 				}
 				

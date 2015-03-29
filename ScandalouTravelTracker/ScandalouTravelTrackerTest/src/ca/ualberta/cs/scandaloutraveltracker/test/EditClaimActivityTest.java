@@ -26,12 +26,14 @@ import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
@@ -54,6 +56,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	Button updateButton;
 	ImageButton addDestButton;
 	Toast testToast;
+	TextView tagsTV;
 	EditText startDateET;
 	EditText endDateET;
 	EditText descriptionET;
@@ -71,8 +74,15 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		
 		setActivityInitialTouchMode(true);
 		
+		
 		Intent intent = new Intent();
+		intent.putExtra(Constants.claimIdLabel, 0);
+		
+		activity = getActivity();
 		int newId = createMockClaim();
+		activity.finish();
+		setActivity(null);
+
 		intent.putExtra(Constants.claimIdLabel, newId);
 	    setActivityIntent(intent);
 	    
@@ -86,6 +96,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
 		updateButton = (Button) activity.findViewById(R.id.edit_claim_update);
 		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
+		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
 	}
 	
 	// Tests that the mock claim has all its data properly displayed in the
@@ -173,6 +184,23 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertFalse(updateButton.isShown());
 		assertFalse(addDestButton.isShown());
 		assertFalse(subButton.isShown());
+	}
+	
+	public void testAddTags() {
+		SpannableString spannableString = activity.getSpannableString();
+		final ClickableSpan[] spans = spannableString.getSpans(0, spannableString.length()-1, ClickableSpan.class);
+		int tagsSize = spans.length;
+		
+		assertEquals(2, tagsSize);
+		
+		TouchUtils.clickView(this, tagsTV);
+		
+		AlertDialog alert = activity.getAlertDialog();
+		assertTrue(alert.isShowing());
+		
+		// Delete the claims and assert each step size decreased
+		
+		// Add Claim
 	}
 
 	private int createMockClaim() throws UserInputException {
