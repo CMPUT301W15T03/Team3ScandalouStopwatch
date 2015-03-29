@@ -448,37 +448,34 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * associated with a submitted claim. This is, setting
 	 * the status to submitted and canEdit boolean to false.
 	 * Uses the ClaimMapper to save updated data.
-	 * @param status Claim's status
-	 * @param canEdit If the claim can be edited or not
-	 * @see ClaimMapper#submitClaim(int, String, boolean)
 	 */
-	public void submitClaim(String status, boolean canEdit){
+	public void submitClaim(){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		mapper.changeClaimStatus(this.id, Constants.statusSubmitted, canEdit);	
+		mapper.changeClaimStatus(this.id, Constants.statusSubmitted, false);	
 		
 		notifyViews();
 	}
 	
-	public void approveClaim(String status, boolean canEdit, String approverName, String comment, int claimId){
+	public void approveClaim(String approverName, String comment, int claimId){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		mapper.changeClaimStatus(this.id, Constants.statusApproved, canEdit);	
+		mapper.changeClaimStatus(this.id, Constants.statusApproved, false);	
 		mapper.changeApproverName(this.id, approverName);
 		this.approverComments.add(comment);
 		mapper.updateComments(claimId, this.approverComments);
 		notifyViews();
 	}
 	
-	public void returnClaim(String status, boolean canEdit, String approverName, String comment, int claimId){
+	public void returnClaim(String approverName, String comment, int claimId){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-		mapper.changeClaimStatus(this.id, Constants.statusReturned, canEdit);	
+		mapper.changeClaimStatus(this.id, Constants.statusReturned, true);	
 		mapper.changeApproverName(this.id, approverName);
 		this.approverComments.add(comment);
 		mapper.updateComments(claimId, this.approverComments);
 		notifyViews();
-	}	
+	}
 	
 	
 	/**
@@ -567,34 +564,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 		}
 		
 		return destinations;
-	}
-	
-	// Methods for the Approver Only
-	
-	/**
-	 * Sets the claim as approved and sets the claim's approver
-	 * name. 
-	 * Currently incomplete. Should get the approverName from
-	 * user. Perhaps pass in the Approver rather than String.
-	 * @param approverName Name of Approver
-	 */
-	public void approveClaim(String approverName){
-		this.status = "Approved";
-		this.approverName = approverName;
-		this.canEdit = false;
-	}
-	
-	/**
-	 * Sets the claim as returned and sets the claim's approver
-	 * name.
-	 * Currently incomplete. Should get the approverName from
-	 * user. Perhaps pass in the Approver rather than String.
-	 * @param approverName Name of Approver
-	 */
-	public void returnClaim(String approverName){
-		this.status = "Returned";
-		this.approverName = approverName;
-		this.canEdit = true; 
 	}
 
 	@Override

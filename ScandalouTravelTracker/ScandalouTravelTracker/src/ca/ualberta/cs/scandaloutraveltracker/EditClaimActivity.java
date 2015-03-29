@@ -50,7 +50,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 /**
  *  This activity contains a claim that was selected from the ClaimListActivity
  *  and allows you to edit the claim.
@@ -270,7 +269,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 														try {
 															claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
 															//submit claim
-															claimController.submitClaim(Constants.statusSubmitted, false);
+															claimController.submitClaim();
 															
 															ClaimListController claimListController = new ClaimListController();
 															claimListController.removeClaim(claimId);
@@ -285,7 +284,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 																	e.getMessage(), Toast.LENGTH_SHORT).show();
 														}
 														
-														
 													}  
 											   });
 											alert = builder2.create();
@@ -296,7 +294,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 											try {
 												claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
 												//submit claim
-												claimController.submitClaim(Constants.statusSubmitted, false);
+												claimController.submitClaim();
 												
 												ClaimListController claimListController = new ClaimListController();
 												claimListController.removeClaim(claimId);
@@ -310,7 +308,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 												Toast.makeText(getApplicationContext(),
 														e.getMessage(), Toast.LENGTH_SHORT).show();
 											}
-											
 											
 										}
 									}  

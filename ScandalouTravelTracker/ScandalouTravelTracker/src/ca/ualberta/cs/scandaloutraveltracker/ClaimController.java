@@ -271,35 +271,32 @@ public class ClaimController {
 	/**
 	 * Submits the claim and edits the details of the claim to 
 	 * reflect a submitted claim.
-	 * @param status
-	 * @param canEdit
 	 */
-	public void submitClaim(String status, boolean canEdit){
-		currentClaim.submitClaim(status, canEdit);
+	public void submitClaim(){
+		currentClaim.submitClaim();
 	}
 	
 	/**
 	 * Approves the claim and edits the details of the claim to 
 	 * reflect an approved claim.
-	 * @param status
-	 * @param canEdit
 	 * @param approverName
+	 * @param comment
+	 * @param claimId
 	 */
-	public void approveClaim(String status, boolean canEdit, String approverName, String comment, int claimId){
-		currentClaim.approveClaim(status, canEdit, approverName, comment, claimId);
+	public void approveClaim(String approverName, String comment, int claimId){
+		currentClaim.approveClaim(approverName, comment, claimId);
 	}
 	
 	/**
 	 * Returns the claim and edits the details of the claim to 
 	 * reflect a returned claim.
-	 * @param status
-	 * @param canEdit
 	 * @param approverName
 	 * @param comment 
+	 * @param claimId
 	 */
-	public void returnClaim(String status, boolean canEdit, String approverName, String comment, int claimId){
-		currentClaim.returnClaim(status, canEdit, approverName, comment, claimId);
-	}	
+	public void returnClaim(String approverName, String comment, int claimId){
+		currentClaim.returnClaim(approverName, comment, claimId);
+	}
 	
 	public HashMap<String, Double> computeTotal() {
 		return currentClaim.computeTotal();

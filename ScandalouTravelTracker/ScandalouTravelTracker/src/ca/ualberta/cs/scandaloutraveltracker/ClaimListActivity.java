@@ -257,13 +257,11 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 											}
 											// Change the claim status to Approved
 											if (statusTemp == 0) {
-												claimController.approveClaim(Constants.statusApproved, 
-														false, currentUser.getName(), value.toString(), claimId);
+												claimController.approveClaim(currentUser.getName(), value.toString(), claimId);
 											}
 											// Change the claim status to Returned
 											else if (statusTemp == 1) {
-												claimController.returnClaim(Constants.statusReturned, 
-														true, currentUser.getName(), value.toString(), claimId);
+												claimController.returnClaim(currentUser.getName(), value.toString(), claimId);
 											}
 											// should never reach this, just in case
 											else {
