@@ -100,7 +100,7 @@ public class ClaimGenerator {
 		Claim claim = new Claim(claimName, endDate, endDate);
 		
 		// Populate claim
-		claim.setName(claimantName);
+		// claim.setName(claimantName);
 		claim.setStartDate(startDate);
 		claim.setEndDate(endDate);
 		claim.setDestinations(destinations);

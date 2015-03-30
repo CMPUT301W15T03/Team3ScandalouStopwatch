@@ -221,7 +221,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		nextActivity.finish();
 		
 		Claim currentClaim = currentClaimList.getClaim(0);
-		assertEquals("a1", currentClaim.getName());
+		assertTrue(currentClaim.getUser().getName().equals("User1"));
 		assertEquals(1, currentClaimList.getCount());
 	}
 	

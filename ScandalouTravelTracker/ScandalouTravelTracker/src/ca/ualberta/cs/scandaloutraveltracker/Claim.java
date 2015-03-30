@@ -67,7 +67,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
 
 		this.id = (Integer)mapper.loadClaimData(id, "id");
-		this.name = (String)mapper.loadClaimData(id, "name");
 		this.description = (String)mapper.loadClaimData(id,  "description");
 		this.startDate = (Date)mapper.loadClaimData(id, "startDate");
 		this.endDate = (Date)mapper.loadClaimData(id, "endDate");
@@ -155,26 +154,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 	public void setId(int id) {
 		this.id = id;
 	}	
-	
-	/**
-	 * 
-	 * @return Claimant's name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * Currently incomplete. Should set the name to the name
-	 * associated with user and not have a setName method
-	 * within the Claim class.
-	 * @param name Claimant's name
-	 */
-	public void setName(String name) {
-		if (this.canEdit) {
-			this.name = name;
-		}
-	}
 	
 	/**
 	 * 
