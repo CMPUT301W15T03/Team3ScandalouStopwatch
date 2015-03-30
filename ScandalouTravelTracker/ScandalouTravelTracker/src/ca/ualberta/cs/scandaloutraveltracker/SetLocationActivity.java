@@ -33,6 +33,7 @@ public class SetLocationActivity extends Activity {
         currentUser = ( (ClaimApplication) getApplication()).getUser();
 		currentUserController = new UserController(currentUser);
 		
+		//https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library 2015-03-30
 		map = (MapView) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
