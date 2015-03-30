@@ -518,8 +518,12 @@ public class Claim extends SModel implements Comparable<Claim> {
 				} else {
 					old_total = 0;
 				}
+				if (expense.getCurrencyType().contentEquals("--Choose Currency--")){
+					totals.put("N/A", old_total + expense.getCost());
+				}
+				else{
 				totals.put(expense.getCurrencyType(), old_total + expense.getCost());				
-				
+				}
 			}
 		}
 		
