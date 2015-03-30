@@ -110,20 +110,22 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		claimController = new ClaimController(new Claim(claimId));
 		canEdit = claimController.getCanEdit();
 		
-		String categoryString = claimController.getExpense(expenseId).getCategory();
-		String currencyString = claimController.getExpense(expenseId).getCurrencyType();
-	
-		//set fields to correct values
-		description.setText(claimController.getExpense(expenseId)
-				.getDescription());
-		date.setText(claimController.getExpense(expenseId)
-				.getDateString());
-		cost.setText(""+claimController.getExpense(expenseId)
-				.getCost());
-		category.setSelection(getIndex(category, categoryString));
-		currencyType.setSelection(getIndex(currencyType, currencyString));
-		receiptPath = claimController.getExpense(expenseId).getReceiptPath();
-		setReceiptPhoto(claimController.getExpense(expenseId).getReceiptPath());
+		if (claimId != 0) {
+			String categoryString = claimController.getExpense(expenseId).getCategory();
+			String currencyString = claimController.getExpense(expenseId).getCurrencyType();
+		
+			//set fields to correct values
+			description.setText(claimController.getExpense(expenseId)
+					.getDescription());
+			date.setText(claimController.getExpense(expenseId)
+					.getDateString());
+			cost.setText(""+claimController.getExpense(expenseId)
+					.getCost());
+			category.setSelection(getIndex(category, categoryString));
+			currencyType.setSelection(getIndex(currencyType, currencyString));
+			receiptPath = claimController.getExpense(expenseId).getReceiptPath();
+			setReceiptPhoto(claimController.getExpense(expenseId).getReceiptPath());
+		}
 		
 		// Sets all the layout elements if the claim can't be edited
 		if (!canEdit) {
