@@ -8,8 +8,9 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
@@ -25,6 +26,7 @@ public class EditExpenseActivityTest extends
 		ActivityInstrumentationTestCase2<EditExpenseActivity> {
 	
 	EditExpenseActivity editExpenseActivity;
+	Button saveEdits;
 	Instrumentation instrumentation;
 	EditText description;
 	EditText date;
@@ -64,6 +66,7 @@ public class EditExpenseActivityTest extends
 		cost = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.amount);
 		category = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.catspinner);
 		currencyType = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.currencyspinner);
+		saveEdits = (Button) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.edit_expense_button);
 	}
 	
 	// Tests that all of the passed expense data is shown on the screen
@@ -76,11 +79,51 @@ public class EditExpenseActivityTest extends
 		assertTrue(description.getText().toString().equals("Late Registration"));
 	}
 	
+	// Tests that the details of an expense can be opened and that none
+	// of the views are inaccessable to the user
+	// US 04.06.01
 	public void testCanEditExpense() {
 		TouchUtils.clickView(this, category);
 		assertTrue(category.hasBeenOpened());
+		TouchUtils.clickView(this, currencyType);
+		TouchUtils.clickView(this, currencyType);
+		assertTrue(currencyType.hasBeenOpened());
+		TouchUtils.clickView(this, description);
+		TouchUtils.clickView(this, description);
+		TouchUtils.clickView(this, cost);
+		TouchUtils.clickView(this, date);
+		assertEquals(0, editExpenseActivity.getToastCount());
+		
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				// Ground transport selection
+				category.setSelection(2);
+				// USD Curency
+				currencyType.setSelection(2);
+				description.setText("New description");
+				cost.setText("2.10");
+				date.setText("03/17/2014");
+				saveEdits.performClick();	
+			}
+		});
+		instrumentation.waitForIdleSync();
+		
+		Log.d("TAG", description.getText().toString());
+		Log.d("TAG", date.getText().toString());
+		
+		assertTrue(cost.getText().toString().equals("2.10"));
+		assertTrue(description.getText().toString().equals("New description"));
+		assertTrue(date.getText().toString().equals("03/17/2014"));
+		assertTrue(currencyType.getSelectedItem().toString().equals("USD"));
+		assertTrue(category.getSelectedItem().toString().equals("Ground Transport"));
+		
 	}
 	
+	// Tests that if the claim is submitted that the expense cannot be edited and
+	// that the appropriate toasts show for clicked views or that the views are 
+	// actually inaccessible to the user
+	// US04.06.01
 	public void testCantEditExpense() {
 		// Reset the activity with a claim that cant be edited
 		Intent mockIntent = new Intent();
@@ -98,10 +141,25 @@ public class EditExpenseActivityTest extends
 		setActivityIntent(mockIntent);
 		editExpenseActivity = getActivity();
 
-		// Verify that either toast appear or spinner has not been opened
+		// Need to get all the views again since we closed the activity and reopened it
+		description = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.description);
+		date = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.date_expense);
+		cost = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.amount);
 		category = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.catspinner);
+		currencyType = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.currencyspinner);
+		saveEdits = (Button) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.edit_expense_button);
+		
+		
 		TouchUtils.clickView(this, category);
 		assertFalse(category.hasBeenOpened());
+		TouchUtils.clickView(this, currencyType);
+		TouchUtils.clickView(this, currencyType);
+		assertFalse(category.hasBeenOpened());
+		TouchUtils.clickView(this, description);
+		TouchUtils.clickView(this, date);
+		TouchUtils.clickView(this, cost);
+		assertEquals(3, editExpenseActivity.getToastCount());
+		assertFalse(saveEdits.isShown());
 		
 	}
 	
@@ -167,4 +225,5 @@ public class EditExpenseActivityTest extends
 		
 		return newExpense;
 	}
+	
 }

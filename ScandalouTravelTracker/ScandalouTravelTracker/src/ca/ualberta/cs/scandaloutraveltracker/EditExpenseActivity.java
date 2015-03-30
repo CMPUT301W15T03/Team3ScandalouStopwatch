@@ -67,6 +67,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private ImageButton deleteReceiptButton;
 	private String receiptPath;
 	private TextView addReceiptText;
+	private int toastCount;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +142,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				public void onClick(View v) {
 					Toast.makeText(getApplicationContext(),
 							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+					toastCount++;
 				}
 			});
 			
@@ -150,7 +152,9 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				public void onClick(View v) {
 					Toast.makeText(getApplicationContext(),
 							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+					toastCount++;
 				}
+				
 			});
 			
 			cost.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +163,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				public void onClick(View v) {
 					Toast.makeText(getApplicationContext(),
 							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+					toastCount++;
 				}
 			});
 			
@@ -248,6 +253,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
      			   Toast.makeText(getApplicationContext(), 
      					   		  claimController.getStatus() + " claims cannot be edited.", 
      					   		  Toast.LENGTH_SHORT).show();
+     			   toastCount++;
      		   }
 				
 			}
@@ -442,5 +448,9 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		receiptPath = null;
 		
 	}
-
+	
+	// Testing methods
+	public int getToastCount() {
+		return toastCount;
+	}
 }
