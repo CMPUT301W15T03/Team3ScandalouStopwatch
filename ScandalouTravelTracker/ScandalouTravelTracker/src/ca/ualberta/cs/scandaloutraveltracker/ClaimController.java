@@ -18,8 +18,11 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+
+import android.widget.Toast;
 
 /**
  *  The Claim Controller class is used for making changes to a Claim that
@@ -321,5 +324,40 @@ public class ClaimController {
 				+ changeStatus + " and left the comment: '" + comment + "'";
 		//currentClaim.addApproverComment(finalComment);
 		
+	}
+	
+	/**
+	 * Checks if the Claim has enough information to be sent to
+	 * an approver.
+	 * @return boolean if claim can be sent
+	 */
+	public boolean canClaimBeSent() {
+		return currentClaim.canClaimBeSent();
+	}
+	
+	/**
+	 * Checks if the Claim has any flagged Expenses
+	 * @return boolean if a flagged Expense exists
+	 */
+	public boolean checkIncompleteExpenses() {
+		return currentClaim.checkIncompleteExpenses();
+	}
+	
+	/**
+	 * Given the list of tags this changes it into a string
+	 * @param tagsList
+	 * @return string of tags
+	 */
+	public String getTagsString(){
+		return currentClaim.getTagsString();
+	}
+
+	/**
+	 * Parses the tagString to give an ArrayList of tags
+	 * @param tagsString String of tags separated by commas
+	 * @return ArrayList with just the tag names
+	 */
+	public ArrayList<String> getTagsList(String tagsString){
+		return currentClaim.getTagsList(tagsString);
 	}
 }

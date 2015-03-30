@@ -21,9 +21,12 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+
+import android.widget.Toast;
 
 /**
  *  Class that contains the Claim model. Edits to any instance of a Claim
@@ -614,5 +617,75 @@ public class Claim extends SModel implements Comparable<Claim> {
 		}
 		return commentString;
 	}
+	
+	/**
+	 * Checks if the Claim has enough information to be sent to
+	 * an approver.
+	 * @return boolean if claim can be sent
+	 */
+	public boolean canClaimBeSent() {
+		if (this.getDestinations().size() < 1) {
+			Toast.makeText(ClaimApplication.getContext(), "Please add a destination before submitting",
+					Toast.LENGTH_SHORT).show();
+			return false;
+		} else if (this.getExpenses().size() < 1) {
+			Toast.makeText(ClaimApplication.getContext(), "Please add an expense before submitting",
+					Toast.LENGTH_SHORT).show();
+			return false;
+		} else if (this.getDescription() == null) {
+			return false;
+		} 
+		
+		return true;
+	}
+	
+	/**
+	 * Checks if the Claim has any flagged Expenses
+	 * @return boolean if a flagged Expense exists
+	 */
+	public boolean checkIncompleteExpenses() {
+		ArrayList<Expense> expenses = this.getExpenses();
+		for (int i = 0; i < expenses.size(); i++) {
+			if (expenses.get(i).getFlag() == true) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Given the list of tags this changes it into a string
+	 * @param tagsList
+	 * @return string of tags
+	 */
+	public String getTagsString(){
+		
+		String tags = "";
+		
+		for (int i = 0; i < this.tags.size(); i++){
+			if (i != this.tags.size() - 1){
+				tags += this.tags.get(i) + " ";
+			} else {
+				tags += this.tags.get(i);
+			}
+		}
+		
+		return tags;
+	}
 
+	/**
+	 * Parses the tagString to give an ArrayList of tags
+	 * @param tagsString String of tags separated by commas
+	 * @return ArrayList with just the tag names
+	 */
+	public ArrayList<String> getTagsList(String tagsString){
+		
+		String[] temp = tagsString.split(", ");
+		// CITATION http://stackoverflow.com/questions/10530353/convert-string-array-to-arraylist
+		// 2015-03-13
+		// Matten's answer
+		ArrayList<String> tags = new ArrayList<String>(Arrays.asList(temp));
+		
+		return tags;
+	}
 }
