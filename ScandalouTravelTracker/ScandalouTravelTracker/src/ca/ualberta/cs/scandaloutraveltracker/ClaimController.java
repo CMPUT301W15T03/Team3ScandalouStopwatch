@@ -52,23 +52,6 @@ public class ClaimController {
 	
 	/**
 	 * 
-	 * @return Name of the user associated with the claim.
-	 */
-	public String getName() {
-		return currentClaim.getName();
-	}
-	
-	/**
-	 * Set name of user associated with claim. Should be set
-	 * via the User's name.
-	 * @param name
-	 */
-	public void setName(String name) {
-		currentClaim.setName(name);
-	}
-	
-	/**
-	 * 
 	 * @return True if the claim can be edited and false otherwise
 	 */
 	public boolean getCanEdit() {
