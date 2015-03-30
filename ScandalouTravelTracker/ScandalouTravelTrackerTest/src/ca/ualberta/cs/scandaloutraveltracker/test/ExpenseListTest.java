@@ -30,6 +30,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.ListView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
@@ -65,7 +66,7 @@ public class ExpenseListTest extends
 		
 		// Create mock claim with start and end dates 03/01/2014 - 03/03/2014
 		// Mock claim also contains one expense to test with
-		newClaimId = createMockClaim();
+		newClaimId = createMockClaim(true);
 		
 		expenseListActivity.finish();
 		setActivity(null);
@@ -118,7 +119,63 @@ public class ExpenseListTest extends
 		assertFalse(adapter.getFlag());
 	}
 	
-	private int createMockClaim() throws UserInputException {
+	// Tests that if the claim can be edited, then an expense can be deleted
+	// US04.07.01
+	public void testCanDeleteExpense() {
+		AlertDialog alert;
+		
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				expenseLV.performItemClick(expenseLV, 0, 0);
+			}
+		});
+		
+		alert = expenseListActivity.getAlert();
+		
+		performClick(alert.getButton(DialogInterface.BUTTON_POSITIVE));
+		
+		ClaimController cc = new ClaimController(new Claim(newClaimId));
+		assertEquals(0, cc.getExpenseList().size());
+	}
+	
+	// Tests that if the claim can't be edited, then an expense can't be deleted
+	// US04.07.01
+	public void testCantDeleteExpense() {
+		// Re-create mock claim but with false for canEdit
+		Intent mockIntent = new Intent();
+		AlertDialog alert;
+		
+		try {
+			newClaimId = createMockClaim(false);
+		} catch (UserInputException e) {
+			fail();
+		}
+		
+		expenseListActivity.finish();
+		setActivity(null);
+		mockIntent.putExtra(Constants.claimIdLabel, newClaimId);
+		setActivityIntent(mockIntent);
+		expenseListActivity = getActivity();
+		
+		// Get all the views again after closing and re-injecting activity
+		expenseLV = (ListView) expenseListActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.expenselistView);
+		
+		getInstrumentation().runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				expenseLV.performItemClick(expenseLV, 0, 0);
+			}
+		});
+		alert = expenseListActivity.getAlert();
+		
+		performClick(alert.getButton(DialogInterface.BUTTON_POSITIVE));
+		
+		ClaimController cc = new ClaimController(new Claim(newClaimId));
+		assertEquals(1, cc.getExpenseList().size());
+	}
+	
+	private int createMockClaim(boolean editable) throws UserInputException {
 		// Create user and add to the list
 		UserListController ulc = new UserListController();
 		int userId = ulc.createUser("User1");
@@ -129,7 +186,7 @@ public class ExpenseListTest extends
 		ClaimListController clc = new ClaimListController();
 		String status = Constants.statusInProgress;
 		ArrayList<String> tagsList = new ArrayList<String>();
-		boolean canEdit = true;
+		boolean canEdit = editable;
 		ArrayList<Expense> expenses = new ArrayList<Expense>();
 		Expense newExpense = new Expense();
 		newExpense.setDate(createDate(2,2,2014));
