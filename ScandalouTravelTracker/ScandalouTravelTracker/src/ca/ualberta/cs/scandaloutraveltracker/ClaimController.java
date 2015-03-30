@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import android.widget.Toast;
 
@@ -359,5 +360,12 @@ public class ClaimController {
 	 */
 	public ArrayList<String> getTagsList(String tagsString){
 		return currentClaim.getTagsList(tagsString);
+	}
+	
+	/**
+	 * Calculates a totals string to be displayed
+	 */
+	public String getUpdatedTotalsString(){
+		return currentClaim.getUpdatedTotalsString();
 	}
 }

@@ -19,16 +19,12 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -209,15 +205,7 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 	 */
 	private void updateTotals(){
 		TextView totalView = (TextView) findViewById(R.id.totals);
-		HashMap<String,Double> totals = claimController.computeTotal();
-		String totalString = "Total Currency Values:" + "\n";
-		for (Entry<String, Double> entry : totals.entrySet()) {
-		    String key = entry.getKey();
-		    Double value = entry.getValue();
-		    totalString = totalString + key + " = " + String.format("%.2f", 
-		    		Double.valueOf(value)) + "\n"; 
-		}
-		totalView.setText(totalString);
+		totalView.setText(claimController.getUpdatedTotalsString());
 		totalView.setMovementMethod(new ScrollingMovementMethod());
 	}
 	

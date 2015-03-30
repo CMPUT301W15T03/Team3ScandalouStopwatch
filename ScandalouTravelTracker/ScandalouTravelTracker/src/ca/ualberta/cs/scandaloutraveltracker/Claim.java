@@ -25,7 +25,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map.Entry;
 
+import android.text.method.ScrollingMovementMethod;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -659,7 +662,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @return string of tags
 	 */
 	public String getTagsString(){
-		
 		String tags = "";
 		
 		for (int i = 0; i < this.tags.size(); i++){
@@ -688,4 +690,22 @@ public class Claim extends SModel implements Comparable<Claim> {
 		
 		return tags;
 	}
+	
+	/**
+	 * Calculates a totals string to be displayed
+	 */
+	public String getUpdatedTotalsString(){
+		HashMap<String,Double> totals = computeTotal();
+		String totalString = "Total Currency Values:" + "\n";
+		for (Entry<String, Double> entry : totals.entrySet()) {
+		    String key = entry.getKey();
+		    Double value = entry.getValue();
+		    totalString = totalString + key + " = " + String.format("%.2f", 
+		    		Double.valueOf(value)) + "\n"; 
+		}
+		
+		return totalString;
+	}
+	
+	
 }
