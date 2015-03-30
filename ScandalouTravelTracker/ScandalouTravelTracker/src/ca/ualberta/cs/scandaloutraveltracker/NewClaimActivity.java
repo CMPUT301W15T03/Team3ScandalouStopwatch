@@ -156,7 +156,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	@Override
 	public void update() {
 		destList.setAdapter(destinationListAdapter);
-		String tagsString = claimController.getTagsString();
+		String tagsString = getTagsString(tagsList);
 		setClickableTags(tagsString);
 	}
 	
@@ -404,6 +404,25 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		}
 		tagsTV.setText(spannableString);
 		tagsTV.setMovementMethod(LinkMovementMethod.getInstance());
+	}
+	
+	/**
+	 * Given the list of tags this changes it into a string
+	 * @param tagsList
+	 * @return string of tags
+	 */
+	public String getTagsString(ArrayList<String> tagsList){
+		String tags = "";
+		
+		for (int i = 0; i < tagsList.size(); i++){
+			if (i != tagsList.size() - 1){
+				tags += tagsList.get(i) + " ";
+			} else {
+				tags += tagsList.get(i);
+			}
+		}
+		
+		return tags;
 	}
 	
 	// TEST METHODS BELOW

@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -174,6 +175,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 		// Asserts for adding
 		currentTags = newClaimActivity.getTagsList();
 		ss = newClaimActivity.getSpannableString();
+		Log.d("TAG", ss.toString());
 		assertTrue("#TestTag".equals(ss.toString()));
 		assertEquals(1, currentTags.size());
 		
