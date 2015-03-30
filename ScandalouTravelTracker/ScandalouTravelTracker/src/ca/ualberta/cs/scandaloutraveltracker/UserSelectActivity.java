@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -21,11 +20,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class UserSelectActivity extends Activity implements ViewInterface, UserInformationDialog.UserInformationDialogListener {
+	private DialogCreator dialogCreator = new DialogCreator();
 	private Button newUserButton;
-	private TextView selectUserTV;
 	private ListView usersLV; 
 	private UserListAdapter adapter; 
 	private UserListController ulc;
@@ -37,8 +35,6 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 	private LocationManager lm;
 	private Location location;
 	private ContextMenu contextMenu;
-	private UserInformationDialog dialog;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,7 +80,6 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 		
 		// Setup display elements
 		newUserButton = (Button) findViewById(R.id.userSelectCreateUserButton);
-		selectUserTV = (TextView) findViewById(R.id.userSelectCurrentUsersTV);
 		usersLV = (ListView) findViewById(R.id.userSelectUsersLV);
 		
 		registerForContextMenu(usersLV);
@@ -109,7 +104,6 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						newUserId = ulc.createUser(userNameET.getText().toString());
-						UserController uc = new UserController(new User(newUserId));
 						ulc.addUser(new User(newUserId));
 						
 						update();
@@ -131,30 +125,13 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 				// Display user information dialog
 				User user = (User) usersLV.getItemAtPosition(position);
 				userPos = position;
-				buildUserInfoAlert(user);
+				dialogCreator.buildUserInfoAlert(user, UserSelectActivity.this);
 			}
 		});
 		
 		// Set up ListView and Adapter
 		adapter = new UserListAdapter(this, ulc.getUserList());
 		usersLV.setAdapter(adapter);
-	}
-	
-	// USER INFORMATION ALERT METHODS STARTS HERE
-	
-	public void buildUserInfoAlert(User currentUser) {
-		String name = currentUser.getName();
-		String latitude = "Not Set";
-		String longitude = "Not Set";
-		
-		if (currentUser.getHomeLocation() != null) {
-			latitude = ""+currentUser.getHomeLocation().getLatitude();
-			longitude = ""+currentUser.getHomeLocation().getLongitude();
-		}
-		
-		dialog = new UserInformationDialog();
-		dialog.setViews(name, latitude, longitude);
-		dialog.show(getFragmentManager(), "UserInformationDialogFragment");
 	}
 	
 	@Override
@@ -170,7 +147,6 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 		// Doesn't do anything (exits alert)
 	}
 	
-	// USER INFORMATION ALERT METHODS ENDS HERE
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -209,7 +185,7 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 	// Gets the user information dialog to verify and
 	// check information set (location)
 	public UserInformationDialog getUserDialog() {
-		return dialog;
+		return dialogCreator.getDialog();
 	}
 
 }
