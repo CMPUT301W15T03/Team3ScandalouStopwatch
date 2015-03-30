@@ -7,6 +7,7 @@ import java.util.Date;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 import android.widget.EditText;
 import android.widget.Spinner;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
@@ -15,6 +16,7 @@ import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.EditExpenseActivity;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.StateSpinner;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
@@ -27,8 +29,8 @@ public class EditExpenseActivityTest extends
 	EditText description;
 	EditText date;
 	EditText cost;
-	Spinner category;
-	Spinner currencyType;
+	StateSpinner category;
+	StateSpinner currencyType;
 	int newClaimId;
 	
 	public EditExpenseActivityTest() {
@@ -45,7 +47,7 @@ public class EditExpenseActivityTest extends
 		setActivityIntent(mockIntent);
 		editExpenseActivity = getActivity();
 		
-		newClaimId = createMockClaim();
+		newClaimId = createMockClaim(true);
 		editExpenseActivity.finish();
 		setActivity(null);
 		mockIntent = new Intent();
@@ -60,8 +62,8 @@ public class EditExpenseActivityTest extends
 		description = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.description);
 		date = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.date_expense);
 		cost = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.amount);
-		category = (Spinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.catspinner);
-		currencyType = (Spinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.currencyspinner);
+		category = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.catspinner);
+		currencyType = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.currencyspinner);
 	}
 	
 	// Tests that all of the passed expense data is shown on the screen
@@ -74,7 +76,36 @@ public class EditExpenseActivityTest extends
 		assertTrue(description.getText().toString().equals("Late Registration"));
 	}
 	
-	private int createMockClaim() throws UserInputException {
+	public void testCanEditExpense() {
+		TouchUtils.clickView(this, category);
+		assertTrue(category.hasBeenOpened());
+	}
+	
+	public void testCantEditExpense() {
+		// Reset the activity with a claim that cant be edited
+		Intent mockIntent = new Intent();
+		try {
+			newClaimId = createMockClaim(false);
+		} catch (UserInputException e) {
+			fail();
+		}
+		editExpenseActivity.finish();
+		setActivity(null);
+		mockIntent = new Intent();
+		Long expenseId = (long) 0;
+		mockIntent.putExtra(Constants.claimIdLabel, newClaimId);
+		mockIntent.putExtra("expenseId", expenseId);
+		setActivityIntent(mockIntent);
+		editExpenseActivity = getActivity();
+
+		// Verify that either toast appear or spinner has not been opened
+		category = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.catspinner);
+		TouchUtils.clickView(this, category);
+		assertFalse(category.hasBeenOpened());
+		
+	}
+	
+	private int createMockClaim(boolean editable) throws UserInputException {
 		// Create two users and add them to the list
 		UserListController ulc = new UserListController();
 		int userId = ulc.createUser("User1");
@@ -85,7 +116,7 @@ public class EditExpenseActivityTest extends
 		ClaimListController clc = new ClaimListController();
 		String status = Constants.statusInProgress;
 		ArrayList<String> tagsList = new ArrayList<String>();
-		boolean canEdit = true;
+		boolean canEdit = editable;
 		ArrayList<Expense> expenses = new ArrayList<Expense>();
 		
 		// Setting claim test data

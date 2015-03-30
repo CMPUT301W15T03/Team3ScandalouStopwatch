@@ -77,8 +77,8 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		EditText description = (EditText) findViewById(R.id.description);
 		final EditText date = (EditText) findViewById(R.id.date_expense);
 		EditText cost = (EditText) findViewById(R.id.amount);
-		Spinner category = (Spinner) findViewById(R.id.catspinner);
-		Spinner currencyType = (Spinner) findViewById(R.id.currencyspinner);
+		StateSpinner category = (StateSpinner) findViewById(R.id.catspinner);
+		StateSpinner currencyType = (StateSpinner) findViewById(R.id.currencyspinner);
 		imageButton = (ImageButton) findViewById(R.id.edit_expense_add_receipt);
 		addReceiptText = (TextView) findViewById(R.id.edit_expense_add_receipt_text);
 		deleteReceiptButton = (ImageButton) findViewById(R.id.edit_expense_delete_receipt);
