@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class UserSelectActivity extends Activity implements ViewInterface, UserInformationDialog.UserInformationDialogListener {
 	private DialogCreator dialogCreator = new DialogCreator();
@@ -71,6 +72,14 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 			location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			uc.setCurrentLocation(location);
 			ulc.addUser(new User(selectedId));
+			return true;
+			
+		case R.id.user_context_add_location_map:
+			Intent intent = new Intent(UserSelectActivity.this, SetLocationActivity.class);
+			intent.putExtra("userId", ulc.getUser(userPos).getId());
+			startActivity(intent);
+			return true;
+			
 		default:
 			return super.onContextItemSelected(item);
 		}	

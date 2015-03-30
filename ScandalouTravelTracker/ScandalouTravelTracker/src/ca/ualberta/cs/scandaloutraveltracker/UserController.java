@@ -45,6 +45,14 @@ public class UserController {
 	
 	/**
 	 * 
+	 * @return Home location of the user
+	 */
+	public Location getLocation() {
+		return currentUser.getHomeLocation();
+	}
+	
+	/**
+	 * 
 	 * @return Name of the user associated with the user.
 	 */
 	public String getName() {

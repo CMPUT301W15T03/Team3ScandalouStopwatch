@@ -34,59 +34,69 @@
     <string name="date_text_filler">Date range goes here </string>
     <string name="location_text_filler">Cities goes here</string>
     <string name="status_text_filler">Claim status goes here</string>
-	<string name="total_text_filler">Totals for the claim goes here</string>
-	<string name="tag_text_filler">Tags for the claim goes here</string>
-	<string name="expense_totals_text_filler">Expense Totals</string>
-	<string name="expense_date_text_filler">Date Here</string>
-	<string name="expense_category_text_filler">Expense Category</string>
-	<string name="expense_description_text_filler">Expense Description</string>
-	<string name="expense_incomplete_image_description">Image for incompleteness</string>
-	<string name="claim_text">Claims</string>
-	<string name="plus_sign_text">+</string>
-	<string name="edit_expense">Edit Expense</string>
-	<string name="approval_seeker">Approval Seeker</string>
-	<string name="update">Update</string>
-	<string name="send_for_approval">Send for Approval</string>
-	<string name="edit">Edit</string>
-	<string name="expenses">Expenses</string>
-	<string name="new_dest">New Destination</string>
-	<string name="totals_">Totals:</string>
-	<string name="receipt_text">Receipt: </string>
-	<string-array name="claim_menu" >
-		<item >Edit/View Claim</item>
-		<item >List Expenses for Claim</item>
-		<item >Add Expense to Claim</item>
-		<item >Delete Claim</item>
-		<item >Approve/Reject Claim</item>
-	</string-array>
-	<string-array name="tag_menu" >
-	    <item>Rename Tag</item>
-	    <item>Delete Tag</item>
-	</string-array>
-	<string-array name="approver_choices" >
-	    <item>Change status to appoved</item>
-	    <item>Change status to returned</item>
-	</string-array>
-	<string name="start_date">Start date</string>
-	<string name="end_date">End date</string>
-	<string name="destinations">Destinations</string>
-	<string name="submit">Submit</string>
-	<string name="add_tag">Add Tag</string>
-	<string name="add">Add</string>
-	<string name="change_user">Change User</string>
-	<string name="change_screen">Change Screen</string>
-	<string name="user_name_filler">Name of User</string>
-	<string-array name="screen_menu" >
-		<item >Claimant</item>
-		<item >Approver</item>
-	</string-array>
-	<string name="view_all_tags">View All Tags</string>
-	<string name="filter_claims">Filter Claims</string>
-	<string name="restore_claims">Restore Claims</string>
-	<string name="delete_user">Delete User</string>
-	<string name="add_location_gps">Add Location using GPS</string>
-	<string name="add_location_map">Add Location using Map</string>
-	<string name="user_name">User Name: </string>
-	<string name="user_latitude">Current Latitude: </string>
-	<string name="user_longitude">Current Longitude: </string>
+    <string name="total_text_filler">Totals for the claim goes here</string>
+    <string name="tag_text_filler">Tags for the claim goes here</string>
+    <string name="expense_totals_text_filler">Expense Totals</string>
+    <string name="expense_date_text_filler">Date Here</string>
+    <string name="expense_category_text_filler">Expense Category</string>
+    <string name="expense_description_text_filler">Expense Description</string>
+    <string name="expense_incomplete_image_description">Image for incompleteness</string>
+    <string name="claim_text">Claims</string>
+    <string name="plus_sign_text">+</string>
+    <string name="edit_expense">Edit Expense</string>
+    <string name="approval_seeker">Approval Seeker</string>
+    <string name="update">Update</string>
+    <string name="send_for_approval">Send for Approval</string>
+    <string name="edit">Edit</string>
+    <string name="expenses">Expenses</string>
+    <string name="new_dest">New Destination</string>
+    <string name="totals_">Totals:</string>
+    <string name="receipt_text">Receipt: </string>
+    <string name="confrim_location">Save Location</string>
+    <string name="gps_location">GPS</string>
+    <string name="home_location">Home</string>
+    <string name="location_filler">Latitude: 000.0000	Longitude: 000.0000</string>
+
+    <string-array name="claim_menu">
+        <item>Edit/View Claim</item>
+        <item>List Expenses for Claim</item>
+        <item>Add Expense to Claim</item>
+        <item>Delete Claim</item>
+        <item>Approve/Reject Claim</item>
+    </string-array>
+    <string-array name="tag_menu">
+        <item>Rename Tag</item>
+        <item>Delete Tag</item>
+    </string-array>
+    <string-array name="approver_choices">
+        <item>Change status to appoved</item>
+        <item>Change status to returned</item>
+    </string-array>
+
+    <string name="start_date">Start date</string>
+    <string name="end_date">End date</string>
+    <string name="destinations">Destinations</string>
+    <string name="submit">Submit</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="add">Add</string>
+    <string name="change_user">Change User</string>
+    <string name="change_screen">Change Screen</string>
+    <string name="user_name_filler">Name of User</string>
+
+    <string-array name="screen_menu">
+        <item>Claimant</item>
+        <item>Approver</item>
+    </string-array>
+
+    <string name="view_all_tags">View All Tags</string>
+    <string name="filter_claims">Filter Claims</string>
+    <string name="restore_claims">Restore Claims</string>
+    <string name="delete_user">Delete User</string>
+    <string name="add_location_gps">Add Location using GPS</string>
+    <string name="add_location_map">Add Location using Map</string>
+    <string name="user_name">User Name: </string>
+    <string name="user_latitude">Current Latitude: </string>
+    <string name="user_longitude">Current Longitude: </string>
+    <string name="title_activity_location">LocationActivity</string>
+
 </resources>

@@ -7,9 +7,9 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
-    
-    <!--  Copied from BogoPicGen lab 20/3/2015 -->
-        <!-- Add permission for camera (android.permission.CAMERA) -->
+
+    <!-- Copied from BogoPicGen lab 20/3/2015 -->
+    <!-- Add permission for camera (android.permission.CAMERA) -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- Add permission for writing to external storage (android.permission.WRITE_EXTERNAL_STORAGE) -->
@@ -19,10 +19,15 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-    <!--  Permissions to use GPS location and mock locations for testing -->
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
-    
+    <!-- Permissions to use GPS location and mock locations for testing -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name="ca.ualberta.cs.scandaloutraveltracker.ClaimApplication"
         android:allowBackup="true"
@@ -68,6 +73,10 @@
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity"
             android:label="@string/title_activity_claim_list" >
+        </activity>
+        <activity
+            android:name="ca.ualberta.cs.scandaloutraveltracker.SetLocationActivity"
+            android:label="@string/title_activity_location" >
         </activity>
     </application>
 
