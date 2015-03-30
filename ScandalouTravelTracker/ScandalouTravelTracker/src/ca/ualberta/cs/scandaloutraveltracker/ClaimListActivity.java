@@ -71,10 +71,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		setContentView(R.layout.activity_claim_list);
 		
 		// Set user in ClaimApplication
-		ClaimApplication app = (ClaimApplication) getApplicationContext();
-		Intent intent = getIntent();
-		int userId = intent.getIntExtra("userId", 0);
-		app.setUser(new User(userId));
+		setApplicationUser();
 		
 		// Get Claims
 		currentUser = ( (ClaimApplication) getApplication()).getUser();
@@ -85,24 +82,152 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);
 		claimsListView = (ListView) findViewById(R.id.claimListActivityList);
 		
-		// Claimant mode
-		if (currentUserController.getMode() == 0) { 
-			claimListController = new ClaimListController(currentUser);
-			claimListController.addView(this); // Testing to add view for claimsLists
-			claimListController.sortNewFirst();
-			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList(), false);
-			claimsListView.setAdapter(claimListAdapter);
-		}
+		// Set screen mode (User or Approver)
+		setScreenMode();
 		
-		// Approver mode
-		else if (currentUserController.getMode() == 1) {
-			claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
-			claimListController.addView(this);
-			claimListController.sortLastFirst();
-			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList(), true);
-			claimsListView.setAdapter(claimListAdapter);
-		}
-		
+		// Set buttons up on the screen
+		setButtons();
+	}
+	
+	// Used for testing that users have the correct claim list
+	public ClaimList getCurrentClaimList() {
+		return claimListController.getClaimList();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		setScreenMode();
+	}
+
+	@Override
+	public void update() {
+		claimListAdapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.items, menu);
+        return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items.
+	    switch (item.getItemId()) {
+	    	// Goes to "main" menu of the app while clearing the activity stack.
+	        case R.id.action_user:
+	        	Intent intent = new Intent(ClaimListActivity.this, UserSelectActivity.class);
+	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+	            return true;
+	        // Change the User from approver to claimant or vice versa.
+	        case R.id.action_screen:
+	        	screenTypeTemp = -1;
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
+				builder.setTitle("Switch Screen View")
+				.setCancelable(true)
+				// don't change the screen type
+				.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						return;
+					}
+				})
+				// change the screen type to the one selected
+				.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// Mode should not change since nothing except confirm was clicked
+						if (screenTypeTemp == -1) {
+							Toast.makeText(getApplicationContext(), "Screen Unchanged",Toast.LENGTH_SHORT).show();
+						}
+						// Claimant Mode
+						if (screenTypeTemp == 0) {
+							Toast.makeText(getApplicationContext(), "Change to Claimant",Toast.LENGTH_SHORT).show();
+							currentUserController.setMode(0);
+							claimListController = new ClaimListController(currentUser);
+							claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
+							claimsListView.setAdapter(claimListAdapter);
+						}
+						// Approver mode
+						if (screenTypeTemp == 1) {
+							Toast.makeText(getApplicationContext(), "Change to Approver",Toast.LENGTH_SHORT).show();
+							currentUserController.setMode(1);
+							claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
+							claimListController.addView(ClaimListActivity.this);
+							claimListController.sortLastFirst();
+							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
+							claimsListView.setAdapter(claimListAdapter);
+						}
+					}
+				})
+				// record which one was selected for confirmation
+				.setSingleChoiceItems(R.array.screen_menu, currentUserController.getMode(), new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						screenTypeTemp = which;
+					}
+				}); 
+				AlertDialog alert = builder.create();
+				alert.show();
+				return true;
+	        case R.id.action_filter_claims:
+	        	tagsList = getAllTagsSequence();
+	        	selectedTags = new ArrayList<String>();
+	        	tagsSequence = tagsList.toArray(new CharSequence[tagsList.size()]);	
+	        	AlertDialog.Builder tagFilterBuilder = new AlertDialog.Builder(ClaimListActivity.this);
+	        	tagFilterBuilder.setTitle("Select Tags to Include")
+	        	.setCancelable(true)
+	        	.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Clicking on the Cancel button exits dialog
+						return;
+					}
+				})
+				.setMultiChoiceItems(tagsSequence, 
+						tagsBooleanArray, new DialogInterface.OnMultiChoiceClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+						// If item is checked, add it to the list. If the item is in the
+						// list, remove it.
+						if (isChecked) {
+							selectedTags.add( (String) tagsSequence[which]);
+						} else if (selectedTags.contains((String)tagsSequence[which])) {
+							selectedTags.remove((String)tagsSequence[which]);
+						}
+					}
+				})
+				.setPositiveButton("Filter Claims", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						claimListController = new ClaimListController(currentUser, Constants.TAG_MODE, selectedTags);
+						claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+						claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
+						claimsListView.setAdapter(claimListAdapter);
+					}
+				});
+	        	tagSelectDialog = tagFilterBuilder.create();
+	        	tagSelectDialog.show();
+	        	return true;
+	        case R.id.action_restore_claims:
+	        	claimListController = new ClaimListController(currentUser);
+				claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+				claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
+				claimsListView.setAdapter(claimListAdapter);
+	        	return true;
+			default:
+	        	return false;
+	    }
+	    
+	}
+	
+	private void setButtons() {
 		// Add claim button on click
 		addClaimButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -291,14 +416,23 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		});
 	}
 	
-	// Used for testing that users have the correct claim list
-	public ClaimList getCurrentClaimList() {
-		return claimListController.getClaimList();
+	private ArrayList<String> getAllTagsSequence() {
+		ClaimListMapper clm = new ClaimListMapper(getApplicationContext(), currentUser);
+		tagsList = clm.getAllTags();
+		
+		tagsBooleanArray = new boolean[tagsList.size()];
+		
+		return tagsList;
 	}
 	
-	@Override
-	public void onResume() {
-		super.onResume();
+	private void setApplicationUser() {
+		ClaimApplication app = (ClaimApplication) getApplicationContext();
+		Intent intent = getIntent();
+		int userId = intent.getIntExtra("userId", 0);
+		app.setUser(new User(userId));
+	}
+	
+	private void setScreenMode() {
 		// Claimant mode
 		if (currentUserController.getMode() == 0) { 
 			claimListController = new ClaimListController(currentUser);
@@ -316,142 +450,8 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 			claimListAdapter = new ClaimListAdapter(this, claimListController.getClaimList(), true);
 			claimsListView.setAdapter(claimListAdapter);
 		}
-	}
-
-	@Override
-	public void update() {
-		claimListAdapter.notifyDataSetChanged();
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.items, menu);
-        return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items.
-	    switch (item.getItemId()) {
-	    	// Goes to "main" menu of the app while clearing the activity stack.
-	        case R.id.action_user:
-	        	Intent intent = new Intent(ClaimListActivity.this, UserSelectActivity.class);
-	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-	            return true;
-	        // Change the User from approver to claimant or vice versa.
-	        case R.id.action_screen:
-	        	screenTypeTemp = -1;
-	        	AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
-				builder.setTitle("Switch Screen View")
-				.setCancelable(true)
-				// don't change the screen type
-				.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						return;
-					}
-				})
-				// change the screen type to the one selected
-				.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						// Mode should not change since nothing except confirm was clicked
-						if (screenTypeTemp == -1) {
-							Toast.makeText(getApplicationContext(), "Screen Unchanged",Toast.LENGTH_SHORT).show();
-						}
-						// Claimant Mode
-						if (screenTypeTemp == 0) {
-							Toast.makeText(getApplicationContext(), "Change to Claimant",Toast.LENGTH_SHORT).show();
-							currentUserController.setMode(0);
-							claimListController = new ClaimListController(currentUser);
-							claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
-							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
-							claimsListView.setAdapter(claimListAdapter);
-						}
-						// Approver mode
-						if (screenTypeTemp == 1) {
-							Toast.makeText(getApplicationContext(), "Change to Approver",Toast.LENGTH_SHORT).show();
-							currentUserController.setMode(1);
-							claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
-							claimListController.addView(ClaimListActivity.this);
-							claimListController.sortLastFirst();
-							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
-							claimsListView.setAdapter(claimListAdapter);
-						}
-					}
-				})
-				// record which one was selected for confirmation
-				.setSingleChoiceItems(R.array.screen_menu, currentUserController.getMode(), new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						screenTypeTemp = which;
-					}
-				}); 
-				AlertDialog alert = builder.create();
-				alert.show();
-				return true;
-	        case R.id.action_filter_claims:
-	        	tagsList = getAllTagsSequence();
-	        	selectedTags = new ArrayList<String>();
-	        	tagsSequence = tagsList.toArray(new CharSequence[tagsList.size()]);	
-	        	AlertDialog.Builder tagFilterBuilder = new AlertDialog.Builder(ClaimListActivity.this);
-	        	tagFilterBuilder.setTitle("Select Tags to Include")
-	        	.setCancelable(true)
-	        	.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// Clicking on the Cancel button exits dialog
-						return;
-					}
-				})
-				.setMultiChoiceItems(tagsSequence, 
-						tagsBooleanArray, new DialogInterface.OnMultiChoiceClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-						// If item is checked, add it to the list. If the item is in the
-						// list, remove it.
-						if (isChecked) {
-							selectedTags.add( (String) tagsSequence[which]);
-						} else if (selectedTags.contains((String)tagsSequence[which])) {
-							selectedTags.remove((String)tagsSequence[which]);
-						}
-					}
-				})
-				.setPositiveButton("Filter Claims", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						claimListController = new ClaimListController(currentUser, Constants.TAG_MODE, selectedTags);
-						claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
-						claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
-						claimsListView.setAdapter(claimListAdapter);
-					}
-				});
-	        	tagSelectDialog = tagFilterBuilder.create();
-	        	tagSelectDialog.show();
-	        	return true;
-	        case R.id.action_restore_claims:
-	        	claimListController = new ClaimListController(currentUser);
-				claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
-				claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
-				claimsListView.setAdapter(claimListAdapter);
-	        	return true;
-			default:
-	        	return false;
-	    }
-	    
-	}
-	
-	private ArrayList<String> getAllTagsSequence() {
-		ClaimListMapper clm = new ClaimListMapper(getApplicationContext(), currentUser);
-		tagsList = clm.getAllTags();
 		
-		tagsBooleanArray = new boolean[tagsList.size()];
-		
-		return tagsList;
+		claimListController.addView(this); // Testing to add view for claimsLists
 	}
 
 	// Methods that are used for testing
