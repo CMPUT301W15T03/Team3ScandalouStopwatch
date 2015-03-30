@@ -27,7 +27,7 @@ import android.content.DialogInterface;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.text.SpannableString;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,6 +35,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.User;
@@ -54,6 +55,9 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 	int userId;
 	Instrumentation instrumentation;
 	ListView alertChoices;
+	AlertDialog dialog;
+	EditText descriptionNameET;
+	EditText descriptionReasonET;
 	
 	public NewClaimActivityTest() {
 		super(NewClaimActivity.class);
@@ -84,7 +88,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 	
 	// Tests adding a new claim
 	// Also tests that claims can have zero expenses attaached to them
-	// US01.01.01 - US04.01.01
+	// US01.01.01 and US04.01.01
 	public void testNewClaim() throws Throwable {
 		newClaimActivity.setStartDate(new Date());
 		newClaimActivity.setEndDate(new Date());
@@ -120,16 +124,20 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 		});
 		getInstrumentation().waitForIdleSync();
 		
-		// Set the destination values
+		View newDestView = newClaimActivity.getNewDestView();
+		descriptionNameET = (EditText) newDestView.findViewById(R.id.edit_destination_name);
+		descriptionReasonET = (EditText) newDestView.findViewById(R.id.edit_destination_description);
+		
+		// Set the destination values)
 		instrumentation.runOnMainSync(new Runnable() {
 			@Override
 			public void run() {
-				newClaimActivity.setDestinationName("Harlem");
-				newClaimActivity.setDestinationReason("Dat WORK vid shoot");
+				descriptionNameET.setText("Harlem");
+				descriptionReasonET.setText("Dat WORK vid shoot");
 			}
 		});
 		
-		final AlertDialog dialog = newClaimActivity.getDestinationDialog();
+		dialog = newClaimActivity.getDestinationDialog();
 		
 		// Clicks the add new destination button
 		try {
@@ -138,8 +146,12 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 			throw new Throwable(e);
 		}
 		
+		Destination onlyDest = (Destination) destinationsList.getItemAtPosition(0);
+		
 		assertEquals(1, newClaimActivity.getDestinationsList().size());
 		assertEquals(1, destinationsList.getCount());
+		assertTrue(onlyDest.getName().equals("Harlem"));
+		assertTrue(onlyDest.getDescription().equals("Dat WORK vid shoot"));
 	}
 	
 	// This test starts with an empty claim, adds a tag, renames the tag, and
