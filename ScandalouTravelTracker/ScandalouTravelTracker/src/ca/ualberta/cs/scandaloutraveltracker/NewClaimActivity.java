@@ -19,12 +19,10 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -36,7 +34,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -54,8 +51,8 @@ import android.widget.Toast;
  */
 public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	
-	private ClaimController claimController = new ClaimController(new Claim());
-	private ArrayList<Destination> destinations = new ArrayList<Destination>();
+	private ClaimController claimController;
+	private ArrayList<Destination> destinations;
 	private Date startDate;
 	private Date endDate;
 	
@@ -77,6 +74,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	private EditText nameInput;
 	private EditText descriptionInput;
 	private AlertDialog alertDialog;
+	private View newDestView;
 	
 	// For the tag alert
 	private EditText tagsInput;
@@ -88,6 +86,10 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_claim);
+		
+		// Initialize new claim and destinations
+		claimController = new ClaimController(new Claim());
+		destinations = new ArrayList<Destination>();
 		
 		context = this;
 		nameSet = (TextView)findViewById(R.id.claimant_name);
@@ -147,7 +149,19 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 			}
 		});			
 		
-        // startDate dialog picker
+		setListeners();
+	
+	}
+
+	@Override
+	public void update() {
+		destList.setAdapter(destinationListAdapter);
+		String tagsString = getTagsString(tagsList);
+		setClickableTags(tagsString);
+	}
+	
+	private void setListeners() {
+		// startDate dialog picker
 		sDateSet.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -200,7 +214,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 				 LayoutInflater newDestInf = LayoutInflater.from(context);
 
 				 //text_entry is an Layout XML file containing two text field to display in alert dialog
-				 final View newDestView= newDestInf.inflate(R.layout.edit_destination, null);
+				 newDestView= newDestInf.inflate(R.layout.edit_destination, null);
 				 nameInput = (EditText) newDestView.findViewById(R.id.edit_destination_name);
 				 nameInput.setLines(2);
 				 descriptionInput = (EditText) newDestView.findViewById(R.id.edit_destination_description);
@@ -223,7 +237,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 								Destination destination = new Destination(dname, dreason);
 								destinations.add(destination);
 								destination.notifyViews();
-								setViews();
+								claimController.setDestinationViews(NewClaimActivity.this);
 
 								update();
 								
@@ -298,25 +312,6 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 			}
 			
 		});					
-	
-	}
-	
-	/**
-	 * Sets the views for all the destinations after they have been removed. 
-	 */
-	private void setViews() {
-		for (Destination dest : claimController.getDestinations()) {
-			dest.addView(this);
-		}
-	}
-
-	@Override
-	public void update() {
-		destList.setAdapter(destinationListAdapter);
-		
-		Log.d("TAG", "Size: " + tagsList.size());
-		String tagsString = getTagsString(tagsList);
-		setClickableTags(tagsString);
 	}
 	
 	private void setClickableTags(String tagsString) {
@@ -371,7 +366,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 											public void onClick(View v) {
 
 												String tagString = "#"+tagRename.getText().toString();		
-												
+
 												// Check if the tag contains a space
 												if (tagString.contains(" ")) {
 													Toast.makeText(getApplicationContext(), "Please remove the space from your tag.", 
@@ -417,7 +412,6 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	 * @return string of tags
 	 */
 	public String getTagsString(ArrayList<String> tagsList){
-		
 		String tags = "";
 		
 		for (int i = 0; i < tagsList.size(); i++){
@@ -440,14 +434,6 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		endDate = date;
 	}
 	
-	public void setDestinationName(String name) {
-		nameInput.setText(name);
-	}
-	
-	public void setDestinationReason(String reason) {
-		descriptionInput.setText(reason);
-	}
-	
 	public AlertDialog getDestinationDialog() {
 		return alertDialog;
 	}
@@ -466,6 +452,10 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	
 	public SpannableString getSpannableString() {
 		return spannableString;
+	}
+	
+	public View getNewDestView() {
+		return newDestView;
 	}
 }
 

@@ -707,5 +707,12 @@ public class Claim extends SModel implements Comparable<Claim> {
 		return totalString;
 	}
 	
-	
+	/**
+	 * Sets the views for all the destinations after they have been removed. 
+	 */
+	public void setDestinationViews(ViewInterface currentView) {
+		for (Destination dest : this.getDestinations()) {
+			dest.addView(currentView);
+		}
+	}
 }

@@ -18,12 +18,10 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
-import android.widget.Toast;
+import android.view.View;
 
 /**
  *  The Claim Controller class is used for making changes to a Claim that
@@ -367,5 +365,13 @@ public class ClaimController {
 	 */
 	public String getUpdatedTotalsString(){
 		return currentClaim.getUpdatedTotalsString();
+	}
+	
+	/**
+	 * Sets the views for all the destinations after they have been removed. 
+	 */
+	public void setDestinationViews(ViewInterface currentView) {
+		
+		currentClaim.setDestinationViews(currentView);
 	}
 }
