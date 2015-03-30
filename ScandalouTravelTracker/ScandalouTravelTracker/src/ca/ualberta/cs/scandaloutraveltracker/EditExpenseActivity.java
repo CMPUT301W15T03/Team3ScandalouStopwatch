@@ -26,18 +26,13 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -55,14 +50,13 @@ import android.widget.Toast;
  */
 public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	
+	private Photo photo = new Photo();
 	private ClaimController claimController;
 	private ExpenseController expenseController;
 	private int claimId;
 	private int expenseId;
 	private Date newDate;
-	private ClaimMapper mapper;
 	private boolean canEdit;
-	private Uri imageFileUri;
 	private ImageButton imageButton;
 	private ImageButton deleteReceiptButton;
 	private String receiptPath;
@@ -201,7 +195,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 				}
 				else {
-					takeAPhoto();
+					photo.takeAPhoto(EditExpenseActivity.this);
 				}
 			}
 		});
@@ -381,36 +375,8 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		return index;
 	}  
 
-	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;	
+	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;	
 	
-	public void takeAPhoto() {
-
-		// If there was already a receipt for this expense, delete it
-		if (receiptPath != null){
-			File imageFile = new File(receiptPath);
-			imageFile.delete();
-		}
-		
-		// Create a folder to store the receipts if necessary
-		String folderPath = Environment.getExternalStorageDirectory()
-				.getAbsolutePath() + "/receipts";
-		File folderFile = new File(folderPath);
-		if (!folderFile.exists()) {
-			folderFile.mkdir();
-		}
-
-		// Create a URI for the picture file
-		receiptPath = folderPath + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-		File imageFile = new File(receiptPath);
-		imageFileUri = Uri.fromFile(imageFile);
-
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
-		
-		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-		
-	}	
-
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
@@ -452,5 +418,13 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	// Testing methods
 	public int getToastCount() {
 		return toastCount;
+	}
+
+	public void setReceiptPath(String receiptPath) {
+		this.receiptPath = receiptPath;
+	}
+
+	public String getReceiptPath() {
+		return receiptPath;
 	}
 }
