@@ -105,30 +105,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 						Intent intent = getIntent();
 					    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 					    CController = new ClaimController(new Claim(claimId));
-					    
-						//show warning if fields are left empty
-					    /* commenting out the error checking for now, only leaving the date checking 
-						if (categorySpinner.getSelectedItem().toString().equals( "--Choose Category--")) {
-							Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
-						}
-						else if (amountEditText.getText().length()==0) {
-							amountEditText.setError("Please include an amount");
-							amountEditText.requestFocus();
-						}
-						else if (dateEditText.getText().length()==0) {
-							Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
-						}
-						else if ( currencySpinner.getSelectedItem().toString().equals( "--Choose Currency--")) {
-							Toast.makeText(getApplicationContext(), "Please include a currency", Toast.LENGTH_SHORT).show();
-						}
-						else if (descriptionEditText.getText().length()==0) {
-							descriptionEditText.setError("Please include a description");
-							descriptionEditText.requestFocus();
-						}
-						else if(date.before(CController.getStartDate())){
-							Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
-						}
-						else{*/
+
 					    if (dateEditText.getText().length()==0) {
 							Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
 					    }
