@@ -105,8 +105,12 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 						Intent intent = getIntent();
 					    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 					    CController = new ClaimController(new Claim(claimId));
+<<<<<<< HEAD
 					    
 					
+=======
+
+>>>>>>> 866f9218d775717d696d6a61df2c00efd60f896c
 					    if (dateEditText.getText().length()==0) {
 							Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
 					    }
