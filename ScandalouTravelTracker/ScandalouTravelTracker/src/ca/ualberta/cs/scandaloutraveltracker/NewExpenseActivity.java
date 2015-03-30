@@ -128,7 +128,8 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 						}
 						
 						else {
-						
+						cal.add(Calendar.DATE, 1);
+						date = cal.getTime();
 						//create new Expense, fill in values, attach to claim, close activity
 						
 						//make controller for current claim
