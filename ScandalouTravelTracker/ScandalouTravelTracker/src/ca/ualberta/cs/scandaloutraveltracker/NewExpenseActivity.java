@@ -46,6 +46,12 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private ClaimController CController;
 	private ExpenseController EController;
 	private ClaimListController claimListController;
+	private EditText dateEditText;
+	private Spinner categorySpinner;
+	private EditText amountEditText;
+	private Spinner currencySpinner;
+	private EditText descriptionEditText;
+	private ClaimMapper mapper;
 	
 	
 	@Override
@@ -54,141 +60,147 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		setContentView(R.layout.activity_add_expense);
 		
 		//create ClaimMapper for saving data
-		final ClaimMapper mapper = new ClaimMapper(this.getApplicationContext());
+		mapper = new ClaimMapper(this.getApplicationContext());
 		
 		//create date picker
-		final EditText dateEditText = (EditText)findViewById(R.id.date_expense2);
-		dateEditText.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				DialogFragment newFragment = new DatePickerFragment() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear,
-							int dayOfMonth) {
-						String dateString = convertToString(year, monthOfYear, dayOfMonth);
-						Calendar cal = Calendar.getInstance();
-						cal.clear(Calendar.MILLISECOND);
-						cal.set(year, monthOfYear, dayOfMonth);
-						date = cal.getTime();
-						dateEditText.setText(dateString);
-					}
-				};
-				newFragment.show(getFragmentManager(), "datePicker");
-			}
-		});
-		
+		dateEditText = (EditText)findViewById(R.id.date_expense2);
+	
 		//get widgets
-		final Spinner categorySpinner = (Spinner)findViewById(R.id.category);
-		final EditText amountEditText = (EditText)findViewById(R.id.amount2);
-		final Spinner currencySpinner = (Spinner)findViewById(R.id.currency);
-		final EditText descriptionEditText = (EditText)findViewById(R.id.description2);
+		categorySpinner = (Spinner)findViewById(R.id.category);
+		amountEditText = (EditText)findViewById(R.id.amount2);
+		currencySpinner = (Spinner)findViewById(R.id.currency);
+		descriptionEditText = (EditText)findViewById(R.id.description2);
 		
-		//create listener for Add button
-		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
-		addExpenseButton.setOnClickListener(new View.OnClickListener() {
-			
-			@SuppressLint("DefaultLocale")
-			@Override
-			public void onClick(View v) {
-				Intent intent = getIntent();
-			    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
-			    CController = new ClaimController(new Claim(claimId));
-			    
-				//show warning if fields are left empty
-			    /* commenting out the error checking for now, only leaving the date checking 
-				if (categorySpinner.getSelectedItem().toString().equals( "--Choose Category--")) {
-					Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
-				}
-				else if (amountEditText.getText().length()==0) {
-					amountEditText.setError("Please include an amount");
-					amountEditText.requestFocus();
-				}
-				else if (dateEditText.getText().length()==0) {
-					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
-				}
-				else if ( currencySpinner.getSelectedItem().toString().equals( "--Choose Currency--")) {
-					Toast.makeText(getApplicationContext(), "Please include a currency", Toast.LENGTH_SHORT).show();
-				}
-				else if (descriptionEditText.getText().length()==0) {
-					descriptionEditText.setError("Please include a description");
-					descriptionEditText.requestFocus();
-				}
-				else if(date.before(CController.getStartDate())){
-					Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
-				}
-				else{*/
-			    if (dateEditText.getText().length()==0) {
-					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
-			    }
-			    else if(date.before(CController.getStartDate())){
-					Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
-				}
-			    else{
-				Calendar cal = Calendar.getInstance();
-			    cal.setTime(date);
-			    cal.add(Calendar.DATE, -1);
-			    Date date = cal.getTime();
-				if(date.after(CController.getEndDate())){
+		setUpListeners();
+	}
+	
+	private void setUpListeners() {
+		// Set date onClickListener
+				dateEditText.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						DialogFragment newFragment = new DatePickerFragment() {
+							@Override
+							public void onDateSet(DatePicker view, int year, int monthOfYear,
+									int dayOfMonth) {
+								String dateString = convertToString(year, monthOfYear, dayOfMonth);
+								Calendar cal = Calendar.getInstance();
+								cal.clear(Calendar.MILLISECOND);
+								cal.set(year, monthOfYear, dayOfMonth);
+								date = cal.getTime();
+								dateEditText.setText(dateString);
+							}
+						};
+						newFragment.show(getFragmentManager(), "datePicker");
+					}
+				});
+				
+				//create listener for Add button
+				addExpenseButton = (Button)findViewById(R.id.add_expense_button);
+				addExpenseButton.setOnClickListener(new View.OnClickListener() {
 					
-					SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
-					
-					
-					String endDate=(sdf.format(date));
-					
-					Toast.makeText(getApplicationContext(),endDate , Toast.LENGTH_SHORT).show();
-				}
-				
-				else {
-				
-				//create new Expense, fill in values, attach to claim, close activity
-				
-				//make controller for current claim
-							    			    
-			    //make controller for new expense
-				EController = new ExpenseController(new Expense());
-				
-				//fill in category
-				String category = (String)categorySpinner.getSelectedItem();
-				EController.setCategory(category);
-				
-				//fill in date
-				EController.setDate(date);
-				
-				//fill in amount
-				String costString = amountEditText.getText().toString();
-				if (costString.equals(".")) {
-					costString = "0";
-				}
-				else if(costString.isEmpty()){
-					costString = "0";
-				}
-				costString = String.format("%.2f", Double.valueOf(costString));
-				double amount = Double.valueOf(costString);
-				EController.setCost(amount);
-				
-				//fill in currency
-				String currency = (String)currencySpinner.getSelectedItem();
-				EController.setCurrency(currency);
-				
-				//fill in description
-				String description = descriptionEditText.getText().toString();
-				EController.setDescription(description);
-				
-				//add new expense to claim and exit
-				CController.addExpense(EController.getExpense());
-				mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
-				
-				// Reload the claim list for the ClaimListActivity
-				claimListController = new ClaimListController();
-				claimListController.removeClaim(claimId);
-				claimListController.addClaim(new Claim(claimId));
-				
-				setResult(RESULT_OK);
-				finish();
-				}
-			}
-			}
-		});
+					@SuppressLint("DefaultLocale")
+					@Override
+					public void onClick(View v) {
+						Intent intent = getIntent();
+					    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
+					    CController = new ClaimController(new Claim(claimId));
+					    
+						//show warning if fields are left empty
+					    /* commenting out the error checking for now, only leaving the date checking 
+						if (categorySpinner.getSelectedItem().toString().equals( "--Choose Category--")) {
+							Toast.makeText(getApplicationContext(), "Please include a category", Toast.LENGTH_SHORT).show();
+						}
+						else if (amountEditText.getText().length()==0) {
+							amountEditText.setError("Please include an amount");
+							amountEditText.requestFocus();
+						}
+						else if (dateEditText.getText().length()==0) {
+							Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
+						}
+						else if ( currencySpinner.getSelectedItem().toString().equals( "--Choose Currency--")) {
+							Toast.makeText(getApplicationContext(), "Please include a currency", Toast.LENGTH_SHORT).show();
+						}
+						else if (descriptionEditText.getText().length()==0) {
+							descriptionEditText.setError("Please include a description");
+							descriptionEditText.requestFocus();
+						}
+						else if(date.before(CController.getStartDate())){
+							Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
+						}
+						else{*/
+					    if (dateEditText.getText().length()==0) {
+							Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
+					    }
+					    else if(date.before(CController.getStartDate())){
+							Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
+						}
+					    else{
+						Calendar cal = Calendar.getInstance();
+					    cal.setTime(date);
+					    cal.add(Calendar.DATE, -1);
+					    Date date = cal.getTime();
+						if(date.after(CController.getEndDate())){
+							
+							SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
+							
+							
+							String endDate=(sdf.format(date));
+							
+							Toast.makeText(getApplicationContext(),endDate , Toast.LENGTH_SHORT).show();
+						}
+						
+						else {
+						
+						//create new Expense, fill in values, attach to claim, close activity
+						
+						//make controller for current claim
+									    			    
+					    //make controller for new expense
+						EController = new ExpenseController(new Expense());
+						
+						//fill in category
+						String category = (String)categorySpinner.getSelectedItem();
+						EController.setCategory(category);
+						
+						//fill in date
+						EController.setDate(date);
+						
+						//fill in amount
+						String costString = amountEditText.getText().toString();
+						if (costString.equals(".")) {
+							costString = "0";
+						}
+						else if(costString.isEmpty()){
+							costString = "0";
+						}
+						costString = String.format("%.2f", Double.valueOf(costString));
+						double amount = Double.valueOf(costString);
+						EController.setCost(amount);
+						
+						//fill in currency
+						String currency = (String)currencySpinner.getSelectedItem();
+						EController.setCurrency(currency);
+						
+						//fill in description
+						String description = descriptionEditText.getText().toString();
+						EController.setDescription(description);
+						
+						//add new expense to claim and exit
+						CController.addExpense(EController.getExpense());
+						mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
+						
+						// Reload the claim list for the ClaimListActivity
+						claimListController = new ClaimListController();
+						claimListController.removeClaim(claimId);
+						claimListController.addClaim(new Claim(claimId));
+						
+						setResult(RESULT_OK);
+						finish();
+						}
+					}
+					}
+				});
 	}
 	
 	@Override
