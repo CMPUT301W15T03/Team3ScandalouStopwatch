@@ -6,8 +6,10 @@ import java.util.Date;
 
 import android.app.AlertDialog;
 import android.app.Instrumentation;
+import android.app.Instrumentation.ActivityMonitor;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,11 +17,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.NewExpenseActivity;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
@@ -31,6 +35,7 @@ public class ClaimListActivityTest extends
 	Instrumentation instrumentation;
 	ListView claimsListView; 
 	int newUserId;
+	int totalClicks;
 
 	public ClaimListActivityTest() {
 		super(ClaimListActivity.class);
@@ -163,7 +168,7 @@ public class ClaimListActivityTest extends
 	
 	// Tests that you can delete a claim that has not been submitted
 	// US01.05.01
-	public void testDeletingClaim() {
+	public void testCanDeleteClaim() {
 		// Select second claim in list
 		instrumentation.runOnMainSync(new Runnable() {
 			@Override
@@ -242,6 +247,43 @@ public class ClaimListActivityTest extends
 		
 	}
 	
+	// Want the entry of an expense to have minimal required navigation
+	// Tests that the NewExpenseActivity is opened within 2 clicks of logging in
+	// US04.08.01
+	public void testMinimalClicksToCreateExpense() {
+		AlertDialog alert;
+		final ListView claimOptions;
+		totalClicks = 0;
+		
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimsListView.performItemClick(claimsListView, 1, 1);
+				totalClicks++;
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		alert = claimListActivity.getClaimOptionsDialog();
+		claimOptions = alert.getListView();
+		
+		// Registers next activity to be monitored
+		ActivityMonitor am = getInstrumentation().addMonitor(NewExpenseActivity.class.getName(), null, false);
+		
+		// Add expense option
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimOptions.performItemClick(claimOptions, 2, 0);
+				totalClicks++;
+			}
+		});		
+
+		// Test that next activity was launched
+		NewExpenseActivity nextActivity = (NewExpenseActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
+		assertNotNull(nextActivity);
+		assertEquals(2, totalClicks);
+	}
+	
 	private void createClaimWithTags(int userId, ArrayList<String> tags, Date startDate, Date endDate) throws UserInputException {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
@@ -302,14 +344,14 @@ public class ClaimListActivityTest extends
 		tags.add("#tag1");
 		tags.add("#tag3");
 		tags.add("#tag4");
-		startDate = createDate(0, 1, 2014);
-		endDate= createDate(0, 2, 2014);
+		startDate = createDate(0, 1, 2013);
+		endDate= createDate(0, 2, 2013);
 		createClaimWithTags(newUserId, tags, startDate, endDate);
 		
 		tags = new ArrayList<String>();
 		tags.add("#tag5");
-		startDate = createDate(0, 1, 2014);
-		endDate= createDate(0, 2, 2014);
+		startDate = createDate(0, 1, 2012);
+		endDate= createDate(0, 2, 2012);
 		createClaimWithTags(newUserId, tags, startDate, endDate);
 	}
 	
