@@ -99,14 +99,29 @@ public class ExpenseListAdapter extends BaseAdapter {
 			String indicator = "Receipt: Unavailable";
 			expenseReceiptIndicator.setText(indicator);
 		}
+		String currency=null;
 		
+		if (currentExpense.getCurrencyType().contentEquals("--Choose Currency--")){
+			
+			currency= "N/A";
+		}
 		// Formatting cost
+		else{
+		currency= currentExpense.getCurrencyType();
+		}
+		
 		NumberFormat formatter = new DecimalFormat("#0.00");
 		String cost = "Cost: " + formatter.format(currentExpense.getCost()) + " " +
-					  currentExpense.getCurrencyType();
-		
+				  currency;
+		//setting category
+		if (currentExpense.getCategory().contentEquals("--Choose Category--")){
+			expenseCategory.setText("N/A");
+		}
+		else{
+			expenseCategory.setText(currentExpense.getCategory());
+		}
 		// Set layout elements	
-		expenseCategory.setText(currentExpense.getCategory());
+		
 		expenseDate.setText(currentExpense.getDateString());
 		expenseDescription.setText(currentExpense.getDescription());
 		expenseTotal.setText(cost);
