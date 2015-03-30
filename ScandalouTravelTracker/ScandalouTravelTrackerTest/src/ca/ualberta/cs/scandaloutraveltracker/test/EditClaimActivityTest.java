@@ -30,7 +30,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -67,6 +66,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	ListView alertChoices;
 	AlertDialog alert;
 	int newClaimId;
+	SpannableString spannableString;
 	
 	public EditClaimActivityTest() {
 		super(EditClaimActivity.class);
@@ -147,33 +147,37 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	// Tests that UI elements disappear and you can't edit the claim after submitting
 	// US01.04.01
 	public void testClaimNotEditable() throws UserInputException {
-		// Submit the claim created
-		ClaimController claimController = new ClaimController(new Claim(newClaimId));
-		claimController.submitClaim();
+		submitClaim();
+		attemptClicks();
+	}
+	
+	// Tests that when a claim is submitted, it has the submit status and that
+	// you can still freely edit the tags
+	// US07.01.01
+	public void testSubmitClaimEditTags() {
+		submitClaim();
+		deleteAddRenameTags();
+		attemptClicks();
+	}
+	
+	// This test starts with a claim that has two tags. It deletes the two tags,
+	// adds one new tag, and then renames that tag and has assertions for the
+	// size of the list and for the name of the tag after being renamed.
+	// US03.02.01
+	public void testDeleteAddRenameTags() {
+		spannableString = activity.getSpannableString();
+		final ClickableSpan[] spans = spannableString.getSpans(0, spannableString.length()-1, ClickableSpan.class);
+		int tagsSize = spans.length;
 		
-		ClaimListController claimListController = new ClaimListController();
-		claimListController.removeClaim(newClaimId);
-		claimListController.addClaim(new Claim(newClaimId));
+		assertEquals(2, tagsSize);
 		
-		// Pack the intent with the new submitted claimID and
-		// restart the activity and get new instrumentation
-		Intent intent = new Intent();
-		intent.putExtra(Constants.claimIdLabel, newClaimId);
-	    activity.finish();
-	    setActivity(null);
-	    setActivityIntent(intent);
-	    activity = getActivity();
-	    getInstrumentation().callActivityOnRestart(activity);
-	    
-	    // Set all the old view references to new ones
-		startDateET = (EditText) activity.findViewById(R.id.edit_claim_start_date);
-		endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
-		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
-		subButton = (Button) activity.findViewById(R.id.edit_claim_send);
-		updateButton = (Button) activity.findViewById(R.id.edit_claim_update);
-		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
-	    
-		// Attempt to change data (toasts display if cant)
+		deleteAddRenameTags();
+		
+	}
+	
+	// Attempt clicks is used for testing if a claim has been properly submitted
+	// If it has, 3 toasts will show when attempting the performClick actions
+	private void attemptClicks() {
 	    getInstrumentation().runOnMainSync(new Runnable() {
 			@Override
 			public void run() {
@@ -191,19 +195,9 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertFalse(subButton.isShown());
 	}
 	
-	// This test starts with a claim that has two tags. It deletes the two tags,
-	// adds one new tag, and then renames that tag and has assertions for the
-	// size of the list and for the name of the tag after being renamed.
-	// US03.02.01
-	public void testDeleteAddRenameTags() {
-		AlertDialog alert;
-		ClaimController cc = new ClaimController(new Claim(newClaimId));
-		SpannableString spannableString = activity.getSpannableString();
-		final ClickableSpan[] spans = spannableString.getSpans(0, spannableString.length()-1, ClickableSpan.class);
-		int tagsSize = spans.length;
-		
-		assertEquals(2, tagsSize);
-		
+	// This method deletes the two tags that are initially given to the activity,
+	// adds one, and renames the one it added
+	private void deleteAddRenameTags() {
 		// Deleting two tags and asserting that the size of tags list
 		// decreases upon each deletion
 		for (int i = 0; i < 2; i++) {
@@ -267,7 +261,38 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		cc = new ClaimController(new Claim(newClaimId));
 		assertTrue("#NewTag".equals(spannableString.toString()));
 		assertEquals(1, cc.getTags().size());
+	}
+	
+	// This method will submit the claim that was created and then reload the activity
+	// and all the views with the new references
+	private void submitClaim() {
+		// Submit the claim created
+		ClaimController claimController = new ClaimController(new Claim(newClaimId));
+		claimController.submitClaim();
 		
+		ClaimListController claimListController = new ClaimListController();
+		claimListController.removeClaim(newClaimId);
+		claimListController.addClaim(new Claim(newClaimId));
+		
+		// Pack the intent with the new submitted claimID and
+		// restart the activity and get new instrumentation
+		Intent intent = new Intent();
+		intent.putExtra(Constants.claimIdLabel, newClaimId);
+	    activity.finish();
+	    setActivity(null);
+	    setActivityIntent(intent);
+	    activity = getActivity();
+	    getInstrumentation().callActivityOnRestart(activity);
+	    
+	    // Set all the old view references to new ones
+		startDateET = (EditText) activity.findViewById(R.id.edit_claim_start_date);
+		endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
+		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
+		subButton = (Button) activity.findViewById(R.id.edit_claim_send);
+		updateButton = (Button) activity.findViewById(R.id.edit_claim_update);
+		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
+		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
+		addTagButton = (Button)activity.findViewById(R.id.edit_claim_add_tag);
 	}
 
 	private int createMockClaim() throws UserInputException {
@@ -287,7 +312,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		// Setting claim test data
 		Destination testDestination = new Destination("Brooklyn", "Gotta see Jay");
 		destinations.add(testDestination);
-		testDestination = new Destination("Brookyln", "Meet up with Rocky");
+		testDestination = new Destination("Harlem", "Meet up with Rocky");
 		destinations.add(testDestination);
 		
 		String testTag = "#stoked";
@@ -321,27 +346,6 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	}
 
 	/*
-	// Test UC 07.01.01
-	// test default claim status
-	public void testClaimStatus(){
-		Claim claim1 = new Claim();
-		Expense expense1 = new Expense();
-		claim1.addExpense(expense1);
-		claim1.getStatus();
-		assertTrue("Claim has wrong status", claim1.getStatus()=="In Progress");
-	}
-	
-	// Test UC 07.01.01
-	// test the status of the claim changed to submitted
-	public void testSubmitClaim(){
-		Claim claim1 = new Claim();
-		Expense expense1 = new Expense();		
-		claim1.addExpense(expense1);
-		String status1 = "Submitted";
-		claim1.setStatus(status1);
-		assertTrue("Claim is submitted", claim1.getStatus()=="Submitted");
-	}
-
 	// Test UC 07.02.01
 	@UiThreadTest
 	public void testWarningPopup(){
