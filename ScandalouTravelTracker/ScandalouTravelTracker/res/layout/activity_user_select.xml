@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"     
+    android:background="#0F0F0F">
 
     <ListView
         android:id="@+id/userSelectUsersLV"
@@ -19,6 +20,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_margin="5dp"
+        android:textColor="#F2F2F2"
         android:text="@string/create_user_text" />
 
     <TextView
@@ -27,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/userSelectCreateUserButton"
         android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
         android:layout_marginBottom = "10dp"
         android:text="@string/current_users_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />

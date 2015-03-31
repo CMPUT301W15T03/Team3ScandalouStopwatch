@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textColor="#F2F2F2"
         android:text="@string/name_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -16,12 +17,14 @@
         android:id="@+id/claimListApproverTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#F2F2F2"
         android:text="@string/approver_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/claimListCommentsTV"
         android:layout_width="wrap_content"
+        android:textColor="#F2F2F2"
         android:layout_height="wrap_content"
         android:text="@string/approver_comment_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -29,6 +32,7 @@
     <TextView
         android:id="@+id/claimListDateTV"
         android:layout_width="wrap_content"
+        android:textColor="#F2F2F2"
         android:layout_height="wrap_content"
         android:text="@string/date_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -37,12 +41,14 @@
         android:id="@+id/claimListDestinationsTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#F2F2F2"
         android:text="@string/location_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/claimListStatusTV"
         android:layout_width="wrap_content"
+        android:textColor="#F2F2F2"
         android:layout_height="wrap_content"
         android:text="@string/status_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -51,6 +57,7 @@
         android:id="@+id/claimListTotalsTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#F2F2F2"
         android:text="@string/total_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -59,6 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tag_text_filler"
+        android:textColor="#F2F2F2"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_marginBottom="10dp" />
 

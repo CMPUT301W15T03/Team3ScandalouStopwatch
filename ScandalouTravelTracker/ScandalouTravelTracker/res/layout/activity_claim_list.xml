@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#0F0F0F"
     tools:context=".ClaimListActivity" >
 
     <Button
@@ -15,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:textColor="#F2F2F2"
         android:text="@string/plus_sign_text" />
 
     <ListView
@@ -24,6 +26,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:background="#1C1C1C"
+        android:textColor="#8A8A8A"
         android:layout_below="@id/addButtonClaimList"
         android:layout_marginTop="16dp" >
 
@@ -37,6 +41,7 @@
         android:layout_alignBottom="@+id/addButtonClaimList"
         android:layout_alignParentLeft="true"
         android:text="@string/claim_text"
+        android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
