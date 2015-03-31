@@ -16,13 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/edit_claim_start_date"
+        android:layout_below="@+id/appr_edit_claim_start_date"
         android:textColor="#F2F2F2"
         android:ems="10"
         android:hint="@string/description"
         android:inputType="textMultiLine" >
-
-        <requestFocus />
     </EditText>
 
     <ListView

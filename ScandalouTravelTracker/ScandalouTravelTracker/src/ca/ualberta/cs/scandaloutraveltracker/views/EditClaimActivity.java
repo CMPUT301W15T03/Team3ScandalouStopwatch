@@ -24,22 +24,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
-import ca.ualberta.cs.scandaloutraveltracker.DestinationListAdapter;
-import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.TagParser;
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import ca.ualberta.cs.scandaloutraveltracker.R.array;
-import ca.ualberta.cs.scandaloutraveltracker.R.id;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
-import ca.ualberta.cs.scandaloutraveltracker.R.menu;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.models.IntegerPair;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -52,6 +36,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +48,17 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
+import ca.ualberta.cs.scandaloutraveltracker.DestinationListAdapter;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.TagParser;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.models.IntegerPair;
 
 /**
  *  This activity contains a claim that was selected from the ClaimListActivity
@@ -116,7 +112,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	    claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
 		
 		// Get view elements
-		startDateDisplay = (EditText) findViewById(R.id.edit_claim_start_date);
+		startDateDisplay = (EditText) findViewById(R.id.appr_edit_claim_start_date);
 		endDateDisplay = (EditText) findViewById(R.id.edit_claim_end_date);
 		descriptionDisplay = (EditText) findViewById(R.id.edit_claim_descr);
 		tagsDisplay = (TextView) findViewById(R.id.edit_claim_tags);
@@ -520,6 +516,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		// Update view elements with claim info
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
 		//statusDisplay.setText(status);
+
 		startDateDisplay.setText(sdf.format(startDate));
 		endDateDisplay.setText(sdf.format(endDate));
 		descriptionDisplay.setText(description);

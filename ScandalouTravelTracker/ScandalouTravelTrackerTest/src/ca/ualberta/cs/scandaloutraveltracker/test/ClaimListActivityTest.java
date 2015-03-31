@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
@@ -27,6 +28,7 @@ public class ClaimListActivityTest extends
 	ListView claimsListView; 
 	int newUserId;
 	int totalClicks;
+	ClaimGenerator cg;
 
 	public ClaimListActivityTest() {
 		super(ClaimListActivity.class);
@@ -51,7 +53,7 @@ public class ClaimListActivityTest extends
 		// Create 4 Claims with a total of 5 different tags
 		// Also create 1 submitted claim
 		// The list will have the first claim as submitted and the rest as in progress
-		ClaimGenerator cg = new ClaimGenerator();
+		cg = new ClaimGenerator();
 		cg.createClaims_Tagged(newUserId);
 		Date startDate = cg.createDate(0, 14, 2015);
 		Date endDate = cg.createDate(0, 15, 2015);
@@ -66,7 +68,6 @@ public class ClaimListActivityTest extends
 		claimsListView = (ListView) claimListActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListActivityList);
 		
 		instrumentation = getInstrumentation();
-		
 	} 
 	
 	// Adds three claims with a total of 5 tags and selects tag1 and tag2
@@ -118,6 +119,8 @@ public class ClaimListActivityTest extends
 		getInstrumentation().waitForIdleSync();
 		
 		assertEquals(4, claimsListView.getCount());
+		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that you can't delete a claim that has been submitted
@@ -156,6 +159,8 @@ public class ClaimListActivityTest extends
 		
 		// Assert listview size has not decreased by 1
 		assertEquals(4, claimsListView.getCount());
+		
+		cg.resetState(ClaimApplication.getContext());
 	}	
 	
 	// Tests that you can delete a claim that has not been submitted
@@ -198,6 +203,8 @@ public class ClaimListActivityTest extends
 		
 		// Assert listview size has decreased by 1
 		assertEquals(3, claimsListView.getCount());
+		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that a claim in the listview has the proper data shown
@@ -216,6 +223,8 @@ public class ClaimListActivityTest extends
 		assertTrue(claimStatusTV.getText().toString().equals("Status: Submitted"));
 		assertTrue(claimTotalTV.getText().toString().equals("USD 5.00"));
 		assertTrue(claimTagsTV.getText().toString().equals(" #NY"));
+		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that the claims are sorted from most recent claim to the oldest claim
@@ -237,6 +246,7 @@ public class ClaimListActivityTest extends
 			}
 		}
 		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Want the entry of an expense to have minimal required navigation
@@ -274,6 +284,8 @@ public class ClaimListActivityTest extends
 		NewExpenseActivity nextActivity = (NewExpenseActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
 		assertNotNull(nextActivity);
 		assertEquals(2, totalClicks);
+		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	protected void performClick(final Button button) {

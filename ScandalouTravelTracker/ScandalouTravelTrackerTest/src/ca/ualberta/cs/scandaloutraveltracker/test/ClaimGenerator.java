@@ -23,6 +23,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
@@ -240,5 +243,22 @@ public class ClaimGenerator {
 		
 		return date;
 	}
-
+	
+	public void resetState(Context context) {
+		clearUL();
+		clearCL();
+		
+		SharedPreferences counterFile;
+		Editor editor;
+		
+		counterFile = context.getSharedPreferences("userCounter", 0);
+		editor = counterFile.edit();
+		editor.putInt("userCount", 0);
+		editor.commit();
+		
+		counterFile = context.getSharedPreferences("claimCounter", 0);
+		editor = counterFile.edit();
+		editor.putInt("claimCount", 0);
+		editor.commit();
+	}
 }
