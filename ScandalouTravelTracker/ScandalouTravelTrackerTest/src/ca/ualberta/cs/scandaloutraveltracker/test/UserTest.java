@@ -21,7 +21,6 @@ import android.widget.ListView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
@@ -30,7 +29,8 @@ import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
-import ca.ualberta.cs.scandaloutraveltracker.UserSelectActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.UserSelectActivity;
 
 public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivity> {
 	UserSelectActivity userSelectActivity;

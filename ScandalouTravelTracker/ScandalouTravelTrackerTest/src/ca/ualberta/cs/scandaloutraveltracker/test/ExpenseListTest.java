@@ -35,11 +35,11 @@ import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.ExpenseListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
+import ca.ualberta.cs.scandaloutraveltracker.views.ExpenseListActivity;
 
 public class ExpenseListTest extends
 		ActivityInstrumentationTestCase2<ExpenseListActivity> {

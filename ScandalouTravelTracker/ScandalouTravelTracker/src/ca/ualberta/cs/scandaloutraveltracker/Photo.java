@@ -3,6 +3,8 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import android.net.Uri;
 import java.io.File;
+
+import ca.ualberta.cs.scandaloutraveltracker.views.EditExpenseActivity;
 import android.os.Environment;
 import android.content.Intent;
 import android.provider.MediaStore;

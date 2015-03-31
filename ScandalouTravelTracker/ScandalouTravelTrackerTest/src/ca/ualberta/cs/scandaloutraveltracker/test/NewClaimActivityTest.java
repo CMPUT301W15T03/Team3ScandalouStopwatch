@@ -37,10 +37,10 @@ import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
+import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
 
 public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewClaimActivity> {
 	

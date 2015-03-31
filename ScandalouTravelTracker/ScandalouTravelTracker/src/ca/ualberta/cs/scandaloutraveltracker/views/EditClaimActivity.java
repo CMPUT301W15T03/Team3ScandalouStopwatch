@@ -16,13 +16,30 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
+import ca.ualberta.cs.scandaloutraveltracker.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.DestinationListAdapter;
+import ca.ualberta.cs.scandaloutraveltracker.IntegerPair;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.TagParser;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.ViewInterface;
+import ca.ualberta.cs.scandaloutraveltracker.R.array;
+import ca.ualberta.cs.scandaloutraveltracker.R.id;
+import ca.ualberta.cs.scandaloutraveltracker.R.layout;
+import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

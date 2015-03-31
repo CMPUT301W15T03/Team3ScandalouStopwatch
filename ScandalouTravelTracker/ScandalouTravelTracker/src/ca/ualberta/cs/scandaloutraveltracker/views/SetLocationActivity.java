@@ -1,4 +1,4 @@
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
@@ -8,6 +8,13 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener;
+
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.User;
+import ca.ualberta.cs.scandaloutraveltracker.UserController;
+import ca.ualberta.cs.scandaloutraveltracker.R.id;
+import ca.ualberta.cs.scandaloutraveltracker.R.layout;
 
 import android.app.Activity;
 import android.content.Context;

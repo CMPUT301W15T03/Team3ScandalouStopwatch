@@ -20,6 +20,9 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 
+import ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

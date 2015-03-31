@@ -1,5 +1,7 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import ca.ualberta.cs.scandaloutraveltracker.views.UserSelectActivity;
+
 
 public class DialogCreator {
 	private UserInformationDialog dialog;

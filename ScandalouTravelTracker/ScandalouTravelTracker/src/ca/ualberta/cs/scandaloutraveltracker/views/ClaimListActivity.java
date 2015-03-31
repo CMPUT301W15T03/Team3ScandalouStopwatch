@@ -16,9 +16,26 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import java.util.ArrayList;
+
+import ca.ualberta.cs.scandaloutraveltracker.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListAdapter;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListMapper;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.User;
+import ca.ualberta.cs.scandaloutraveltracker.UserController;
+import ca.ualberta.cs.scandaloutraveltracker.ViewInterface;
+import ca.ualberta.cs.scandaloutraveltracker.R.array;
+import ca.ualberta.cs.scandaloutraveltracker.R.id;
+import ca.ualberta.cs.scandaloutraveltracker.R.layout;
+import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 
 import android.app.Activity;
 import android.app.AlertDialog;

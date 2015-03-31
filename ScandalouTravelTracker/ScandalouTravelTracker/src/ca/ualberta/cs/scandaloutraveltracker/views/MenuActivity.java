@@ -1,5 +1,8 @@
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.views;
 
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.R.id;
+import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

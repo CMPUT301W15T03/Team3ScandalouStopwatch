@@ -18,15 +18,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.NewExpenseActivity;
 import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.UserListController;
+import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.NewExpenseActivity;
 
 public class ClaimListActivityTest extends
 		ActivityInstrumentationTestCase2<ClaimListActivity> {
