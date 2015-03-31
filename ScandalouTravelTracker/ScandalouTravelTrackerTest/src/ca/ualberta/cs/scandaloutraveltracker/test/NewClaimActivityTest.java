@@ -59,6 +59,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 	AlertDialog dialog;
 	EditText descriptionNameET;
 	EditText descriptionReasonET;
+	ClaimGenerator cg;
 	
 	public NewClaimActivityTest() {
 		super(NewClaimActivity.class);
@@ -75,6 +76,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 		ClaimApplication app = (ClaimApplication) newClaimActivity.getApplicationContext();
 		app.setUser(new User(userId));
 		instrumentation = getInstrumentation();
+		cg = new ClaimGenerator();
 		
 		// Get UI elements
 		descriptionET = (EditText) newClaimActivity.findViewById(R.id.edit_claim_descr);
@@ -109,6 +111,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 		
 		ClaimListController clc = new ClaimListController(new User(userId));
 		assertEquals(1, clc.getClaimList().getCount());
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests adding a claim with a destination
@@ -153,6 +156,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 		assertEquals(1, destinationsList.getCount());
 		assertTrue(onlyDest.getName().equals("Harlem"));
 		assertTrue(onlyDest.getDescription().equals("Dat WORK vid shoot"));
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// This test starts with an empty claim, adds a tag, renames the tag, and
@@ -221,7 +225,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 		currentTags = newClaimActivity.getTagsList();
 		assertTrue("".equals(ss.toString()));
 		assertEquals(0, currentTags.size());
-		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	private void performClick(final Button button) {

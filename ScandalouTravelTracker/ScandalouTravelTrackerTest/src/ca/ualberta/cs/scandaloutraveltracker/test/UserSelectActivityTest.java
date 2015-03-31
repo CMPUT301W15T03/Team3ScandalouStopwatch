@@ -55,10 +55,8 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		 // Get UI components
 		 newUserButton = (Button) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectCreateUserButton);
 		 usersLV = (ListView) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectUsersLV);
-		 
-		 // Start with empty user and claim list
+	
 		 cg.clearUL();
-		 cg.clearCL();
 	}
 	
 	public void testAddUserButton() {
@@ -70,14 +68,11 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		// Assert that the layout parmeters of the button are not null
 		final ViewGroup.LayoutParams layoutParams = newUserButton.getLayoutParams();
 		assertNotNull(layoutParams);
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// http://stackoverflow.com/questions/9405561/test-if-a-button-starts-a-new-activity-in-android-junit-pref-without-robotium 03/23/2015
 	public void testSelectUser() {
-		// Start with fresh list
-		cg.clearUL();
-		getInstrumentation().waitForIdleSync();
-		
 		// Add user for test to select
 		ulc = new UserListController();
 		int newUserId = ulc.createUser("New User");
@@ -106,6 +101,7 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		User currentUser = app.getUser();
 		nextActivity.finish();
 		assertEquals("New User", currentUser.getName());
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	public void testAddingUser() {		
@@ -132,6 +128,15 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		// Assert that user in list has the same name as one entered
 		String name = ulc.getUserList().getUser(0).getName();
 		assertEquals(name, "New User");
+		cg.resetState(ClaimApplication.getContext());
+		
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				userSelectActivity.update();
+			}
+			
+		});
 	}
 	
 	// The user has a default userLocationSet which is where they last were
@@ -139,8 +144,6 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 	// first if using the emulator before running the app.
 	// US01.07.01
 	public void testUserLocationSet() {
-		cg.clearUL();
-		
 		TouchUtils.clickView(this, newUserButton);
 		AlertDialog dialog = userSelectActivity.getDialog();
 		assertTrue(dialog.isShowing());
@@ -181,15 +184,19 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		
 		assertEquals(location.getLongitude(), user.getHomeLocation().getLongitude());
 		assertEquals(location.getLatitude(), user.getHomeLocation().getLatitude());
+		usersLV.getChildAt(0).performLongClick();
+		cg.resetState(ClaimApplication.getContext());
+		
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				userSelectActivity.update();
+			}
+			
+		});
 	}
 	
-	public void testIsUsersClaims() throws UserInputException {
-		 // Start with empty list
-		 cg.clearUL();
-		 
-		 // New userSelectActivity
-		 userSelectActivity = getActivity();
-		
+	public void testIsUsersClaims() throws UserInputException {		
 		// Create two users and add them to the list
 		cg.makeTwoUsersWithClaims();
 		assertEquals(2, ulc.getCount());
@@ -217,6 +224,15 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		Claim currentClaim = currentClaimList.getClaim(0);
 		assertTrue(currentClaim.getUser().getName().equals("User1"));
 		assertEquals(1, currentClaimList.getCount());
+		
+		cg.resetState(ClaimApplication.getContext());
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				userSelectActivity.update();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
 	}
 	
 	// http://stackoverflow.com/questions/17526005/how-to-test-an-alertdialog-in-android 03/23/2015

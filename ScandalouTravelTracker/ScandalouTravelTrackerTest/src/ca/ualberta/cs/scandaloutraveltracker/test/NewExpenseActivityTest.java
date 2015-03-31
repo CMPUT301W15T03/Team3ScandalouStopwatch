@@ -8,6 +8,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
@@ -99,7 +100,7 @@ public class NewExpenseActivityTest extends
 		performClick(addButton);
 		ClaimController cc = new ClaimController(new Claim(newClaimId));
 		assertEquals(1, cc.getExpenseList().size());
-		
+		cg.resetState(ClaimApplication.getContext());
 	}
 
 	// Checks the category spinner to ensure the correct values are being displayed
@@ -140,6 +141,7 @@ public class NewExpenseActivityTest extends
 		assertTrue(currencies.contains("CHF"));
 		assertTrue(currencies.contains("JPY"));
 		assertTrue(currencies.contains("CNY"));
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	private void performClick(final Button button) {

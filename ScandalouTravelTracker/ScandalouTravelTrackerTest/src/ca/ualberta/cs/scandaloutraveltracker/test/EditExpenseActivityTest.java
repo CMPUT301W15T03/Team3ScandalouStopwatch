@@ -7,6 +7,7 @@ import android.test.TouchUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.StateSpinner;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
@@ -70,6 +71,7 @@ public class EditExpenseActivityTest extends
 		assertTrue(currencyType.getSelectedItem().toString().equals("CAD"));
 		assertTrue(date.getText().toString().equals("03/02/2014"));
 		assertTrue(description.getText().toString().equals("Test Expense"));
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that the details of an expense can be opened and that none
@@ -110,7 +112,7 @@ public class EditExpenseActivityTest extends
 		assertTrue(date.getText().toString().equals("03/17/2014"));
 		assertTrue(currencyType.getSelectedItem().toString().equals("USD"));
 		assertTrue(category.getSelectedItem().toString().equals("Ground Transport"));
-		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that if the claim is submitted that the expense cannot be edited and
@@ -153,7 +155,7 @@ public class EditExpenseActivityTest extends
 		TouchUtils.clickView(this, cost);
 		assertEquals(3, editExpenseActivity.getToastCount());
 		assertFalse(saveEdits.isShown());
-		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 }

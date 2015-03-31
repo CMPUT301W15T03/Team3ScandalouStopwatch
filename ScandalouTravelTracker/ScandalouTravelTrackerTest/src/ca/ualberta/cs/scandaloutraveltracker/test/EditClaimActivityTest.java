@@ -35,6 +35,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
@@ -93,7 +94,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		activity = getActivity();
 		
 		subButton = (Button) activity.findViewById(R.id.edit_claim_send);
-		startDateET = (EditText) activity.findViewById(R.id.edit_claim_start_date);
+		startDateET = (EditText) activity.findViewById(R.id.appr_edit_claim_start_date);
 		endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
 		destinationsLV = (ListView) activity.findViewById(R.id.edit_claim_destinations);
 		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
@@ -118,6 +119,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertTrue(startDateET.getText().toString().equals("3/1/2014"));
 		assertTrue(endDateET.getText().toString().equals("3/3/2014"));
 		assertTrue(descriptionET.getText().toString().equals("d1"));
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that the mock claim can be edited while it has not been submitted
@@ -141,6 +143,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertTrue(startDateET.getText().toString().equals("3/16/2015"));
 		assertTrue(endDateET.getText().toString().equals("3/17/2015"));
 		assertTrue(descriptionET.getText().toString().equals("new one"));
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that UI elements disappear and you can't edit the claim after submitting
@@ -148,6 +151,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	public void testClaimNotEditable() throws UserInputException {
 		submitClaim();
 		attemptClicks();
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that when a claim is submitted, it has the submit status and that
@@ -157,6 +161,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		submitClaim();
 		deleteAddRenameTags();
 		attemptClicks();
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// This test starts with a claim that has two tags. It deletes the two tags,
@@ -171,7 +176,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertEquals(2, tagsSize);
 		
 		deleteAddRenameTags();
-		
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Attempt clicks is used for testing if a claim has been properly submitted
@@ -192,6 +197,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertFalse(updateButton.isShown());
 		assertFalse(addDestButton.isShown());
 		assertFalse(subButton.isShown());
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// This method deletes the two tags that are initially given to the activity,
@@ -260,6 +266,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		cc = new ClaimController(new Claim(newClaimId));
 		assertTrue("#NewTag".equals(spannableString.toString()));
 		assertEquals(1, cc.getTags().size());
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// This method will submit the claim that was created and then reload the activity
@@ -284,7 +291,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	    getInstrumentation().callActivityOnRestart(activity);
 	    
 	    // Set all the old view references to new ones
-		startDateET = (EditText) activity.findViewById(R.id.edit_claim_start_date);
+		startDateET = (EditText) activity.findViewById(R.id.appr_edit_claim_start_date);
 		endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
 		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
 		subButton = (Button) activity.findViewById(R.id.edit_claim_send);
@@ -292,6 +299,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
 		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
 		addTagButton = (Button)activity.findViewById(R.id.edit_claim_add_tag);
+		cg.resetState(ClaimApplication.getContext());
 	}
 
 	/*

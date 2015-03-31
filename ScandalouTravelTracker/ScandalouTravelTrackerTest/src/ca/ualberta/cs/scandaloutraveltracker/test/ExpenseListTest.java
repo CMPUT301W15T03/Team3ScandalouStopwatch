@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.ListView;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
@@ -111,6 +112,7 @@ public class ExpenseListTest extends
 		adapter = expenseListActivity.getAdapter();
 		assertFalse(expense.getFlag());
 		assertFalse(adapter.getFlag());
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that if the claim can be edited, then an expense can be deleted
@@ -131,6 +133,7 @@ public class ExpenseListTest extends
 		
 		ClaimController cc = new ClaimController(new Claim(newClaimId));
 		assertEquals(0, cc.getExpenseList().size());
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	// Tests that if the claim can't be edited, then an expense can't be deleted
@@ -167,6 +170,7 @@ public class ExpenseListTest extends
 		
 		ClaimController cc = new ClaimController(new Claim(newClaimId));
 		assertEquals(1, cc.getExpenseList().size());
+		cg.resetState(ClaimApplication.getContext());
 	}
 	
 	private void performClick(final Button button) {
