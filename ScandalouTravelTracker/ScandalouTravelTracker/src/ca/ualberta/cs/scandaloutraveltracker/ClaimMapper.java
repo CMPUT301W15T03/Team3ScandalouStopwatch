@@ -50,7 +50,6 @@ public class ClaimMapper {
 	/**
 	 * When creating a new claim, this method gets called so it can
 	 * save all the data of the newly created claim.
-	 * @param name
 	 * @param startDate
 	 * @param endDate
 	 * @param description
@@ -62,14 +61,13 @@ public class ClaimMapper {
 	 * @param user
 	 * @return The new claim's ID
 	 */
-	public int createClaim(String name, Date startDate, Date endDate, String description,
+	public int createClaim(Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tags, String status, 
 			boolean canEdit, ArrayList<Expense> expenses, int userId) {
 		
 		int claimId = incrementClaimCounter();		
 		
 		saveClaimData(claimId, "id", claimId);
-		saveClaimData(claimId, "name", name);
 		saveClaimData(claimId, "startDate", startDate);
 		saveClaimData(claimId, "endDate", endDate);
 		saveClaimData(claimId, "description", description);
@@ -178,8 +176,6 @@ public class ClaimMapper {
 		
 		if (key.equals("id")){
 			editor.putInt("id", (Integer)data);
-		} else if (key.equals("name")){
-			editor.putString(key, (String)data);
 		} else if (key.equals("description")){
 			editor.putString(key, (String)data);			
 		} else if (key.equals("startDate")){
@@ -248,8 +244,6 @@ public class ClaimMapper {
 		
 	    if (key.equals("id")){
 	    	data = claimFile.getInt(key, -1);	    
-	    } else if (key.equals("name")){
-	    	data = claimFile.getString(key, "");
 	    } else if (key.equals("description")){
 		    data = claimFile.getString(key, "");
 	    } else if (key.equals("startDate")){

@@ -182,7 +182,7 @@ public class NewExpenseActivityTest extends
 		Date endDate = createDate(2, 3, 2014);
 		
 		// Create the claim
-		newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
+		newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
 				tagsList, status, canEdit, expenses, new User(userId));	
 		
 		// Add the claim to list

@@ -82,7 +82,6 @@ public class ClaimList extends SModel {
 	 * Takes all the values that a Claim can have and creates the claim
 	 * within the ClaimMapper (claim is saved) and returns the newly created
 	 * claims ID.
-	 * @param name
 	 * @param startDate
 	 * @param endDate
 	 * @param description
@@ -94,7 +93,7 @@ public class ClaimList extends SModel {
 	 * @return newly created claim ID
 	 * @see ClaimMapper#createClaim(String, Date, Date, String, ArrayList, ArrayList, String, boolean, ArrayList)
 	 */
-	public int createClaim(String name, Date startDate, Date endDate, String description,
+	public int createClaim(Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tagsList, String status,
 			boolean canEdit, ArrayList<Expense> expenses, User user) throws UserInputException {
 
@@ -106,7 +105,7 @@ public class ClaimList extends SModel {
 			throw new UserInputException("The end date can't be before the start date");
 		} else {	
 			ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
-			int newClaimId = mapper.createClaim(name, startDate, endDate, description, destinations, 
+			int newClaimId = mapper.createClaim(startDate, endDate, description, destinations, 
 					tagsList, status, canEdit, expenses, user.getId());
 			
 			return newClaimId;		

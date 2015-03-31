@@ -282,14 +282,14 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		ArrayList<Expense> expenses = new ArrayList<Expense>();
 		
 		// Create the claim
-		int newClaimId = clc.createClaim("a1", new Date(), new Date(), "d1", destinations, 
+		int newClaimId = clc.createClaim(new Date(), new Date(), "d1", destinations, 
 				tagsList, status, canEdit, expenses, new User(userId));	
 		
 		// Add the claim to list
 		clc.addClaim(new Claim(newClaimId));
 		
 		// Create another ClaimList associated with user2
-		newClaimId = clc.createClaim("a2", new Date(), new Date(), "d2", destinations, 
+		newClaimId = clc.createClaim(new Date(), new Date(), "d2", destinations, 
 				tagsList, status, canEdit, expenses, new User(userId2));	
 		
 		// Add the claim to list

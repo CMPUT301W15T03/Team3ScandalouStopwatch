@@ -328,7 +328,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		Date endDate = createDate(2, 17, 2014);
 		
 		// Create the claim
-		newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
+		newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
 				tagsList, status, canEdit, expenses, new User(userId));	
 		
 		// Add the claim to list

@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map.Entry;
 
-import android.text.method.ScrollingMovementMethod;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -40,7 +38,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	private int id;
 	
-	private String name;
 	private String description;
 	private Date startDate;
 	private Date endDate; 
@@ -82,9 +79,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	
 	/**
-	 * Constructor that is used to create claims quickly for
-	 * testing the claims.
-	 *
+	 * Constructor that is used to create empty claims to fill
+	 * for the NewClaimActivity
 	 */
 	public Claim() {
 		this.canEdit = true;
@@ -93,41 +89,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.tags = new ArrayList<String>();
 		this.approverComments = new ArrayList<String>();
 		this.status = "In Progress";
-	}
-	
-	/**
-	 * Constructor that is used to create more complete claims for
-	 * testing the claims.
-	 *
-	 */
-	public Claim(int id, String name, String description, Date sDate, Date eDate,
-			ArrayList<Destination> destinations, ArrayList<String> tags, String status,
-			ArrayList<Expense> expenses, boolean canEdit) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.startDate = sDate;
-		this.endDate = eDate;
-		this.destinations = destinations;
-		this.tags = tags;
-		this.status = status;
-		this.expenses = expenses;
-		this.canEdit = canEdit;	
-		this.approverComments = new ArrayList<String>();
-	}	
-	
-	/**
-	 * Constructor that is used in tests to quickly create a 
-	 * claim and set some necessary data.
-	 * @param name Name of user claim belongs to
-	 * @param sDate Starting date of claim
-	 * @param eDate Ending date of claim
-	 */
-	public Claim(String name, Date sDate, Date eDate) {
-		this.name = name;
-		this.startDate = sDate;
-		this.endDate = eDate;
-		this.canEdit = true;
 	}
 	
 	// Getter and Setter Methods

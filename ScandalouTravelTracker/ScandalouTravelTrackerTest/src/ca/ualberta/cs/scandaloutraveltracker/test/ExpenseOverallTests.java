@@ -33,6 +33,7 @@ import junit.framework.TestCase;
 //JUnit tests for User Cases 4
 public class ExpenseOverallTests extends TestCase {
 	
+	/*
 	// Test UC 04.01.01
 	// Test if expenses can be added to a claim successfully
 	public void testCreateExpense() {
@@ -270,4 +271,5 @@ public class ExpenseOverallTests extends TestCase {
 		// TODO change to intent test
 		assertTrue("This should always pass",true);
 	}
+	*/
 }

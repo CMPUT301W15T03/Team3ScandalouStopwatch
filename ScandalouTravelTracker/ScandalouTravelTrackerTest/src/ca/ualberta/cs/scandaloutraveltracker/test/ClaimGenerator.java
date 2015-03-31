@@ -58,6 +58,7 @@ public class ClaimGenerator {
 	// Approver comment
 	private static final String approverComment = "";
 	
+	/*
 	public Claim generateClaim(int i, String status){
 
 		// Claim name
@@ -95,7 +96,7 @@ public class ClaimGenerator {
 		
 		// Approver comment
 		String approverComment = ClaimGenerator.approverComment;
-
+		
 		// Create claim
 		Claim claim = new Claim(claimName, endDate, endDate);
 		
@@ -109,7 +110,7 @@ public class ClaimGenerator {
 		//claim.setApproverComment(approverComment);
 		
 		return claim;	
-	}
+	}*/
 
 	public String getClaimName(int i) {
 		return claimName + " " + i;

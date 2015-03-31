@@ -94,11 +94,11 @@ public class ClaimListController {
 	 * @param expenses
 	 * @return Newly created claim's ID
 	 */
-	public int createClaim(String name, Date startDate, Date endDate, String description,
+	public int createClaim(Date startDate, Date endDate, String description,
 			ArrayList<Destination> destinations, ArrayList<String> tagsList, String status,
 			boolean canEdit, ArrayList<Expense> expenses, User user) throws UserInputException {
 		
-		int newClaimId = claimList.createClaim(name, startDate, endDate, description, 
+		int newClaimId = claimList.createClaim(startDate, endDate, description, 
 				destinations, tagsList, status, canEdit, expenses, user);
 		
 		return newClaimId;

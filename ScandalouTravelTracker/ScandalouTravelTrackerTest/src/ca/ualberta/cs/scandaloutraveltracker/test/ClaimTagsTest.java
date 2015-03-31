@@ -158,7 +158,7 @@ public class ClaimTagsTest extends ActivityInstrumentationTestCase2<EditClaimAct
 		ulc.addUser(new User(userId));
 		
 		// Create the claim
-		newClaimId = clc.createClaim("a1", new Date(), new Date(), "d1", destinations, 
+		newClaimId = clc.createClaim(new Date(), new Date(), "d1", destinations, 
 				tagsList, status, canEdit, expenses, new User(userId));	
 		
 		Intent mockIntent = new Intent();

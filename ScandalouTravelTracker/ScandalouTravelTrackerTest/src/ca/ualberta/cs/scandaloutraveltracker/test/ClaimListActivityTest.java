@@ -293,7 +293,7 @@ public class ClaimListActivityTest extends
 		ArrayList<Expense> expenses = new ArrayList<Expense>();
 		
 		// Create the claim
-		int newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
+		int newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
 				tagsList, Constants.statusInProgress, canEdit, expenses, new User(userId));	
 		
 		// Add the claim to list
@@ -317,7 +317,7 @@ public class ClaimListActivityTest extends
 		
 		// Create the claim
 		try {
-			newClaimId = clc.createClaim("a1", startDate, endDate, "d1", destinations, 
+			newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
 					tagsList, Constants.statusSubmitted, false, expenses, new User(userId));
 		} catch (UserInputException e) {
 			// TODO Auto-generated catch block

@@ -57,7 +57,6 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	private Date endDate;
 	
 	private Context context;
-	private TextView nameSet; 
 	private TextView tagsTV;
 	private EditText sDateSet;
 	private EditText eDateSet;
@@ -92,7 +91,6 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		destinations = new ArrayList<Destination>();
 		
 		context = this;
-		nameSet = (TextView)findViewById(R.id.claimant_name);
 		sDateSet = (EditText)findViewById(R.id.start_date);	
 		eDateSet = (EditText)findViewById(R.id.end_date);	
 		descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
@@ -114,7 +112,6 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 			public void onClick(View v) {
 				
 				// Get fields
-				String name = nameSet.getText().toString();
 				String description = descriptionSet.getText().toString();
 				String status = Constants.statusInProgress;
 				boolean canEdit = true;
@@ -131,7 +128,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 					User user = app.getUser();
 					
 					// Create the claim
-					int newClaimId = claimListController.createClaim(name, startDate, endDate, description, destinations, 
+					int newClaimId = claimListController.createClaim(startDate, endDate, description, destinations, 
 							tagsList, status, canEdit, expenses, user);
 					
 					// Add the claim to list
