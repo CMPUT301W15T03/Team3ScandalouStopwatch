@@ -18,10 +18,6 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.content.DialogInterface;
@@ -33,12 +29,8 @@ import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.ExpenseListActivity;
 
 public class ExpenseListTest extends
@@ -48,6 +40,7 @@ public class ExpenseListTest extends
 	Instrumentation instrumentation;
 	ListView expenseLV;
 	int newClaimId;
+	ClaimGenerator cg;
 	
 	public ExpenseListTest() {
 		super(ExpenseListActivity.class);
@@ -66,7 +59,8 @@ public class ExpenseListTest extends
 		
 		// Create mock claim with start and end dates 03/01/2014 - 03/03/2014
 		// Mock claim also contains one expense to test with
-		newClaimId = createMockClaim(true);
+		cg = new ClaimGenerator();
+		newClaimId = cg.createMockClaim(true, true, false, false);
 		
 		expenseListActivity.finish();
 		setActivity(null);
@@ -147,7 +141,7 @@ public class ExpenseListTest extends
 		AlertDialog alert;
 		
 		try {
-			newClaimId = createMockClaim(false);
+			newClaimId = cg.createMockClaim(false, true, false, false);
 		} catch (UserInputException e) {
 			fail();
 		}
@@ -175,49 +169,6 @@ public class ExpenseListTest extends
 		assertEquals(1, cc.getExpenseList().size());
 	}
 	
-	private int createMockClaim(boolean editable) throws UserInputException {
-		// Create user and add to the list
-		UserListController ulc = new UserListController();
-		int userId = ulc.createUser("User1");
-		ulc.addUser(new User(userId));
-		
-		// Create one ClaimList associated with user1
-		ArrayList<Destination> destinations = new ArrayList<Destination>();
-		ClaimListController clc = new ClaimListController();
-		String status = Constants.statusInProgress;
-		ArrayList<String> tagsList = new ArrayList<String>();
-		boolean canEdit = editable;
-		ArrayList<Expense> expenses = new ArrayList<Expense>();
-		Expense newExpense = new Expense();
-		newExpense.setDate(createDate(2,2,2014));
-		newExpense.setCurrencyType("CAD");
-		newExpense.setCost(1.00);
-		newExpense.setDescription("Test Expense");
-		newExpense.setCategory("Parking");
-		expenses.add(newExpense);
-		
-		// Month - Day - Year
-		Date startDate = createDate(2, 1, 2014);
-		Date endDate = createDate(2, 3, 2014);
-		
-		// Create the claim
-		newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
-				tagsList, status, canEdit, expenses, new User(userId));	
-		
-		// Add the claim to list
-		clc.addClaim(new Claim(newClaimId));
-		
-		return newClaimId;
-	}
-	
-	private Date createDate(int month, int day, int year) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(year, month, day);
-		Date date = cal.getTime();
-		
-		return date;
-	}
-	
 	private void performClick(final Button button) {
 		try {
 			runTestOnUiThread(new Runnable() {
@@ -231,46 +182,4 @@ public class ExpenseListTest extends
 		}
 		getInstrumentation().waitForIdleSync();
 	}
-
-	/*
-	// Test UC 05.01.01
-	public void testExpenseDisplayed() {
-	    Date date = new Date(123);
-	    String cat = "Category1";
-	    String des = "Description";
-	    double spent = 45.23;
-	    String cur = "CAD";
-	    boolean complete = false;
-	    boolean reciept = false;
-
-	    ExpenseListActivity activity = startWithExpense(date, cat, des, spent,
-	                                                            cur, complete, reciept);
-	    
-	    View allViews = activity.getWindow().getDecorView();
-	    TextView categoryView = (TextView) activity.findViewById(R.id.expenseCategoryExpenseListTV);
-	    TextView descripView = (TextView) activity.findViewById(R.id.expenseDescriptionTV);
-	    TextView dateView = (TextView) activity.findViewById(R.id.expenseDateExpenseListTV);
-	    TextView spentView = (TextView) activity.findViewById(R.id.expenseTotalsExpenseListTV);
-	    TextView currencyView = (TextView) activity.findViewById(R.id.expenseTotalsExpenseListTV);
-	    //TextView completeView = (TextView) activity.findViewById(R.id.);
-	    TextView recieptView = (TextView) activity.findViewById(R.id.expenseReceiptIndicator);
-
-	    ViewAsserts.assertOnScreen(allViews, (View) categoryView);
-	    ViewAsserts.assertOnScreen(allViews, (View) descripView);
-	    ViewAsserts.assertOnScreen(allViews, (View) dateView);
-	    ViewAsserts.assertOnScreen(allViews, (View) spentView);
-	    ViewAsserts.assertOnScreen(allViews, (View) currencyView);
-	    //ViewAsserts.assertOnScreen(allViews, (View) completeView);
-	    ViewAsserts.assertOnScreen(allViews, (View) recieptView);
-	    
-	}
-	
-	public ExpenseListActivity startWithExpense(Date date, String category, String description, Double spent,
-								   String currency, boolean complete, boolean reciept)
-	{
-		//return (ExpenseListActivity)getActivity();
-		return null;
-		
-	}
-	*/
 }

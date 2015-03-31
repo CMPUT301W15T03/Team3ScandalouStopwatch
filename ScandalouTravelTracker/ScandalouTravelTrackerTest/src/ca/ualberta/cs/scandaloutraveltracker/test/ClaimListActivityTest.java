@@ -1,7 +1,6 @@
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import android.app.AlertDialog;
@@ -9,28 +8,20 @@ import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Address;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewExpenseActivity;
 
 public class ClaimListActivityTest extends
 		ActivityInstrumentationTestCase2<ClaimListActivity> {
-	
+
 	ClaimListActivity claimListActivity; 
 	Instrumentation instrumentation;
 	ListView claimsListView; 
@@ -49,7 +40,7 @@ public class ClaimListActivityTest extends
 		// Launch activity to get context
 		Intent mockIntent = new Intent();
 		mockIntent.putExtra("userId", 0);
-		claimListActivity = getActivity();
+		claimListActivity = (ClaimListActivity) getActivity();
 		
 		// Create mock user
 		UserListController userListController = new UserListController();
@@ -60,10 +51,11 @@ public class ClaimListActivityTest extends
 		// Create 4 Claims with a total of 5 different tags
 		// Also create 1 submitted claim
 		// The list will have the first claim as submitted and the rest as in progress
-		createClaims_Tagged(newUserId);
-		Date startDate = createDate(0, 14, 2015);
-		Date endDate = createDate(0, 15, 2015);
-		createSubmittedClaim(newUserId, startDate, endDate);
+		ClaimGenerator cg = new ClaimGenerator();
+		cg.createClaims_Tagged(newUserId);
+		Date startDate = cg.createDate(0, 14, 2015);
+		Date endDate = cg.createDate(0, 15, 2015);
+		cg.createSubmittedClaim(newUserId, startDate, endDate);
 		claimListActivity.finish();
 		setActivity(null);
 		
@@ -222,7 +214,7 @@ public class ClaimListActivityTest extends
 		assertTrue(claimDateTV.getText().toString().equals("1/14/2015 - 1/15/2015"));
 		assertTrue(claimDestinationTV.getText().toString().equals("Destinations: Brooklyn"));
 		assertTrue(claimStatusTV.getText().toString().equals("Status: Submitted"));
-		assertTrue(claimTotalTV.getText().toString().equals("GBP 5.00"));
+		assertTrue(claimTotalTV.getText().toString().equals("USD 5.00"));
 		assertTrue(claimTagsTV.getText().toString().equals(" #NY"));
 	}
 	
@@ -284,93 +276,18 @@ public class ClaimListActivityTest extends
 		assertEquals(2, totalClicks);
 	}
 	
-	private void createClaimWithTags(int userId, ArrayList<String> tags, Date startDate, Date endDate) throws UserInputException {
-		// Create one ClaimList associated with user1
-		ArrayList<Destination> destinations = new ArrayList<Destination>();
-		ClaimListController clc = new ClaimListController();
-		ArrayList<String> tagsList = tags;
-		boolean canEdit = true;
-		ArrayList<Expense> expenses = new ArrayList<Expense>();
-		
-		// Create the claim
-		int newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
-				tagsList, Constants.statusInProgress, canEdit, expenses, new User(userId));	
-		
-		// Add the claim to list
-		clc.addClaim(new Claim(newClaimId));
-	}
-	
-	private void createSubmittedClaim(int userId, Date startDate, Date endDate) {
-		// Create one ClaimList associated with user1
-		ArrayList<Destination> destinations = new ArrayList<Destination>();
-		ClaimListController clc = new ClaimListController();
-		ArrayList<String> tagsList = new ArrayList<String>();
-		ArrayList<Expense> expenses = new ArrayList<Expense>();
-		int newClaimId = 0;
-		tagsList.add("");
-		tagsList.add("#NY");
-		destinations.add(new Destination("Brooklyn", "Meet up with Jay"));
-		Expense newExpense = new Expense();
-		newExpense.setCurrencyType("GBP");
-		newExpense.setCost(5.00);
-		expenses.add(newExpense);
-		
-		// Create the claim
+	protected void performClick(final Button button) {
 		try {
-			newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
-					tagsList, Constants.statusSubmitted, false, expenses, new User(userId));
-		} catch (UserInputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			runTestOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					button.performClick();
+				}
+			});
+		} catch (Throwable e) {
 			fail();
-		}	
-		
-		// Add the claim to list
-		clc.addClaim(new Claim(newClaimId));
-	}
-	
-	private void createClaims_Tagged(int newUserId) throws UserInputException {
-		Date startDate;
-		Date endDate;
-		
-		ArrayList<String> tags = new ArrayList<String>();
-		tags.add("#tag1");
-		tags.add("#tag2");
-		startDate = createDate(0, 1, 2014);
-		endDate= createDate(0, 2, 2014);
-		createClaimWithTags(newUserId, tags, startDate, endDate);
-		
-		tags = new ArrayList<String>();
-		tags.add("#tag1");
-		tags.add("#tag3");
-		tags.add("#tag4");
-		startDate = createDate(0, 1, 2013);
-		endDate= createDate(0, 2, 2013);
-		createClaimWithTags(newUserId, tags, startDate, endDate);
-		
-		tags = new ArrayList<String>();
-		tags.add("#tag5");
-		startDate = createDate(0, 1, 2012);
-		endDate= createDate(0, 2, 2012);
-		createClaimWithTags(newUserId, tags, startDate, endDate);
-	}
-	
-	private void performClick(final Button button) throws Throwable {
-		runTestOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				button.performClick();
-			}
-		});
+		}
 		getInstrumentation().waitForIdleSync();
 	}
-	
-	private Date createDate(int month, int day, int year) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(year, month, day);
-		Date date = cal.getTime();
-		
-		return date;
-	}
+
 }

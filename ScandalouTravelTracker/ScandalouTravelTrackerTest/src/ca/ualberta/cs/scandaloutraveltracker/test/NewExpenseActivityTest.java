@@ -1,26 +1,17 @@
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewExpenseActivity;
 
 public class NewExpenseActivityTest extends
@@ -34,6 +25,7 @@ public class NewExpenseActivityTest extends
 	EditText dateET;
 	EditText descriptionET;
 	Button addButton;
+	ClaimGenerator cg;
 	
 	int newClaimId;
 	
@@ -54,7 +46,8 @@ public class NewExpenseActivityTest extends
 		newExpenseActivity = getActivity();
 		
 		// Create mock claim with start and end dates 03/01/2014 - 03/03/2014
-		newClaimId = createMockClaim();
+		cg = new ClaimGenerator();
+		newClaimId = cg.createMockClaim(true, false, false, false);
 		
 		newExpenseActivity.finish();
 		setActivity(null);
@@ -87,7 +80,7 @@ public class NewExpenseActivityTest extends
 				categorySpinner.setSelection(3);
 				
 				// Sets date to 03/01/2014
-				newExpenseActivity.setDate(createDate(2, 2, 2014));
+				newExpenseActivity.setDate(cg.createDate(2, 2, 2014));
 				dateET.setText("FILLER");
 			
 				// Sets currency to JPY
@@ -162,40 +155,5 @@ public class NewExpenseActivityTest extends
 		}
 		getInstrumentation().waitForIdleSync();
 	}
-	
-	private int createMockClaim() throws UserInputException {
-		// Create user and add to the list
-		UserListController ulc = new UserListController();
-		int userId = ulc.createUser("User1");
-		ulc.addUser(new User(userId));
-		
-		// Create one ClaimList associated with user1
-		ArrayList<Destination> destinations = new ArrayList<Destination>();
-		ClaimListController clc = new ClaimListController();
-		String status = Constants.statusInProgress;
-		ArrayList<String> tagsList = new ArrayList<String>();
-		boolean canEdit = true;
-		ArrayList<Expense> expenses = new ArrayList<Expense>();
-		
-		// Month - Day - Year
-		Date startDate = createDate(2, 1, 2014);
-		Date endDate = createDate(2, 3, 2014);
-		
-		// Create the claim
-		newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
-				tagsList, status, canEdit, expenses, new User(userId));	
-		
-		// Add the claim to list
-		clc.addClaim(new Claim(newClaimId));
-		
-		return newClaimId;
-	}
-	
-	private Date createDate(int month, int day, int year) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(year, month, day);
-		Date date = cal.getTime();
-		
-		return date;
-	}
+
 }

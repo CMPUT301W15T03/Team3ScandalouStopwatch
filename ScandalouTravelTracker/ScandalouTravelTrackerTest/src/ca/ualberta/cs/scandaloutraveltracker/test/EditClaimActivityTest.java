@@ -19,7 +19,6 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import android.app.AlertDialog;
@@ -41,11 +40,8 @@ import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity;
 
 public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
@@ -67,6 +63,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	AlertDialog alert;
 	int newClaimId;
 	SpannableString spannableString;
+	ClaimGenerator cg;
 	
 	public EditClaimActivityTest() {
 		super(EditClaimActivity.class);
@@ -82,12 +79,14 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		Intent intent = new Intent();
 		intent.putExtra(Constants.claimIdLabel, 0);
 		
+		cg = new ClaimGenerator();
+		
 		activity = getActivity();
-		int newId = createMockClaim();
+		newClaimId = cg.createMockClaim(true, false, true, true);
 		activity.finish();
 		setActivity(null);
 
-		intent.putExtra(Constants.claimIdLabel, newId);
+		intent.putExtra(Constants.claimIdLabel, newClaimId);
 	    setActivityIntent(intent);
 	    
 		instrumentation = getInstrumentation();
@@ -116,8 +115,8 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		
 		assertEquals(2, destinationsLV.getCount());
 		assertEquals(2, tags.length);
-		assertTrue(startDateET.getText().toString().equals("3/15/2014"));
-		assertTrue(endDateET.getText().toString().equals("3/17/2014"));
+		assertTrue(startDateET.getText().toString().equals("3/1/2014"));
+		assertTrue(endDateET.getText().toString().equals("3/3/2014"));
 		assertTrue(descriptionET.getText().toString().equals("d1"));
 	}
 	
@@ -126,8 +125,8 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	public void testClaimEditable() throws UserInputException {
 		ArrayList<Destination> newDest = new ArrayList<Destination>();
 		newDest.add(new Destination("Compton", "Video shoot"));
-		Date newStart = createDate(2, 16, 2015);
-		Date newEnd = createDate(2, 17, 2015);
+		Date newStart = cg.createDate(2, 16, 2015);
+		Date newEnd = cg.createDate(2, 17, 2015);
 		activity.editClaim(newStart, newEnd, newDest);
 		
 		instrumentation.runOnMainSync(new Runnable() {
@@ -293,56 +292,6 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
 		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
 		addTagButton = (Button)activity.findViewById(R.id.edit_claim_add_tag);
-	}
-
-	private int createMockClaim() throws UserInputException {
-		// Create two users and add them to the list
-		UserListController ulc = new UserListController();
-		int userId = ulc.createUser("User1");
-		ulc.addUser(new User(userId));
-		
-		// Create one ClaimList associated with user1
-		ArrayList<Destination> destinations = new ArrayList<Destination>();
-		ClaimListController clc = new ClaimListController();
-		String status = Constants.statusInProgress;
-		ArrayList<String> tagsList = new ArrayList<String>();
-		boolean canEdit = true;
-		ArrayList<Expense> expenses = new ArrayList<Expense>();
-		
-		// Setting claim test data
-		Destination testDestination = new Destination("Brooklyn", "Gotta see Jay");
-		destinations.add(testDestination);
-		testDestination = new Destination("Harlem", "Meet up with Rocky");
-		destinations.add(testDestination);
-		
-		String testTag = "#stoked";
-		tagsList.add(testTag);
-		testTag = "#NY";
-		tagsList.add(testTag);
-		
-		Expense testExpense = new Expense();
-		expenses.add(testExpense);
-		
-		// Month - Day - Year
-		Date startDate = createDate(2, 15, 2014);
-		Date endDate = createDate(2, 17, 2014);
-		
-		// Create the claim
-		newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
-				tagsList, status, canEdit, expenses, new User(userId));	
-		
-		// Add the claim to list
-		clc.addClaim(new Claim(newClaimId));
-		
-		return newClaimId;
-	}
-
-	private Date createDate(int month, int day, int year) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(year, month, day);
-		Date date = cal.getTime();
-		
-		return date;
 	}
 
 	/*

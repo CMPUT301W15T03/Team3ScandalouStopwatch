@@ -19,150 +19,226 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
 
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 public class ClaimGenerator {
+	UserListController ulc;
+	ClaimListController clc;
+	
+	public ClaimGenerator() {
+		
+		try {
+			ulc = new UserListController();
+		} catch (NullPointerException e) {
 
-	// Claim name
-	private static final String claimName = "Claim";
-	
-	// Claimant name
-	private static final String claimantName = "Claimant";
-	
-	// Start date
-	private static final int year = 1950;
-	private static final int month = 0;
-	private static final int startDay = 1;
-	private static final int endDay = 2;
-	
-	// Claim destinations
-	private static final String destination = "Destination";
-	
-	// Status
-	private String status;
-	
-	// Amounts
-	private static final String currency1 = "USD";
-	private static final String currency2 = "CAD";
-	private static final Double amount1 = 1.0;
-	private static final Double amount2 = 49.99;
-	
-	// Approver name
-	private static final String approverName = "";
-	
-	// Approver comment
-	private static final String approverComment = "";
-	
-	/*
-	public Claim generateClaim(int i, String status){
-
-		// Claim name
-		String claimName = ClaimGenerator.claimName + " " + i;
+		}
 		
-		// Claimant name
-		String claimantName = ClaimGenerator.claimantName + " " + i;
+		try {
+			clc = new ClaimListController();
+		} catch (NullPointerException e) {
+			
+		}
+	}
+	
+	
+	// User to start the tests with an empty claim list
+	public void clearCL() {
+		ArrayList<Claim> claims = clc.getClaimList().getClaims();
+		Iterator<Claim> iterator = claims.iterator();
 		
-		// Dates
-		// 	Date's deprecated; maybe fix it later;
-		Date startDate = new Date(year+i, month, startDay);
-		Date endDate = new Date(year+i, month, endDay);
+		while (iterator.hasNext()) {
+			Claim currentClaim = iterator.next();
+			int id = currentClaim.getId();
+			clc.deleteClaim(id);
+			iterator.remove();
+		}
+	}
+	
+	// Used to start the tests with an empty user list
+	public void clearUL() {
+		// Initialize UserListController
+		ArrayList<User> users = ulc.getUserList().getUsers();
+		Iterator<User> iterator = users.iterator();
 		
-		// Destinations
-		Destination dest1 = new Destination(destination + " " + i + ".1", "1"); 
-		Destination dest2 = new Destination(destination + " " + i + ".2", "2");
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			int id = user.getId();
+			ulc.deleteUser(id);
+			iterator.remove();
+		}
+	}
+	
+	// Used to create two users and have one claim associated with each
+	public void makeTwoUsersWithClaims() throws UserInputException {
+		// Create two users and add them to the list
+		int userId = ulc.createUser("User1");
+		ulc.addUser(new User(userId));
+		int userId2 = ulc.createUser("User2");
+		ulc.addUser(new User(userId2));
+		
+		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
-		destinations.add(dest1);
-		destinations.add(dest2);
+		ClaimListController clc = new ClaimListController();
+		String status = Constants.statusInProgress;
+		ArrayList<String> tagsList = new ArrayList<String>();
+		boolean canEdit = true;
+		ArrayList<Expense> expenses = new ArrayList<Expense>();
 		
-		// Status
-		this.status = status;
+		// Create the claim
+		int newClaimId = clc.createClaim(new Date(), new Date(), "d1", destinations, 
+				tagsList, status, canEdit, expenses, new User(userId));	
 		
-		// Amounts
-		String currency1 = ClaimGenerator.currency1;
-		String currency2 = ClaimGenerator.currency2;
-		Double amount1 = ClaimGenerator.amount1 * i;
-		Double amount2 = ClaimGenerator.amount2 * i;
-		HashMap<String, Double> totals = new HashMap<String, Double>();
-		totals.put(currency1, amount1);
-		totals.put(currency2, amount2);
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
 		
-		// Approver name
-		String approverName = ClaimGenerator.approverName;
+		// Create another ClaimList associated with user2
+		newClaimId = clc.createClaim(new Date(), new Date(), "d2", destinations, 
+				tagsList, status, canEdit, expenses, new User(userId2));	
 		
-		// Approver comment
-		String approverComment = ClaimGenerator.approverComment;
-		
-		// Create claim
-		Claim claim = new Claim(claimName, endDate, endDate);
-		
-		// Populate claim
-		// claim.setName(claimantName);
-		claim.setStartDate(startDate);
-		claim.setEndDate(endDate);
-		claim.setDestinations(destinations);
-		claim.setStatus(status);
-		claim.setApproverName(approverName);
-		//claim.setApproverComment(approverComment);
-		
-		return claim;	
-	}*/
-
-	public String getClaimName(int i) {
-		return claimName + " " + i;
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
 	}
-
-	public String getClaimantName(int i) {
-		return claimantName + " " + i;
-	}
-
-	public Date getStartDate(int i) {
-		Date startDate = new Date(year+i, month, startDay);
-		return startDate;
-	}
-
-	public Date getEndDate(int i) {
-		Date endDate = new Date(year+i, month, endDay);
-		return endDate;
-	}
-
-	public String getDestination1(int i) {
-		return destination + i + ".1";
-	}
-
-	public String getDestination2(int i) {
-		return destination + i + ".1";
-	}	
 	
-	public String getStatus() {
-		return status;
+	public int createMockClaim(boolean editable, boolean expensesIncluded, boolean tagsIncluded, 
+			boolean destinationsIncluded) throws UserInputException {
+		// Create user and add to the list
+		UserListController ulc = new UserListController();
+		int userId = ulc.createUser("User1");
+		ulc.addUser(new User(userId));
+		
+		// Create one ClaimList associated with user1
+		ArrayList<Destination> destinations = new ArrayList<Destination>();
+		ClaimListController clc = new ClaimListController();
+		String status = Constants.statusInProgress;
+		ArrayList<String> tagsList = new ArrayList<String>();
+		boolean canEdit = editable;
+		ArrayList<Expense> expenses = new ArrayList<Expense>();	
+		
+		if (expensesIncluded) {
+			Expense newExpense = new Expense();
+			newExpense.setDate(createDate(2,2,2014));
+			newExpense.setCurrencyType("CAD");
+			newExpense.setCost(2.25);
+			newExpense.setDescription("Test Expense");
+			newExpense.setCategory("Parking");
+			expenses.add(newExpense);
+		}
+		
+		if (tagsIncluded) {
+			tagsList.add("#harlem");
+			tagsList.add("#bedstuy");
+		}
+		
+		if (destinationsIncluded) {
+			Destination d1 = new Destination("Harlem", "WORK vid shoot");
+			destinations.add(d1);
+			d1 = new Destination("Brooklyn", "Meet with Jay");
+			destinations.add(d1);
+		}
+		
+		// Month - Day - Year
+		Date startDate = createDate(2, 1, 2014);
+		Date endDate = createDate(2, 3, 2014);
+		
+		// Create the claim
+		int newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
+				tagsList, status, canEdit, expenses, new User(userId));	
+		
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
+		
+		return newClaimId;
+	}
+	
+	public void createClaimWithTags(int userId, ArrayList<String> tags, Date startDate, Date endDate) throws UserInputException {
+		// Create one ClaimList associated with user1
+		ArrayList<Destination> destinations = new ArrayList<Destination>();
+		Destination destination = new Destination("Brooklyn", "Meet with Jay");
+		destinations.add(destination);
+		ClaimListController clc = new ClaimListController();
+		ArrayList<String> tagsList = tags;
+		boolean canEdit = true;
+		ArrayList<Expense> expenses = new ArrayList<Expense>();
+		
+		// Create the claim
+		int newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
+				tagsList, Constants.statusInProgress, canEdit, expenses, new User(userId));	
+		
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
+	}
+	
+	public void createSubmittedClaim(int userId, Date startDate, Date endDate) throws UserInputException {
+		// Create one ClaimList associated with user1
+		ArrayList<Destination> destinations = new ArrayList<Destination>();
+		Destination destination = new Destination("Brooklyn", "Meet with Jay");
+		destinations.add(destination);
+		ClaimListController clc = new ClaimListController();
+		ArrayList<String> tagsList = new ArrayList<String>();
+		ArrayList<Expense> expenses = new ArrayList<Expense>();
+		int newClaimId = 0;
+		tagsList.add("");
+		tagsList.add("#NY");
+		Expense newExpense = new Expense();
+		newExpense.setCurrencyType("USD");
+		newExpense.setCost(5.00);
+		expenses.add(newExpense);
+		
+		// Create the claim
+		try {
+			newClaimId = clc.createClaim(startDate, endDate, "d1", destinations, 
+					tagsList, Constants.statusSubmitted, false, expenses, new User(userId));
+		} catch (UserInputException e) {
+			throw e;
+		}	
+		
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
+	}
+	
+	public void createClaims_Tagged(int newUserId) throws UserInputException {
+		Date startDate;
+		Date endDate;
+		
+		ArrayList<String> tags = new ArrayList<String>();
+		tags.add("#tag1");
+		tags.add("#tag2");
+		startDate = createDate(0, 1, 2014);
+		endDate= createDate(0, 2, 2014);
+		createClaimWithTags(newUserId, tags, startDate, endDate);
+		
+		tags = new ArrayList<String>();
+		tags.add("#tag1");
+		tags.add("#tag3");
+		tags.add("#tag4");
+		startDate = createDate(0, 1, 2013);
+		endDate= createDate(0, 2, 2013);
+		createClaimWithTags(newUserId, tags, startDate, endDate);
+		
+		tags = new ArrayList<String>();
+		tags.add("#tag5");
+		startDate = createDate(0, 1, 2012);
+		endDate= createDate(0, 2, 2012);
+		createClaimWithTags(newUserId, tags, startDate, endDate);
+	}
+	
+	public Date createDate(int month, int day, int year) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, day);
+		Date date = cal.getTime();
+		
+		return date;
 	}
 
-	public String getCurrency1() {
-		return currency1;
-	}
-
-	public String getCurrency2() {
-		return currency2;
-	}
-
-	public Double getAmount1(int i) {
-		return amount1 * i;
-	}
-
-	public Double getAmount2(int i) {
-		return amount2 * i;
-	}
-
-	public String getApproverName() {
-		return approverName;
-	}
-
-	public String getApproverComment() {
-		return approverComment;
-	}	
 }

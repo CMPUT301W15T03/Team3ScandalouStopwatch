@@ -1,9 +1,5 @@
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
@@ -19,20 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.UserSelectActivity;
 
-public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivity> {
+public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<UserSelectActivity> {
 	UserSelectActivity userSelectActivity;
 	Button newUserButton;
 	ListView usersLV;
@@ -41,9 +33,10 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	UserController uc;
 	Instrumentation instrumentation;
 	User testUser;
+	ClaimGenerator cg;
 	
 	
-	public UserTest() {
+	public UserSelectActivityTest() {
 		super(UserSelectActivity.class);
 	}
 	
@@ -57,14 +50,15 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 		 
 		 instrumentation = getInstrumentation();
 		 ulc = new UserListController();
+		 cg = new ClaimGenerator();
 
 		 // Get UI components
 		 newUserButton = (Button) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectCreateUserButton);
 		 usersLV = (ListView) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectUsersLV);
 		 
 		 // Start with empty user and claim list
-		 clearUL();
-		 clearCL();
+		 cg.clearUL();
+		 cg.clearCL();
 	}
 	
 	public void testAddUserButton() {
@@ -81,7 +75,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	// http://stackoverflow.com/questions/9405561/test-if-a-button-starts-a-new-activity-in-android-junit-pref-without-robotium 03/23/2015
 	public void testSelectUser() {
 		// Start with fresh list
-		clearUL();
+		cg.clearUL();
 		getInstrumentation().waitForIdleSync();
 		
 		// Add user for test to select
@@ -145,7 +139,7 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	// first if using the emulator before running the app.
 	// US01.07.01
 	public void testUserLocationSet() {
-		clearUL();
+		cg.clearUL();
 		
 		TouchUtils.clickView(this, newUserButton);
 		AlertDialog dialog = userSelectActivity.getDialog();
@@ -191,13 +185,13 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 	
 	public void testIsUsersClaims() throws UserInputException {
 		 // Start with empty list
-		 clearUL();
+		 cg.clearUL();
 		 
 		 // New userSelectActivity
 		 userSelectActivity = getActivity();
 		
 		// Create two users and add them to the list
-		makeTwoUsersWithClaims();
+		cg.makeTwoUsersWithClaims();
 		assertEquals(2, ulc.getCount());
 		
 		// Run a click on listview in current activity
@@ -235,65 +229,6 @@ public class UserTest extends ActivityInstrumentationTestCase2<UserSelectActivit
 			}
 		});
 		getInstrumentation().waitForIdleSync();
-	}
-	
-	// User to start the tests with an empty claim list
-	private void clearCL() {
-		ClaimListController clc = new ClaimListController();
-		ArrayList<Claim> claims = clc.getClaimList().getClaims();
-		Iterator<Claim> iterator = claims.iterator();
-		
-		while (iterator.hasNext()) {
-			Claim currentClaim = iterator.next();
-			int id = currentClaim.getId();
-			clc.deleteClaim(id);
-			iterator.remove();
-		}
-	}
-	
-	// Used to start the tests with an empty user list
-	private void clearUL() {
-		// Initialize UserListController
-		ArrayList<User> users = ulc.getUserList().getUsers();
-		Iterator<User> iterator = users.iterator();
-		
-		while (iterator.hasNext()) {
-			User user = iterator.next();
-			int id = user.getId();
-			ulc.deleteUser(id);
-			iterator.remove();
-		}
-	}
-	
-	// Used to create two users and have one claim associated with each
-	private void makeTwoUsersWithClaims() throws UserInputException {
-		// Create two users and add them to the list
-		int userId = ulc.createUser("User1");
-		ulc.addUser(new User(userId));
-		int userId2 = ulc.createUser("User2");
-		ulc.addUser(new User(userId2));
-		
-		// Create one ClaimList associated with user1
-		ArrayList<Destination> destinations = new ArrayList<Destination>();
-		ClaimListController clc = new ClaimListController();
-		String status = Constants.statusInProgress;
-		ArrayList<String> tagsList = new ArrayList<String>();
-		boolean canEdit = true;
-		ArrayList<Expense> expenses = new ArrayList<Expense>();
-		
-		// Create the claim
-		int newClaimId = clc.createClaim(new Date(), new Date(), "d1", destinations, 
-				tagsList, status, canEdit, expenses, new User(userId));	
-		
-		// Add the claim to list
-		clc.addClaim(new Claim(newClaimId));
-		
-		// Create another ClaimList associated with user2
-		newClaimId = clc.createClaim(new Date(), new Date(), "d2", destinations, 
-				tagsList, status, canEdit, expenses, new User(userId2));	
-		
-		// Add the claim to list
-		clc.addClaim(new Claim(newClaimId));
 	}
 	
 }

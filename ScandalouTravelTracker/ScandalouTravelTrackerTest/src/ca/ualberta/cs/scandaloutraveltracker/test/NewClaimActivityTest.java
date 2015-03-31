@@ -88,7 +88,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 	}
 	
 	// Tests adding a new claim
-	// Also tests that claims can have zero expenses attaached to them
+	// Also tests that claims can have zero expenses attached to them
 	// US01.01.01 and US04.01.01
 	public void testNewClaim() throws Throwable {
 		newClaimActivity.setStartDate(new Date());
