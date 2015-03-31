@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#0F0F0F"
     tools:context=".NewExpenseActivity" >
 
     <TextView
@@ -15,6 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="@string/add_expense"
+        android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Spinner
@@ -24,6 +26,7 @@
         android:layout_alignLeft="@+id/add_expense"
         android:layout_alignRight="@+id/add_expense"
         android:layout_below="@+id/add_expense"
+        android:textColor="#F2F2F2"
         android:layout_marginTop="20dp"
         android:entries="@array/Category" />
 
@@ -35,6 +38,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/category"
         android:layout_toRightOf="@+id/category"
+        android:textColor="#F2F2F2"
         android:ems="10"
         android:hint="@string/amount"
         android:inputType="numberDecimal" >
@@ -49,6 +53,7 @@
         android:layout_alignLeft="@+id/category"
         android:layout_below="@+id/category"
         android:layout_toLeftOf="@+id/amount2"
+        android:textColor="#F2F2F2"
         android:ems="10"
         android:hint="@string/date"
         android:inputType="date" 
@@ -60,6 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/amount2"
         android:layout_marginLeft="13dp"
+        android:textColor="#F2F2F2"
         android:layout_toRightOf="@+id/date_expense2"
         android:entries="@array/Currency" />
 
@@ -70,6 +76,7 @@
         android:layout_alignLeft="@+id/date_expense2"
         android:layout_alignRight="@+id/currency"
         android:layout_below="@+id/date_expense2"
+        android:textColor="#F2F2F2"
         android:ems="10"
         android:hint="@string/description" />
 
@@ -79,6 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:textColor="#F2F2F2"
         android:layout_alignParentRight="true"
         android:text="@string/add" />
 

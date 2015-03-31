@@ -3,7 +3,8 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#0F0F0F" >
 
     <TextView
         android:id="@+id/expenseCategoryExpenseListTV"
@@ -13,6 +14,7 @@
         android:layout_alignParentTop="true"
         android:text="@string/expense_category_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:textColor="#808080"
         android:layout_marginLeft="10dp"/>
     
         <TextView
@@ -22,6 +24,7 @@
         android:layout_alignLeft="@+id/expenseTotalsExpenseListTV"
         android:layout_below="@+id/expenseCategoryExpenseListTV"
         android:text="@string/expense_description_text_filler"
+        android:textColor="#8A8A8A"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -32,6 +35,7 @@
         android:layout_below="@id/expenseDescriptionTV"
         android:text="@string/expense_totals_text_filler"
         android:textAppearance="?android:attr/textAppearanceSmall" 
+        android:textColor="#8A8A8A"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"/>
 
@@ -52,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/expenseDateExpenseListTV"
         android:layout_below="@+id/expenseDescriptionTV"
+        android:textColor="#8A8A8A"
         android:text="@string/receipt_text" />
 
     <TextView
@@ -63,6 +68,7 @@
         android:layout_marginRight="35dp"
         android:layout_toLeftOf="@+id/expenseListFlag"
         android:text="@string/expense_date_text_filler"
+        android:textColor="#8A8A8A"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
