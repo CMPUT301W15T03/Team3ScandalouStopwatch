@@ -20,6 +20,7 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
 

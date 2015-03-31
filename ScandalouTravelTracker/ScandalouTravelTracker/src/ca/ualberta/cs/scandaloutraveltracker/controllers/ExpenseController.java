@@ -16,10 +16,13 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.controllers;
 
 import java.io.File;
 import java.util.Date;
+
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 /**
  *  When supplied with an expense the controller allows you to edit 

@@ -15,11 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.controllers;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 import android.view.View;
 

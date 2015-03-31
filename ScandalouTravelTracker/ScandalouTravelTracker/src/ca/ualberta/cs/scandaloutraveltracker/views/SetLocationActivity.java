@@ -11,10 +11,10 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener;
 
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.User;
-import ca.ualberta.cs.scandaloutraveltracker.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.R.id;
 import ca.ualberta.cs.scandaloutraveltracker.R.layout;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 import android.app.Activity;
 import android.content.Context;

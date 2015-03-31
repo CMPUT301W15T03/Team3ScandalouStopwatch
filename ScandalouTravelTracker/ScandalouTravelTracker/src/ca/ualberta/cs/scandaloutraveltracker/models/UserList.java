@@ -16,10 +16,14 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import ca.ualberta.cs.scandaloutraveltracaker.mappers.UserListMapper;
+import ca.ualberta.cs.scandaloutraveltracaker.mappers.UserMapper;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 
 /**
  *  Class is a list that holds Users. When doing tasks that involve the

@@ -23,6 +23,9 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

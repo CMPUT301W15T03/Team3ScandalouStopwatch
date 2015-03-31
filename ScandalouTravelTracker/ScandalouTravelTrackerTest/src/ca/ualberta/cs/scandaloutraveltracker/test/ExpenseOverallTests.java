@@ -25,8 +25,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import ca.ualberta.cs.scandaloutraveltracker.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 
 import junit.framework.TestCase;
 

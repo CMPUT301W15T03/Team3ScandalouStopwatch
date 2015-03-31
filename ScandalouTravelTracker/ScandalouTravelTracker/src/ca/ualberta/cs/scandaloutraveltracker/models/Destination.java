@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.models;
 
 /**
  *  Class contains all the information that a Destination needs. A

@@ -16,8 +16,9 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.controllers;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import android.location.Location;
 
 /**

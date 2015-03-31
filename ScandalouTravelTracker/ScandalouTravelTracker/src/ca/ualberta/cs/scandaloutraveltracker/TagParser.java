@@ -1,6 +1,8 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 import java.util.ArrayList;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.IntegerPair;
+
 /**
  * TagParser returns a list of starting and ending indices of
  * tags prefixed with a # and post-fixed with a comma.  

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;

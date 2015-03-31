@@ -22,6 +22,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

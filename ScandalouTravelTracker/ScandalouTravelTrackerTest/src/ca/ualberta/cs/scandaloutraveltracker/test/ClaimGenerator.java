@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ualberta.cs.scandaloutraveltracker.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 
 public class ClaimGenerator {
 

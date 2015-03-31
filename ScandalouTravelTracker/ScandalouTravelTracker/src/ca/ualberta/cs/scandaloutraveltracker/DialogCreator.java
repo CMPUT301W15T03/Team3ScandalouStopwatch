@@ -1,5 +1,6 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.UserSelectActivity;
 
 

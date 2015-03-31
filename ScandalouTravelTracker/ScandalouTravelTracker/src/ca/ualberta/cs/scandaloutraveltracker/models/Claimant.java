@@ -16,34 +16,25 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
-
-import java.util.ArrayList;
+package ca.ualberta.cs.scandaloutraveltracker.models;
 
 /**
- *  Part of MVC; all models must extend the SModel. Allows the model to
- *  keep track of its views and to add and delete them.
+ *  This is the Claimant class which represents a user that has the
+ *  capabilities of a Claimant.
+ *  
+ *  This is the default for a user so functionality has mainly been
+ *  implemented with considerations to a Claimant type user.
  * @author Team3ScandalouStopwatch
  *
  */
-public class SModel {
-	protected ArrayList<ViewInterface> views;
-	
-	public SModel() {
-		views = new ArrayList<ViewInterface>();
+public class Claimant extends User {
+
+	/**
+	 * Sets the Claimant's name to the string passed.
+	 * @param name
+	 */
+	public Claimant(int id) {
+		super(id);
 	}
-	
-	public void addView(ViewInterface view) {
-		views.add(view);
-		
-	}
-	public void removeView(ViewInterface view) {
-		views.remove(view);
-		
-	}
-	public void notifyViews() {
-		for (ViewInterface view : views) {
-			view.update();
-		}
-	}
+
 }

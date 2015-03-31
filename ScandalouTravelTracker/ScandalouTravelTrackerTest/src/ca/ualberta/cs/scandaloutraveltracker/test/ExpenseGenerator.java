@@ -20,7 +20,7 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 
 import java.util.Date;
 
-import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 
 public class ExpenseGenerator {
 

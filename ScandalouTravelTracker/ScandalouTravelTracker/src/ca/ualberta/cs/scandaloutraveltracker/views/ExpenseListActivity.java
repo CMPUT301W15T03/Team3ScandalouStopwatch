@@ -20,18 +20,17 @@ package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import java.util.ArrayList;
 
-import ca.ualberta.cs.scandaloutraveltracker.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimMapper;
+import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.ExpenseController;
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.ViewInterface;
 import ca.ualberta.cs.scandaloutraveltracker.R.id;
 import ca.ualberta.cs.scandaloutraveltracker.R.layout;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

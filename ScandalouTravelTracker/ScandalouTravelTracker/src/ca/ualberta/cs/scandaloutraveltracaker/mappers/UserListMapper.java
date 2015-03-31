@@ -16,9 +16,11 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracaker.mappers;
 
 import java.util.ArrayList;
+
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 import android.content.Context;
 import android.content.SharedPreferences;

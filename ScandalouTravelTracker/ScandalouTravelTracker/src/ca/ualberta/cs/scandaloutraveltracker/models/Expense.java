@@ -16,12 +16,14 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.models;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 /**
  * Class that contains the Expense model. Any changes done to an expense

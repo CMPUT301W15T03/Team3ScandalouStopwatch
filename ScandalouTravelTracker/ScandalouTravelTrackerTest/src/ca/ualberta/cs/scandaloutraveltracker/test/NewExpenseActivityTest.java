@@ -11,16 +11,16 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import ca.ualberta.cs.scandaloutraveltracker.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.User;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import ca.ualberta.cs.scandaloutraveltracker.UserListController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewExpenseActivity;
 
 public class NewExpenseActivityTest extends

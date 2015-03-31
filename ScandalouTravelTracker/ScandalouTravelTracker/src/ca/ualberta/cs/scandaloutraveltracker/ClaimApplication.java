@@ -18,6 +18,7 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import android.app.Application;
 import android.content.Context;
 

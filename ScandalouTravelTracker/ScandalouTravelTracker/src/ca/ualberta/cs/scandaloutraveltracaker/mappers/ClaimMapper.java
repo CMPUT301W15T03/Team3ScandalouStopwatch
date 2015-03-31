@@ -16,7 +16,7 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracaker.mappers;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,6 +26,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
+
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -1,5 +1,7 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
+import ca.ualberta.cs.scandaloutraveltracker.models.UserList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

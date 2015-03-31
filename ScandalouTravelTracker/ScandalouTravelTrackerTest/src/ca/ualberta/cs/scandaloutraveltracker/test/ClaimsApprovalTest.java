@@ -24,10 +24,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import ca.ualberta.cs.scandaloutraveltracker.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.ClaimList;
-import ca.ualberta.cs.scandaloutraveltracker.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import junit.framework.TestCase;
 
 public class ClaimsApprovalTest extends TestCase {

@@ -15,10 +15,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimListMapper;
+import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimMapper;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 
 /**
  *  Class is a list that holds Claims. When doing tasks that involve the
@@ -27,7 +33,7 @@ import java.util.Date;
  *
  */
 public class ClaimList extends SModel {
-	protected ArrayList<Claim> claims;
+	public ArrayList<Claim> claims;
     	
 	/**
 	 * Constructor is set to private as the ClaimList class uses the 

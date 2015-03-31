@@ -16,9 +16,13 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.controllers;
 
 import java.util.Collections;
+
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
+import ca.ualberta.cs.scandaloutraveltracker.models.UserList;
+import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 /**
  *  When making edits to the User List model it should be done through

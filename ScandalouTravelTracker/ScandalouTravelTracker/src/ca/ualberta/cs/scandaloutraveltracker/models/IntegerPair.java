@@ -1,4 +1,4 @@
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.models;
 /**
  * Basic class that just stores two integers in an object.
  * @author jwu

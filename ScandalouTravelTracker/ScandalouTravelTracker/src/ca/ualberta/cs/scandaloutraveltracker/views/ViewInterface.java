@@ -16,24 +16,14 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker;
+package ca.ualberta.cs.scandaloutraveltracker.views;
 
 /**
- *  This is the Approver class which represents a user that has the
- *  capabilities of a Approver.
- *  
- *  Still needs main functionality (planned for part 5)
+ *  Part of MVC; all the views need to implement this interface if it needs
+ *  to interact with any of the models.
  * @author Team3ScandalouStopwatch
  *
  */
-public class Approver extends User {
-
-	/**
-	 * Constructor that just currently sets the name of the Approver.
-	 * @param name Name of the Approver
-	 */
-	public Approver(int id) {
-		super(id);
-	}
-
+public interface ViewInterface {
+	void update();
 }
