@@ -109,5 +109,10 @@
     <string name="title_activity_view_location">View Location</string>
     <string name="current_location_button">Go to Current Location</string>
     <string name="title_activity_receipt">ReceiptActivity</string>
+    <string-array name="location_menu">
+        <item>Change location to GPS Location</item>
+        <item>Change/View Location Using a Map</item>
+        <item>Clear Current Location</item>
+    </string-array>
 
 </resources>
