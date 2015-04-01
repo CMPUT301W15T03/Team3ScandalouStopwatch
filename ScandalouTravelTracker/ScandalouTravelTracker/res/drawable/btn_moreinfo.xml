@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://code.google.com/p/osmbonuspack/source/browse/trunk/OSMNavigator/res/drawable/btn_moreinfo.xml 2015-03-31  -->
+<!-- https://code.google.com/p/osmbonuspack/source/browse/trunk/OSMNavigator/res/drawable-mdpi/bonuspack_bubble.9.png 2015-03-31  -->
+<!-- https://code.google.com/p/osmbonuspack/source/browse/trunk/OSMNavigator/res/drawable-mdpi/moreinfo_arrow.png  -->
+<!-- https://code.google.com/p/osmbonuspack/source/browse/trunk/OSMNavigator/res/drawable-mdpi/moreinfo_arrow_pressed.png 2015-03-31  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/moreinfo_arrow_pressed"
+          android:state_pressed="true" />
+    <item android:drawable="@drawable/moreinfo_arrow"
+          android:state_focused="true" />
+    <item android:drawable="@drawable/moreinfo_arrow" />
+</selector>
+
