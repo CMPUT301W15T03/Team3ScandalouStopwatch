@@ -101,12 +101,24 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 			location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			uc.setCurrentLocation(location);
 			ulc.addUser(new User(selectedId));
+			update();
 			return true;
 			
 		case R.id.user_context_add_location_map:
 			Intent intent = new Intent(UserSelectActivity.this, SetHomeLocationActivity.class);
 			intent.putExtra("userId", ulc.getUser(userPos).getId());
 			startActivity(intent);
+			return true;
+			
+		case R.id.user_context_clear_location:
+			selectedUser = (User) usersLV.getItemAtPosition(userPos);
+			selectedId = selectedUser.getId();
+			ulc.removeUser(selectedId);
+			uc = new UserController(new User(selectedUser.getId()));
+			location = null;
+			uc.setCurrentLocation(location);
+			ulc.addUser(new User(selectedId));
+			update();
 			return true;
 			
 		default:
@@ -175,6 +187,11 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
 		// Launch the ClaimListActivity
+		if ((ulc.getUser(userPos)).getHomeLocation() == null) {
+			Toast.makeText(getApplicationContext(),
+					"Home location needs to be set. Long click on user to set",Toast.LENGTH_SHORT).show();
+			return;
+		}
 		Intent intent = new Intent(UserSelectActivity.this, ClaimListActivity.class);
 		intent.putExtra("userId", ulc.getUser(userPos).getId());
 		startActivity(intent);
