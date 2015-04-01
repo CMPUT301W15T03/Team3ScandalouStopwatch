@@ -26,6 +26,8 @@ import java.util.Iterator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
+import android.location.LocationManager;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
@@ -135,6 +137,9 @@ public class ClaimGenerator {
 			newExpense.setCost(2.25);
 			newExpense.setDescription("Test Expense");
 			newExpense.setCategory("Parking");
+			newExpense.setFlag(true);
+			newExpense.setReceiptAttached(true);
+			
 			expenses.add(newExpense);
 		}
 		
@@ -163,7 +168,7 @@ public class ClaimGenerator {
 		
 		return newClaimId;
 	}
-	
+
 	public void createClaimWithTags(int userId, ArrayList<String> tags, Date startDate, Date endDate) throws UserInputException {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();

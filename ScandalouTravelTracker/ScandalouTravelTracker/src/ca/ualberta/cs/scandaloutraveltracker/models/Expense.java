@@ -42,6 +42,7 @@ public class Expense extends SModel {
 	private String currencyType;
 	private boolean flag;
 	private boolean receiptAttached;
+	private boolean locationAttached;
 	private String receiptPath;
 	private Location location;
 	
@@ -58,6 +59,7 @@ public class Expense extends SModel {
 		this.receiptAttached = false;
 		this.receiptPath = null;
 		this.location = null;
+		this.locationAttached = false;
 	}
 
 	/**
@@ -204,6 +206,11 @@ public class Expense extends SModel {
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
+		if (location != null) {
+			this.locationAttached = true;
+		} else { 
+			this.locationAttached = false;
+		}
 	}
 	
 	/**
@@ -227,4 +234,7 @@ public class Expense extends SModel {
 		}
 	}
 	
+	public boolean getLocationAttached() {
+		return this.locationAttached;
+	}
 }

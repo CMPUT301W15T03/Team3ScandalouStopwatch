@@ -99,7 +99,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 		}
 		
 		// Setting the destination indicator
-		if (currentExpense.getLocation() == null) {
+		if (!currentExpense.getLocationAttached()) {
 			expenseLocation.setVisibility(View.INVISIBLE);
 		}
 
