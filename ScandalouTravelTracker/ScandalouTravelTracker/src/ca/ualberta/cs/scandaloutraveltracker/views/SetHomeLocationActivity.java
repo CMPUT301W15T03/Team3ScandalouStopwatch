@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SetLocationActivity extends Activity {
+public class SetHomeLocationActivity extends MenuActivity {
 	private User currentUser;
 	private UserController currentUserController;
 	private LocationManager lm;
@@ -52,7 +52,7 @@ public class SetLocationActivity extends Activity {
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationTV = (TextView) findViewById(R.id.displayPickedLocationTextView);
         
-        //sets start point to home location if set or gps location if available, else it will default to
+        //sets start point to home location if set or gps location if available, else it will default to around Edmonton
         GeoPoint startPoint;
         try {
     		currentUserController.getLocation();

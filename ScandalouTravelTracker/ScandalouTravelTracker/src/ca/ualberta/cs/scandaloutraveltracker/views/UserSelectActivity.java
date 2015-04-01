@@ -86,7 +86,7 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 			return true;
 			
 		case R.id.user_context_add_location_map:
-			Intent intent = new Intent(UserSelectActivity.this, SetLocationActivity.class);
+			Intent intent = new Intent(UserSelectActivity.this, SetHomeLocationActivity.class);
 			intent.putExtra("userId", ulc.getUser(userPos).getId());
 			startActivity(intent);
 			return true;

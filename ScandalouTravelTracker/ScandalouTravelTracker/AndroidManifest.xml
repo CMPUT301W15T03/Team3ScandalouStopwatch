@@ -71,7 +71,7 @@
             android:label="@string/title_activity_claim_list" >
         </activity>
         <activity
-  			android:name="ca.ualberta.cs.scandaloutraveltracker.views.SetLocationActivity"
+  			android:name="ca.ualberta.cs.scandaloutraveltracker.views.SetHomeLocationActivity"
             android:label="@string/title_activity_location" >
         </activity>
     </application>
