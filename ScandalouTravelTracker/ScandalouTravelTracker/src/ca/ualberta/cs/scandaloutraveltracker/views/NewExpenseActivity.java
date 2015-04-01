@@ -36,9 +36,13 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -69,12 +73,18 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private TextView locationTextView;
 	private ClaimMapper mapper;
 	private Location location = null;
+	private LocationManager lm;
+	private Location GPSLocation;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_expense);
+		
+		//set up GPS
+		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		GPSLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
 		//create ClaimMapper for saving data
 		mapper = new ClaimMapper(this.getApplicationContext());
@@ -216,8 +226,48 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	}
 	
 	public void addLocation(View v) {
-		Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
-		startActivityForResult(intent, 1);
+		AlertDialog.Builder builder = new AlertDialog.Builder(NewExpenseActivity.this);
+		builder.setTitle("Attaching a location")
+		.setCancelable(true)
+		.setItems(R.array.location_menu, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if (which == 0) {
+					GPSLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					if (GPSLocation == null) {
+						locationTextView.setText(null);
+			        	locationTextView.setHint("Location not set");
+			        	Toast.makeText(getApplicationContext(), "GPS currently unavailable", Toast.LENGTH_SHORT).show();
+					}
+					else {
+						location = GPSLocation;
+						locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
+			        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+					}
+				}
+				if (which == 1) {
+					Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
+					if (location == null) {
+						intent.putExtra("latitude",999);
+				    	intent.putExtra("longitude",999);
+					}
+					else {
+						intent.putExtra("latitude",location.getLatitude());
+						intent.putExtra("longitude",location.getLongitude());
+					}
+					startActivityForResult(intent, 1);
+				}
+				if (which == 2) {
+					location = null;
+		        	locationTextView.setText(null);
+		        	locationTextView.setHint("Location not set");
+				}
+			}
+			
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 	
 	//http://stackoverflow.com/questions/10407159/how-to-manage-start-activity-for-result-on-android/10407371#10407371 2015-03-31
@@ -233,9 +283,6 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	        	
 	        }
 	        if (resultCode == RESULT_CANCELED) {
-	        	location = null;
-	        	locationTextView.setText(null);
-	        	locationTextView.setHint("Location not set");
 	        }
 	    }
 	}
