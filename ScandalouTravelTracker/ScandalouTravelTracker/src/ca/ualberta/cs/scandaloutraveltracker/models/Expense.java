@@ -22,14 +22,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-<<<<<<< HEAD
 import android.location.Location;
-
-=======
 import android.os.Environment;
 
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
->>>>>>> bc99b91505b1f79d7772847e3a402ddbc07e01ca
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 /**
