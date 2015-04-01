@@ -48,7 +48,7 @@ public class SetExpenseLocationActivity extends MenuActivity {
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationTV = (TextView) findViewById(R.id.displayPickedLocationTextView);
         
-        //sets start point to gps location if available, else it will default to around Edmonton
+        //sets start point to current expense location, gps location if available, else it will default to around Edmonton
         Intent intent = getIntent();
         previousLocation = new Location("Expense Location");
         previousLocation.setLatitude(intent.getDoubleExtra("latitude", 999));
