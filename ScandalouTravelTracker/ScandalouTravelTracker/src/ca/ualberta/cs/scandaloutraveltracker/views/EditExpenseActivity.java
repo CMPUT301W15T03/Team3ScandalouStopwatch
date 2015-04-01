@@ -85,6 +85,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private TextView locationTextView;
 	private boolean flag;
 	private Location location;
+	private Button locationButton;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		deleteReceiptButton = (ImageButton) findViewById(R.id.edit_expense_delete_receipt);
 		deleteReceiptButton.setVisibility(View.INVISIBLE);
 		locationTextView = (TextView) findViewById(R.id.edit_location_edit_text);
+		locationButton = (Button) findViewById(R.id.edit_expense_location_button);
 		
 		Button editButton = (Button) findViewById(R.id.edit_expense_button);
 
@@ -172,6 +174,8 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			cost.setFocusable(false);
 			category.setEnabled(false);
 			currencyType.setEnabled(false);
+			locationButton.setText("View Location");
+			
 			
 			description.setOnClickListener(new View.OnClickListener() {
 				
@@ -465,6 +469,19 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			}
 			
 		}
+		// for editing location
+		if (requestCode == 1) {
+	        if(resultCode == RESULT_OK){
+	        	location = new Location("Expense Location");
+	        	location.setLatitude(data.getDoubleExtra("latitude", 999));
+	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
+	        	locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
+	        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+	        	
+	        }
+	        if (resultCode == RESULT_CANCELED) {
+	        }
+	    }
 		
 	}
 	
@@ -502,7 +519,33 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		return toastCount;
 	}
 	
+	// When edit/view location is clicked
 	public void editLocation(View v) {
-		
+		claimController = new ClaimController(new Claim(claimId));
+		canEdit = claimController.getCanEdit();
+		if (!canEdit) {
+			Intent intent = new Intent(getApplicationContext(), ViewLocationActivity.class);
+			if (location == null) {
+				intent.putExtra("latitude",999);
+		    	intent.putExtra("longitude",999);
+			}
+			else {
+				intent.putExtra("latitude",location.getLatitude());
+				intent.putExtra("longitude",location.getLongitude());
+			}
+	    	startActivity(intent);
+		}
+		else if (location == null) {
+			Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
+			intent.putExtra("latitude",999);
+	    	intent.putExtra("longitude",999);
+	    	startActivityForResult(intent, 1);
+		}
+		else {
+			Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
+			intent.putExtra("latitude",location.getLatitude());
+	    	intent.putExtra("longitude",location.getLongitude());
+	    	startActivityForResult(intent, 1);
+		}
 	}
 }

@@ -1,3 +1,21 @@
+/*
+
+Copyright 2015 Team3ScandalouStopwatch
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+*/
+
 package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import org.osmdroid.api.IMapController;
@@ -28,8 +46,9 @@ public class SetExpenseLocationActivity extends MenuActivity {
 	private IMapController mapController;
 	private MapEventsReceiver mapReceiver;
 	private Marker newLocation;
-	private Marker currentLocation;
+	private Marker currentLocation = null;
 	private Button currentButton;
+	private Location previousLocation;
 	
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,17 +66,40 @@ public class SetExpenseLocationActivity extends MenuActivity {
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationTV = (TextView) findViewById(R.id.displayPickedLocationTextView);
         
-        //sets start point to gps location if available, else it will default to around Edmonton
+        //sets start point to current expense location, gps location if available, else it will default to around Edmonton
+        Intent intent = getIntent();
+        previousLocation = new Location("Expense Location");
+        previousLocation.setLatitude(intent.getDoubleExtra("latitude", 999));
+        previousLocation.setLongitude(intent.getDoubleExtra("longitude", 999));
         GeoPoint startPoint;
-    	try {
-            new GeoPoint(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-           	startPoint = new GeoPoint(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-           	mapController.setCenter(startPoint);
-        }
-        catch (NullPointerException e2) {
-        	startPoint = new GeoPoint(53.533333, -113.5);
-        	mapController.setCenter(startPoint);
-        }
+        try {
+        	if ((previousLocation.getLatitude() == 999)||(previousLocation.getLongitude() == 999)){
+        		throw new NullPointerException();
+        	}
+    		startPoint = new GeoPoint(previousLocation);
+    		currentLocation = new Marker(map);
+        	currentLocation.setPosition(startPoint);
+        	currentLocation.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        	currentLocation.setTitle("Current Expense Location");
+        	currentLocation.showInfoWindow();
+			map.getOverlays().add(currentLocation);
+			map.invalidate();
+			locationTV.setText("Current Expense location\nLatitude: " + 
+					previousLocation.getLatitude() + "\nLongitude: " 
+						+ previousLocation.getLongitude());
+			mapController.setCenter(startPoint);
+    	}
+	    catch (NullPointerException e) {
+		    try {
+		    	new GeoPoint(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+		    	startPoint = new GeoPoint(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+		    	mapController.setCenter(startPoint);
+		    	}
+		    catch (NullPointerException e2) {
+		    	startPoint = new GeoPoint(53.533333, -113.5);
+		    	mapController.setCenter(startPoint);
+		    	}
+    	}
         
         //http://stackoverflow.com/questions/16402722/longpress-on-osmdroid-map-is-not-working 2015-03-30
         mapReceiver = new MapEventsReceiver() {
@@ -91,7 +133,12 @@ public class SetExpenseLocationActivity extends MenuActivity {
     
     // When Home button is clicked, goes to destination location if one is set
     public void goCurrent(View v) {
-    	Toast.makeText(getApplicationContext(),"Does Nothing right now",Toast.LENGTH_SHORT).show();
+    	if (currentLocation == null) {
+    		Toast.makeText(getApplicationContext(),"Expense location not set",Toast.LENGTH_SHORT).show();
+    		return;
+    	}
+    	GeoPoint startPoint = new GeoPoint(previousLocation);
+        mapController.setCenter(startPoint);
     }
     
     // When GPS is clicked, goes to current gps location

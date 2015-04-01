@@ -105,5 +105,8 @@
     <string name="title_activity_set_expense_location">SetExpenseLocationActivity</string>
     <string name="expense_location_icon">Expense Location Icon</string>
     <string name="expense_picture_icon">Expense Picture Icon</string>
-	<string name="expense_flag_icon">Expense Flag Icon</string>
+    <string name="expense_flag_icon">Expense Flag Icon</string>
+    <string name="title_activity_view_location">View Location</string>
+    <string name="current_location_button">Go to Current Location</string>
+
 </resources>

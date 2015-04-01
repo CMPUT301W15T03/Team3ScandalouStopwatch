@@ -78,6 +78,10 @@
             android:name="ca.ualberta.cs.scandaloutraveltracker.views.SetExpenseLocationActivity"
             android:label="@string/title_activity_set_expense_location" >
         </activity>
+        <activity
+            android:name="ca.ualberta.cs.scandaloutraveltracker.views.ViewLocationActivity"
+            android:label="@string/title_activity_view_location" >
+        </activity>
     </application>
 
 </manifest>
