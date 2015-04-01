@@ -66,7 +66,7 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
  */
 public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	
-	private static final String receiptPathLabel = "ca.ualberta.cs.scandaloutraveltracker.receiptPath";	
+	public static final String receiptPathLabel = "ca.ualberta.cs.scandaloutraveltracker.receiptPath";	
 	
 	private Receipt receipt = new Receipt();
 	private ClaimController claimController;
@@ -76,7 +76,8 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private int expenseId;
 	private Date newDate;
 	private boolean canEdit;
-	private ImageButton imageButton;
+	private ImageButton receiptThumbnail;
+	private ImageButton takeReceiptPhotoButton;
 	private ImageButton deleteReceiptButton;
 	private Uri receiptPhotoUri;
 	private String newReceiptPath; // shouldn't be a global; will figure out better way later
@@ -98,8 +99,9 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		EditText cost = (EditText) findViewById(R.id.amount);
 		StateSpinner category = (StateSpinner) findViewById(R.id.catspinner);
 		StateSpinner currencyType = (StateSpinner) findViewById(R.id.currencyspinner);
-		imageButton = (ImageButton) findViewById(R.id.edit_expense_add_receipt);
+		receiptThumbnail = (ImageButton) findViewById(R.id.edit_expense_receipt_thumbnail);
 		addReceiptText = (TextView) findViewById(R.id.edit_expense_add_receipt_text);
+		takeReceiptPhotoButton = (ImageButton) findViewById(R.id.edit_expense_take_receipt_photo);
 		deleteReceiptButton = (ImageButton) findViewById(R.id.edit_expense_delete_receipt);
 		deleteReceiptButton.setVisibility(View.INVISIBLE);
 		locationTextView = (TextView) findViewById(R.id.edit_location_edit_text);
@@ -230,9 +232,23 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			//hide edit button
 			editButton.setVisibility(View.INVISIBLE);
 		}
-		
+
+
 		//sets image button for receipt
-		imageButton.setOnClickListener(new View.OnClickListener() {
+		receiptThumbnail.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (receiptController.getReceiptPath() != null){			
+				   Intent intent = new Intent(EditExpenseActivity.this, ReceiptActivity.class);
+				   intent.putExtra(receiptPathLabel, receiptController.getReceiptPath());
+				   startActivity(intent);
+				} 
+			}
+		});
+	
+		   
+		//sets image button for receipt
+		takeReceiptPhotoButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 			
@@ -495,17 +511,19 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			Drawable receiptPhoto = Drawable.createFromPath(receiptFileUri.getPath());
 			
 			// Update the receipt area
-			imageButton.setImageDrawable(receiptPhoto);
+			receiptThumbnail.setImageDrawable(receiptPhoto);
 			deleteReceiptButton.setVisibility(View.VISIBLE);
 			addReceiptText.setVisibility(View.INVISIBLE);
+			receiptThumbnail.setClickable(true);
 			
 		} else {
 			
 			// Reset the receipt area 
 			// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
-			imageButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+			receiptThumbnail.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
 			deleteReceiptButton.setVisibility(View.INVISIBLE);
 			addReceiptText.setVisibility(View.VISIBLE);
+			receiptThumbnail.setClickable(false);
 		}
 		
 	}

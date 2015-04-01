@@ -70,6 +70,10 @@ public class Receipt extends SModel {
 	}
 	
 	// Other methods
+
+	public File getPhotoFile(){
+		return new File(receiptPath);
+	}
 	
 	public long getPhotoSize(){
 		File receiptPhoto = new File(receiptPath);

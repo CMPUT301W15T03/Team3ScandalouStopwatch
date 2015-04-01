@@ -87,16 +87,6 @@
         android:text="@string/edit"
         android:textColor="#F2F2F2" />
 
-    <ImageButton
-        android:id="@+id/edit_expense_add_receipt"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_expense_button"
-        android:layout_below="@+id/edit_expense_location_button"
-        android:layout_centerHorizontal="true"
-        android:src="@android:drawable/ic_menu_camera"
-        android:text="Add a receipt" />
-
     <Button
         android:id="@+id/edit_expense_location_button"
         android:layout_width="wrap_content"
@@ -107,31 +97,11 @@
         android:onClick="editLocation"
         android:text="@string/edit_location_button" />
 
-    <ImageButton
-        android:id="@+id/edit_expense_delete_receipt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/edit_expense_add_receipt"
-        android:layout_alignTop="@+id/edit_expense_add_receipt"
-        android:src="@android:drawable/ic_delete" />
-
-    <TextView
-        android:id="@+id/edit_expense_add_receipt_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edit_expense_add_receipt"
-        android:layout_alignRight="@+id/edit_expense_add_receipt"
-        android:layout_below="@+id/edit_expense_delete_receipt"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="Add a receipt"
-        android:textColor="#F2F2F2" />
-
     <TextView
         android:id="@+id/edit_location_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_expense_add_receipt"
+        android:layout_above="@+id/edit_expense_button"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/description"
         android:layout_toLeftOf="@+id/edit_expense_location_button"
@@ -142,5 +112,41 @@
         android:scrollbars="vertical"
         android:singleLine="false"
         android:textColor="#FFFFFF" />
+
+    <ImageButton
+        android:id="@+id/edit_expense_receipt_thumbnail"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/edit_expense_button"
+        android:layout_below="@+id/edit_expense_location_button"
+        android:layout_centerHorizontal="true"
+        android:src="@null" />
+
+    <ImageButton
+        android:id="@+id/edit_expense_delete_receipt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/edit_expense_receipt_thumbnail"
+        android:layout_below="@+id/edit_expense_location_button"
+        android:src="@android:drawable/ic_delete" />
+
+    <ImageButton
+        android:id="@+id/edit_expense_take_receipt_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/edit_expense_receipt_thumbnail"
+        android:layout_alignRight="@+id/edit_expense_receipt_thumbnail"
+        android:src="@android:drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/edit_expense_add_receipt_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_expense_delete_receipt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="No receipt attached"
+        android:textColor="#F2F2F2" />
 
 </RelativeLayout>
