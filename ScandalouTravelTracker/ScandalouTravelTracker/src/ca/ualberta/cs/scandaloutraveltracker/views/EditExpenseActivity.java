@@ -25,21 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
-import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.StateSpinner;
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import ca.ualberta.cs.scandaloutraveltracker.R.id;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ReceiptController;
-import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
-
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.content.Intent;
@@ -48,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +43,18 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.StateSpinner;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ReceiptController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
 
 
 /**
@@ -84,6 +82,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private TextView addReceiptText;
 	private int toastCount;
 	private TextView locationTextView;
+	private boolean flag;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +131,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			
 			expenseController = new ExpenseController(claimController.getExpense(expenseId));
 			
+			flag = expenseController.getFlag();
 			String categoryString = claimController.getExpense(expenseId).getCategory();
 			String currencyString = claimController.getExpense(expenseId).getCurrencyType();
 		
@@ -349,6 +349,8 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			else {			
 			
 				expenseController = new ExpenseController(new Expense());
+				Log.d("TAG", ""+flag);
+				expenseController.setFlag(flag);
 				
 				//checks if date is unchanged
 				if (dateString.equals(claimController.getExpense(expenseId).getDateString())) {

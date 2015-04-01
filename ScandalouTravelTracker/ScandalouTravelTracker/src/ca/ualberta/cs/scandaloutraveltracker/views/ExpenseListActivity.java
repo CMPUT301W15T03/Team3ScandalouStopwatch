@@ -153,7 +153,6 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 									expenseController.setFlag(true);
 									expenseController.notifyViews();
 									mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
-								
 									setViews();
 									Toast.makeText(getApplicationContext(), "Expense Flagged", Toast.LENGTH_SHORT).show();
 								}
