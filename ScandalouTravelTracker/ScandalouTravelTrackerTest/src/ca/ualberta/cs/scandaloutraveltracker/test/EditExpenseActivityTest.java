@@ -1,14 +1,21 @@
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
+import android.app.Activity;
 import android.app.Instrumentation;
+import android.app.Instrumentation.ActivityMonitor;
 import android.content.Intent;
+import android.hardware.Camera;
+import android.provider.MediaStore;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.StateSpinner;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.views.EditExpenseActivity;
@@ -22,6 +29,9 @@ public class EditExpenseActivityTest extends
 	EditText description;
 	EditText date;
 	EditText cost;
+	TextView addReceiptText;
+	ImageButton imageButton;
+	ImageButton deleteReceiptButton;
 	StateSpinner category;
 	StateSpinner currencyType;
 	int newClaimId;
@@ -61,6 +71,9 @@ public class EditExpenseActivityTest extends
 		category = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.catspinner);
 		currencyType = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.currencyspinner);
 		saveEdits = (Button) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.edit_expense_button);
+		imageButton = (ImageButton) editExpenseActivity.findViewById(R.id.edit_expense_add_receipt);
+		addReceiptText = (TextView) editExpenseActivity.findViewById(R.id.edit_expense_add_receipt_text);
+		deleteReceiptButton = (ImageButton) editExpenseActivity.findViewById(R.id.edit_expense_delete_receipt);
 	}
 	
 	// Tests that all of the passed expense data is shown on the screen
@@ -155,6 +168,27 @@ public class EditExpenseActivityTest extends
 		TouchUtils.clickView(this, cost);
 		assertEquals(3, editExpenseActivity.getToastCount());
 		assertFalse(saveEdits.isShown());
+		cg.resetState(ClaimApplication.getContext());
+	}
+	
+	public void testCanTakeReceiptPicture() {
+		assertTrue(addReceiptText.isShown());
+		assertFalse(deleteReceiptButton.isShown());
+		
+		// Registers next activity to be monitored
+		ActivityMonitor am = getInstrumentation().addMonitor(MediaStore.ACTION_IMAGE_CAPTURE, null, false);
+		
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				imageButton.performClick();	
+			}
+		});
+		
+		// Test that next activity was launched
+		Activity nextActivity = (Activity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
+		assertNotNull(nextActivity);
+		
 		cg.resetState(ClaimApplication.getContext());
 	}
 	
