@@ -29,6 +29,7 @@ import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -83,6 +84,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private int toastCount;
 	private TextView locationTextView;
 	private boolean flag;
+	private Location location;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +134,8 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			expenseController = new ExpenseController(claimController.getExpense(expenseId));
 			
 			flag = expenseController.getFlag();
+			location = expenseController.getLocation();
+			
 			String categoryString = claimController.getExpense(expenseId).getCategory();
 			String currencyString = claimController.getExpense(expenseId).getCurrencyType();
 		
@@ -349,8 +353,9 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			else {			
 			
 				expenseController = new ExpenseController(new Expense());
-				Log.d("TAG", ""+flag);
+
 				expenseController.setFlag(flag);
+				expenseController.setLocation(location);
 				
 				//checks if date is unchanged
 				if (dateString.equals(claimController.getExpense(expenseId).getDateString())) {
