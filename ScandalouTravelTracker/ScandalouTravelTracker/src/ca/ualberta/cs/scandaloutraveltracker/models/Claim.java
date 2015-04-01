@@ -586,13 +586,22 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	
 	/**
-	 * Checks if the Claim has any flagged Expenses
-	 * @return boolean if a flagged Expense exists
+	 * Checks if the Claim has any incomplete/flagged Expenses
+	 * @return boolean if an incomplete/flagged Expense exists
 	 */
 	public boolean checkIncompleteExpenses() {
 		ArrayList<Expense> expenses = this.getExpenses();
 		for (int i = 0; i < expenses.size(); i++) {
-			if (expenses.get(i).getFlag() == true) {
+			Expense expense = expenses.get(i);
+			if (expense.getFlag() == true) {
+				return true;
+			} else if (expense.getCategory().equals("--Choose Category--")) {
+				return true;
+			} else if (expense.getCost() == 0) {
+				return true;
+			} else if (expense.getCurrencyType().equals("--Choose Currency--")) {
+				return true;
+			} else if (expense.getDescription().equals("")) {
 				return true;
 			}
 		}
