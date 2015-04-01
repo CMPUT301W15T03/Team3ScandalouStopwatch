@@ -17,6 +17,7 @@ limitations under the License.
 */
 package ca.ualberta.cs.scandaloutraveltracker.controllers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
+import android.os.Environment;
 import android.view.View;
 
 /**
@@ -247,13 +249,13 @@ public class ClaimController {
 	 * @param e
 	 */
 	public void updateExpense(int expensePos, Expense newExpense) throws UserInputException {
-
+		
 		// Get the updated list
 		ArrayList<Expense> newExpenseList = currentClaim.getExpenses();
 		newExpenseList.set(expensePos, newExpense);
 		
 		// Save the new list in storage
-		currentClaim.updateExpenses(newExpenseList, newExpense);
+		currentClaim.updateExpenses(newExpenseList);
 		
 		// Save the new list in the current claim
 		currentClaim.setExpenses(newExpenseList);

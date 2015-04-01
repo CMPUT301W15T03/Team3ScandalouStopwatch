@@ -27,7 +27,6 @@ import java.util.Locale;
 
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
-import ca.ualberta.cs.scandaloutraveltracker.Photo;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.StateSpinner;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
@@ -36,8 +35,10 @@ import ca.ualberta.cs.scandaloutraveltracker.R.layout;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ReceiptController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
@@ -45,6 +46,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -64,16 +67,20 @@ import android.widget.Toast;
  */
 public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	
-	private Photo photo = new Photo();
+	private static final String receiptPathLabel = "ca.ualberta.cs.scandaloutraveltracker.receiptPath";	
+	
+	private Receipt receipt = new Receipt();
 	private ClaimController claimController;
 	private ExpenseController expenseController;
+	private ReceiptController receiptController;
 	private int claimId;
 	private int expenseId;
 	private Date newDate;
 	private boolean canEdit;
 	private ImageButton imageButton;
 	private ImageButton deleteReceiptButton;
-	private String receiptPath;
+	private Uri receiptPhotoUri;
+	private String newReceiptPath; // shouldn't be a global; will figure out better way later
 	private TextView addReceiptText;
 	private int toastCount;
 	
@@ -120,6 +127,9 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		canEdit = claimController.getCanEdit();
 		
 		if (claimId != 0) {
+			
+			expenseController = new ExpenseController(claimController.getExpense(expenseId));
+			
 			String categoryString = claimController.getExpense(expenseId).getCategory();
 			String currencyString = claimController.getExpense(expenseId).getCurrencyType();
 		
@@ -132,8 +142,12 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 					.getCost());
 			category.setSelection(getIndex(category, categoryString));
 			currencyType.setSelection(getIndex(currencyType, currencyString));
-			receiptPath = claimController.getExpense(expenseId).getReceiptPath();
-			setReceiptPhoto(claimController.getExpense(expenseId).getReceiptPath());
+			receipt = new Receipt(claimController.getExpense(expenseId).getReceiptPath());
+			receiptController = new ReceiptController(receipt);
+			setReceiptPhoto(receipt);
+			
+			receiptController.addView(this); // make this nicer later
+			
 		}
 		
 		// Sets all the layout elements if the claim can't be edited
@@ -209,7 +223,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 				}
 				else {
-					photo.takeAPhoto(EditExpenseActivity.this);
+					takeReceiptPhoto();
 				}
 			}
 		});
@@ -224,7 +238,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
 				}
 				else {
-					deletePhoto();
+					receiptController.saveReceiptPhoto(null);
 				}
 			}
 		});
@@ -271,11 +285,6 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	@Override
 	protected void onResume() {
 		super.onResume();
-	}
-	
-	public void update() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	//is called when edit button is clicked
@@ -344,12 +353,19 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				costString = String.format("%.2f", Double.valueOf(costString));
 				double amount = Double.valueOf(costString);
 				expenseController.setCost(Double.valueOf(amount));
-				expenseController.setReceiptPath(receiptPath);
+				
 				
 				try {
 					
-					// Throws exception on failure
-					claimController.updateExpense(expenseId, expenseController.getExpense());
+					// Throws exception
+					receiptController.saveReceiptPhotoForGood();
+					
+					receiptController.clearOldReceipts();
+					
+					expenseController.setReceiptPath(receiptController.getReceiptPath());
+					
+					// Throws exception
+					claimController.updateExpense(expenseId, expenseController.getExpense());					
 					
 					// Refresh the claim list
 					ClaimListController claimListController = new ClaimListController();
@@ -389,56 +405,74 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		return index;
 	}  
 
+	public void takeReceiptPhoto() {
+		
+		// Create the receipts folder if it doesn't exist yet
+		String folderPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/receipts_working";
+		File folderFile = new File(folderPath);
+		if (!folderFile.exists()) {
+			folderFile.mkdir();
+		}
+		
+		// Make a new receipt photo file
+		newReceiptPath = folderPath + "/"+ String.valueOf(System.currentTimeMillis()) + ".jpg";
+		File receiptPhoto = new File(newReceiptPath);
+		
+		// Get a URI for the file
+		receiptPhotoUri = Uri.fromFile(receiptPhoto);
+		
+		// Store the picture
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptPhotoUri);
+		
+		startActivityForResult(intent, EditExpenseActivity.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+	}	
+	
 	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;	
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
+			
 			if (resultCode == RESULT_OK){
-				setReceiptPhoto(receiptPath);
-			} else if (resultCode == RESULT_CANCELED){
-				deletePhoto();			
-			} else {
-				deletePhoto();			
+				receiptController.saveReceiptPhoto(newReceiptPath);		
 			}
+			
 		}
 		
 	}
 	
-	protected void setReceiptPhoto(String receiptPath){
-		if (receiptPath != null){
-			File receiptFile = new File(receiptPath);
+	protected void setReceiptPhoto(Receipt receipt){
+		
+		if (receiptController.getReceiptPath() != null){
+			
+			// Get the receipt photo
+			File receiptFile = new File(receiptController.getReceiptPath());
 			Uri receiptFileUri = Uri.fromFile(receiptFile);
-			Drawable receipt = Drawable.createFromPath(receiptFileUri.getPath());
-			imageButton.setImageDrawable(receipt);
+			Drawable receiptPhoto = Drawable.createFromPath(receiptFileUri.getPath());
+			
+			// Update the receipt area
+			imageButton.setImageDrawable(receiptPhoto);
 			deleteReceiptButton.setVisibility(View.VISIBLE);
 			addReceiptText.setVisibility(View.INVISIBLE);
+			
+		} else {
+			
+			// Reset the receipt area 
+			// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
+			imageButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+			deleteReceiptButton.setVisibility(View.INVISIBLE);
+			addReceiptText.setVisibility(View.VISIBLE);
 		}
+		
 	}
 	
-	public void deletePhoto(){
-		File imageFile = new File(receiptPath);
-		imageFile.delete();
-
-		// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
-		imageButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
-		deleteReceiptButton.setVisibility(View.INVISIBLE);
-		addReceiptText.setVisibility(View.VISIBLE);
-		
-		receiptPath = null;
-		
+	public void update(){
+		setReceiptPhoto(receipt);
 	}
 	
 	// Testing methods
 	public int getToastCount() {
 		return toastCount;
-	}
-
-	public void setReceiptPath(String receiptPath) {
-		this.receiptPath = receiptPath;
-	}
-
-	public String getReceiptPath() {
-		return receiptPath;
 	}
 }

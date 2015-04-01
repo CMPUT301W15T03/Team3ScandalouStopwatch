@@ -21,7 +21,9 @@ package ca.ualberta.cs.scandaloutraveltracker.controllers;
 import java.io.File;
 import java.util.Date;
 
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 /**
@@ -114,14 +116,19 @@ public class ExpenseController {
 	public void removeView(ViewInterface view) {
 		currentExpense.removeView(view);
 	}
+
+
+	public String getReceiptPath() {
+		return currentExpense.getReceiptPath();
+	}
 	
 	/**
 	 * 
-	 * @param receiptPath
+	 * @param receipt
 	 */
 	public void setReceiptPath(String receiptPath) {
 		currentExpense.setReceiptPath(receiptPath);
-	}
+	}	
 	
 	/**
 	 * This method is specifically used for passing the newly created
