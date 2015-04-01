@@ -100,7 +100,7 @@
     <string name="user_longitude">Current Longitude: </string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="add_location_button">Add Location</string>
-    <string name="edit_location_button">Edit Location</string>
+    <string name="edit_location_button">Edit/View Location</string>
     <string name="expense_add_location_filler">Location not set</string>
     <string name="title_activity_set_expense_location">SetExpenseLocationActivity</string>
 

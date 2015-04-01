@@ -83,6 +83,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private String newReceiptPath; // shouldn't be a global; will figure out better way later
 	private TextView addReceiptText;
 	private int toastCount;
+	private TextView locationTextView;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		addReceiptText = (TextView) findViewById(R.id.edit_expense_add_receipt_text);
 		deleteReceiptButton = (ImageButton) findViewById(R.id.edit_expense_delete_receipt);
 		deleteReceiptButton.setVisibility(View.INVISIBLE);
+		locationTextView = (TextView) findViewById(R.id.edit_location_edit_text);
 		
 		Button editButton = (Button) findViewById(R.id.edit_expense_button);
 
@@ -142,6 +144,15 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 					.getCost());
 			category.setSelection(getIndex(category, categoryString));
 			currencyType.setSelection(getIndex(currencyType, currencyString));
+			if (claimController.getExpense(expenseId).getLocation() == null) {
+				locationTextView.setHint("Location not set");
+			}
+			else {
+				locationTextView.setText("Lat: " + String.format("%.4f", 
+						claimController.getExpense(expenseId).getLocation().getLatitude()) 
+	        				+ "\nLong: " + String.format("%.4f", 
+	        						claimController.getExpense(expenseId).getLocation().getLongitude()));
+			}
 			receipt = new Receipt(claimController.getExpense(expenseId).getReceiptPath());
 			receiptController = new ReceiptController(receipt);
 			setReceiptPhoto(receipt);
@@ -474,5 +485,9 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	// Testing methods
 	public int getToastCount() {
 		return toastCount;
+	}
+	
+	public void editLocation(View v) {
+		
 	}
 }

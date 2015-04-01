@@ -66,7 +66,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private EditText amountEditText;
 	private Spinner currencySpinner;
 	private EditText descriptionEditText;
-	private EditText locationTextView;
+	private TextView locationTextView;
 	private ClaimMapper mapper;
 	private Location location = null;
 	
@@ -87,8 +87,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		amountEditText = (EditText)findViewById(R.id.amount2);
 		currencySpinner = (Spinner)findViewById(R.id.currency);
 		descriptionEditText = (EditText)findViewById(R.id.description2);
-		locationTextView = (EditText) findViewById(R.id.new_location_edit_text);
-		locationTextView.setEnabled(false);
+		locationTextView = (TextView) findViewById(R.id.new_location_edit_text);
 		
 		setUpListeners();
 	}
