@@ -237,4 +237,8 @@ public class Expense extends SModel {
 	public boolean getLocationAttached() {
 		return this.locationAttached;
 	}
+	
+	public void setLocationAttached(boolean attached) {
+		this.locationAttached = attached;
+	}
 }

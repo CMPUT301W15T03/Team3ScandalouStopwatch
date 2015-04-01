@@ -23,11 +23,15 @@ import android.app.Instrumentation;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListAdapter;
+import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
@@ -78,26 +82,12 @@ public class ExpenseListTest extends
 	// US04.04.01
 	public void testFlagExpense() {
 		AlertDialog currentAlert;
-		ExpenseListAdapter adapter = expenseListActivity.getAdapter();
-		assertFalse(adapter.getFlag());
-		
-		// Flagging the expense
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				expenseLV.performItemClick(expenseLV, 0, 0);
-			}
-		});
-		currentAlert = expenseListActivity.getAlert();
-		assertTrue(currentAlert.isShowing());
-		
-		performClick(currentAlert.getButton(DialogInterface.BUTTON_NEUTRAL));
 		Expense expense = (Expense) expenseLV.getItemAtPosition(0);
-		adapter = expenseListActivity.getAdapter();
-		assertTrue(expense.getFlag());
+		ExpenseListAdapter adapter = expenseListActivity.getAdapter();
 		assertTrue(adapter.getFlag());
+		assertTrue(expense.getFlag());
 		
-		// Unflagging the expense
+		// UnFlagging the expense
 		instrumentation.runOnMainSync(new Runnable() {
 			@Override
 			public void run() {
@@ -112,6 +102,23 @@ public class ExpenseListTest extends
 		adapter = expenseListActivity.getAdapter();
 		assertFalse(expense.getFlag());
 		assertFalse(adapter.getFlag());
+		
+		// Flagging the expense
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				expenseLV.performItemClick(expenseLV, 0, 0);
+			}
+		});
+		currentAlert = expenseListActivity.getAlert();
+		assertTrue(currentAlert.isShowing());
+		
+		performClick(currentAlert.getButton(DialogInterface.BUTTON_NEUTRAL));
+		
+		expense = (Expense) expenseLV.getItemAtPosition(0);
+		adapter = expenseListActivity.getAdapter();
+		assertTrue(expense.getFlag());
+		assertTrue(adapter.getFlag());
 		cg.resetState(ClaimApplication.getContext());
 	}
 	
@@ -170,6 +177,31 @@ public class ExpenseListTest extends
 		
 		ClaimController cc = new ClaimController(new Claim(newClaimId));
 		assertEquals(1, cc.getExpenseList().size());
+		cg.resetState(ClaimApplication.getContext());
+	}
+	
+	// Tests that all the expense information needed is shown on the expense list 
+	// US05.01.01
+	public void testExpenseDataShown() {
+		View currentExpenseView = expenseLV.getChildAt(0);
+		assertTrue(currentExpenseView.isShown());
+		
+		TextView expenseCategory = (TextView) currentExpenseView.findViewById(R.id.expenseCategoryExpenseListTV); 
+		TextView expenseDate = (TextView) currentExpenseView.findViewById(R.id.expenseDateExpenseListTV);
+		TextView expenseDescription = (TextView) currentExpenseView.findViewById(R.id.expenseDescriptionTV);
+		TextView expenseTotal = (TextView) currentExpenseView.findViewById(R.id.expenseTotalsExpenseListTV);
+		ImageView expenseLocation = (ImageView) currentExpenseView.findViewById(R.id.expenseLocationIcon);
+		ImageView expenseReceipt = (ImageView) currentExpenseView.findViewById(R.id.expensePictureIcon);
+		ImageView expenseFlag = (ImageView) currentExpenseView.findViewById(R.id.expenseFlagIcon);
+		
+		assertTrue(expenseLocation.isShown());
+		assertTrue(expenseReceipt.isShown());
+		assertTrue(expenseFlag.isShown());
+		assertTrue(expenseCategory.getText().equals("Parking"));
+		assertTrue(expenseDate.getText().equals("03/02/2014"));
+		assertTrue(expenseDescription.getText().equals("Test Expense"));
+		assertTrue(expenseTotal.getText().equals("Cost: 2.25 CAD"));
+		
 		cg.resetState(ClaimApplication.getContext());
 	}
 	

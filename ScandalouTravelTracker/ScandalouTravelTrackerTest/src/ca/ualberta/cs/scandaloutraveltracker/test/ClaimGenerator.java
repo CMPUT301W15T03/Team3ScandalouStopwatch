@@ -139,7 +139,7 @@ public class ClaimGenerator {
 			newExpense.setCategory("Parking");
 			newExpense.setFlag(true);
 			newExpense.setReceiptAttached(true);
-			
+			newExpense.setLocationAttached(true);
 			expenses.add(newExpense);
 		}
 		

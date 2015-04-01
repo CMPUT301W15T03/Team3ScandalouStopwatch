@@ -88,9 +88,14 @@ public class ExpenseListAdapter extends BaseAdapter {
 		
 		Expense currentExpense = expenses.get(position);
 		
-		// Setting the ImageView for flag (star)
-		if (!currentExpense.getFlag()) {
+		// Setting the ImageView for flag
+		// Setting the adapter flag visibility
+		if (currentExpense.getFlag()) {
+			flagOn = true;
+		}
+		else if (!currentExpense.getFlag()) {
 			expenseFlag.setVisibility(View.INVISIBLE);
+			flagOn = false;
 		}
 		
 		// Setting the receipt indicator
@@ -102,7 +107,6 @@ public class ExpenseListAdapter extends BaseAdapter {
 		if (!currentExpense.getLocationAttached()) {
 			expenseLocation.setVisibility(View.INVISIBLE);
 		}
-
 		
 		String currency=null;
 		
