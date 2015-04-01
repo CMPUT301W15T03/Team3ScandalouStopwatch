@@ -226,8 +226,8 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	    if (requestCode == 1) {
 	        if(resultCode == RESULT_OK){
 	        	location = new Location("Expense Location");
-	        	location.setLatitude(data.getDoubleExtra("latitude", 0));
-	        	location.setLongitude(data.getDoubleExtra("longitude", 0));
+	        	location.setLatitude(data.getDoubleExtra("latitude", 999));
+	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
 	        	locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
 	        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
 	        	

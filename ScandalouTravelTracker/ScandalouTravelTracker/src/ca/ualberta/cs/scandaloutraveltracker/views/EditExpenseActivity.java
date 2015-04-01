@@ -465,6 +465,19 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			}
 			
 		}
+		// for editing location
+		if (requestCode == 1) {
+	        if(resultCode == RESULT_OK){
+	        	location = new Location("Expense Location");
+	        	location.setLatitude(data.getDoubleExtra("latitude", 999));
+	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
+	        	locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
+	        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+	        	
+	        }
+	        if (resultCode == RESULT_CANCELED) {
+	        }
+	    }
 		
 	}
 	
@@ -502,7 +515,17 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		return toastCount;
 	}
 	
+	// When edit/view location is clicked
 	public void editLocation(View v) {
-		
+		Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
+		if (claimController.getExpense(expenseId).getLocation() == null) {
+			intent.putExtra("latitude",999);
+	    	intent.putExtra("longitude",999);
+		}
+		else {
+			intent.putExtra("latitude",location.getLatitude());
+	    	intent.putExtra("longitude",location.getLongitude());
+		}
+		startActivityForResult(intent, 1);
 	}
 }
