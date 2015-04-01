@@ -71,7 +71,7 @@ public class EditExpenseActivityTest extends
 		category = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.catspinner);
 		currencyType = (StateSpinner) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.currencyspinner);
 		saveEdits = (Button) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.edit_expense_button);
-		imageButton = (ImageButton) editExpenseActivity.findViewById(R.id.edit_expense_add_receipt);
+		imageButton = (ImageButton) editExpenseActivity.findViewById(R.id.edit_expense_receipt_thumbnail);
 		addReceiptText = (TextView) editExpenseActivity.findViewById(R.id.edit_expense_add_receipt_text);
 		deleteReceiptButton = (ImageButton) editExpenseActivity.findViewById(R.id.edit_expense_delete_receipt);
 	}
