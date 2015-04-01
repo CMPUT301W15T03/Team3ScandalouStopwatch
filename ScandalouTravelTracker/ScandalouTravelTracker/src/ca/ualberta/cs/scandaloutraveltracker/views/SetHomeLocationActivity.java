@@ -28,6 +28,7 @@ import org.osmdroid.views.MapView;
 
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 import android.content.Context;
@@ -42,6 +43,7 @@ import android.widget.Toast;
 public class SetHomeLocationActivity extends MenuActivity {
 	private User currentUser;
 	private UserController currentUserController;
+	private UserListController ulc;
 	private LocationManager lm;
 	private MapView map;
 	private TextView locationTV;
@@ -49,13 +51,14 @@ public class SetHomeLocationActivity extends MenuActivity {
 	private MapEventsReceiver mapReceiver;
 	private Marker newLocation;
 	private Marker currentLocation;
+	private int userId;
 	
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_location);
         
         Bundle extras = getIntent().getExtras();
-		int userId = extras.getInt("userId");
+		userId = extras.getInt("userId");
         currentUser = new User(userId);
         currentUserController = new UserController(currentUser);
 		
@@ -166,6 +169,10 @@ public class SetHomeLocationActivity extends MenuActivity {
     	temp.setLatitude(newLocation.getPosition().getLatitude());
     	temp.setLongitude(newLocation.getPosition().getLongitude());
     	currentUserController.setCurrentLocation(temp);
-    	finish();
+    	ulc = new UserListController();
+		ulc.removeUser(userId);
+		currentUserController = new UserController(new User(currentUser.getId()));
+		ulc.addUser(new User(userId));
+		finish();
     }
 }
