@@ -3,8 +3,8 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#0F0F0F" >
+    android:background="#545454"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/expenseCategoryExpenseListTV"
@@ -14,8 +14,9 @@
         android:layout_alignParentTop="true"
         android:text="@string/expense_category_text_filler"
         android:textAppearance="?android:attr/textAppearanceMedium" 
-        android:textColor="#808080"
-        android:layout_marginLeft="10dp"/>
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"/>
     
         <TextView
         android:id="@+id/expenseDescriptionTV"
@@ -24,7 +25,7 @@
         android:layout_alignLeft="@+id/expenseTotalsExpenseListTV"
         android:layout_below="@+id/expenseCategoryExpenseListTV"
         android:text="@string/expense_description_text_filler"
-        android:textColor="#8A8A8A"
+        android:textColor="#EEEEEE"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -35,49 +36,54 @@
         android:layout_below="@id/expenseDescriptionTV"
         android:text="@string/expense_totals_text_filler"
         android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:textColor="#8A8A8A"
+        android:textColor="#EEEEEE"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"/>
-
-    <ImageView
-        android:id="@+id/expenseListFlag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@android:drawable/star_big_off"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:contentDescription="@string/expense_incomplete_image_description" />
-
-    <TextView
-        android:id="@+id/expenseReceiptIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/expenseDateExpenseListTV"
-        android:layout_below="@+id/expenseDescriptionTV"
-        android:textColor="#8A8A8A"
-        android:text="@string/receipt_text" />
 
     <TextView
         android:id="@+id/expenseDateExpenseListTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/expenseCategoryExpenseListTV"
-        android:layout_alignBottom="@+id/expenseCategoryExpenseListTV"
-        android:layout_marginRight="35dp"
-        android:layout_toLeftOf="@+id/expenseListFlag"
+        android:layout_above="@+id/expenseDescriptionTV"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="38dp"
         android:text="@string/expense_date_text_filler"
-        android:textColor="#8A8A8A"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#EEEEEE"
+        android:layout_marginBottom="5dp" />
 
-    <TextView
-        android:id="@+id/expenseDestinationIndicator"
+    <ImageView
+        android:id="@+id/expensePictureIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/expenseReceiptIndicator"
-        android:layout_alignLeft="@+id/expenseReceiptIndicator"
-        android:text="@string/expense_destination_text_filler"
-        android:textColor="#8A8A8A" />
+        android:layout_alignBottom="@id/expenseTotalsExpenseListTV"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/expenseLocationIcon"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/pictureicon"
+        android:contentDescription="@string/expense_picture_icon" />
+
+    <ImageView
+        android:id="@+id/expenseLocationIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/expenseTotalsExpenseListTV"
+        android:layout_alignTop="@+id/expenseDescriptionTV"
+        android:layout_toLeftOf="@+id/expensePictureIcon"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/mapmarker"
+        android:contentDescription="@string/expense_location_icon" />
+
+    <ImageView
+        android:id="@+id/expenseFlagIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/expenseTotalsExpenseListTV"
+        android:layout_alignTop="@+id/expenseLocationIcon"
+        android:layout_marginBottom="5dp"
+        android:layout_toLeftOf="@+id/expenseLocationIcon"
+        android:src="@drawable/filledflag"
+        android:contentDescription="@string/expense_flag_icon" />
 
 </RelativeLayout>

@@ -368,6 +368,14 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				
 				try {
 					
+					 // If delete button visible, receipt attached 
+					if (deleteReceiptButton.getVisibility() == View.VISIBLE) {
+						expenseController.setReceiptStatus(true);
+					}
+					else if (deleteReceiptButton.getVisibility() == View.INVISIBLE) {
+						expenseController.setReceiptStatus(false);
+					}
+					
 					// Throws exception
 					receiptController.saveReceiptPhotoForGood();
 					

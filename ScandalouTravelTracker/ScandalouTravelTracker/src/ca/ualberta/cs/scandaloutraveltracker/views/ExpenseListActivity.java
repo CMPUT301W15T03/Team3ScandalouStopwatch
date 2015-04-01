@@ -20,18 +20,6 @@ package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import java.util.ArrayList;
 
-import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimMapper;
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.ExpenseListAdapter;
-import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.R.id;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
-import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +32,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimMapper;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.ExpenseListAdapter;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 
 /**
  *  This activity displays the list of expenses that is related to the
@@ -156,6 +153,7 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 									expenseController.setFlag(true);
 									expenseController.notifyViews();
 									mapper.saveClaimData(claimId, "expenses", claimController.getExpenseList());
+								
 									setViews();
 									Toast.makeText(getApplicationContext(), "Expense Flagged", Toast.LENGTH_SHORT).show();
 								}
@@ -166,6 +164,7 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 									setViews();
 									Toast.makeText(getApplicationContext(), "Expense Un-flagged", Toast.LENGTH_SHORT).show();
 								}	
+								update();
 							}
 							else {
 		            			   Toast.makeText(getApplicationContext(), 
@@ -173,7 +172,7 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 		            					   		  Toast.LENGTH_SHORT).show();
 		            		}
 					    }
-				  
+				
 			      });
 				  alert = builder.create();
 				  alert.show();		
@@ -209,6 +208,8 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 
 	@Override
 	public void update() {
+		expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
+		expenseListView.setAdapter(expenseListAdapter);
 		expenseListAdapter.notifyDataSetChanged();
 	}
 	

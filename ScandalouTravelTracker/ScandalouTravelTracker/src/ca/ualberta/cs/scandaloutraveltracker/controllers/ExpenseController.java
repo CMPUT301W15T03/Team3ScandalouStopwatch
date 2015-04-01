@@ -164,4 +164,12 @@ public class ExpenseController {
 		currentExpense.notifyViews();
 	}
 	
+	public boolean getReceiptStatus() {
+		return currentExpense.getReceiptAttached();
+	}
+	
+	public void setReceiptStatus(boolean status) {
+		currentExpense.setReceiptAttached(status);
+	}
+	
 }

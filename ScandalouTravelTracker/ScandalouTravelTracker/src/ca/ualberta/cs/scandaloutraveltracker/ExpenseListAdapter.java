@@ -14,6 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+Icons on this adapter (filledflag.png, mapmarker.png, and pictureicon.png)
+were used from http://icons4android.com/ under the Creative Commons 3.0
+Unported license. None of these icons were modified from their original
+state.
+
 */
 
 package ca.ualberta.cs.scandaloutraveltracker;
@@ -77,41 +82,27 @@ public class ExpenseListAdapter extends BaseAdapter {
 		TextView expenseDate = (TextView) convertView.findViewById(R.id.expenseDateExpenseListTV);
 		TextView expenseDescription = (TextView) convertView.findViewById(R.id.expenseDescriptionTV);
 		TextView expenseTotal = (TextView) convertView.findViewById(R.id.expenseTotalsExpenseListTV);
-		TextView expenseReceiptIndicator = (TextView) convertView.findViewById(R.id.expenseReceiptIndicator);
-		TextView expenseDestIndicator = (TextView) convertView.findViewById(R.id.expenseDestinationIndicator);
-		ImageView expenseFlag = (ImageView) convertView.findViewById(R.id.expenseListFlag);
+		ImageView expenseLocation = (ImageView) convertView.findViewById(R.id.expenseLocationIcon);
+		ImageView expenseReceipt = (ImageView) convertView.findViewById(R.id.expensePictureIcon);
+		ImageView expenseFlag = (ImageView) convertView.findViewById(R.id.expenseFlagIcon);
 		
 		Expense currentExpense = expenses.get(position);
 		
 		// Setting the ImageView for flag (star)
-		if (currentExpense.getFlag()) {
-			expenseFlag.setImageResource(android.R.drawable.btn_star_big_on);
-			this.flagOn = true;
-		}
-		else {
-			expenseFlag.setImageResource(android.R.drawable.btn_star_big_off);
-			this.flagOn = false;
+		if (!currentExpense.getFlag()) {
+			expenseFlag.setVisibility(View.INVISIBLE);
 		}
 		
 		// Setting the receipt indicator
-		if (currentExpense.getReceiptPath() != null) {
-			String indicator = "Receipt: Attached";
-			expenseReceiptIndicator.setText(indicator);
-		}
-		else {
-			String indicator = "Receipt: Unavailable";
-			expenseReceiptIndicator.setText(indicator);
+		if (!currentExpense.getReceiptAttached()) {
+			expenseReceipt.setVisibility(View.INVISIBLE);
 		}
 		
 		// Setting the destination indicator
-		if (currentExpense.getLocation() != null) {
-			String indicator = "Dest: Attached";
-			expenseDestIndicator.setText(indicator);
+		if (currentExpense.getLocation() == null) {
+			expenseLocation.setVisibility(View.INVISIBLE);
 		}
-		else {
-			String indicator = "Dest: Missing";
-			expenseDestIndicator.setText(indicator);
-		}
+
 		
 		String currency=null;
 		
