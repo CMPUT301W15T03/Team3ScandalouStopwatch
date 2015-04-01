@@ -113,5 +113,6 @@
         <item>Change/View Location Using a Map</item>
         <item>Clear Current Location</item>
     </string-array>
+    <string name="clear_location">Clear Current Location</string>
 
 </resources>

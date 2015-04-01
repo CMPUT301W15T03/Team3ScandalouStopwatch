@@ -166,8 +166,6 @@ public class SetHomeLocationActivity extends MenuActivity {
     	temp.setLatitude(newLocation.getPosition().getLatitude());
     	temp.setLongitude(newLocation.getPosition().getLongitude());
     	currentUserController.setCurrentLocation(temp);
-    	Intent intent = new Intent(getApplicationContext(), UserSelectActivity.class);
-    	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
+    	finish();
     }
 }

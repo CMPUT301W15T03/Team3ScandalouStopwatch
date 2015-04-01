@@ -225,5 +225,11 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 	public UserInformationDialog getUserDialog() {
 		return dialogCreator.getDialog();
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		update();
+	}
 
 }
