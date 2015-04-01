@@ -18,10 +18,11 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.models;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import android.location.Location;
 
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
@@ -40,6 +41,7 @@ public class Expense extends SModel {
 	private boolean flag;
 	private boolean receiptAttached;
 	private String receiptPath;
+	private Location location;
 	
 	public static final long MAX_RECEIPT_SIZE = 5*1024*1024; // 5 MB
 	
@@ -55,6 +57,7 @@ public class Expense extends SModel {
 		this.flag = false;
 		this.receiptAttached = false;
 		this.receiptPath = null;
+		this.location = null;
 	}
 
 	/**
@@ -185,6 +188,22 @@ public class Expense extends SModel {
 	 */
 	public void setReceiptPath(String receiptPath) {
 		this.receiptPath = receiptPath;
+	}
+	
+	/**
+	 * 
+	 * @return the location the expense occurred
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * 
+	 * @param location where the expense occurred
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 	
 	/**

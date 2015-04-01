@@ -58,7 +58,7 @@
             android:label="@string/title_activity_view_expense" >
         </activity>
         <activity
-  			android:name="ca.ualberta.cs.scandaloutraveltracker.views.ExpenseListActivity"
+            android:name="ca.ualberta.cs.scandaloutraveltracker.views.ExpenseListActivity"
             android:label="@string/title_activity_expense_list"
             android:windowSoftInputMode="stateHidden" >
         </activity>
@@ -67,12 +67,16 @@
             android:label="@string/title_activity_add_expense" >
         </activity>
         <activity
-        	android:name="ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity"
+            android:name="ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity"
             android:label="@string/title_activity_claim_list" >
         </activity>
         <activity
-  			android:name="ca.ualberta.cs.scandaloutraveltracker.views.SetHomeLocationActivity"
+            android:name="ca.ualberta.cs.scandaloutraveltracker.views.SetHomeLocationActivity"
             android:label="@string/title_activity_location" >
+        </activity>
+        <activity
+            android:name="ca.ualberta.cs.scandaloutraveltracker.views.SetExpenseLocationActivity"
+            android:label="@string/title_activity_set_expense_location" >
         </activity>
     </application>
 

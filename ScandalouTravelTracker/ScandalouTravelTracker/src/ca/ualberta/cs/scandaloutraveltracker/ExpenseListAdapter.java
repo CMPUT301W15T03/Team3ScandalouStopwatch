@@ -78,6 +78,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 		TextView expenseDescription = (TextView) convertView.findViewById(R.id.expenseDescriptionTV);
 		TextView expenseTotal = (TextView) convertView.findViewById(R.id.expenseTotalsExpenseListTV);
 		TextView expenseReceiptIndicator = (TextView) convertView.findViewById(R.id.expenseReceiptIndicator);
+		TextView expenseDestIndicator = (TextView) convertView.findViewById(R.id.expenseDestinationIndicator);
 		ImageView expenseFlag = (ImageView) convertView.findViewById(R.id.expenseListFlag);
 		
 		Expense currentExpense = expenses.get(position);
@@ -101,6 +102,17 @@ public class ExpenseListAdapter extends BaseAdapter {
 			String indicator = "Receipt: Unavailable";
 			expenseReceiptIndicator.setText(indicator);
 		}
+		
+		// Setting the destination indicator
+		if (currentExpense.getLocation() != null) {
+			String indicator = "Dest: Attached";
+			expenseDestIndicator.setText(indicator);
+		}
+		else {
+			String indicator = "Dest: Missing";
+			expenseDestIndicator.setText(indicator);
+		}
+		
 		String currency=null;
 		
 		if (currentExpense.getCurrencyType().contentEquals("--Choose Currency--")){

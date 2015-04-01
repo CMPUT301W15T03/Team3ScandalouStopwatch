@@ -40,6 +40,7 @@
     <string name="expense_date_text_filler">Date Here</string>
     <string name="expense_category_text_filler">Expense Category</string>
     <string name="expense_description_text_filler">Expense Description</string>
+    <string name="expense_destination_text_filler">Dest:</string>
     <string name="expense_incomplete_image_description">Image for incompleteness</string>
     <string name="claim_text">Claims</string>
     <string name="plus_sign_text">+</string>
@@ -98,5 +99,8 @@
     <string name="user_latitude">Current Latitude: </string>
     <string name="user_longitude">Current Longitude: </string>
     <string name="title_activity_location">LocationActivity</string>
+    <string name="add_location_button">Add Location</string>
+    <string name="expense_add_location_filler">Location not set</string>
+    <string name="title_activity_set_expense_location">SetExpenseLocationActivity</string>
 
 </resources>

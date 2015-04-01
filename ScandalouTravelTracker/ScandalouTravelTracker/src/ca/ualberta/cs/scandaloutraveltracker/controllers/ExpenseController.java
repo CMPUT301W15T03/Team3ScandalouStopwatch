@@ -18,8 +18,9 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.controllers;
 
-import java.io.File;
 import java.util.Date;
+
+import android.location.Location;
 
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
@@ -97,6 +98,22 @@ public class ExpenseController {
 	 */
 	public void setDate(Date date) {
 		currentExpense.setDate(date);
+	}
+	
+	/**
+	 * 
+	 * @return the location the expense occurred
+	 */
+	public Location getLocation() {
+		return currentExpense.getLocation();
+	}
+
+	/**
+	 * 
+	 * @param location where the expense occurred
+	 */
+	public void setLocation(Location location) {
+		currentExpense.setLocation(location);
 	}
 	
 	/**

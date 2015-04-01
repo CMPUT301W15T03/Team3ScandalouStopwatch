@@ -38,12 +38,15 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -63,7 +66,9 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private EditText amountEditText;
 	private Spinner currencySpinner;
 	private EditText descriptionEditText;
+	private EditText locationTextView;
 	private ClaimMapper mapper;
+	private Location location = null;
 	
 	
 	@Override
@@ -82,6 +87,8 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		amountEditText = (EditText)findViewById(R.id.amount2);
 		currencySpinner = (Spinner)findViewById(R.id.currency);
 		descriptionEditText = (EditText)findViewById(R.id.description2);
+		locationTextView = (EditText) findViewById(R.id.new_location_edit_text);
+		locationTextView.setEnabled(false);
 		
 		setUpListeners();
 	}
@@ -176,6 +183,9 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 						String description = descriptionEditText.getText().toString();
 						EController.setDescription(description);
 						
+						//set location
+						EController.setLocation(location);
+						
 						//add new expense to claim and exit
 						CController.addExpense(EController.getExpense());
 						mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
@@ -201,6 +211,31 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	// TESTING METHODS
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	public void addLocation(View v) {
+		Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
+		startActivityForResult(intent, 1);
+	}
+	
+	//http://stackoverflow.com/questions/10407159/how-to-manage-start-activity-for-result-on-android/10407371#10407371 2015-03-31
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == 1) {
+	        if(resultCode == RESULT_OK){
+	        	location = new Location("Expense Location");
+	        	location.setLatitude(data.getDoubleExtra("latitude", 0));
+	        	location.setLongitude(data.getDoubleExtra("longitude", 0));
+	        	locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
+	        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+	        	
+	        }
+	        if (resultCode == RESULT_CANCELED) {
+	        	location = null;
+	        	locationTextView.setText(null);
+	        	locationTextView.setHint("Location not set");
+	        }
+	    }
 	}
 
 }

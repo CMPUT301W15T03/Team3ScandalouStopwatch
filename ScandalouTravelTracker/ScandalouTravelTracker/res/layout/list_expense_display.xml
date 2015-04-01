@@ -71,4 +71,13 @@
         android:textColor="#8A8A8A"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <TextView
+        android:id="@+id/expenseDestinationIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/expenseReceiptIndicator"
+        android:layout_alignLeft="@+id/expenseReceiptIndicator"
+        android:text="@string/expense_destination_text_filler"
+        android:textColor="#8A8A8A" />
+
 </RelativeLayout>

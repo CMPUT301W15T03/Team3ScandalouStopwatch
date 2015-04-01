@@ -44,14 +44,14 @@
         android:text="@string/confrim_location" />
 
     <Button
-        android:id="@+id/goHomeButton"
+        android:id="@+id/goCurrentButton"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/displayPickedLocationTextView"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/map"
         android:layout_toRightOf="@+id/goGpsButton"
-        android:onClick="goHome"
+        android:onClick="goCurrent"
         android:text="@string/home_location" />
 
 </RelativeLayout>
