@@ -391,12 +391,12 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 								@Override
 								public void onClick(DialogInterface dialog, int i) {
 									
-									//check for flagged expense(s) first
-									if (claimController.checkIncompleteExpenses()) {	//expense(s) are flagged
+									//check for incomplete/flagged expense(s) first
+									if (claimController.checkIncompleteExpenses()) {	//expense(s) are incomplete/flagged
 										//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
 										//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
 										AlertDialog.Builder builder2 = new AlertDialog.Builder(EditClaimActivity.this);
-										builder2.setMessage("Expense(s) are flagged as incomplete. Submit anyway?")
+										builder2.setMessage("Expense(s) are flagged and/or incomplete. Submit anyway?")
 										   .setCancelable(true)
 										   .setNegativeButton("Don't Submit", new DialogInterface.OnClickListener() {
 										       	public void onClick(DialogInterface dialog, int i) {

@@ -326,8 +326,8 @@ public class ClaimController {
 	}
 	
 	/**
-	 * Checks if the Claim has any flagged Expenses
-	 * @return boolean if a flagged Expense exists
+	 * Checks if the Claim has any incomplete/flagged Expenses
+	 * @return boolean if an incomplete/flagged Expense exists
 	 */
 	public boolean checkIncompleteExpenses() {
 		return currentClaim.checkIncompleteExpenses();
