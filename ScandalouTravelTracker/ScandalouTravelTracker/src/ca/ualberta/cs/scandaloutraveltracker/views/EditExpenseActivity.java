@@ -26,10 +26,14 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -86,11 +90,17 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private boolean flag;
 	private Location location;
 	private Button locationButton;
+	private LocationManager lm;
+	private Location GPSLocation;
 	
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_expense);
+		
+		//set up GPS
+		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		GPSLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
 		//initialize fields
 		EditText description = (EditText) findViewById(R.id.description);
@@ -534,18 +544,51 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				intent.putExtra("longitude",location.getLongitude());
 			}
 	    	startActivity(intent);
-		}
-		else if (location == null) {
-			Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
-			intent.putExtra("latitude",999);
-	    	intent.putExtra("longitude",999);
-	    	startActivityForResult(intent, 1);
+	    	return;
 		}
 		else {
-			Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
-			intent.putExtra("latitude",location.getLatitude());
-	    	intent.putExtra("longitude",location.getLongitude());
-	    	startActivityForResult(intent, 1);
+			AlertDialog.Builder builder = new AlertDialog.Builder(EditExpenseActivity.this);
+			builder.setTitle("Attaching a location")
+			.setCancelable(true)
+			.setItems(R.array.location_menu, new DialogInterface.OnClickListener() {
+	
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (which == 0) {
+						GPSLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+						if (GPSLocation == null) {
+							locationTextView.setText(null);
+				        	locationTextView.setHint("Location not set");
+				        	Toast.makeText(getApplicationContext(), "GPS currently unavailable", Toast.LENGTH_SHORT).show();
+						}
+						else {
+							location = GPSLocation;
+							locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
+				        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+						}
+					}
+					if (which == 1) {
+						Intent intent = new Intent(getApplicationContext(), SetExpenseLocationActivity.class);
+						if (location == null) {
+							intent.putExtra("latitude",999);
+					    	intent.putExtra("longitude",999);
+						}
+						else {
+							intent.putExtra("latitude",location.getLatitude());
+							intent.putExtra("longitude",location.getLongitude());
+						}
+						startActivityForResult(intent, 1);
+					}
+					if (which == 2) {
+						location = null;
+			        	locationTextView.setText(null);
+			        	locationTextView.setHint("Location not set");
+					}
+				}
+				
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
 		}
 	}
 }
