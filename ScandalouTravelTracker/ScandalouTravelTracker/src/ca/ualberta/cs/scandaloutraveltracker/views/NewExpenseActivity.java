@@ -183,8 +183,14 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 						String description = descriptionEditText.getText().toString();
 						EController.setDescription(description);
 						
+<<<<<<< HEAD
 						//set location
 						EController.setLocation(location);
+=======
+						// make an empty receipt path
+						String receiptPath = null;
+						EController.setReceiptPath(receiptPath);
+>>>>>>> bc99b91505b1f79d7772847e3a402ddbc07e01ca
 						
 						//add new expense to claim and exit
 						CController.addExpense(EController.getExpense());

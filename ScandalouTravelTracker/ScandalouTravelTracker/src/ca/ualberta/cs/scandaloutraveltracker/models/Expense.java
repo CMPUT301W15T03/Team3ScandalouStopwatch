@@ -22,8 +22,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+<<<<<<< HEAD
 import android.location.Location;
 
+=======
+import android.os.Environment;
+
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+>>>>>>> bc99b91505b1f79d7772847e3a402ddbc07e01ca
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 /**
@@ -42,8 +48,6 @@ public class Expense extends SModel {
 	private boolean receiptAttached;
 	private String receiptPath;
 	private Location location;
-	
-	public static final long MAX_RECEIPT_SIZE = 5*1024*1024; // 5 MB
 	
 	/**
 	 * Constructor creates an empty expense for the user to populate.
@@ -181,14 +185,14 @@ public class Expense extends SModel {
 	public String getReceiptPath() {
 		return receiptPath;
 	}
-
+	
 	/**
 	 * 
-	 * @param receiptPath
+	 * @param cost
 	 */
-	public void setReceiptPath(String receiptPath) {
+	public void setReceiptPath(String receiptPath){
 		this.receiptPath = receiptPath;
-	}
+	}	
 	
 	/**
 	 * 
