@@ -24,13 +24,13 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
 		}
 		
 	}
-	   
+	
+	// CITATION http://stackoverflow.com/questions/15698790/broadcast-receiver-for-checking-internet-connection-in-android-app, 2015-04-02
 	public boolean isOnline(Context context) {
 		
-	    ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-	    //should check null because in air plan mode it will be null
-	    return (netInfo != null && netInfo.isConnected());
+	    ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+	    return (networkInfo != null && networkInfo.isConnected());
 	
 	}	   
 
