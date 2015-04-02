@@ -26,11 +26,14 @@ import ca.ualberta.cs.scandaloutraveltracker.views.EditExpenseActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.SetExpenseLocationActivity;
 
+import android.R.color;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.view.LayoutInflater;
@@ -165,8 +168,14 @@ public class DestinationListAdapter extends BaseAdapter {
 					title = title + "Lat: " + destinations.get(position).getLocation().getLatitude();
 					title = title + "\nLong: " + destinations.get(position).getLocation().getLongitude();
 				}
+				TextView view = new TextView(context);
+				//http://stackoverflow.com/questions/4602902/how-to-set-the-text-color-of-textview-in-code 2015-04-02
+				view.setTextColor(Color.parseColor("#33b5e5"));
+				view.setText(title);
+				view.setPadding(20, 20, 0, 20);
+				view.setTextSize(20);
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setTitle(title)
+				builder.setCustomTitle(view)
 				.setCancelable(true)
 				.setItems(R.array.location_menu, new DialogInterface.OnClickListener() {
 		
