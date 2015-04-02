@@ -25,11 +25,13 @@ import ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
 
 import android.content.Context;
+import android.content.DialogInterface.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,6 +92,7 @@ public class DestinationListAdapter extends BaseAdapter {
 		TextView nameDisplay = (TextView) convertView.findViewById(R.id.list_destination_name);
 		TextView descriptionDisplay = (TextView) convertView.findViewById(R.id.list_destination_description);
 		ImageButton deleteButton = (ImageButton) convertView.findViewById(R.id.list_destination_delete);
+		ImageView locationImage = (ImageView) convertView.findViewById(R.id.destinationLocationIcon);
 		
 		// Get current destination
 		String currentDestinationName = destinations.get(position).getName();
@@ -131,6 +134,16 @@ public class DestinationListAdapter extends BaseAdapter {
 				
 			});			
 		}
+		View.OnClickListener options = new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		};
+		nameDisplay.setOnClickListener(options);
+		descriptionDisplay.setOnClickListener(options);
+		locationImage.setOnClickListener(options);
 		
 		return convertView;
 	}

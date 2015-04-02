@@ -119,5 +119,6 @@
         <item>Clear Current Location</item>
     </string-array>
     <string name="clear_location">Clear Current Location</string>
+    <string name="destination_location_icon"></string>
 
 </resources>

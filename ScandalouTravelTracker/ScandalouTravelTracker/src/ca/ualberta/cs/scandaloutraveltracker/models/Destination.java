@@ -17,6 +17,8 @@ limitations under the License.
 */
 package ca.ualberta.cs.scandaloutraveltracker.models;
 
+import android.location.Location;
+
 /**
  *  Class contains all the information that a Destination needs. A
  *  destination(s) is contained inside a Claim.
@@ -27,6 +29,7 @@ public class Destination extends SModel  {
 
 	String name;
 	String description;
+	Location location;
 	
 	/**
 	 * Default constructor that sets the Destination object properties.
@@ -36,6 +39,7 @@ public class Destination extends SModel  {
 	public Destination(String name, String description) {
 		this.name = name;
 		this.description = description;
+		this.location = null;
 	}
 
 	/**
@@ -68,6 +72,22 @@ public class Destination extends SModel  {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	/**
+	 * 
+	 * @return Location of Destination
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * 
+	 * @param location
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	/**
