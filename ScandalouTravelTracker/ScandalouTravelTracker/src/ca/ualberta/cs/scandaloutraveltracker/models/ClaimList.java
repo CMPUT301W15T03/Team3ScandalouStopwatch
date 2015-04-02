@@ -187,4 +187,8 @@ public class ClaimList extends SModel {
 		return claims.size()==0;
 	}
 	
+	public void deleteUserClaims(int userId) {
+		ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
+		mapper.deleteUserClaims(userId, ClaimApplication.getContext());
+	}
 }

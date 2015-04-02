@@ -184,4 +184,8 @@ public class ClaimListController {
 		});
 		claimList.claims = temp;
 	}
+	
+	public void deleteUserClaims(int userId) {
+		claimList.deleteUserClaims(userId);
+	}
 }

@@ -98,6 +98,27 @@ public class ClaimListMapper {
 		return claims;
 	}
 	
+	public void deleteUserClaims(int userId, Context context) {
+		SharedPreferences claimCounterFile = this.context.getSharedPreferences("claimCounter", 0);
+		int mostRecentClaimId = claimCounterFile.getInt("claimCount", 0);	
+		
+		Claim claim;
+		ClaimMapper mapper = new ClaimMapper(context);
+		User currentUser;
+		int currentUserId;
+		
+		for (int i = 1; i <= mostRecentClaimId; i++){
+			claim = new Claim(i);
+			currentUser = claim.getUser();
+			if (currentUser != null) {
+				currentUserId = currentUser.getId();
+				if (claim.getId() != -1 && currentUserId == userId){
+					mapper.deleteClaim(claim.getId());
+				}
+			}
+		}
+	}
+	
 	public ArrayList<Claim> loadNotUserClaims(User user) {
 		ArrayList<Claim> claims = new ArrayList<Claim>();
 		

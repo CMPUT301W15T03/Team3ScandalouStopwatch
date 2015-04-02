@@ -18,17 +18,6 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.views;
 
-import ca.ualberta.cs.scandaloutraveltracker.DialogCreator;
-import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.UserInformationDialog;
-import ca.ualberta.cs.scandaloutraveltracker.UserListAdapter;
-import ca.ualberta.cs.scandaloutraveltracker.R.id;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
-import ca.ualberta.cs.scandaloutraveltracker.R.menu;
-import ca.ualberta.cs.scandaloutraveltracker.UserInformationDialog.UserInformationDialogListener;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
-import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
@@ -50,6 +39,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.DialogCreator;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.UserInformationDialog;
+import ca.ualberta.cs.scandaloutraveltracker.UserListAdapter;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
+import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 public class UserSelectActivity extends Activity implements ViewInterface, UserInformationDialog.UserInformationDialogListener {
 	private DialogCreator dialogCreator = new DialogCreator();
@@ -120,7 +117,14 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
 			ulc.addUser(new User(selectedId));
 			update();
 			return true;
-			
+		case R.id.user_context_delete_user:
+			ClaimList cl = new ClaimList();
+			selectedUser = (User) usersLV.getItemAtPosition(userPos);
+			selectedId = selectedUser.getId();
+			ulc.removeUser(selectedId);
+			cl.deleteUserClaims(selectedId);
+			update();
+			return true;
 		default:
 			return super.onContextItemSelected(item);
 		}	
