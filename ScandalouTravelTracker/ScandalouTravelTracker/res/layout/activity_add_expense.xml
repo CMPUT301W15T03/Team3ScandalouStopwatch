@@ -16,51 +16,12 @@
         android:layout_alignParentTop="true"
         android:text="@string/add_expense" />
 
-    <Spinner
-        android:id="@+id/category"
-        style="@style/SpinnerColors"
-        android:layout_alignLeft="@+id/add_expense"
-        android:layout_alignRight="@+id/add_expense"
-        android:layout_below="@+id/add_expense"
-        android:layout_marginTop="20dp"
-        android:entries="@array/Category" />
-
-    <EditText
-        android:id="@+id/amount2"
-        style="@style/EditTextColors"
-        android:layout_alignBottom="@+id/category"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/category"
-        android:layout_toRightOf="@+id/category"
-        android:hint="@string/amount"
-        android:inputType="numberDecimal" >
-    </EditText>
-
-    <EditText
-        android:id="@+id/date_expense2"
-        style="@style/EditTextColors"
-        android:layout_alignBottom="@+id/currency"
-        android:layout_alignLeft="@+id/category"
-        android:layout_below="@+id/category"
-        android:layout_toLeftOf="@+id/amount2"
-        android:hint="@string/date"
-        android:inputType="date" 
-        android:focusableInTouchMode="False"/>
-
-    <Spinner
-        android:id="@+id/currency"
-        style="@style/SpinnerColors"
-        android:layout_below="@+id/amount2"
-        android:layout_marginLeft="13dp"
-        android:layout_toRightOf="@+id/date_expense2"
-        android:entries="@array/Currency" />
-    
     <EditText
         android:id="@+id/description2"
         style="@style/EditTextColors"
-        android:layout_alignLeft="@+id/date_expense2"
-        android:layout_alignRight="@+id/currency"
-        android:layout_below="@+id/date_expense2"
+        android:layout_alignLeft="@+id/add_expense"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/addExpenseDateAndCurrency"
         android:hint="@string/description" />
 
     <Button
@@ -69,16 +30,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:textColor="#F2F2F2"
         android:layout_alignParentRight="true"
-        android:text="@string/add" />
+        android:text="@string/add"
+        android:textColor="#F2F2F2" />
 
     <Button
         android:id="@+id/add_expense_location_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/new_location_edit_text"
-        android:layout_alignLeft="@+id/currency"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/description2"
         android:onClick="addLocation"
@@ -99,5 +59,53 @@
         android:padding="12dp"
         android:singleLine="false"
         android:textColor="#FFFFFF" />
+
+    <LinearLayout
+        android:id="@+id/addExpenseCategoryAndAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/add_expense" >
+
+        <Spinner
+            android:id="@+id/category"
+            style="@style/SpinnerColors"
+            android:layout_weight="1"
+            android:entries="@array/Category" />
+
+        <EditText
+            android:id="@+id/amount2"
+            style="@style/EditTextColors"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/amount"
+            android:inputType="numberDecimal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addExpenseDateAndCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/addExpenseCategoryAndAmount" >
+
+        <EditText
+            android:id="@+id/date_expense2"
+            style="@style/EditTextColors"
+            android:layout_weight="1"
+            android:focusableInTouchMode="False"
+            android:hint="@string/date"
+            android:inputType="date" >
+        </EditText>
+
+        <Spinner
+            android:id="@+id/currency"
+            style="@style/SpinnerColors"
+            android:layout_weight="1"
+            android:entries="@array/Currency" />
+        
+    </LinearLayout>
 
 </RelativeLayout>
