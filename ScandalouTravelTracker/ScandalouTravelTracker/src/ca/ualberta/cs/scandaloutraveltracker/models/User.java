@@ -44,6 +44,10 @@ public class User extends SModel implements Comparable<User> {
 		this.homeLocation = (Location)mapper.loadUserData(id, "location");
 	}
 	
+	public User() {
+		this.mode = 0;
+	}
+	
 	public void setCurrentLocation(Location location) {
 		this.homeLocation = location;
 		UserMapper mapper = new UserMapper(ClaimApplication.getContext());	

@@ -135,7 +135,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param description Claim's description
 	 */
 	public void setDescription(String description) {
-		this.description = description;
+		if (canEdit) {
+			this.description = description;
+		}
 	}
 
 	/**
@@ -178,7 +180,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param endDate Claim's end date
 	 */
 	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+		if (canEdit) {
+			this.endDate = endDate;
+		}
 	}
 	
 	/**
@@ -428,7 +432,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param destination Claim's destination
 	 */
 	public void addDestination(Destination destination) {
-		this.destinations.add(destination);
+		if (canEdit) {
+			this.destinations.add(destination);
+		}
 	}
 
 	/**
@@ -436,7 +442,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param destination Claim's destination
 	 */
 	public void removeDestination(Destination destination) {
-		this.destinations.remove(destination);
+		if (canEdit) {
+			this.destinations.remove(destination);
+		}
 	}
 	
 	/**
@@ -444,7 +452,9 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param expense Claim's expense
 	 */
 	public void addExpense(Expense expense) {
-		this.expenses.add(expense);
+		if (canEdit) {
+			this.expenses.add(expense);			
+		}
 	}
 	
 	/**
@@ -452,8 +462,10 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * @param expense Claim's expense
 	 */
 	public void deleteExpense(Expense expense) {
-		this.expenses.remove(expense);
-		notifyViews();
+		if (canEdit) {
+			this.expenses.remove(expense);
+			notifyViews();
+		}
 	}
 	
 	// String Conversion Methods

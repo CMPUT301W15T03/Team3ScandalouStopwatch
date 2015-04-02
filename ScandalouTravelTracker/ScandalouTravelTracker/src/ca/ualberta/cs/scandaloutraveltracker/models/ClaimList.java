@@ -143,20 +143,21 @@ public class ClaimList extends SModel {
 	 * @param claimId
 	 */
 	public void removeClaim(int claimId){
-		
-		int removePosition = -1;
-		
-		for (int i = 0; i < claims.size(); i++){
-			if (claimId == claims.get(i).getId()){
-				removePosition = i;
-				break;
+		if (new Claim(claimId).getCanEdit()) {
+			int removePosition = -1;
+			
+			for (int i = 0; i < claims.size(); i++){
+				if (claimId == claims.get(i).getId()){
+					removePosition = i;
+					break;
+				}
 			}
-		}
-		
-		if (removePosition > -1){
-			claims.remove(removePosition);
-		}
-		notifyViews();		
+			
+			if (removePosition > -1){
+				claims.remove(removePosition);
+			}
+			notifyViews();
+		}		
 	}
 	
 	/**
