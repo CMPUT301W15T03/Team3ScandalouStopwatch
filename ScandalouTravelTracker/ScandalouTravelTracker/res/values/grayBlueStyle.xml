@@ -30,5 +30,27 @@
         <item name="android:textColorHint">#CFD8DC</item>     
         <item name="android:ems">7</item>
     </style>
+    
+    <style name="SpinnerColors">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>   
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:popupBackground">#37474F</item>
+    </style>
+    
+    <!-- http://stackoverflow.com/questions/6159113/android-where-is-the-spinner-widgets-text-color-attribute-hiding
+    04/02/2015 -->
+    <style name="Theme.Holo.WithColoredSpinners" parent="@android:style/Theme.Holo">
+        <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerItem.DropDownItem</item>
+    </style>
+
+    <style name="SpinnerItem" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="SpinnerItem.DropDownItem" parent="@android:style/Widget.DropDownItem.Spinner">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
         
 </resources>
