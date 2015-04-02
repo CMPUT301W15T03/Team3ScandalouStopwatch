@@ -530,7 +530,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			
 			// Reset the receipt area 
 			// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
-			receiptThumbnail.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+			receiptThumbnail.setImageDrawable(null);
 			deleteReceiptButton.setVisibility(View.INVISIBLE);
 			addReceiptText.setVisibility(View.VISIBLE);
 			receiptThumbnail.setClickable(false);
