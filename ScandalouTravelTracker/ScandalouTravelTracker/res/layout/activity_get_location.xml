@@ -4,6 +4,7 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#263238"
     android:orientation="horizontal" >
 
     <org.osmdroid.views.MapView
@@ -13,16 +14,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
-    <Button
-        android:id="@+id/goGpsButton"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/map"
-        android:onClick="goToGps"
-        android:padding="10dip"
-        android:text="@string/gps_location" />
-
     <TextView
         android:id="@+id/displayPickedLocationTextView"
         android:layout_width="match_parent"
@@ -30,7 +21,7 @@
         android:layout_above="@+id/saveLocationButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/goGpsButton"
+        android:layout_below="@+id/getLocationGPSHomeButtons"
         android:text="@string/location_filler" />
 
     <Button
@@ -43,15 +34,30 @@
         android:padding="10dip"
         android:text="@string/confrim_location" />
 
-    <Button
-        android:id="@+id/goCurrentButton"
-        android:layout_width="160dp"
+    <LinearLayout
+        android:id="@+id/getLocationGPSHomeButtons"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/displayPickedLocationTextView"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/map"
-        android:layout_toRightOf="@+id/goGpsButton"
-        android:onClick="goCurrent"
-        android:text="@string/home_location" />
+        android:layout_below="@+id/map" >
+
+        <Button
+            android:id="@+id/goGpsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="goToGps"
+            android:padding="10dip"
+            android:text="@string/gps_location" />
+
+        <Button
+            android:id="@+id/goCurrentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"	
+            android:onClick="goCurrent"
+            android:text="@string/home_location" />
+    </LinearLayout>
 
 </RelativeLayout>

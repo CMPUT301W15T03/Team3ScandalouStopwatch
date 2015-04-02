@@ -7,11 +7,20 @@
         <item name="android:layout_marginBottom">10dp</item>
     </style>
     
-   <style name="TextFontSmall" parent="@android:style/TextAppearance.Small">
+    <style name="TextFontMedium" parent="@android:style/TextAppearance.Small">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:layout_marginBottom">2.5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+    
+    <style name="TextFontSmall" parent="@android:style/TextAppearance.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:layout_marginBottom">2.5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
     </style>
     
     <style name="TextFontMediumLV" parent="@android:style/TextAppearance.Medium">
@@ -51,7 +60,7 @@
         <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerItem.DropDownItem</item>
     </style>
-
+    
     <style name="SpinnerItem" parent="@android:style/Widget.TextView.SpinnerItem">
         <item name="android:textColor">#FFFFFF</item>
     </style>

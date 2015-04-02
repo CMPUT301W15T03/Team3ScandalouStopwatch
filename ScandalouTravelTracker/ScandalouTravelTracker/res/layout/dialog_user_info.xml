@@ -3,36 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="#0F0F0F">
+    android:background="#263238">
 
     <TextView
         android:id="@+id/user_info_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/user_name"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="2dp"
-        android:textColor="#F2F2F2"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+		style="@style/TextFontMedium"
+        android:text="@string/user_name" />
 
     <TextView
         android:id="@+id/user_info_latitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/user_latitude"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="2dp"
-        android:textColor="#F2F2F2"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+		style="@style/TextFontSmall"
+        android:text="@string/user_latitude"/>
 
     <TextView
         android:id="@+id/user_info_longitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="2dp"
-        android:text="@string/user_longitude"
-        android:textColor="#F2F2F2"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        style="@style/TextFontSmall"
+        android:text="@string/user_longitude" />
 
 </LinearLayout>
