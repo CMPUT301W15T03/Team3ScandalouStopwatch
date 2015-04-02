@@ -104,63 +104,55 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	
 	private void setUpListeners() {
 		// Set date onClickListener
-				dateEditText.setOnClickListener(new View.OnClickListener() {
+		dateEditText.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				DialogFragment newFragment = new DatePickerFragment() {
 					@Override
-					public void onClick(View v) {
-						DialogFragment newFragment = new DatePickerFragment() {
-							@Override
-							public void onDateSet(DatePicker view, int year, int monthOfYear,
-									int dayOfMonth) {
-								String dateString = convertToString(year, monthOfYear, dayOfMonth);
-								Calendar cal = Calendar.getInstance();
-								cal.clear(Calendar.MILLISECOND);
-								cal.set(year, monthOfYear, dayOfMonth);
-								date = cal.getTime();
-								dateEditText.setText(dateString);
-							}
-						};
-						newFragment.show(getFragmentManager(), "datePicker");
-					}
-				});
-				
-				//create listener for Add button
-				addExpenseButton = (Button)findViewById(R.id.add_expense_button);
-				addExpenseButton.setOnClickListener(new View.OnClickListener() {
-					
-					@SuppressLint("DefaultLocale")
-					@Override
-					public void onClick(View v) {
-						Intent intent = getIntent();
-					    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
-					    CController = new ClaimController(new Claim(claimId));
-
-					    if (dateEditText.getText().length()==0) {
-							Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
-					    }
-					    else if(date.before(CController.getStartDate())){
-							Toast.makeText(getApplicationContext(), "Please include a date after Claim's Start Date", Toast.LENGTH_SHORT).show();
-						}
-					    else{
+					public void onDateSet(DatePicker view, int year, int monthOfYear,
+							int dayOfMonth) {
+						String dateString = convertToString(year, monthOfYear, dayOfMonth);
 						Calendar cal = Calendar.getInstance();
-					    cal.setTime(date);
-					    cal.add(Calendar.DATE, -1);
-					    Date date = cal.getTime();
-						if(date.after(CController.getEndDate())){
-							
-							SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
-							
-							
-							String endDate=(sdf.format(date));
-							
-							Toast.makeText(getApplicationContext(),endDate , Toast.LENGTH_SHORT).show();
-						}
-						
-						else {
-						cal.add(Calendar.DATE, 1);
+						cal.clear(Calendar.MILLISECOND);
+						cal.set(year, monthOfYear, dayOfMonth);
 						date = cal.getTime();
+						dateEditText.setText(dateString);
+					}
+				};
+				newFragment.show(getFragmentManager(), "datePicker");
+			}
+		});
+		
+		//create listener for Add button
+		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
+		addExpenseButton.setOnClickListener(new View.OnClickListener() {
+			
+			@SuppressLint("DefaultLocale")
+			@Override
+			public void onClick(View v) {
+				//make controller for current claim
+				Intent intent = getIntent();
+			    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
+			    CController = new ClaimController(new Claim(claimId));
+			    
+			    //ensure a valid date has been entered
+			    if (dateEditText.getText().length()==0) {
+					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
+			    }
+			    else if(date.before(CController.getStartDate())){
+					Toast.makeText(getApplicationContext(), "Please include a date after claim's start date", Toast.LENGTH_SHORT).show();
+				}
+			    else{
+					Calendar cal = Calendar.getInstance();
+				    cal.setTime(date);
+				    cal.add(Calendar.DATE, -1);
+				    Date compareDate = cal.getTime();
+					if(compareDate.after(CController.getEndDate())){
+						Toast.makeText(getApplicationContext(), "Please include a date before claim's end date", Toast.LENGTH_SHORT).show();
+					}
+					else {
 						//create new Expense, fill in values, attach to claim, close activity
-						
-						//make controller for current claim
 									    			    
 					    //make controller for new expense
 						EController = new ExpenseController(new Expense());
@@ -194,35 +186,31 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 						
 						//set location
 						EController.setLocation(location);
-						// make an empty receipt path
+						
+						//make an empty receipt path
 						String receiptPath = null;
 						EController.setReceiptPath(receiptPath);
 						
-						//add new expense to claim and exit
+						//add new expense to claim
 						CController.addExpense(EController.getExpense());
 						mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
 						
-						// Reload the claim list for the ClaimListActivity
+						//reload the claim list for the ClaimListActivity
 						claimListController = new ClaimListController();
 						claimListController.removeClaim(claimId);
 						claimListController.addClaim(new Claim(claimId));
 						
 						setResult(RESULT_OK);
 						finish();
-						}
 					}
-					}
-				});
+				}
+			}
+		});
 	}
 	
 	@Override
 	public void update() {
 		//leave empty, never need to update
-	}
-	
-	// TESTING METHODS
-	public void setDate(Date date) {
-		this.date = date;
 	}
 	
 	public void addLocation(View v) {
@@ -285,6 +273,11 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	        if (resultCode == RESULT_CANCELED) {
 	        }
 	    }
+	}
+	
+	// TESTING METHODS
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }
