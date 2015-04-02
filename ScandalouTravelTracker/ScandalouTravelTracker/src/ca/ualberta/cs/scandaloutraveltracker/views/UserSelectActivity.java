@@ -91,6 +91,11 @@ public class UserSelectActivity extends Activity implements ViewInterface, UserI
     public boolean onContextItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.user_context_add_location_gps:
+			if (lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) == null) {
+				Toast.makeText(getApplicationContext(),
+						"GPS curently unavailable",Toast.LENGTH_SHORT).show();
+				return true;
+			}
 			User selectedUser = (User) usersLV.getItemAtPosition(userPos);
 			int selectedId = selectedUser.getId();
 			ulc.removeUser(selectedId);
