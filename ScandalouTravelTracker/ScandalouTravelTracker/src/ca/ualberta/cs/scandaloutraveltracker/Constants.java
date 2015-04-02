@@ -41,4 +41,7 @@ public class Constants {
 	// Modes for the ClaimList
 	public final static String APPROVER_MODE = "approver";
 	public final static String TAG_MODE = "tag";
+	
+	// Connectivity
+	public static boolean CONNECTIVITY_STATUS = false; // not the best place for this
 }
