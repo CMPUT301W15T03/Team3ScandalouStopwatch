@@ -83,6 +83,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		cg = new ClaimGenerator();
 		
 		activity = getActivity();
+		
 		newClaimId = cg.createMockClaim(true, false, true, true);
 		activity.finish();
 		setActivity(null);
@@ -159,6 +160,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	// US07.01.01
 	public void testSubmitClaimEditTags() {
 		submitClaim();
+		assertTrue(new Claim(newClaimId).getStatus().equals(Constants.statusSubmitted));
 		deleteAddRenameTags();
 		attemptClicks();
 		cg.resetState(ClaimApplication.getContext());

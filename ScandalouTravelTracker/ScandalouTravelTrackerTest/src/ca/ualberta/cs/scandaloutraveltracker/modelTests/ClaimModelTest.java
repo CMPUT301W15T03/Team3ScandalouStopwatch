@@ -4,22 +4,13 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.test.ClaimGenerator;
 
 public class ClaimModelTest extends TestCase {
-/*
-US01.05.01
-As a claimant, I want to delete an expense claim while changes are allowed.
-
-US01.06.01
-As a claimant, I want entered information to be remembered, so that I do not lose data.
-
-US01.07.01 added 2015-03-23
-As a claimant, I want to attach a geolocation to a destination.
- */
 	
 	// Create an expense claim that records a name, starting date of travel, and ending date of travel
 	// Also tests that changes can be made to the claim
@@ -100,5 +91,6 @@ As a claimant, I want to attach a geolocation to a destination.
 		assertEquals(1, newClaim.getDestinations().size());
 		assertEquals(1, newClaim.getExpenses().size());
 	}
+	
 	
 }

@@ -26,8 +26,6 @@ import java.util.Iterator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.location.Location;
-import android.location.LocationManager;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
@@ -73,14 +71,18 @@ public class ClaimGenerator {
 	// Used to start the tests with an empty user list
 	public void clearUL() {
 		// Initialize UserListController
-		ArrayList<User> users = ulc.getUserList().getUsers();
-		Iterator<User> iterator = users.iterator();
-		
-		while (iterator.hasNext()) {
-			User user = iterator.next();
-			int id = user.getId();
-			ulc.deleteUser(id);
-			iterator.remove();
+		try {
+			ArrayList<User> users = ulc.getUserList().getUsers();
+			Iterator<User> iterator = users.iterator();
+			
+			while (iterator.hasNext()) {
+				User user = iterator.next();
+				int id = user.getId();
+				ulc.deleteUser(id);
+				iterator.remove();
+			}
+		} catch (NullPointerException e) {
+			
 		}
 	}
 	
