@@ -1,73 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#37474F" >
 
     <TextView
         android:id="@+id/claimListNameTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColor="#F2F2F2"
-        android:text="@string/name_text_filler"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        style="@style/TextFontMediumLV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/name_text_filler" />
 
     <TextView
         android:id="@+id/claimListApproverTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#F2F2F2"
-        android:text="@string/approver_text_filler"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        style="@style/TextFontMediumLV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListNameTV"
+        android:text="@string/approver_text_filler" />
 
     <TextView
         android:id="@+id/claimListCommentsTV"
-        android:layout_width="wrap_content"
-        android:textColor="#F2F2F2"
-        android:layout_height="wrap_content"
-        android:text="@string/approver_comment_text_filler"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        style="@style/TextFontMediumLV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListApproverTV"
+        android:text="@string/approver_comment_text_filler" />
 
     <TextView
         android:id="@+id/claimListDateTV"
-        android:layout_width="wrap_content"
-        android:textColor="#F2F2F2"
-        android:layout_height="wrap_content"
-        android:text="@string/date_text_filler"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        style="@style/TextFontMediumLV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListCommentsTV"
+        android:text="@string/date_text_filler" />
 
     <TextView
         android:id="@+id/claimListDestinationsTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#F2F2F2"
-        android:text="@string/location_text_filler"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        style="@style/TextFontMediumLV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListDateTV"
+        android:text="@string/location_text_filler" />
 
     <TextView
         android:id="@+id/claimListStatusTV"
-        android:layout_width="wrap_content"
-        android:textColor="#F2F2F2"
-        android:layout_height="wrap_content"
-        android:text="@string/status_text_filler"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        style="@style/TextFontMediumLV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListDestinationsTV"
+        android:text="@string/status_text_filler" />
 
     <TextView
         android:id="@+id/claimListTotalsTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#F2F2F2"
-        android:text="@string/total_text_filler"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        style="@style/TextFontMediumLV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListStatusTV"
+        android:text="@string/total_text_filler" />
 
     <TextView
         android:id="@+id/claimListTagsTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tag_text_filler"
-        android:textColor="#F2F2F2"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_marginBottom="10dp" />
+        style="@style/TextFontSmallLV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListTotalsTV"
+        android:text="@string/tag_text_filler" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -57,6 +57,10 @@
     <string name="gps_location">GPS</string>
     <string name="home_location">Home</string>
     <string name="location_filler">Latitude: 000.0000	Longitude: 000.0000</string>
+    <string name="destinations_button_description">Add Destinations Button</string>
+    <string name="destination_filler">Destination Name Here</string>
+    <string name="destination_reason_filler">Destination Reason Here</string>
+    <string name="add_destination_button_descr">Add Destination Button</string>
 
     <string-array name="claim_menu">
         <item>Edit/View Claim</item>

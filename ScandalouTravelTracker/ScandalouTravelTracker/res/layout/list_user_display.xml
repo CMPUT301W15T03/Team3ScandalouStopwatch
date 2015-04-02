@@ -2,20 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F0F0F" >
+    android:background="#37474F" >
 
     <TextView
         android:id="@+id/userListNameTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/TextFontMediumLV"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
         android:layout_marginBottom="10dp"
-        android:background="#1C1C1C"
-        android:text="@string/user_name_filler"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF" />
+        android:background="#37474F"
+        android:text="@string/user_name_filler" />
 
 </RelativeLayout>
