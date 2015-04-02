@@ -7,6 +7,13 @@
         <item name="android:layout_marginBottom">10dp</item>
     </style>
     
+   <style name="TextFontSmall" parent="@android:style/TextAppearance.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:layout_marginBottom">2.5dp</item>
+    </style>
+    
     <style name="TextFontMediumLV" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
