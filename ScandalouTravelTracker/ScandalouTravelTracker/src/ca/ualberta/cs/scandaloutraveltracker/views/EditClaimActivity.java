@@ -31,6 +31,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -639,6 +640,18 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == 1) {
 	        if(resultCode == RESULT_OK){
+	        	Location location;
+	        	int destinationPos;
+	        	location = new Location("Expense Location");
+	        	location.setLatitude(data.getDoubleExtra("latitude", 999));
+	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
+	        	destinationPos = data.getIntExtra("destination", -1);
+	        	
+	        	Destination temp;
+	        	temp = destinations.get(destinationPos);
+	        	temp.setLocation(location);
+	        	destinations.set(destinationPos, temp);
+	        	destinationsAdapter.notifyDataSetChanged();
 	        }
 	        if (resultCode == RESULT_CANCELED) {
 	        }

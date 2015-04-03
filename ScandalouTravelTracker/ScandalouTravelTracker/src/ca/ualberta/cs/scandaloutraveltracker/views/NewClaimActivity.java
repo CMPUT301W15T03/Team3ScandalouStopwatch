@@ -101,10 +101,6 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	private boolean alertReady;
 	private SpannableString spannableString;
 	
-	// used to set the location of a destination with the map
-	private Location location;
-	private int destinationPos;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -454,6 +450,8 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == 1) {
 	        if(resultCode == RESULT_OK){
+	        	Location location;
+	        	int destinationPos;
 	        	location = new Location("Expense Location");
 	        	location.setLatitude(data.getDoubleExtra("latitude", 999));
 	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
