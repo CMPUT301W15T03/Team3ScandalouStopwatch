@@ -3,12 +3,13 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.location.Location;
+import android.location.LocationManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
-import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -51,12 +52,20 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		 instrumentation = getInstrumentation();
 		 ulc = new UserListController();
 		 cg = new ClaimGenerator();
-
+		 
+		 // Reset MockLocationProvider
+		 try {
+			 MockLocationProvider mlp = new MockLocationProvider("Mock Provider", getActivity());
+			 mlp.shutdown();
+		 } catch (IllegalArgumentException e) {
+			 LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+			 lm.removeTestProvider("Mock Provider");
+		 }
+		 
 		 // Get UI components
 		 newUserButton = (Button) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectCreateUserButton);
 		 usersLV = (ListView) userSelectActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.userSelectUsersLV);
-	
-		 cg.clearUL();
+		 cg.resetState(ClaimApplication.getContext());
 	}
 	
 	public void testAddUserButton() {
@@ -72,10 +81,21 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 	}
 	
 	// http://stackoverflow.com/questions/9405561/test-if-a-button-starts-a-new-activity-in-android-junit-pref-without-robotium 03/23/2015
-	public void testSelectUser() {
-		// Add user for test to select
-		ulc = new UserListController();
-		int newUserId = ulc.createUser("New User");
+	public void testSelectUser() throws UserInputException {
+		cg.makeTwoUsersWithClaims();
+		
+		// Create a mock location
+		MockLocationProvider mlp = new MockLocationProvider("Mock Provider", getActivity());
+		mlp.pushLocation(50.2, -12.8);
+		LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+		Location lastLocation = lm.getLastKnownLocation("Mock Provider");
+		
+		UserListController ulc = new UserListController();
+		int newUserId = ( (User) usersLV.getItemAtPosition(0)).getId();
+		ulc.removeUser(newUserId);
+		UserController uc = new UserController(new User(newUserId));
+		uc.setCurrentLocation(lastLocation);
+		uc = new UserController(new User(newUserId));
 		ulc.addUser(new User(newUserId));
 		
 		// Registers next activity to be monitored
@@ -86,6 +106,7 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 
 			@Override
 			public void run() {
+				getActivity().update();
 				usersLV.performItemClick(usersLV, 0, 0);
 			}
 		});
@@ -93,15 +114,14 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		userSelectActivity.onDialogPositiveClick(userSelectActivity.getUserDialog());
 
 		// Test that next activity was launched
-		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
+		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 2500);
 		assertNotNull(nextActivity);
 		
 		// Test that the user in application is set to the new user
 		ClaimApplication app = (ClaimApplication) userSelectActivity.getApplicationContext();
 		User currentUser = app.getUser();
 		nextActivity.finish();
-		assertEquals("New User", currentUser.getName());
-		cg.resetState(ClaimApplication.getContext());
+		assertEquals("User1", currentUser.getName());
 	}
 	
 	public void testAddingUser() {		
@@ -128,15 +148,6 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		// Assert that user in list has the same name as one entered
 		String name = ulc.getUserList().getUser(0).getName();
 		assertEquals(name, "New User");
-		cg.resetState(ClaimApplication.getContext());
-		
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				userSelectActivity.update();
-			}
-			
-		});
 	}
 	
 	// The user has a default userLocationSet which is where they last were
@@ -157,43 +168,30 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		// Try to press the add new user button
 		try {
 			performClick(dialog.getButton(DialogInterface.BUTTON_POSITIVE));
-			usersLV.getChildAt(0).performLongClick();
 		} catch (Throwable e) {
 			new Throwable(e);
 		}
 		getInstrumentation().waitForIdleSync();
 		
-		final ContextMenu contextMenu = userSelectActivity.getContextMenu();
-		assertTrue(contextMenu.hasVisibleItems());
+		// Create a mock location
+		MockLocationProvider mlp = new MockLocationProvider("Mock Provider", getActivity());
+		mlp.pushLocation(50.2, -12.8);
+		LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+		Location lastLocation = lm.getLastKnownLocation("Mock Provider");
 		
-		// Click on add user location 
-		instrumentation.runOnMainSync(new Runnable() {
-
-			@Override
-			public void run() {
-				contextMenu.performIdentifierAction(ca.ualberta.cs.scandaloutraveltracker.R.id.user_context_add_location_gps, 0);
-			}
-			
-		});
+		UserListController ulc = new UserListController();
+		int userId = ((User) usersLV.getItemAtPosition(0)).getId();
+		ulc.removeUser(userId);
+		UserController uc = new UserController(new User(userId));
+		uc.setCurrentLocation(lastLocation);
+		uc = new UserController(new User(userId));
+		ulc.addUser(new User(userId));
 		
 		// Get only user in list
 		User user = ulc.getUser(0);
 		
-		// Get the location
-		Location location = userSelectActivity.getLocation();
-		
-		assertEquals(location.getLongitude(), user.getHomeLocation().getLongitude());
-		assertEquals(location.getLatitude(), user.getHomeLocation().getLatitude());
-		usersLV.getChildAt(0).performLongClick();
-		cg.resetState(ClaimApplication.getContext());
-		
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				userSelectActivity.update();
-			}
-			
-		});
+		assertEquals(lastLocation.getLongitude(), user.getHomeLocation().getLongitude());
+		assertEquals(lastLocation.getLatitude(), user.getHomeLocation().getLatitude());
 	}
 	
 	public void testIsUsersClaims() throws UserInputException {		
@@ -201,14 +199,30 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		cg.makeTwoUsersWithClaims();
 		assertEquals(2, ulc.getCount());
 		
+		// Create a mock location
+		MockLocationProvider mlp = new MockLocationProvider("Mock Provider", getActivity());
+		mlp.pushLocation(50.2, -12.8);
+		LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+		Location lastLocation = lm.getLastKnownLocation("Mock Provider");
+		
+		UserListController ulc = new UserListController();
+		int userId = ((User) usersLV.getItemAtPosition(0)).getId();
+		ulc.removeUser(userId);
+		UserController uc = new UserController(new User(userId));
+		uc.setCurrentLocation(lastLocation);
+		uc = new UserController(new User(userId));
+		ulc.addUser(new User(userId));
+		
 		// Run a click on listview in current activity
 		instrumentation.runOnMainSync(new Runnable() {
 
 			@Override
 			public void run() {
+				getActivity().update();
 				usersLV.performItemClick(usersLV, 0, 0);
 			}
 		});
+		getInstrumentation().waitForIdleSync();
 		
 		userSelectActivity.onDialogPositiveClick(userSelectActivity.getUserDialog());
 		
@@ -216,7 +230,7 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		ActivityMonitor am = getInstrumentation().addMonitor(ClaimListActivity.class.getName(), null, false);
 		
 		// Test that next activity was launched
-		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
+		ClaimListActivity nextActivity = (ClaimListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 2500);
 		ClaimList currentClaimList = nextActivity.getCurrentClaimList();
 		nextActivity.update();
 		nextActivity.finish();
@@ -224,15 +238,6 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 		Claim currentClaim = currentClaimList.getClaim(0);
 		assertTrue(currentClaim.getUser().getName().equals("User1"));
 		assertEquals(1, currentClaimList.getCount());
-		
-		cg.resetState(ClaimApplication.getContext());
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				userSelectActivity.update();
-			}
-		});
-		getInstrumentation().waitForIdleSync();
 	}
 	
 	// http://stackoverflow.com/questions/17526005/how-to-test-an-alertdialog-in-android 03/23/2015

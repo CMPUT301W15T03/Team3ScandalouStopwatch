@@ -53,7 +53,7 @@
     <string name="new_dest">New Destination</string>
     <string name="totals_">Totals:</string>
     <string name="receipt_text">Receipt: </string>
-    <string name="confrim_location">Save Location</string>
+    <string name="confrim_location">Save New Location</string>
     <string name="gps_location">GPS</string>
     <string name="home_location">Home</string>
     <string name="location_filler">Latitude: 000.0000	Longitude: 000.0000</string>
@@ -94,7 +94,7 @@
     </string-array>
 
     <string name="view_all_tags">View All Tags</string>
-    <string name="filter_claims">Filter Claims</string>
+    <string name="filter_claims">Filter Claims by Tag</string>
     <string name="restore_claims">Restore Claims</string>
     <string name="delete_user">Delete User</string>
     <string name="add_location_gps">Add Location using GPS</string>
