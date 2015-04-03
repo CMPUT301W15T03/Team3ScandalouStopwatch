@@ -59,7 +59,7 @@ public class SetDestinationLocationActivity extends MenuActivity {
 		setContentView(R.layout.activity_get_location);
 		
         Button currentButton = (Button) findViewById(R.id.goCurrentButton);
-        currentButton.setText("Set ");
+        currentButton.setText("Prev");
 		
 		//https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library 2015-03-30
 		map = (MapView) findViewById(R.id.map);
@@ -140,7 +140,7 @@ public class SetDestinationLocationActivity extends MenuActivity {
     // When Home button is clicked, goes to destination location if one is set
     public void goCurrent(View v) {
     	if (currentLocation == null) {
-    		Toast.makeText(getApplicationContext(),"Destination location not set",Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getApplicationContext(),"Destination location not previously set",Toast.LENGTH_SHORT).show();
     		return;
     	}
     	GeoPoint startPoint = new GeoPoint(previousLocation);

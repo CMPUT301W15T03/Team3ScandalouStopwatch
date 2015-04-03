@@ -364,7 +364,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 								update();
 								
 							} else {
-								Toast.makeText(context, "Must enter name and/or reason", Toast.LENGTH_SHORT).show();
+								Toast.makeText(context, "Must enter destination and a description", Toast.LENGTH_SHORT).show();
 							}	
 							
 						}

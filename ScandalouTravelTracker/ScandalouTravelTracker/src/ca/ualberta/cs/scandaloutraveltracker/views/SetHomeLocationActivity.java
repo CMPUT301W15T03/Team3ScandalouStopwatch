@@ -139,7 +139,7 @@ public class SetHomeLocationActivity extends MenuActivity {
     		GeoPoint startPoint = new GeoPoint(currentUserController.getLocation());
     	}
     	catch (NullPointerException e) {
-    		Toast.makeText(getApplicationContext(),"Home Location Not Set",Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getApplicationContext(),"Home location not previously set",Toast.LENGTH_SHORT).show();
     		return;
     	}
     	GeoPoint startPoint = new GeoPoint(currentUserController.getLocation());
