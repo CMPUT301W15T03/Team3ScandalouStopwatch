@@ -138,8 +138,15 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 				ArrayList<Expense> expenses = new ArrayList<Expense>();
 				
 				try {
-
-					
+					// makes sure every destination has a location attached to them per requirements
+					for (Destination temp : destinations) {
+						if (temp.getLocation() == null) {
+							Toast.makeText(getApplicationContext(),
+									"Every destination has to have a location attached to it. " +
+									"Click on a destination to attach a location.", Toast.LENGTH_SHORT).show();
+							return;
+						}
+					}
 					ClaimListController claimListController = new ClaimListController();
 					
 					// Get user

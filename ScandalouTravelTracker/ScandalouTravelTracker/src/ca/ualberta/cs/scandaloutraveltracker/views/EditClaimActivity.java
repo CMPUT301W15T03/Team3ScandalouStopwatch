@@ -298,6 +298,15 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				canEdit = true;
 				
 				try {
+					// makes sure every destination has a location attached to them per requirements
+					for (Destination temp : destinations) {
+						if (temp.getLocation() == null) {
+							Toast.makeText(getApplicationContext(),
+									"Every destination has to have a location attached to it. " +
+									"Click on a destination to attach a location.", Toast.LENGTH_SHORT).show();
+							return;
+						}
+					}
 					
 					// Throws exception
 					claimController.updateClaim(startDate, endDate, description, destinations, canEdit);
@@ -308,6 +317,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 					
 					Toast.makeText(getApplicationContext(),
 							"Changes saved.", Toast.LENGTH_SHORT).show();
+					finish();
 					
 				} catch (UserInputException e) {
 
@@ -377,6 +387,15 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				if (canEdit) {
 					boolean canSend = claimController.canClaimBeSent();
 					if (canSend) {
+						// makes sure every destination has a location attached to them per requirements
+						for (Destination temp : destinations) {
+							if (temp.getLocation() == null) {
+								Toast.makeText(getApplicationContext(),
+										"Every destination has to have a location attached to it. " +
+										"Click on a destination to attach a location.", Toast.LENGTH_SHORT).show();
+								return;
+							}
+						}
 						//http://stackoverflow.com/questions/4671428/how-can-i-add-a-third-button-to-an-android-alert-dialog 2015-02-01
 						//http://stackoverflow.com/questions/8227820/alert-dialog-two-buttons 2015-02-01
 						AlertDialog.Builder builder = new AlertDialog.Builder(EditClaimActivity.this);
