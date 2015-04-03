@@ -27,6 +27,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
+import ca.ualberta.cs.scandaloutraveltracker.ConnectivityChangeReceiver;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 
@@ -82,6 +84,8 @@ public class ClaimMapper {
 		saveClaimData(claimId, "userId", userId);
 		saveClaimData(claimId, "approverComments", new ArrayList<String>());
 		
+		saveOnline(claimId);
+		
 		return claimId;
 	}
 	
@@ -127,6 +131,7 @@ public class ClaimMapper {
 		saveClaimData(claimId, "destinations", destinations);
 		saveClaimData(claimId, "canEdit", canEdit);
 		
+		saveOnline(claimId);
 	}
 	
 	/**
@@ -159,7 +164,15 @@ public class ClaimMapper {
 		
 		saveClaimData(claimId, "status", status);	
 		saveClaimData(claimId, "canEdit", canEdit);
-	}	
+	}
+	
+	public void changeApproverName(int claimId, String approverName) {
+		saveClaimData(claimId, "approverName", approverName);
+	}
+
+	public void updateComments(int claimId, ArrayList<String> comments) {
+		saveClaimData(claimId, "approverComments", comments);
+	}
 	
 	/**
 	 * Saves the claim data, one field at a time. The field it saves
@@ -175,7 +188,7 @@ public class ClaimMapper {
 		
 		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
 		Editor editor = claimFile.edit();
-		Gson gson = new Gson();		
+		Gson gson = new Gson();
 		
 		if (key.equals("id")){
 			editor.putInt("id", (Integer)data);
@@ -213,7 +226,7 @@ public class ClaimMapper {
 			editor.putInt("userId", (Integer)data);
 		}
 		
-		editor.commit();	
+		editor.commit();
 	}	
 	
 	/**
@@ -306,13 +319,15 @@ public class ClaimMapper {
 		editor.clear();
 		editor.commit();
 	}
-
-	public void changeApproverName(int claimId, String approverName) {
-		saveClaimData(claimId, "approverName", approverName);
+	
+	private void saveOnline(int claimId){
+		ConnectivityChangeReceiver ccr = new ConnectivityChangeReceiver();
+		
+		if (ccr.isOnline(context) == true){
+			OnlineMapper onlineMapper = new OnlineMapper();
+			onlineMapper.save("claim"+Integer.toString(claimId), new Claim(claimId));
+		}
+		// TODO: create a queue of pending changes for when there's no connectivity
 	}
-
-	public void updateComments(int claimId, ArrayList<String> comments) {
-		saveClaimData(claimId, "approverComments", comments);
-	}	
 	
 }
