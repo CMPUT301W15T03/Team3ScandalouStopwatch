@@ -20,18 +20,24 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 
 import android.content.Context;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  *  The ClaimListAdapter allows essential information from a Claim to
@@ -43,6 +49,9 @@ public class ClaimListAdapter extends BaseAdapter {
 	protected ClaimList claimList;
 	protected Context context;
 	protected boolean approverMode;
+	private Claim currentClaim;
+	private Location homeLocation;
+	private Location claimLocation;
 	
 	/**
 	 * Context of the activity that list is to be displayed in and
@@ -107,9 +116,10 @@ public class ClaimListAdapter extends BaseAdapter {
 		TextView claimStatusTV = (TextView) convertView.findViewById(R.id.claimListStatusTV);
 		TextView claimTotalTV = (TextView) convertView.findViewById(R.id.claimListTotalsTV);
 		TextView claimTagsTV = (TextView) convertView.findViewById(R.id.claimListTagsTV);
+		ProgressBar claimDistancePB = (ProgressBar) convertView.findViewById(R.id.locationBar);
 		
 		// Fetch current Claim
-		Claim currentClaim = claimList.getClaim(position);
+		currentClaim = claimList.getClaim(position);
 		
 		// Build the total expenses string
 		// CITATION http://stackoverflow.com/questions/46898/iterate-over-each-entry-in-a-map/46908#46908
@@ -164,6 +174,7 @@ public class ClaimListAdapter extends BaseAdapter {
 		claimTotalTV.setText(totalsStr);
 		
 		claimTagsTV.setText(currentClaim.tagsToString());
+		claimDistancePB.setProgress(getProgress());
 		
 		// Setting default (empty) values
 		if (currentClaim.destinationsToString().equals("")) {
@@ -177,6 +188,39 @@ public class ClaimListAdapter extends BaseAdapter {
 		}
 		
 		return convertView;
+	}
+
+	/**
+	 * 
+	 * @return int between 1-100 that corresponds with how close the first 
+	 * 	destination in the claim is to the user's set home location
+	 */
+	private int getProgress() {
+		ClaimListController clc = new ClaimListController(currentClaim.getUser());
+		float[] results = {0,0,0};
+		int maxDistance = clc.getMaxLocation(currentClaim.getUser());;
+		ArrayList<Destination> destinations = currentClaim.getDestinations();
+		
+		if (destinations.size() == 0) {
+			claimLocation = null;
+		}
+		else {
+			claimLocation = destinations.get(0).getLocation();
+		}
+		homeLocation = currentClaim.getUser().getHomeLocation();
+		if (claimLocation == null) {
+			return 0;
+		}
+		else {
+			Location.distanceBetween(homeLocation.getLatitude(), homeLocation.getLongitude(), 
+					claimLocation.getLatitude(), claimLocation.getLongitude(), results);
+		}
+		float distance = (((float) results[0])/maxDistance)*100;
+		if (distance < 5) {
+			return 5;
+		}
+		else
+			return Math.round(distance);
 	}
 	
 }

@@ -68,4 +68,13 @@
         android:layout_below="@+id/claimListTotalsTV"
         android:text="@string/tag_text_filler" />
 
+    <ProgressBar
+        android:id="@+id/locationBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListTagsTV" />
+
 </RelativeLayout>

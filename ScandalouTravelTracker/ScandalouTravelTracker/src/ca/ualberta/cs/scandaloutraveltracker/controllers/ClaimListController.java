@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
+import android.location.Location;
+
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
@@ -187,5 +189,34 @@ public class ClaimListController {
 	
 	public void deleteUserClaims(int userId) {
 		claimList.deleteUserClaims(userId);
+	}
+
+	/**
+	 * 
+	 * Get's the max distance for the claim list between the given user's home location 
+	 * and the claim with the farthest away first destination 
+	 * @param user of the current claim
+	 * @return the distance, in meters, between the user's home location
+	 *  and the claim with the farthest away first destination 
+	 */
+	public int getMaxLocation(User user) {
+		int maxLocation = 0;
+		for (Claim tempClaim : claimList.getClaims()) {
+			float[] results = {0,0,0};
+			ArrayList<Destination> tempDestinations = tempClaim.getDestinations();
+			if (tempDestinations.size() == 0) {
+				continue;
+			}
+			else {
+				Location l2 = tempDestinations.get(0).getLocation();
+				Location l1 = user.getHomeLocation();
+				Location.distanceBetween(l1.getLatitude(), l1.getLongitude(), 
+						l2.getLatitude(), l2.getLongitude(), results);
+				if ((int)results[0] > maxLocation) {
+					maxLocation = (int) results[0];
+				}
+			}
+		}
+		return maxLocation;
 	}
 }

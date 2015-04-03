@@ -94,7 +94,7 @@
     </string-array>
 
     <string name="view_all_tags">View All Tags</string>
-    <string name="filter_claims">Filter Claims</string>
+    <string name="filter_claims">Filter Claims by Tag</string>
     <string name="restore_claims">Restore Claims</string>
     <string name="delete_user">Delete User</string>
     <string name="add_location_gps">Add Location using GPS</string>
