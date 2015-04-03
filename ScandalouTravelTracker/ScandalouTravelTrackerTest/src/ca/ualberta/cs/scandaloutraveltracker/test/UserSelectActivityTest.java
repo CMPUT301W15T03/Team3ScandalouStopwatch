@@ -3,8 +3,10 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.location.Location;
+import android.location.LocationManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
@@ -233,6 +235,16 @@ public class UserSelectActivityTest extends ActivityInstrumentationTestCase2<Use
 			}
 		});
 		getInstrumentation().waitForIdleSync();
+	}
+	
+	public void testMockLocation() {
+		MockLocationProvider mlp = new MockLocationProvider(LocationManager.GPS_PROVIDER, userSelectActivity);
+		mlp.pushLocation(50.2, -12.8);
+		LocationManager lm = (LocationManager) userSelectActivity.getSystemService(Context.LOCATION_SERVICE);
+		Location lastLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		assertEquals(50.2, lastLocation.getLatitude());
+		assertEquals(-12.8, lastLocation.getLongitude());
+		mlp.shutdown();
 	}
 	
 	// http://stackoverflow.com/questions/17526005/how-to-test-an-alertdialog-in-android 03/23/2015

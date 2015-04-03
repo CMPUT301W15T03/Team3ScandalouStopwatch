@@ -91,6 +91,4 @@ public class ClaimModelTest extends TestCase {
 		assertEquals(1, newClaim.getDestinations().size());
 		assertEquals(1, newClaim.getExpenses().size());
 	}
-	
-	
 }
