@@ -45,6 +45,8 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -98,6 +100,10 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	private AlertDialog alert;
 	private boolean alertReady;
 	private SpannableString spannableString;
+	
+	// used to set the location of a destination with the map
+	private Location location;
+	private int destinationPos;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -438,6 +444,30 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		}
 		
 		return tags;
+	}
+	
+	/**
+	 * when a destination is being updated with the map various intents will be
+	 * passed back so the correct destination and location value can be updated.
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == 1) {
+	        if(resultCode == RESULT_OK){
+	        	location = new Location("Expense Location");
+	        	location.setLatitude(data.getDoubleExtra("latitude", 999));
+	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
+	        	destinationPos = data.getIntExtra("destination", -1);
+	        	
+	        	Destination temp;
+	        	temp = destinations.get(destinationPos);
+	        	temp.setLocation(location);
+	        	destinations.set(destinationPos, temp);
+	        	destinationListAdapter.notifyDataSetChanged();
+	        }
+	        if (resultCode == RESULT_CANCELED) {
+	        }
+	    }
 	}
 	
 	// TEST METHODS BELOW

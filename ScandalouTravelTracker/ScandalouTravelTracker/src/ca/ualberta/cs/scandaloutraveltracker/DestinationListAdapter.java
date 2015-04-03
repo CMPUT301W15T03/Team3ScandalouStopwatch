@@ -24,6 +24,7 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.EditExpenseActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.SetDestinationLocationActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.SetExpenseLocationActivity;
 
 import android.R.color;
@@ -165,8 +166,8 @@ public class DestinationListAdapter extends BaseAdapter {
 				}
 				else {
 					locationImage.setImageResource(R.drawable.mapmarker);
-					title = title + "Lat: " + destinations.get(position).getLocation().getLatitude();
-					title = title + "\nLong: " + destinations.get(position).getLocation().getLongitude();
+					title = title + "Lat: " + String.format("%.4f", destinations.get(position).getLocation().getLatitude());
+					title = title + "\nLong: " + String.format("%.4f",destinations.get(position).getLocation().getLongitude());
 				}
 				TextView view = new TextView(context);
 				//http://stackoverflow.com/questions/4602902/how-to-set-the-text-color-of-textview-in-code 2015-04-02
@@ -200,7 +201,7 @@ public class DestinationListAdapter extends BaseAdapter {
 						
 						// set destination location to map selection
 						if (which == 1) {
-							Intent intent = new Intent(context, SetExpenseLocationActivity.class);
+							Intent intent = new Intent(context, SetDestinationLocationActivity.class);
 							if (destinations.get(position).getLocation() == null) {
 								intent.putExtra("latitude",999);
 						    	intent.putExtra("longitude",999);
@@ -209,7 +210,12 @@ public class DestinationListAdapter extends BaseAdapter {
 								intent.putExtra("latitude",destinations.get(position).getLocation().getLatitude());
 								intent.putExtra("longitude",destinations.get(position).getLocation().getLongitude());
 							}
-							//context.startActivityForResult(intent, 1);
+							intent.putExtra("destinationPosition", position);
+							if (listLocation == "newClaim"){
+								((NewClaimActivity)context).startActivityForResult(intent, 1);
+							} else if (listLocation == "editClaim") {
+								((EditClaimActivity)context).startActivityForResult(intent, 1);
+							}
 						}
 						
 						// set destination location to null

@@ -54,7 +54,7 @@ public class SetExpenseLocationActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_location);
         currentButton = (Button) findViewById(R.id.goCurrentButton);
-        currentButton.setText("Current Geo.");
+        currentButton.setText("Current");
 		
 		//https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library 2015-03-30
 		map = (MapView) findViewById(R.id.map);
@@ -114,7 +114,7 @@ public class SetExpenseLocationActivity extends MenuActivity {
 			//https://code.google.com/p/osmbonuspack/wiki/Tutorial_0 2015-03-31
 			@Override
 			public boolean longPressHelper(GeoPoint geo) {
-				locationTV.setText("Currently picked new expense location\nLatitude: " + 
+				locationTV.setText("Picked new expense location\nLatitude: " + 
 		        		geo.getLatitude() + "\nLongitude: " + geo.getLongitude());
 				map.getOverlays().remove(newLocation);
 				newLocation = new Marker(map);

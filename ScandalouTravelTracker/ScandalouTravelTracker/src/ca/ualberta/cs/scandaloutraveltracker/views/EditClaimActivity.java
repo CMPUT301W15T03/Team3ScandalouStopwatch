@@ -631,6 +631,20 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		tagsDisplay.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
+	/**
+	 * when a destination is being updated with the map various intents will be
+	 * passed back so the correct destination and location value can be updated.
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == 1) {
+	        if(resultCode == RESULT_OK){
+	        }
+	        if (resultCode == RESULT_CANCELED) {
+	        }
+	    }
+	}
+	
 	// TESTING METHODS
 	public AlertDialog getAlertDialog() {
 		return alert;
