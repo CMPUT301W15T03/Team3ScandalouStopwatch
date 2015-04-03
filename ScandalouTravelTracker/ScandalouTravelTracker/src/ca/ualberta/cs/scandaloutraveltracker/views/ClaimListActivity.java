@@ -164,6 +164,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 							currentUserController.setMode(0);
 							claimListController = new ClaimListController(currentUser);
 							claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+							claimListController.sortNewFirst();
 							claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
 							claimsListView.setAdapter(claimListAdapter);
 						}
@@ -224,6 +225,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 					public void onClick(DialogInterface dialog, int which) {
 						claimListController = new ClaimListController(currentUser, Constants.TAG_MODE, selectedTags);
 						claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+						claimListController.sortNewFirst();
 						claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
 						claimsListView.setAdapter(claimListAdapter);
 					}
@@ -234,6 +236,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	        case R.id.action_restore_claims:
 	        	claimListController = new ClaimListController(currentUser);
 				claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+				claimListController.sortNewFirst();
 				claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
 				claimsListView.setAdapter(claimListAdapter);
 	        	return true;

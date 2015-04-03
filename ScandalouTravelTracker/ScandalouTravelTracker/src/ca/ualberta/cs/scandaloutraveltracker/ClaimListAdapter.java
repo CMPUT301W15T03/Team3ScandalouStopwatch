@@ -30,6 +30,8 @@ import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -178,8 +180,22 @@ public class ClaimListAdapter extends BaseAdapter {
 		if (this.approverMode) {
 			claimDistancePB.setVisibility(View.GONE);
 		}
+		// http://stackoverflow.com/questions/2020882/how-to-change-progress-bars-progress-color-in-android 2015-04-03
 		else {
-			claimDistancePB.setProgress(getProgress());
+			int progress = getProgress();
+			claimDistancePB.setProgress(progress);
+			if (0 < progress && progress < 25) {
+				claimDistancePB.getProgressDrawable().setColorFilter(Color.parseColor("#00FF00"), Mode.SRC_IN);
+			}
+			else if (25 < progress && progress < 50) {
+				claimDistancePB.getProgressDrawable().setColorFilter(Color.parseColor("#FFFF00"), Mode.SRC_IN);
+			}
+			else if (50 < progress && progress < 75) {
+				claimDistancePB.getProgressDrawable().setColorFilter(Color.parseColor("#FFFF00"), Mode.SRC_IN);
+			}
+			else if (progress > 75) {
+				claimDistancePB.getProgressDrawable().setColorFilter(Color.parseColor("#FF0000"), Mode.SRC_IN);
+			}
 		}
 		
 		// Setting default (empty) values
@@ -192,7 +208,6 @@ public class ClaimListAdapter extends BaseAdapter {
 		if (currentClaim.tagsToString().equals("")) {
 			claimTagsTV.setText("Tags: ");
 		}
-		
 		return convertView;
 	}
 
@@ -209,18 +224,14 @@ public class ClaimListAdapter extends BaseAdapter {
 		
 		if (destinations.size() == 0) {
 			claimLocation = null;
+			return 0;
 		}
 		else {
 			claimLocation = destinations.get(0).getLocation();
 		}
 		homeLocation = currentClaim.getUser().getHomeLocation();
-		if (claimLocation == null) {
-			return 0;
-		}
-		else {
-			Location.distanceBetween(homeLocation.getLatitude(), homeLocation.getLongitude(), 
-					claimLocation.getLatitude(), claimLocation.getLongitude(), results);
-		}
+		Location.distanceBetween(homeLocation.getLatitude(), homeLocation.getLongitude(), 
+			claimLocation.getLatitude(), claimLocation.getLongitude(), results);
 		float distance = (((float) results[0])/maxDistance)*100;
 		if (distance < 5) {
 			return 5;
