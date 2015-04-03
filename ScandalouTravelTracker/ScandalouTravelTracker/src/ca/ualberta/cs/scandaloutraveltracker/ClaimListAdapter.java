@@ -136,6 +136,7 @@ public class ClaimListAdapter extends BaseAdapter {
 			}
 		    i++;
 		}		
+		
 		// show approver on returned claims
 		if (currentClaim.getStatus().equals(Constants.statusReturned)) {
 			claimNameTV.setVisibility(View.GONE);
@@ -172,9 +173,14 @@ public class ClaimListAdapter extends BaseAdapter {
 		claimDestinationTV.setText("Destinations: " + currentClaim.destinationsToString());
 		claimStatusTV.setText("Status: " + currentClaim.getStatus());
 		claimTotalTV.setText(totalsStr);
-		
 		claimTagsTV.setText(currentClaim.tagsToString());
-		claimDistancePB.setProgress(getProgress());
+		
+		if (this.approverMode) {
+			claimDistancePB.setVisibility(View.GONE);
+		}
+		else {
+			claimDistancePB.setProgress(getProgress());
+		}
 		
 		// Setting default (empty) values
 		if (currentClaim.destinationsToString().equals("")) {
