@@ -61,23 +61,23 @@ public class ViewLocationActivity extends MenuActivity {
         locationTV = (TextView) findViewById(R.id.view_location_text_view);
         
         Intent intent = getIntent();
-        previousLocation = new Location("Expense Location");
+        previousLocation = new Location("Location");
         previousLocation.setLatitude(intent.getDoubleExtra("latitude", 999));
         previousLocation.setLongitude(intent.getDoubleExtra("longitude", 999));
         GeoPoint startPoint;
         if ((previousLocation.getLatitude() == 999)||(previousLocation.getLongitude() == 999)){
-        	Toast.makeText(getApplicationContext(), "Expense location not set", Toast.LENGTH_SHORT).show();
+        	Toast.makeText(getApplicationContext(), "Location not set", Toast.LENGTH_SHORT).show();
         	finish();
         }
     	startPoint = new GeoPoint(previousLocation);
     	currentLocation = new Marker(map);
         currentLocation.setPosition(startPoint);
         currentLocation.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        currentLocation.setTitle("Current Expense Location");
+        currentLocation.setTitle("Set Location");
         currentLocation.showInfoWindow();
 		map.getOverlays().add(currentLocation);
 		map.invalidate();
-		locationTV.setText("Current Expense location\nLatitude: " + 
+		locationTV.setText("Set location\nLatitude: " + 
 			previousLocation.getLatitude() + "\nLongitude: " 
 				+ previousLocation.getLongitude());
 		mapController.setCenter(startPoint);

@@ -149,6 +149,9 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			
 			flag = expenseController.getFlag();
 			location = expenseController.getLocation();
+			if (location == null) {
+				locationButton.setText("Add/View Location");
+			}
 			
 			String categoryString = claimController.getExpense(expenseId).getCategory();
 			String currencyString = claimController.getExpense(expenseId).getCurrencyType();
@@ -503,6 +506,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
 	        	locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
 	        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+	        	locationButton.setText("Edit/View Location");
 	        	
 	        }
 	        if (resultCode == RESULT_CANCELED) {
@@ -575,14 +579,13 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 					if (which == 0) {
 						GPSLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 						if (GPSLocation == null) {
-							locationTextView.setText(null);
-				        	locationTextView.setHint("Location not set");
 				        	Toast.makeText(getApplicationContext(), "GPS currently unavailable", Toast.LENGTH_SHORT).show();
 						}
 						else {
 							location = GPSLocation;
 							locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
 				        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+							locationButton.setText("Edit/View Location");
 						}
 					}
 					if (which == 1) {
@@ -601,6 +604,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 						location = null;
 			        	locationTextView.setText(null);
 			        	locationTextView.setHint("Location not set");
+			        	locationButton.setText("Add/View Location");
 					}
 				}
 				

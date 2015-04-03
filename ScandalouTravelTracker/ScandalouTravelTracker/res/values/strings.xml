@@ -100,8 +100,8 @@
     <string name="add_location_gps">Add Location using GPS</string>
     <string name="add_location_map">Add Location using Map</string>
     <string name="user_name">User Name: </string>
-    <string name="user_latitude">Current Latitude: </string>
-    <string name="user_longitude">Current Longitude: </string>
+    <string name="user_latitude">Set Latitude: </string>
+    <string name="user_longitude">Set Longitude: </string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="add_location_button">Add Location</string>
     <string name="edit_location_button">Edit/View Location</string>
@@ -111,16 +111,16 @@
     <string name="expense_picture_icon">Expense Picture Icon</string>
     <string name="expense_flag_icon">Expense Flag Icon</string>
     <string name="title_activity_view_location">View Location</string>
-    <string name="current_location_button">Go to Current Location</string>
+    <string name="current_location_button">Go to Set Location</string>
     <string name="title_activity_receipt">ReceiptActivity</string>
 
     <string-array name="location_menu">
         <item>Change location to GPS Location</item>
         <item>Change/View Location Using a Map</item>
-        <item>Clear Current Location</item>
+        <item>Clear Set Location</item>
     </string-array>
 
-    <string name="clear_location">Clear Current Location</string>
+    <string name="clear_location">Clear Set Location</string>
     <string name="destination_location_icon"></string>
     <string name="title_activity_set_destination_location">SetDestinationLocationActivity</string>
 

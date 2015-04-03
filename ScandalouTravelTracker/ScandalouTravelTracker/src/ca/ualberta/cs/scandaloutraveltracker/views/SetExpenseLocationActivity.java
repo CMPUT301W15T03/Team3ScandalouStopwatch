@@ -54,7 +54,7 @@ public class SetExpenseLocationActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_location);
         currentButton = (Button) findViewById(R.id.goCurrentButton);
-        currentButton.setText("Current");
+        currentButton.setText("Set ");
 		
 		//https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library 2015-03-30
 		map = (MapView) findViewById(R.id.map);
@@ -84,7 +84,7 @@ public class SetExpenseLocationActivity extends MenuActivity {
         	currentLocation.showInfoWindow();
 			map.getOverlays().add(currentLocation);
 			map.invalidate();
-			locationTV.setText("Current Expense location\nLatitude: " + 
+			locationTV.setText("Set Expense location\nLatitude: " + 
 					previousLocation.getLatitude() + "\nLongitude: " 
 						+ previousLocation.getLongitude());
 			mapController.setCenter(startPoint);

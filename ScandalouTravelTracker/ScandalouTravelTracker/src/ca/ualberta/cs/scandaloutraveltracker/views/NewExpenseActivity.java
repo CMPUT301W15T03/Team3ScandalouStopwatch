@@ -75,6 +75,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private Location location = null;
 	private LocationManager lm;
 	private Location GPSLocation;
+	private Button locationButton;
 	
 	
 	@Override
@@ -98,6 +99,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		currencySpinner = (Spinner)findViewById(R.id.currency);
 		descriptionEditText = (EditText)findViewById(R.id.description2);
 		locationTextView = (TextView) findViewById(R.id.new_location_edit_text);
+		locationButton = (Button) findViewById(R.id.add_expense_location_button);
 		
 		setUpListeners();
 	}
@@ -224,14 +226,14 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 				if (which == 0) {
 					GPSLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 					if (GPSLocation == null) {
-						locationTextView.setText(null);
-			        	locationTextView.setHint("Location not set");
 			        	Toast.makeText(getApplicationContext(), "GPS currently unavailable", Toast.LENGTH_SHORT).show();
 					}
 					else {
 						location = GPSLocation;
 						locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
 			        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+						locationButton.setText("Edit Location");
+						
 					}
 				}
 				if (which == 1) {
@@ -250,6 +252,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 					location = null;
 		        	locationTextView.setText(null);
 		        	locationTextView.setHint("Location not set");
+		        	locationButton.setText("Add Location");
 				}
 			}
 			
@@ -268,6 +271,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
 	        	locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
 	        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+	        	locationButton.setText("Edit Location");
 	        	
 	        }
 	        if (resultCode == RESULT_CANCELED) {

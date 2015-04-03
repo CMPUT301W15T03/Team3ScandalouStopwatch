@@ -26,6 +26,7 @@ import ca.ualberta.cs.scandaloutraveltracker.views.EditExpenseActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.SetDestinationLocationActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.SetExpenseLocationActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.ViewLocationActivity;
 
 import android.R.color;
 import android.app.AlertDialog;
@@ -179,7 +180,6 @@ public class DestinationListAdapter extends BaseAdapter {
 				builder.setCustomTitle(view)
 				.setCancelable(true)
 				.setItems(R.array.location_menu, new DialogInterface.OnClickListener() {
-		
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// set destination location to GPS location if it is available
@@ -232,9 +232,40 @@ public class DestinationListAdapter extends BaseAdapter {
 				alert.show();
 			}
 		};
-		nameDisplay.setOnClickListener(options);
-		descriptionDisplay.setOnClickListener(options);
-		locationImage.setOnClickListener(options);
+		
+		// will just show the destination location on the map if editing is not allowed
+		View.OnClickListener view = new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, ViewLocationActivity.class);
+				if (destinations.get(position).getLocation() == null) {
+					intent.putExtra("latitude",999);
+			    	intent.putExtra("longitude",999);
+				}
+				else {
+					intent.putExtra("latitude",destinations.get(position).getLocation().getLatitude());
+					intent.putExtra("longitude",destinations.get(position).getLocation().getLongitude());
+				}
+				intent.putExtra("destinationPosition", position);
+				if (listLocation == "newClaim"){
+					((NewClaimActivity)context).startActivity(intent);
+				} else if (listLocation == "editClaim") {
+					((EditClaimActivity)context).startActivity(intent);
+				}
+			}
+		};
+		
+		if (canEdit) {
+			nameDisplay.setOnClickListener(options);
+			descriptionDisplay.setOnClickListener(options);
+			locationImage.setOnClickListener(options);
+		}
+		else {
+			nameDisplay.setOnClickListener(view);
+			descriptionDisplay.setOnClickListener(view);
+			locationImage.setOnClickListener(view);
+		}
 		
 		return convertView;
 	}

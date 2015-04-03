@@ -59,7 +59,7 @@ public class SetDestinationLocationActivity extends MenuActivity {
 		setContentView(R.layout.activity_get_location);
 		
         Button currentButton = (Button) findViewById(R.id.goCurrentButton);
-        currentButton.setText("Current");
+        currentButton.setText("Set ");
 		
 		//https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library 2015-03-30
 		map = (MapView) findViewById(R.id.map);
@@ -86,11 +86,11 @@ public class SetDestinationLocationActivity extends MenuActivity {
     		currentLocation = new Marker(map);
         	currentLocation.setPosition(startPoint);
         	currentLocation.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        	currentLocation.setTitle("Current Destination Location");
+        	currentLocation.setTitle("Set Destination Location");
         	currentLocation.showInfoWindow();
 			map.getOverlays().add(currentLocation);
 			map.invalidate();
-			locationTV.setText("Current Destination location\nLatitude: " + 
+			locationTV.setText("Set Destination location\nLatitude: " + 
 					previousLocation.getLatitude() + "\nLongitude: " 
 						+ previousLocation.getLongitude());
 			mapController.setCenter(startPoint);

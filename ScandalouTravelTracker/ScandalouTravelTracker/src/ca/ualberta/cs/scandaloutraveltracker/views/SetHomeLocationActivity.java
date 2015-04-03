@@ -80,11 +80,11 @@ public class SetHomeLocationActivity extends MenuActivity {
     		currentLocation = new Marker(map);
         	currentLocation.setPosition(new GeoPoint(startPoint));
         	currentLocation.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        	currentLocation.setTitle("Current Home Location");
+        	currentLocation.setTitle("Set Home Location");
         	currentLocation.showInfoWindow();
 			map.getOverlays().add(currentLocation);
 			map.invalidate();
-			locationTV.setText("Current home location\nLatitude: " + 
+			locationTV.setText("Set home location\nLatitude: " + 
 					currentUserController.getLocation().getLatitude() + "\nLongitude: " 
 						+ currentUserController.getLocation().getLongitude());
 			mapController.setCenter(new GeoPoint(currentUserController.getLocation()));
