@@ -18,10 +18,8 @@ limitations under the License.
 	
 package ca.ualberta.cs.scandaloutraveltracker.views;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
@@ -139,18 +137,18 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 			    CController = new ClaimController(new Claim(claimId));
 			    
 			    //ensure a valid date has been entered
-			    if (dateEditText.getText().length()==0) {
+			    if (date == null) {
 					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
 			    }
-			    else if(date.before(CController.getStartDate())){
+			    else if (date.before(CController.getStartDate())) {
 					Toast.makeText(getApplicationContext(), "Please include a date after claim's start date", Toast.LENGTH_SHORT).show();
 				}
-			    else{
+			    else {
 					Calendar cal = Calendar.getInstance();
 				    cal.setTime(date);
 				    cal.add(Calendar.DATE, -1);
 				    Date compareDate = cal.getTime();
-					if(compareDate.after(CController.getEndDate())){
+					if (compareDate.after(CController.getEndDate())) {
 						Toast.makeText(getApplicationContext(), "Please include a date before claim's end date", Toast.LENGTH_SHORT).show();
 					}
 					else {
@@ -171,7 +169,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 						if (costString.equals(".")) {
 							costString = "0";
 						}
-						else if(costString.isEmpty()){
+						else if (costString.isEmpty()) {
 							costString = "0";
 						}
 						costString = String.format("%.2f", Double.valueOf(costString));

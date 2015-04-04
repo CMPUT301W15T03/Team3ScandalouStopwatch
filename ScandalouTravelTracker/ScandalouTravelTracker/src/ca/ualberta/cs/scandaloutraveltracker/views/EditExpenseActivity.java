@@ -61,7 +61,6 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
 
-
 /**
  *  Activity takes an expense from the ExpenseListActivity and allows 
  *  the user to edit information about the expense.
@@ -161,6 +160,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 					.getDescription());
 			date.setText(claimController.getExpense(expenseId)
 					.getDateString());
+			newDate = claimController.getExpense(expenseId).getDate();
 			cost.setText(""+claimController.getExpense(expenseId)
 					.getCost());
 			category.setSelection(getIndex(category, categoryString));
@@ -258,8 +258,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				} 
 			}
 		});
-	
-		   
+		
 		//sets image button for receipt
 		takeReceiptPhotoButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -354,39 +353,25 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			String categoryString = category.getSelectedItem().toString();
 			String currencyTypeString = currencyType.getSelectedItem().toString();
 			
-			//check multiple user input errors and get them to correct accordingly
-			//category is required
-			if (categoryString.equals("--Choose Category--")) {
-				Toast.makeText(this, "Please include a category", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			//cost is required
-			else if (costString.equals("")) {
-				cost.setError("Please include an amount");
-				cost.requestFocus();
-				return;
-			}
-			//date is required
-			else if (dateString.equals("")) {
+			//valid date is required
+			Calendar cal = Calendar.getInstance();
+		    cal.setTime(newDate);
+		    cal.add(Calendar.DATE, -1);
+		    Date compareDate = cal.getTime();
+			if (dateString.length()==0) {
 				Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
-				return;
+		    }
+		    else if (newDate.before(claimController.getStartDate())) {
+				Toast.makeText(getApplicationContext(), "Please include a date after claim's start date", Toast.LENGTH_SHORT).show();
 			}
-			//currency is required
-			else if (currencyTypeString.equals("--Choose Currency--")) {
-				Toast.makeText(this, "Please include a currency", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			//description is required
-			else if (descrString.equals("")) {
-				description.setError("Please include a description");
-				description.requestFocus();
-				return;
+		    else if (compareDate.after(claimController.getEndDate())) {
+				Toast.makeText(getApplicationContext(), "Please include a date before claim's end date", Toast.LENGTH_SHORT).show();
 			}
 			//everything is good to be added
-			else {			
-			
+			else {
+				
 				expenseController = new ExpenseController(new Expense());
-
+				
 				expenseController.setFlag(flag);
 				expenseController.setLocation(location);
 				
@@ -401,10 +386,15 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				expenseController.setDescription(descrString);
 				expenseController.setCategory(categoryString);
 				expenseController.setCurrency(currencyTypeString);
+				if (costString.equals(".")) {
+					costString = "0";
+				}
+				else if (costString.isEmpty()) {
+					costString = "0";
+				}
 				costString = String.format("%.2f", Double.valueOf(costString));
 				double amount = Double.valueOf(costString);
 				expenseController.setCost(Double.valueOf(amount));
-				
 				
 				try {
 					
@@ -517,7 +507,7 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	
 	protected void setReceiptPhoto(Receipt receipt){
 		
-		if (receiptController.getReceiptPath() != null){
+		if (receiptController.getReceiptPath() != null) {
 			
 			// Get the receipt photo
 			File receiptFile = new File(receiptController.getReceiptPath());
@@ -542,13 +532,8 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		
 	}
 	
-	public void update(){
+	public void update() {
 		setReceiptPhoto(receipt);
-	}
-	
-	// Testing methods
-	public int getToastCount() {
-		return toastCount;
 	}
 	
 	// When edit/view location is clicked
@@ -613,4 +598,10 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			alert.show();
 		}
 	}
+	
+	// Testing methods
+	public int getToastCount() {
+		return toastCount;
+	}
+	
 }
