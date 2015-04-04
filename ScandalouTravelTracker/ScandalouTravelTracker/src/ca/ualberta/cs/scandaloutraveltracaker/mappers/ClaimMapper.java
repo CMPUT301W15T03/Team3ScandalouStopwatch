@@ -46,7 +46,7 @@ import com.google.gson.reflect.TypeToken;
 public class ClaimMapper {
 
 	private Context context;
-	OnlineMapper onlineMapper = new OnlineMapper();
+	OnlineMapper onlineMapper;
 	
 	/**
 	 * ClaimMapper needs the context to run
@@ -54,6 +54,7 @@ public class ClaimMapper {
 	 */
 	public ClaimMapper(Context context){
 		this.context = context;
+		onlineMapper = new OnlineMapper(context);
 	}
 	
 	/**
@@ -331,10 +332,8 @@ public class ClaimMapper {
 	private void saveOnline(int claimId){
 		if (Constants.CONNECTIVITY_STATUS == true){
 			onlineMapper.save("claim"+Integer.toString(claimId), new Claim(claimId));
-			Log.d("MiturBanisdurty", "online");
 		} else {
 			onlineMapper.saveWhenConnected("claim"+Integer.toString(claimId), new Claim(claimId));
-			Log.d("MiturBanisdurty", "offline");
 		}
 	}
 	

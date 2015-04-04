@@ -16,7 +16,7 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
 		if (isOnline(context) == true){
 			Constants.CONNECTIVITY_STATUS = true;
 			
-			OnlineMapper onlineMapper = new OnlineMapper();
+			OnlineMapper onlineMapper = new OnlineMapper(ClaimApplication.getContext());
 			onlineMapper.sync();
 			
 			//Log.d("MyConnectivity", "Connected");
