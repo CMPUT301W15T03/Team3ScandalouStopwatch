@@ -26,6 +26,7 @@ import java.util.Iterator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
@@ -175,6 +176,10 @@ public class ClaimGenerator {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
 		Destination destination = new Destination("Brooklyn", "Meet with Jay");
+		Location l1 = new Location("Mock Location");
+		l1.setLatitude(40);
+		l1.setLongitude(-40);
+		destination.setLocation(l1);
 		destinations.add(destination);
 		ClaimListController clc = new ClaimListController();
 		ArrayList<String> tagsList = tags;
@@ -193,6 +198,10 @@ public class ClaimGenerator {
 		// Create one ClaimList associated with user1
 		ArrayList<Destination> destinations = new ArrayList<Destination>();
 		Destination destination = new Destination("Brooklyn", "Meet with Jay");
+		Location l1 = new Location("Mock Location");
+		l1.setLatitude(40);
+		l1.setLongitude(-40);
+		destination.setLocation(l1);
 		destinations.add(destination);
 		ClaimListController clc = new ClaimListController();
 		ArrayList<String> tagsList = new ArrayList<String>();

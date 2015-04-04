@@ -8,15 +8,19 @@ import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
 import ca.ualberta.cs.scandaloutraveltracker.views.NewExpenseActivity;
 
@@ -47,6 +51,11 @@ public class ClaimListActivityTest extends
 		// Create mock user
 		UserListController userListController = new UserListController();
 		newUserId = userListController.createUser("Test User");
+		UserController uc = new UserController(new User(newUserId));
+		Location l1 = new Location("Mock Location");
+		l1.setLatitude(20);
+		l1.setLongitude(-20);
+		uc.setCurrentLocation(l1);
 		mockIntent = new Intent();
 		mockIntent.putExtra("userId", newUserId);
 		
@@ -68,6 +77,7 @@ public class ClaimListActivityTest extends
 		claimsListView = (ListView) claimListActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListActivityList);
 		
 		instrumentation = getInstrumentation();
+		Log.d("TAG", "R3");
 	} 
 	
 	// Adds three claims with a total of 5 tags and selects tag1 and tag2

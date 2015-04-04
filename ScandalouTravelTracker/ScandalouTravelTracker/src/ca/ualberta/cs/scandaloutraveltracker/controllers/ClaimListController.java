@@ -24,7 +24,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 import android.location.Location;
-
+import android.util.Log;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
