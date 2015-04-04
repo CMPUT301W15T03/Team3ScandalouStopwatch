@@ -74,6 +74,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private AlertDialog tagSelectDialog;
 	private AlertDialog claimAlert;
 	private AlertDialog deleteAlert;
+	private AlertDialog commentAlert;
 	
 	private ArrayList<String> tagsList;
 	private boolean tagsBooleanArray[];
@@ -426,6 +427,26 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 									});
 		            		   }
 		            		   
+		            	   }
+		            	   //when view comments is pressed
+		            	   else if (which == 5) {
+		            		   Claim currentClaim = claimListController.getClaim((int)claimPos);
+		            		   String comments = currentClaim.getApproverCommentsString();
+		            		   //check that there are comments to display
+		            		   if (comments.length() != 0) {
+		            			   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
+			            		   builder.setMessage(comments)
+			            		   		.setCancelable(true)
+			            		   .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+			                           public void onClick(DialogInterface dialog, int id) {
+			                        	   
+			                           }
+			                       });
+			            		   commentAlert = builder.create();
+			            		   commentAlert.show();
+		            		   } else {
+		            			   Toast.makeText(getApplicationContext(), "No comments to display",Toast.LENGTH_SHORT).show();
+		            		   }
 		            	   }
 		           }
 				});
