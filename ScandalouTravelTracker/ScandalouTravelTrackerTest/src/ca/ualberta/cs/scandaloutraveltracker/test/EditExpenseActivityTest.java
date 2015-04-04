@@ -1,11 +1,7 @@
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
-import android.app.Activity;
 import android.app.Instrumentation;
-import android.app.Instrumentation.ActivityMonitor;
 import android.content.Intent;
-import android.hardware.Camera;
-import android.provider.MediaStore;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.util.Log;
@@ -173,10 +169,17 @@ public class EditExpenseActivityTest extends
 		cg.resetState(ClaimApplication.getContext());
 	}
 	
-	public void testCanTakeReceiptPicture() {
+	// Asserts that the buttons for taking a receipt photo is shown and
+	// is clickable. Clicking on the button can't be tested as it opens
+	// up the camera and the test method loses control of app
+	// US06.01.01, US06.02.01, US06.03.01
+	public void testTakeViewDeleteReceiptPicture() {
 		assertTrue(takeReceiptPhotoButton.isShown());
-		assertTrue(addReceiptText.isShown());
-		assertFalse(deleteReceiptButton.isShown());
+		assertTrue(takeReceiptPhotoButton.isClickable());
+		assertTrue(deleteReceiptButton.isShown());
+		assertTrue(deleteReceiptButton.isClickable());
+		assertTrue(imageButton.isShown());
+		assertTrue(imageButton.isClickable());
 		cg.resetState(ClaimApplication.getContext());
 	}
 	

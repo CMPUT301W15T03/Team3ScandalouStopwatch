@@ -142,6 +142,7 @@ public class ClaimGenerator {
 			newExpense.setCategory("Parking");
 			newExpense.setFlag(true);
 			newExpense.setReceiptAttached(true);
+			newExpense.setReceiptPath("Mock Path");
 			newExpense.setLocationAttached(true);
 			expenses.add(newExpense);
 		}
