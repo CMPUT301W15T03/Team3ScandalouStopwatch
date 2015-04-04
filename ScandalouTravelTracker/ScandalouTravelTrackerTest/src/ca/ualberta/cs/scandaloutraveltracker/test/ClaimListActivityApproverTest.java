@@ -4,6 +4,7 @@ import java.util.Date;
 
 import android.app.AlertDialog;
 import android.app.Instrumentation;
+import android.app.Instrumentation.ActivityMonitor;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -11,14 +12,17 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.ExpenseListActivity;
 
 public class ClaimListActivityApproverTest extends
 		ActivityInstrumentationTestCase2<ClaimListActivity> {
@@ -28,6 +32,7 @@ public class ClaimListActivityApproverTest extends
 	int newUserId2;
 	ClaimGenerator cg;
 	ListView claimsListView;
+	ListView expenseListView;
 	Instrumentation instrumentation;
 	
 	public ClaimListActivityApproverTest() {
@@ -120,6 +125,65 @@ public class ClaimListActivityApproverTest extends
 		assertTrue(claimTotalTV.getText().toString().equals("USD 5.00"));
 		assertTrue(claimTagsTV.getText().toString().equals(" #NY"));
 		
+		cg.resetState(ClaimApplication.getContext());
+	}
+	
+	// Switches user to approver mode and then clicks the view expenses belonging
+	// to the first claim. Asserts that the correct activity is shown and that expense
+	// information is also shown
+	// US08.04.01
+	public void testViewExpenseInformation() {
+		switchToApproverMode();
+		
+		// Registers next activity to be monitored
+		ActivityMonitor am = getInstrumentation().addMonitor(ExpenseListActivity.class.getName(), null, false);
+		
+		// Run a click on listview in current activity
+		instrumentation.runOnMainSync(new Runnable() {
+
+			@Override
+			public void run() {
+				claimsListView.performItemClick(claimsListView, 0, 0);
+			}
+		});
+		
+		AlertDialog claimAlert = claimListActivity.getClaimOptionsDialog();
+		final ListView claimOptions = claimAlert.getListView();
+		
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				claimOptions.performItemClick(claimOptions, 1, 0);
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+
+		// Test that next activity was launched
+		ExpenseListActivity nextActivity = (ExpenseListActivity) getInstrumentation().waitForMonitorWithTimeout(am, 2500);
+		assertNotNull(nextActivity);
+		
+		expenseListView = (ListView) nextActivity.findViewById(R.id.expenselistView);
+		assertTrue(expenseListView.isShown());
+		View expenseDetails = expenseListView.getChildAt(0);
+		getInstrumentation().waitForIdleSync();
+		
+		TextView expenseCategory = (TextView) expenseDetails.findViewById(R.id.expenseCategoryExpenseListTV); 
+		TextView expenseDate = (TextView) expenseDetails.findViewById(R.id.expenseDateExpenseListTV);
+		TextView expenseDescription = (TextView) expenseDetails.findViewById(R.id.expenseDescriptionTV);
+		TextView expenseTotal = (TextView) expenseDetails.findViewById(R.id.expenseTotalsExpenseListTV);
+		ImageView expenseLocation = (ImageView) expenseDetails.findViewById(R.id.expenseLocationIcon);
+		ImageView expenseReceipt = (ImageView) expenseDetails.findViewById(R.id.expensePictureIcon);
+		ImageView expenseFlag = (ImageView) expenseDetails.findViewById(R.id.expenseFlagIcon);
+		
+		assertTrue(expenseDate.getText().toString().equals("01/14/2013"));
+		assertTrue(expenseCategory.getText().toString().equals("Parking"));
+		assertTrue(expenseDescription.getText().toString().equals("Parking is hella expensive"));
+		assertTrue(expenseTotal.getText().toString().equals("Cost: 5.00 USD"));
+		assertTrue(expenseLocation.isShown());
+		assertTrue(expenseReceipt.isShown());
+		assertTrue(expenseFlag.isShown());
+		
+		nextActivity.finish();
 		cg.resetState(ClaimApplication.getContext());
 	}
 	

@@ -30,6 +30,7 @@ import android.location.Location;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
@@ -221,6 +222,12 @@ public class ClaimGenerator {
 		Expense newExpense = new Expense();
 		newExpense.setCurrencyType("USD");
 		newExpense.setCost(5.00);
+		newExpense.setCategory("Parking");
+		newExpense.setDate(startDate);
+		newExpense.setDescription("Parking is hella expensive");
+		newExpense.setFlag(true);
+		newExpense.setReceiptAttached(true);
+		newExpense.setLocationAttached(true);
 		expenses.add(newExpense);
 		
 		// Create the claim
