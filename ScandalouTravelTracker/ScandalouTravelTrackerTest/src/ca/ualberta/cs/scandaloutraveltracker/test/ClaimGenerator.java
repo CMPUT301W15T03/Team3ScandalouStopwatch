@@ -153,8 +153,16 @@ public class ClaimGenerator {
 		
 		if (destinationsIncluded) {
 			Destination d1 = new Destination("Harlem", "WORK vid shoot");
+			Location l1 = new Location("Mock Location");
+			l1.setLatitude(40);
+			l1.setLongitude(-40);
+			d1.setLocation(l1);
 			destinations.add(d1);
 			d1 = new Destination("Brooklyn", "Meet with Jay");
+			l1 = new Location("Mock Location");
+			l1.setLatitude(90);
+			l1.setLongitude(940);
+			d1.setLocation(l1);
 			destinations.add(d1);
 		}
 		
@@ -261,8 +269,17 @@ public class ClaimGenerator {
 	}
 	
 	public void resetState(Context context) {
-		clearUL();
-		clearCL();
+		try { 
+			clearUL();
+		} catch (NullPointerException e) {
+			
+		}
+		
+		try { 
+			clearCL();
+		} catch (NullPointerException e) {
+			
+		}
 		
 		SharedPreferences counterFile;
 		Editor editor;

@@ -29,6 +29,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -120,30 +121,6 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertTrue(startDateET.getText().toString().equals("3/1/2014"));
 		assertTrue(endDateET.getText().toString().equals("3/3/2014"));
 		assertTrue(descriptionET.getText().toString().equals("d1"));
-		cg.resetState(ClaimApplication.getContext());
-	}
-	
-	// Tests that the mock claim can be edited while it has not been submitted
-	// US01.04.01
-	public void testClaimEditable() throws UserInputException {
-		ArrayList<Destination> newDest = new ArrayList<Destination>();
-		newDest.add(new Destination("Compton", "Video shoot"));
-		Date newStart = cg.createDate(2, 16, 2015);
-		Date newEnd = cg.createDate(2, 17, 2015);
-		activity.editClaim(newStart, newEnd, newDest);
-		
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				descriptionET.setText("new one");
-				updateButton.performClick();
-			}
-		});
-		
-		assertEquals(1, destinationsLV.getCount());
-		assertTrue(startDateET.getText().toString().equals("3/16/2015"));
-		assertTrue(endDateET.getText().toString().equals("3/17/2015"));
-		assertTrue(descriptionET.getText().toString().equals("new one"));
 		cg.resetState(ClaimApplication.getContext());
 	}
 	
