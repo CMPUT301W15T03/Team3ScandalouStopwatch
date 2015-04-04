@@ -4,7 +4,6 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;

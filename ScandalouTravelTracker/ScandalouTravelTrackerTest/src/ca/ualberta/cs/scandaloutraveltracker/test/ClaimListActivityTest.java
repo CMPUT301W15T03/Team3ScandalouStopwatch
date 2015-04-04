@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -77,7 +76,6 @@ public class ClaimListActivityTest extends
 		claimsListView = (ListView) claimListActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListActivityList);
 		
 		instrumentation = getInstrumentation();
-		Log.d("TAG", "R3");
 	} 
 	
 	// Adds three claims with a total of 5 tags and selects tag1 and tag2

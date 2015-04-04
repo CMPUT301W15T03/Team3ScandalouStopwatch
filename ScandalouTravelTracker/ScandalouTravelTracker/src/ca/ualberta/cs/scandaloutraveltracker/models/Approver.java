@@ -18,6 +18,10 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.models;
 
+import java.util.ArrayList;
+
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+
 /**
  *  This is the Approver class which represents a user that has the
  *  capabilities of a Approver.
@@ -35,5 +39,29 @@ public class Approver extends User {
 	public Approver(int id) {
 		super(id);
 	}
+	
+	public Approver() {
+	}
+	
+	public void approveClaim(Claim claim, String comment) {
+		if (claim.getStatus().equals(Constants.statusSubmitted)) {
+			claim.setStatus(Constants.statusApproved);
+			claim.setCanEdit(false);
+			claim.setApproverName(this.getName());
+			ArrayList<String> comments = claim.getApproverComments();
+			comments.add(comment);
+			claim.setApproverComment(comments);
+		}
+	}
 
+	public void returnClaim(Claim claim, String comment) {
+		if (claim.getStatus().equals(Constants.statusSubmitted)) {
+			claim.setStatus(Constants.statusReturned);
+			claim.setCanEdit(true);
+			claim.setApproverName(this.getName());
+			ArrayList<String> comments = claim.getApproverComments();
+			comments.add(comment);
+			claim.setApproverComment(comments);
+		}
+	}
 }

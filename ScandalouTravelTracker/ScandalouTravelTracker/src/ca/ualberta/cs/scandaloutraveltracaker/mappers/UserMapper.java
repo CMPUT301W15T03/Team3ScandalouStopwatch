@@ -148,6 +148,7 @@ public class UserMapper {
 		Editor editor;
 		
 		userFile = this.context.getSharedPreferences("user"+Integer.toString(userId), 0);
+		
 		editor = userFile.edit();
 		editor.clear();
 		editor.commit();

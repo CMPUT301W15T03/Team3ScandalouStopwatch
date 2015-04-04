@@ -76,6 +76,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private AlertDialog claimAlert;
 	private AlertDialog deleteAlert;
 	private AlertDialog commentAlert;
+	private AlertDialog userModeAlert;
 	
 	private ArrayList<String> tagsList;
 	private boolean tagsBooleanArray[];
@@ -189,8 +190,8 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 						screenTypeTemp = which;
 					}
 				}); 
-				AlertDialog alert = builder.create();
-				alert.show();
+				userModeAlert = builder.create();
+				userModeAlert.show();
 				return true;
 	        case R.id.action_filter_claims:
 	        	tagsList = getAllTagsSequence();
@@ -514,6 +515,10 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	
 	public AlertDialog getDeleteDialog() {
 		return deleteAlert;
+	}
+	
+	public AlertDialog getUserModeDialog() {
+		return userModeAlert;
 	}
 	
 	public ArrayList<String> getAllTagsList() {

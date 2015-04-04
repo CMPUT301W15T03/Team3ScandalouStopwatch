@@ -18,9 +18,6 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.test;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.content.DialogInterface;
@@ -29,7 +26,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -43,7 +39,6 @@ import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity;
 
 public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<EditClaimActivity> {
@@ -85,7 +80,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		
 		activity = getActivity();
 		
-		newClaimId = cg.createMockClaim(true, false, true, true);
+		newClaimId = cg.createMockClaim(true, true, true, true);
 		activity.finish();
 		setActivity(null);
 
@@ -155,6 +150,28 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		assertEquals(2, tagsSize);
 		
 		deleteAddRenameTags();
+		cg.resetState(ClaimApplication.getContext());
+	}
+	
+	// Tests that the alert box warning appears for when the user tries to submit
+	// a claim that has a flagged expense
+	// US07.01.01
+	public void testFlagWarning() {
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				subButton.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+		
+		AlertDialog alert = activity.getAlertDialog();
+		assertTrue(alert.isShowing());
+		
+		performClick(alert.getButton(DialogInterface.BUTTON_POSITIVE));
+		alert = activity.getAlertDialog();
+		assertTrue(alert.isShowing());
+		
 		cg.resetState(ClaimApplication.getContext());
 	}
 	
@@ -280,83 +297,6 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		addTagButton = (Button)activity.findViewById(R.id.edit_claim_add_tag);
 		cg.resetState(ClaimApplication.getContext());
 	}
-
-	/*
-	// Test UC 07.02.01
-	@UiThreadTest
-	public void testWarningPopup(){
-		//test if pressing button when claim is empty will show a toast indicator
-		activity.runOnUiThread(new Runnable() {
-			@Override
-		    public void run() {
-		      subButton.performClick();
-		      testToast.show();
-		    }
-		  });
-	      boolean show = testToast.getView().isShown();
-	      assertFalse("toast is not shown", show);
-	      //assertTrue("toast worked", show);
-	}
-
-	// Test UC 07.03.01
-	public void testClaimNotApproved(){
-		
-		String approverName1 = "Dick T. Approver";
-		
-		// Create submitted claims
-		Claim claim1 = new Claim();
-		String status1 = "Submitted";		
-		claim1.setStatus(status1);
-		
-		// Perform actions
-		claim1.returnClaim(approverName1);
-		
-		// Carry out tests
-		assertTrue("testclaim should have status1", claim1.getStatus().equals(status1));
-		assertTrue("testclaim should have approverName equal to approverName1.", claim1.getApproverName().equals(approverName1));
-		
-		
-	}
-
-	// Test UC 07.04.01
-	public void testClaimApproved(){
-		
-		String approverName1 = "Dick T. Approver";
-		
-		// Create submitted claims
-		Claim claim1 = new Claim();
-		String status1 = "Submitted";		
-		claim1.setStatus(status1);
-		
-		// Perform actions
-		claim1.approveClaim(approverName1);
-		
-		// Carry out tests
-		assertTrue("testclaim should have status1", claim1.getStatus().equals(status1));
-		assertTrue("testclaim should have approverName equal to approverName1.", claim1.getApproverName().equals(approverName1));
-		
-	}
-
-	// Test UC 07.05.01
-	public void testApproverInfo(){
-		
-		String approverName1 = "Dick T. Approver";
-		String comment = "hello jim";
-		
-		// Create submitted claim
-		Claim claim1 = new Claim();
-		String status1 = "Submitted";		
-		claim1.setStatus(status1);
-		claim1.setApproverComment(comment);
-		
-		// Perform actions
-		claim1.returnClaim(approverName1);
-		
-		// Carry out tests
-		assertTrue("approver name should be Dick T. Approver",claim1.getApproverName().equals(approverName1));
-		assertTrue("comments should say Hello jim", claim1.getApproverComment().equals(comment));
-	}
-	*/
 
 	private void performClick(final Button button) {
 		try {
