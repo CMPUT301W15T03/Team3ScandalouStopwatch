@@ -14,6 +14,7 @@ import android.widget.ListView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
 
@@ -54,6 +55,8 @@ public class ClaimListActivityApproverTest extends
 		Date startDate = cg.createDate(0, 14, 2015);
 		Date endDate = cg.createDate(0, 15, 2015);
 		cg.createSubmittedClaim(newUserId2, startDate, endDate);
+		startDate = cg.createDate(0, 14, 2013);
+		endDate = cg.createDate(0, 15, 2013);
 		cg.createSubmittedClaim(newUserId2, startDate, endDate);
 		claimListActivity.finish();
 		setActivity(null);
@@ -74,7 +77,41 @@ public class ClaimListActivityApproverTest extends
 	public void testViewSubmittedClaims() {
 		// Assert correct user's claims being shown
 		assertEquals(3, claimsListView.getChildCount());
+		switchToApproverMode();
+		assertEquals(2, claimsListView.getChildCount());
+		cg.resetState(ClaimApplication.getContext());
+	}
+	
+	// The submitted claims that the approver sees should be in order from the oldest
+	// submitted claim to the newest submitted claim (bottom)
+	// US08.02.01
+	public void testSubmittedClaimsOrder() {
+		switchToApproverMode();
+		Claim firstClaim = (Claim) claimsListView.getItemAtPosition(0);
+		Claim secondClaim = (Claim) claimsListView.getItemAtPosition(1);
+		Date fcd = firstClaim.getStartDate();
+		Date scd = secondClaim.getStartDate();
 		
+		// compareto returns less than 0 if fcd is before scd
+		assertTrue(fcd.compareTo(scd) < 0);
+		cg.resetState(ClaimApplication.getContext());
+	}
+	
+	protected void performClick(final Button button) {
+		try {
+			runTestOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					button.performClick();
+				}
+			});
+		} catch (Throwable e) {
+			fail();
+		}
+		getInstrumentation().waitForIdleSync();
+	}
+	
+	private void switchToApproverMode() {
 		// Click the menu option
 		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
 		getInstrumentation().invokeMenuActionSync(claimListActivity, 
@@ -92,23 +129,6 @@ public class ClaimListActivityApproverTest extends
 		});
 		
 		performClick(userMode.getButton(DialogInterface.BUTTON_NEGATIVE));
-		getInstrumentation().waitForIdleSync();
-		
-		assertEquals(2, claimsListView.getChildCount());
-		cg.resetState(ClaimApplication.getContext());
-	}
-	
-	protected void performClick(final Button button) {
-		try {
-			runTestOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					button.performClick();
-				}
-			});
-		} catch (Throwable e) {
-			fail();
-		}
 		getInstrumentation().waitForIdleSync();
 	}
 	
