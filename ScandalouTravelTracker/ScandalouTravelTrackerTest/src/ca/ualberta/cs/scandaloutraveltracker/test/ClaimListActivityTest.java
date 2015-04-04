@@ -77,7 +77,6 @@ public class ClaimListActivityTest extends
 		claimsListView = (ListView) claimListActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListActivityList);
 		
 		instrumentation = getInstrumentation();
-		Log.d("TAG", "R3");
 	} 
 	
 	// Adds three claims with a total of 5 tags and selects tag1 and tag2
