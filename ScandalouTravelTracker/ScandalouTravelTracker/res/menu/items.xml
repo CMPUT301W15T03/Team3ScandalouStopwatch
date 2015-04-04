@@ -6,8 +6,8 @@
         android:showAsAction="never"/>
  
     <item
-        android:id="@+id/action_screen"
-        android:title="@string/change_screen"
+        android:id="@+id/action_role"
+        android:title="@string/change_role"
         android:showAsAction="never"/>
     
     <item

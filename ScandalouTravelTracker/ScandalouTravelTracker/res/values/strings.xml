@@ -85,10 +85,10 @@
     <string name="add_tag">Add Tag</string>
     <string name="add">Add</string>
     <string name="change_user">Change User</string>
-    <string name="change_screen">Change Screen</string>
+    <string name="change_role">Change Role</string>
     <string name="user_name_filler">Name of User</string>
 
-    <string-array name="screen_menu">
+    <string-array name="role_menu">
         <item>Claimant</item>
         <item>Approver</item>
     </string-array>

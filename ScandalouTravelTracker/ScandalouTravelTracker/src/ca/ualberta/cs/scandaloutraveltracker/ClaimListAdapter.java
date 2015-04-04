@@ -165,8 +165,8 @@ public class ClaimListAdapter extends BaseAdapter {
 		}
 		
 		// Set TextViews
-		claimNameTV.setText("Claimant Name: " + currentClaim.getUser().getName());
-		claimApproverTV.setText("Approver Name: " + currentClaim.getApproverName());
+		claimNameTV.setText("Claimant: " + currentClaim.getUser().getName());
+		claimApproverTV.setText("Approver: " + currentClaim.getApproverName());
 		claimCommentsTV.setText("Previous Comments:\n" + currentClaim.getApproverCommentsString());
 		claimDateTV.setText(currentClaim.getStartDateString() + 
 							" - " + 

@@ -140,10 +140,10 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				startActivity(intent);
 	            return true;
 	        // Change the User from approver to claimant or vice versa.
-	        case R.id.action_screen:
+	        case R.id.action_role:
 	        	screenTypeTemp = -1;
 	        	AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
-				builder.setTitle("Switch Screen View")
+				builder.setTitle("Switch Role View")
 				.setCancelable(true)
 				// don't change the screen type
 				.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
@@ -156,7 +156,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 					public void onClick(DialogInterface dialog, int id) {
 						// Mode should not change since nothing except confirm was clicked
 						if (screenTypeTemp == -1) {
-							Toast.makeText(getApplicationContext(), "Screen Unchanged",Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "Role Unchanged",Toast.LENGTH_SHORT).show();
 						}
 						// Claimant Mode
 						if (screenTypeTemp == 0) {
@@ -181,7 +181,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 					}
 				})
 				// record which one was selected for confirmation
-				.setSingleChoiceItems(R.array.screen_menu, currentUserController.getMode(), new OnClickListener() {
+				.setSingleChoiceItems(R.array.role_menu, currentUserController.getMode(), new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						screenTypeTemp = which;

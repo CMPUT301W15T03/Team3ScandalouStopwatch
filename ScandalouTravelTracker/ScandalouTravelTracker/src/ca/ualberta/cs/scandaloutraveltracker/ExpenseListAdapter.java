@@ -112,7 +112,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 		
 		if (currentExpense.getCurrencyType().contentEquals("--Choose Currency--")){
 			
-			currency= "N/A";
+			currency= "___";
 		}
 		// Formatting cost
 		else{
@@ -124,7 +124,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 				  currency;
 		//setting category
 		if (currentExpense.getCategory().contentEquals("--Choose Category--")){
-			expenseCategory.setText("N/A");
+			expenseCategory.setText("Uncategorized");
 		}
 		else{
 			expenseCategory.setText(currentExpense.getCategory());
