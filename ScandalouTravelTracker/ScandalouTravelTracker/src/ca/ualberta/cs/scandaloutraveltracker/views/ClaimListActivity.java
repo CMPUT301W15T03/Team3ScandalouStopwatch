@@ -434,16 +434,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            	   else if (which == 5) {
 		            		   Claim currentClaim = claimListController.getClaim((int)claimPos);
 		            		   String comments = currentClaim.getApproverCommentsString();
-		            		   // only comments of returned or approved claims should be viewable
-		            		   if (currentUser.getMode() == 0) {
-		            			   if (currentClaim.getStatus().equals("In progress") 
-		            					   || (currentClaim.getStatus().equals("Submitted"))) {
-		            				   Toast.makeText(getApplicationContext(), 
-		            						   "Only returned or approved claims can have " +
-		            						   "their comment's viewed by their claimant",Toast.LENGTH_SHORT).show();
-		            				   return;
-		            			   }
-		            		   }
 		            		   //check that there are comments to display
 		            		   if (comments.length() != 0) {
 		            			   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
@@ -458,6 +448,15 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 			            		   commentAlert.show();
 		            		   } else {
 		            			   Toast.makeText(getApplicationContext(), "No comments to display",Toast.LENGTH_SHORT).show();
+		            		   }
+		            		   // only comments of returned or approved claims should be viewable
+		            		   if (currentUser.getMode() == 0) {
+		            			   if (currentClaim.getStatus().equals("In progress") 
+		            					   || (currentClaim.getStatus().equals("Submitted"))) {
+		            				   Toast.makeText(getApplicationContext(), "Comments can only be viewed on " +
+		            				   		"returned or approved claims",Toast.LENGTH_SHORT).show();
+		            				   return;
+		            			   }
 		            		   }
 		            	   }
 		           }
