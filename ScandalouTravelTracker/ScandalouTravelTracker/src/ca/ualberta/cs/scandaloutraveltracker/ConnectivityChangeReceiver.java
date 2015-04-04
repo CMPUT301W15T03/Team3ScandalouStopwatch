@@ -1,5 +1,6 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import ca.ualberta.cs.scandaloutraveltracaker.mappers.OnlineMapper;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +14,15 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 	
 		if (isOnline(context) == true){
-			Constants.CONNECTIVITY_STATUS = true;			
-		}
-		
-		// Debugging
-        if (Constants.CONNECTIVITY_STATUS == true){     
-            Log.d("MyConnectivity", "Connected");
-        } else {
-        	Log.d("MyConnectivity", "Not connected");
+			Constants.CONNECTIVITY_STATUS = true;
+			
+			OnlineMapper onlineMapper = new OnlineMapper();
+			onlineMapper.sync();
+			
+			//Log.d("MyConnectivity", "Connected");
+		} else {
+			Constants.CONNECTIVITY_STATUS = false;
+			//Log.d("MyConnectivity", "Not connected");
 		}
 		
 	}

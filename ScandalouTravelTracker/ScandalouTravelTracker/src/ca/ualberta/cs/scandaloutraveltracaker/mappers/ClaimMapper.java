@@ -21,13 +21,16 @@ package ca.ualberta.cs.scandaloutraveltracaker.mappers;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
+import android.widget.Toast;
 
 import ca.ualberta.cs.scandaloutraveltracker.ConnectivityChangeReceiver;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
@@ -43,6 +46,7 @@ import com.google.gson.reflect.TypeToken;
 public class ClaimMapper {
 
 	private Context context;
+	OnlineMapper onlineMapper = new OnlineMapper();
 	
 	/**
 	 * ClaimMapper needs the context to run
@@ -141,6 +145,7 @@ public class ClaimMapper {
 	 */
 	public void updateExpenses(int claimId, ArrayList<Expense> expenses){
 		saveClaimData(claimId, "expenses", expenses);
+		saveOnline(claimId);
 	}	
 	
 	/**
@@ -149,9 +154,8 @@ public class ClaimMapper {
 	 * @param tags
 	 */
 	public void updateTags(int claimId, ArrayList<String> tags){
-		
 		saveClaimData(claimId, "tags", tags);
-		
+		saveOnline(claimId);
 	}	
 	
 	/**
@@ -161,17 +165,19 @@ public class ClaimMapper {
 	 * @param canEdit
 	 */
 	public void changeClaimStatus(int claimId, String status, boolean canEdit){
-		
 		saveClaimData(claimId, "status", status);	
 		saveClaimData(claimId, "canEdit", canEdit);
+		saveOnline(claimId);
 	}
 	
 	public void changeApproverName(int claimId, String approverName) {
 		saveClaimData(claimId, "approverName", approverName);
+		saveOnline(claimId);		
 	}
 
 	public void updateComments(int claimId, ArrayList<String> comments) {
 		saveClaimData(claimId, "approverComments", comments);
+		saveOnline(claimId);		
 	}
 	
 	/**
@@ -318,16 +324,26 @@ public class ClaimMapper {
 		editor = claimFile.edit();
 		editor.clear();
 		editor.commit();
+		
+		deleteOnline(claimId);
 	}
 	
 	private void saveOnline(int claimId){
-		ConnectivityChangeReceiver ccr = new ConnectivityChangeReceiver();
-		
-		if (ccr.isOnline(context) == true){
-			OnlineMapper onlineMapper = new OnlineMapper();
+		if (Constants.CONNECTIVITY_STATUS == true){
 			onlineMapper.save("claim"+Integer.toString(claimId), new Claim(claimId));
+			Log.d("MiturBanisdurty", "online");
+		} else {
+			onlineMapper.saveWhenConnected("claim"+Integer.toString(claimId), new Claim(claimId));
+			Log.d("MiturBanisdurty", "offline");
 		}
-		// TODO: create a queue of pending changes for when there's no connectivity
+	}
+	
+	private void deleteOnline(int claimId){
+		if (Constants.CONNECTIVITY_STATUS == true){
+			onlineMapper.delete("claim"+Integer.toString(claimId));
+		} else {
+			onlineMapper.deleteWhenConnected("claim"+Integer.toString(claimId));
+		}
 	}
 	
 }

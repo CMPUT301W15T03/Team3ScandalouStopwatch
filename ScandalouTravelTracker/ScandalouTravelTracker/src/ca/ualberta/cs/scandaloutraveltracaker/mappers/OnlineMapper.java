@@ -18,6 +18,11 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracaker.mappers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -34,10 +39,12 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 // CITATION https://github.com/joshua2ua/AndroidElasticSearch, 2015-04-03
 public class OnlineMapper {
 
-	private static final String RESOURCE_URL = "http://cmput301.softwareprocess.es:8080/cmput301w15t03/";	
-	
+	private static final String RESOURCE_URL = "http://cmput301.softwareprocess.es:8080/cmput301w15t03/";
 	private Gson gson = new Gson();
-	
+	private static LinkedList<SyncQueueItem> syncQueue = new LinkedList<SyncQueueItem>();
+	private static int SAVE = 1;
+	private static int DELETE = 2;
+
 	public void save(String filename, Object data){
 		delete(filename);		
 		
@@ -49,6 +56,45 @@ public class OnlineMapper {
 		Thread deleteThread = new DeleteThread(filename);
 		deleteThread.start();
 	}
+	
+	public void sync(){
+		while (!syncQueue.isEmpty()){
+			SyncQueueItem item = syncQueue.remove();
+			if (item.getMode() == SAVE){
+				save(item.getKey(), item.getObject());
+			} else if (item.getMode() == DELETE){
+				delete(item.getKey());
+			}
+		}
+	}
+	
+	public void saveWhenConnected(String objectName, Object object){
+		int i = 0;
+		boolean old  = false;
+		for (SyncQueueItem item : syncQueue){
+			if (item.getKey().equals(objectName)){
+				old = true;
+				break;
+			}
+			i++;
+		}
+		if (old == true) syncQueue.remove(i);
+		syncQueue.add(new SyncQueueItem(objectName, object, SAVE));
+	}
+	
+	public void deleteWhenConnected(String objectName){
+		int i = 0;
+		boolean old  = false;
+		for (SyncQueueItem item : syncQueue){
+			if (item.getKey().equals(objectName)){
+				old = true;
+				break;
+			}
+			i++;
+		}
+		if (old == true) syncQueue.remove(i);
+		syncQueue.add(new SyncQueueItem(objectName, DELETE));
+	}	
 
 	class SaveThread extends Thread {
 
@@ -135,5 +181,36 @@ public class OnlineMapper {
 			e.printStackTrace();
 		}
 	}	
+	
+	private class SyncQueueItem {
+		
+		private String key;
+		private Object object;
+		private int mode;
+		
+		public SyncQueueItem(String key, Object object, int mode){
+			this.key = key;
+			this.object = object;
+			this.mode = mode;
+		}
+		
+		public SyncQueueItem(String key, int mode){
+			this.key = key;
+			this.object = null;
+			this.mode = mode;
+		}		
+		
+		public String getKey() {
+			return key;
+		}
+
+		public Object getObject() {
+			return object;
+		}
+		
+		public int getMode() {
+			return mode;
+		}		
+	}
 	
 }

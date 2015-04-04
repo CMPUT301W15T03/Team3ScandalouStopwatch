@@ -38,7 +38,11 @@ public class ClaimApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        
         context = getApplicationContext();
+        
+        ConnectivityChangeReceiver ccr = new ConnectivityChangeReceiver();
+        Constants.CONNECTIVITY_STATUS = ccr.isOnline(context);
     }
 
     /**
