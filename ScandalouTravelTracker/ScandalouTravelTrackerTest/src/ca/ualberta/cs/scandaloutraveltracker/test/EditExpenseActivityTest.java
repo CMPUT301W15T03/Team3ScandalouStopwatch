@@ -32,6 +32,7 @@ public class EditExpenseActivityTest extends
 	TextView addReceiptText;
 	ImageButton imageButton;
 	ImageButton deleteReceiptButton;
+	ImageButton takeReceiptPhotoButton;
 	StateSpinner category;
 	StateSpinner currencyType;
 	int newClaimId;
@@ -65,6 +66,7 @@ public class EditExpenseActivityTest extends
 		editExpenseActivity = getActivity();
 		instrumentation = getInstrumentation();
 		
+		takeReceiptPhotoButton = (ImageButton) editExpenseActivity.findViewById(R.id.edit_expense_take_receipt_photo);
 		description = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.description);
 		date = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.date_expense);
 		cost = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.amount);
@@ -172,23 +174,9 @@ public class EditExpenseActivityTest extends
 	}
 	
 	public void testCanTakeReceiptPicture() {
+		assertTrue(takeReceiptPhotoButton.isShown());
 		assertTrue(addReceiptText.isShown());
 		assertFalse(deleteReceiptButton.isShown());
-		
-		// Registers next activity to be monitored
-		ActivityMonitor am = getInstrumentation().addMonitor(MediaStore.ACTION_IMAGE_CAPTURE, null, false);
-		
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				imageButton.performClick();	
-			}
-		});
-		
-		// Test that next activity was launched
-		Activity nextActivity = (Activity) getInstrumentation().waitForMonitorWithTimeout(am, 10000);
-		assertNotNull(nextActivity);
-		
 		cg.resetState(ClaimApplication.getContext());
 	}
 	
