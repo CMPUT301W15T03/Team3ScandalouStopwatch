@@ -233,11 +233,17 @@ public class Expense extends SModel {
 			views.remove(view);
 		}
 	}
-	
+	/**
+	 * 
+	 * @return the locationattached
+	 */
 	public boolean getLocationAttached() {
 		return this.locationAttached;
 	}
-	
+	/**
+	 * 
+	 * @param location where the expense occurred
+	 */
 	public void setLocationAttached(boolean attached) {
 		this.locationAttached = attached;
 	}

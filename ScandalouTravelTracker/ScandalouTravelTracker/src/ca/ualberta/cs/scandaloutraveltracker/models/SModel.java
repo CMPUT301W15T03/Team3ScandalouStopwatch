@@ -30,19 +30,33 @@ import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
  */
 public class SModel {
 	protected ArrayList<ViewInterface> views;
-	
+	/**
+	 * 
+	 * creates an arraylist made up of viewinterface
+	 */
 	public SModel() {
 		views = new ArrayList<ViewInterface>();
 	}
-	
+	/**
+	 * adds a view to the arraylist 
+	 * 
+	 */
 	public void addView(ViewInterface view) {
 		views.add(view);
 		
 	}
+	/**
+	 * removes a view from the arraylist
+	 * 
+	 */
 	public void removeView(ViewInterface view) {
 		views.remove(view);
 		
 	}
+	/**
+	 * updates views
+	 * 
+	 */
 	public void notifyViews() {
 		for (ViewInterface view : views) {
 			view.update();

@@ -26,23 +26,27 @@ import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import android.os.Environment;
 import android.content.Intent;
 import android.provider.MediaStore;
-
+/**
+ *  The class Receipt that gets an image of a receipt and changes it to a string.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class Receipt extends SModel {
 	
 	private String receiptPath;
 	private Uri imageFileUri;
 	
 	public static final long MAX_RECEIPT_SIZE = 5*1024*1024; // 5 MB	
-
+    
 	public Receipt(String receiptPath){
 		this.receiptPath = receiptPath;
 	}
 	
-	/* Tried this, doesn't work. Instead we'll just save receipt paths in the expenses, rather than whole receipt objects
+	/*
 	 * 
-	 * Apparently a default constructor is necessary for GSON to serialize
+	 * default constructor is necessary for GSON to serialize
 	 * classes in shared prefs in a way that isn't prone to cause stack
-	 * overflows, which is what was happening to me
+	 * overflows
 	 * CITATION: http://stackoverflow.com/questions/28743933/android-gson-tojson-throws-stackoverflowerror-on-arraylistoverlayitem, 2015-03-31
 	 * 
 	 * 
@@ -52,34 +56,51 @@ public class Receipt extends SModel {
 	}
 	
 	// Getters and setters
-	
+	/**
+	 * @return receiptPath
+	 */
 	public String getReceiptPath() {
 		return receiptPath;
 	}
-
+	/**
+	 * 
+	 * @param receiptpath for the current expense
+	 */
 	public void setReceiptPath(String receiptPath) {
 		this.receiptPath = receiptPath;
 	}
-	
+	/**
+	 * @return image file
+	 */
 	public Uri getImageFileUri() {
 		return imageFileUri;
 	}
+	/**
+	 * 
+	 * @param image file for the current expense
+	 */
 
 	public void setImageFileUri(Uri imageFileUri) {
 		this.imageFileUri = imageFileUri;
 	}
 	
 	// Other methods
-
+	/**
+	 * @return the photo file
+	 */
 	public File getPhotoFile(){
 		return new File(receiptPath);
 	}
-	
+	/**
+	 * @return size of the photo
+	 */
 	public long getPhotoSize(){
 		File receiptPhoto = new File(receiptPath);
 		return receiptPhoto.length();
 	}	
-	
+	/**
+	 * saves a receipt photo, allow changes to it
+	 */
 	public void saveReceiptPhoto(String newReceiptPath){
 
 		receiptPath = newReceiptPath;
@@ -87,6 +108,9 @@ public class Receipt extends SModel {
 		notifyViews();	
 	}
 	
+	/**
+	 * saves a receipt photo but doesnt allow changes to it
+	 */
 	public void saveReceiptPhotoForGood() throws UserInputException {
 
 		if (receiptPath != null){

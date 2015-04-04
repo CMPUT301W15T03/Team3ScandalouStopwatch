@@ -24,9 +24,9 @@ import ca.ualberta.cs.scandaloutraveltracker.Constants;
 
 /**
  *  This is the Approver class which represents a user that has the
- *  capabilities of a Approver.
+ *  capabilities of a Approver, that is approve or return a claim.
  *  
- *  Still needs main functionality (planned for part 5)
+ *  
  * @author Team3ScandalouStopwatch
  *
  */
@@ -40,9 +40,11 @@ public class Approver extends User {
 		super(id);
 	}
 	
-	public Approver() {
-	}
-	
+	/**
+	 * Approves a claim, changes boolean canedit to false, gets approver name,
+	 * and adds a comment
+	 * 
+	 */	
 	public void approveClaim(Claim claim, String comment) {
 		if (claim.getStatus().equals(Constants.statusSubmitted)) {
 			claim.setStatus(Constants.statusApproved);
@@ -53,7 +55,11 @@ public class Approver extends User {
 			claim.setApproverComment(comments);
 		}
 	}
-
+	/**
+	 * Returns a claim, changes boolean canedit to true, gets approver name,
+	 * and adds a comment
+	 * 
+	 */	
 	public void returnClaim(Claim claim, String comment) {
 		if (claim.getStatus().equals(Constants.statusSubmitted)) {
 			claim.setStatus(Constants.statusReturned);

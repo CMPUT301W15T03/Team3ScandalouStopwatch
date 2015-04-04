@@ -27,8 +27,13 @@ import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 
 /**
- *  Class is a list that holds Claims. When doing tasks that involve the
- *  ClaimList class it should be done through the ClaimListController class.
+ * 	A claim is a statement containing a name, location(s),
+ *  starting and ending date(s), a description, a status, 
+ *  and a list of expenses, which includes a total of each currency spent.
+ *  
+ *  ClaimList is a Class that creates a list that holds Claims. 
+ *  When doing tasks that involve the  ClaimList class it should 
+ *  be done through the ClaimListController class.
  * @author Team3ScandalouStopwatch
  *
  */
@@ -76,7 +81,8 @@ public class ClaimList extends SModel {
 	}
 	
 	/**
-	 * Get claim from the claim list that is associated with claimPos.
+	 * Get claim from the claim list that is associated with claimPos 
+	 * which is the position of the particular claim inside a claimlist.
 	 * @param claimPos
 	 * @return Claim at claimPos
 	 */
@@ -120,7 +126,7 @@ public class ClaimList extends SModel {
 	
 	/**
 	 * Deletes the claim associated with the claimID. Does this
-	 * through the mapper.
+	 * through the mapper(see mapper for details).
 	 * @param claimId
 	 * @see ClaimMapper#deleteClaim(int)
 	 */
@@ -130,7 +136,7 @@ public class ClaimList extends SModel {
 	}
 	
 	/**
-	 * 
+	 * Adds a claim 
 	 * @param claim
 	 */
 	public void addClaim(Claim claim) {
@@ -160,16 +166,6 @@ public class ClaimList extends SModel {
 		}		
 	}
 	
-	/**
-	 * Currently incomplete. Method allows you to search for
-	 * a specific tag given the string.
-	 * @param tag
-	 * @return List of claims with associated tag
-	 */
-	public ArrayList<Claim> searchTag(String tag){
-		
-		return null;
-	}
 
 	/**
 	 * 

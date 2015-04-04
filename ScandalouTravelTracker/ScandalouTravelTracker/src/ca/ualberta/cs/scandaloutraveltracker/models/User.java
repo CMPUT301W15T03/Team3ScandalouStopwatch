@@ -34,7 +34,9 @@ public class User extends SModel implements Comparable<User> {
 	// mode = 0 (Claimant View), mode = 1 (Approver View)
 	private int mode;
 	private Location homeLocation;
-
+	/**
+	 * creates a user using the mapper and providing the user id to get name and home location
+	 */
 	public User(int id) {
 		UserMapper mapper = new UserMapper(ClaimApplication.getContext());		
 		
@@ -47,37 +49,56 @@ public class User extends SModel implements Comparable<User> {
 	public User() {
 		this.mode = 0;
 	}
-	
+	/**
+	 * @param current home location using the usermapper
+	 */
 	public void setCurrentLocation(Location location) {
 		this.homeLocation = location;
 		UserMapper mapper = new UserMapper(ClaimApplication.getContext());	
 		mapper.saveUserData(id, "location", location);
 	}
-	
+	/**
+	 * @return home location for current user
+	 */
 	public Location getHomeLocation() {
 		return this.homeLocation;
 	}
-
+	/**
+	 * @return id for user
+	 */
 	public int getId() {
 		return id;
 	}
-
+	/**
+	 * 
+	 * @param id for current user
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	/**
+	 * @return user name
+	 */
 	public String getName() {
 		return name;
 	}
-
+	/**
+	 * 
+	 * @param name for current user
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}	
-	
+	/**
+	 * @return user mode (approver or claimant) 
+	 */
 	public int getMode() {
 		return mode;
 	}
-	
+	/**
+	 * 
+	 * @param user mode (approver or claimant) for current user
+	 */
 	public void setMode(int mode) {
 		this.mode = mode;
 	}

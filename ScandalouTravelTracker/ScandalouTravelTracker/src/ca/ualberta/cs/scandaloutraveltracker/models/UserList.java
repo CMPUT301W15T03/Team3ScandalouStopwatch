@@ -141,16 +141,7 @@ public class UserList extends SModel {
 		notifyViews();		
 	}
 	
-	/**
-	 * Currently incomplete. Method allows you to search for
-	 * a specific tag given the string.
-	 * @param tag
-	 * @return List of users with associated tag
-	 */
-	public ArrayList<User> searchTag(String tag){
-		
-		return null;
-	}
+
 
 	/**
 	 * 

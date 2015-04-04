@@ -36,8 +36,8 @@ import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 import android.widget.Toast;
 
 /**
- *  Class that contains the Claim model. Edits to any instance of a Claim
- *  should be done through the ClaimController class.
+ *  Class that contains the Claim model.
+ *   Edits to any instance of a Claim should be done through the ClaimController class.
  * @author Team3ScandalouStopwatch
  */
 public class Claim extends SModel implements Comparable<Claim> {
@@ -57,8 +57,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 	private User user;
 
 	/**
-	 * Fetches a claim corresponding to the id passed to it. Uses
-	 * the ClaimMapper class to retrieve the saved claim. 
+	 * Fetches a claim corresponding to the id passed to it. 
+	 * Uses the ClaimMapper class to retrieve the saved claim. 
 	 *
 	 * @param id    The id of the claim. This is created whenever a
 	 *              new Claim is created and is how the ClaimMapper
@@ -97,12 +97,16 @@ public class Claim extends SModel implements Comparable<Claim> {
 		this.status = "In Progress";
 	}
 	
-	// Getter and Setter Methods
+	/**
+	 * Gets the user for the current claim
+	 */
 	
 	public User getUser() {
 		return this.user;
 	}
-	
+	/**
+	 * Sets the user for the current claim
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -116,7 +120,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param id Claim's ID
+	 * @param id Claim's ID for the current claim
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -132,7 +136,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param description Claim's description
+	 * @param description Claim's description for the current claim
+	 * if the claim status is in progress or returned
 	 */
 	public void setDescription(String description) {
 		if (canEdit) {
@@ -150,7 +155,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param startDate Claim's start date
+	 * @param startDate Claim's start date for the current claim 
+	 * if the claim status is in progress or returned
 	 */
 	public void setStartDate(Date startDate) {
 		if (canEdit) {
@@ -160,7 +166,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @return Start date for the claim as a string
+	 * @return Start date for the claim as a string in sdf format
 	 */
 	public String getStartDateString() {
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
@@ -177,7 +183,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param endDate Claim's end date
+	 * @param endDate Claim's end date for the current claim 
+	 * if the claim status is in progress or returned
 	 */
 	public void setEndDate(Date endDate) {
 		if (canEdit) {
@@ -187,7 +194,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @return End date for the claim as a string
+	 * @return End date for the claim as a string in sdf format
 	 */
 	public String getEndDateString() {
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
@@ -204,7 +211,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param destinations Claim's destinations
+	 * @param destinations Claim's destinations for the current claim 
 	 */
 	public void setDestinations(ArrayList<Destination> destinations) {
 		this.destinations = destinations;
@@ -220,7 +227,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param expenses Claim's expenses
+	 * @param expenses Claim's expenses for the current claim 
 	 */
 	public void setExpenses(ArrayList<Expense> expenses) {
 		this.expenses = expenses;
@@ -237,7 +244,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param tags Claim's tags
+	 * @param tags Claim's tags for the current claim 
 	 */
 	public void setTags(ArrayList<String> tags) {
 		this.tags = tags;
@@ -253,7 +260,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param status Claim's status
+	 * @param status Claim's status for the current claim 
 	 */
 	public void setStatus(String status) {
 		this.status = status;
@@ -269,7 +276,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param approverName Name of approver who approved Claim
+	 * @param approverName Name of approver who approved Claim for the current claim 
 	 */
 	public void setApproverName(String approverName) {
 		this.approverName = approverName;
@@ -405,7 +412,11 @@ public class Claim extends SModel implements Comparable<Claim> {
 		
 		notifyViews();
 	}
-	
+	/**
+	 * Approves the Claim. This is, setting
+	 * the status to approved and canEdit boolean to false or .
+	 * Uses the ClaimMapper to save updated data.
+	 */
 	public void approveClaim(String approverName, String comment, int claimId){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
@@ -415,7 +426,11 @@ public class Claim extends SModel implements Comparable<Claim> {
 		mapper.updateComments(claimId, this.approverComments);
 		notifyViews();
 	}
-	
+	/**
+	 * Approves the Claim. This is, setting
+	 * the status to returned and canEdit boolean to true or .
+	 * Uses the ClaimMapper to save updated data.
+	 */
 	public void returnClaim(String approverName, String comment, int claimId){
 		
 		ClaimMapper mapper = new ClaimMapper(ClaimApplication.getContext());
@@ -429,7 +444,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param destination Claim's destination
+	 * @param destination Claim's destination if claim status is returned or in progress
 	 */
 	public void addDestination(Destination destination) {
 		if (canEdit) {
@@ -439,7 +454,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 
 	/**
 	 * 
-	 * @param destination Claim's destination
+	 * @param destination Claim's destination if claim status is returned or in progress
 	 */
 	public void removeDestination(Destination destination) {
 		if (canEdit) {
@@ -449,7 +464,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param expense Claim's expense
+	 * @param expense Claim's expense if claim status is returned or in progress
 	 */
 	public void addExpense(Expense expense) {
 		if (canEdit) {
@@ -459,7 +474,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	
 	/**
 	 * 
-	 * @param expense Claim's expense
+	 * @param expense Claim's expense if claim status is returned or in progress
 	 */
 	public void deleteExpense(Expense expense) {
 		if (canEdit) {
@@ -474,6 +489,10 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * Uses a HashMap to calculate the total cost of the claim. 
 	 * The string value is associated with the currency and the
 	 * double is associated with the cost.
+	 *  If the currency types match,
+	 *  they are added together,
+	 *  else if they dont match a new group is opened fo that currency type
+	 *  else if no currency selected, the amount is added to other. 
 	 * @return HashMap with totaled costs from expenses
 	 */
 	public HashMap<String, Double> computeTotal() {

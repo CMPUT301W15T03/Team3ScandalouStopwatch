@@ -20,8 +20,9 @@ package ca.ualberta.cs.scandaloutraveltracker.models;
 import android.location.Location;
 
 /**
- *  Class contains all the information that a Destination needs. A
- *  destination(s) is contained inside a Claim.
+ * A destination is the physical location in which the claim is being added/processed, which is denoted with coordinates
+ *  Class contains all the information that a Destination needs(Destination Name, Description and location).
+ *   A destination(s) is contained inside a Claim.
  * @author Team3ScandalouStopwatch
  *
  */
@@ -52,7 +53,7 @@ public class Destination extends SModel  {
 
 	/**
 	 * 
-	 * @param name
+	 * @param sets name of destination in the current Destination
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -68,7 +69,7 @@ public class Destination extends SModel  {
 
 	/**
 	 * 
-	 * @param description
+	 * @param sets description of destination in the current Destination
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -84,7 +85,7 @@ public class Destination extends SModel  {
 
 	/**
 	 * 
-	 * @param location
+	 * @param sets location of Destination in the current Destination
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
