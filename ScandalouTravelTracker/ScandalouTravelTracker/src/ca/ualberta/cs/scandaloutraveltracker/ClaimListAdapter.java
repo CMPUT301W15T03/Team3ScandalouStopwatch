@@ -32,6 +32,8 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,6 +120,7 @@ public class ClaimListAdapter extends BaseAdapter {
 		TextView claimTotalTV = (TextView) convertView.findViewById(R.id.claimListTotalsTV);
 		TextView claimTagsTV = (TextView) convertView.findViewById(R.id.claimListTagsTV);
 		ProgressBar claimDistancePB = (ProgressBar) convertView.findViewById(R.id.locationBar);
+		TextView progressTV = (TextView) convertView.findViewById(R.id.progressBarTextView);
 		
 		// Fetch current Claim
 		currentClaim = claimList.getClaim(position);
@@ -178,17 +181,30 @@ public class ClaimListAdapter extends BaseAdapter {
 		else {
 			int progress = getProgress();
 			claimDistancePB.setProgress(progress);
-			if (0 < progress && progress < 25) {
+			// setting appropriate colors
+			if (progress == 0) {
+				claimDistancePB.setVisibility(View.GONE);
+				progressTV.setVisibility(View.GONE);
+			}
+			else if (0 < progress && progress < 25) {
 				claimDistancePB.getProgressDrawable().setColorFilter(Color.parseColor("#00FF00"), Mode.SRC_IN);
+				claimDistancePB.setVisibility(View.VISIBLE);
+				progressTV.setVisibility(View.VISIBLE);
 			}
 			else if (25 < progress && progress < 50) {
 				claimDistancePB.getProgressDrawable().setColorFilter(Color.parseColor("#FFFF00"), Mode.SRC_IN);
+				claimDistancePB.setVisibility(View.VISIBLE);
+				progressTV.setVisibility(View.VISIBLE);
 			}
 			else if (50 < progress && progress < 75) {
 				claimDistancePB.getProgressDrawable().setColorFilter(Color.parseColor("#FFFF00"), Mode.SRC_IN);
+				claimDistancePB.setVisibility(View.VISIBLE);
+				progressTV.setVisibility(View.VISIBLE);
 			}
 			else if (progress > 75) {
 				claimDistancePB.getProgressDrawable().setColorFilter(Color.parseColor("#FF0000"), Mode.SRC_IN);
+				claimDistancePB.setVisibility(View.VISIBLE);
+				progressTV.setVisibility(View.VISIBLE);
 			}
 		}
 		

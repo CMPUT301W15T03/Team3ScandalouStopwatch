@@ -434,11 +434,13 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            	   else if (which == 5) {
 		            		   Claim currentClaim = claimListController.getClaim((int)claimPos);
 		            		   String comments = currentClaim.getApproverCommentsString();
+		            		   // only comments of returned or approved claims should be viewable
 		            		   if (currentUser.getMode() == 0) {
 		            			   if (currentClaim.getStatus().equals("In progress") 
 		            					   || (currentClaim.getStatus().equals("Submitted"))) {
 		            				   Toast.makeText(getApplicationContext(), 
-		            						   "Claim is not returned or approved",Toast.LENGTH_SHORT).show();
+		            						   "Only returned or approved claims can have " +
+		            						   "their comment's viewed by their claimant",Toast.LENGTH_SHORT).show();
 		            				   return;
 		            			   }
 		            		   }

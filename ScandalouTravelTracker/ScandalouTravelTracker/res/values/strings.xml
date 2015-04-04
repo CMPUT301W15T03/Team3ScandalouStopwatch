@@ -124,5 +124,6 @@
     <string name="clear_location">Clear Set Location</string>
     <string name="destination_location_icon"></string>
     <string name="title_activity_set_destination_location">SetDestinationLocationActivity</string>
+    <string name="progress_bar_description">Distance from Home in Comparison to Other Claims:</string>
 
 </resources>
