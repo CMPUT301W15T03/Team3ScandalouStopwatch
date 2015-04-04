@@ -112,7 +112,6 @@ public class ClaimListAdapter extends BaseAdapter {
 		// Create TextViewscurrentClaim.get
 		TextView claimNameTV = (TextView) convertView.findViewById(R.id.claimListNameTV);
 		TextView claimApproverTV = (TextView) convertView.findViewById(R.id.claimListApproverTV);
-		TextView claimCommentsTV = (TextView) convertView.findViewById(R.id.claimListCommentsTV);
 		TextView claimDateTV = (TextView) convertView.findViewById(R.id.claimListDateTV);
 		TextView claimDestinationTV = (TextView) convertView.findViewById(R.id.claimListDestinationsTV);
 		TextView claimStatusTV = (TextView) convertView.findViewById(R.id.claimListStatusTV);
@@ -143,31 +142,26 @@ public class ClaimListAdapter extends BaseAdapter {
 		if (currentClaim.getStatus().equals(Constants.statusReturned)) {
 			claimNameTV.setVisibility(View.GONE);
 			claimApproverTV.setVisibility(View.VISIBLE);
-			claimCommentsTV.setVisibility(View.VISIBLE);
 		}
 		// show approver on approved claims
 		else if (currentClaim.getStatus().equals(Constants.statusApproved)) {
 			claimNameTV.setVisibility(View.GONE);
 			claimApproverTV.setVisibility(View.VISIBLE);
-			claimCommentsTV.setVisibility(View.VISIBLE);
 		}
 		// don't show approver on in progress or submitted claims
 		else {
 			claimNameTV.setVisibility(View.GONE);
 			claimApproverTV.setVisibility(View.GONE);
-			claimCommentsTV.setVisibility(View.GONE);
 		}
 		// approver can see previous approver and claimant name
 		if (this.approverMode) {
 			claimNameTV.setVisibility(View.VISIBLE);
 			claimApproverTV.setVisibility(View.VISIBLE);
-			claimCommentsTV.setVisibility(View.VISIBLE);
 		}
 		
 		// Set TextViews
 		claimNameTV.setText("Claimant: " + currentClaim.getUser().getName());
 		claimApproverTV.setText("Approver: " + currentClaim.getApproverName());
-		claimCommentsTV.setText("Previous Comments:\n" + currentClaim.getApproverCommentsString());
 		claimDateTV.setText(currentClaim.getStartDateString() + 
 							" - " + 
 							currentClaim.getEndDateString());

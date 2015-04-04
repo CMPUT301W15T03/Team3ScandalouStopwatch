@@ -21,19 +21,11 @@
         android:text="@string/approver_text_filler" />
 
     <TextView
-        android:id="@+id/claimListCommentsTV"
-        style="@style/TextFontMediumLV"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/claimListApproverTV"
-        android:text="@string/approver_comment_text_filler" />
-
-    <TextView
         android:id="@+id/claimListDateTV"
         style="@style/TextFontMediumLV"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/claimListCommentsTV"
+        android:layout_below="@+id/claimListApproverTV"
         android:text="@string/date_text_filler" />
 
     <TextView

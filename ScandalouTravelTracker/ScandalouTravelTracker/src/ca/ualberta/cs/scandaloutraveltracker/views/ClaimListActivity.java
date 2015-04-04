@@ -433,6 +433,14 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		            	   else if (which == 5) {
 		            		   Claim currentClaim = claimListController.getClaim((int)claimPos);
 		            		   String comments = currentClaim.getApproverCommentsString();
+		            		   if (currentUser.getMode() == 0) {
+		            			   if (currentClaim.getStatus().equals("In progress") 
+		            					   || (currentClaim.getStatus().equals("Submitted"))) {
+		            				   Toast.makeText(getApplicationContext(), 
+		            						   "Claim is not returned or approved",Toast.LENGTH_SHORT).show();
+		            				   return;
+		            			   }
+		            		   }
 		            		   //check that there are comments to display
 		            		   if (comments.length() != 0) {
 		            			   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);

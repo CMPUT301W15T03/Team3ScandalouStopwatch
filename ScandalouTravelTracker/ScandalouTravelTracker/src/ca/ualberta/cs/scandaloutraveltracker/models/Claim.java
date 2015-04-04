@@ -566,12 +566,15 @@ public class Claim extends SModel implements Comparable<Claim> {
 		int i = 0;
 		for (String temp : this.approverComments) {
 			if (i == 0) {
-				commentString = "-" + temp;
+				commentString = commentString + "- " + temp;
 			}
 			else {
-				commentString = "-" + temp + "\n" + commentString;
+				commentString = "- " + temp + "\n" + commentString;
 			}
 			i++;
+		}
+		if (this.approverComments.size() != 0) {
+			commentString = "Approver Name: " + this.approverName + "\n" + commentString;
 		}
 		return commentString;
 	}
