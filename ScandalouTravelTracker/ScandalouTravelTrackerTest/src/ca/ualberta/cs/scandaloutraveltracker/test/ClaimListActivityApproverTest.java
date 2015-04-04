@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
@@ -94,6 +96,30 @@ public class ClaimListActivityApproverTest extends
 		
 		// compareto returns less than 0 if fcd is before scd
 		assertTrue(fcd.compareTo(scd) < 0);
+		cg.resetState(ClaimApplication.getContext());
+	}
+	
+	
+	// Switches the user mode to approver, and then checks if the first submitted claim
+	// in the list has the correct information being shown.
+	// US08.03.01
+	public void testApproverViewDetails() {
+		switchToApproverMode();
+		
+		View claimView = claimsListView.getChildAt(0);
+		assertTrue(claimView.isShown());
+		TextView claimDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDateTV);
+		TextView claimDestinationTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDestinationsTV);
+		TextView claimStatusTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListStatusTV);
+		TextView claimTotalTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListTotalsTV);
+		TextView claimTagsTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListTagsTV);
+		
+		assertTrue(claimDateTV.getText().toString().equals("1/14/2013 - 1/15/2013"));
+		assertTrue(claimDestinationTV.getText().toString().equals("Destinations: Brooklyn"));
+		assertTrue(claimStatusTV.getText().toString().equals("Status: Submitted"));
+		assertTrue(claimTotalTV.getText().toString().equals("USD 5.00"));
+		assertTrue(claimTagsTV.getText().toString().equals(" #NY"));
+		
 		cg.resetState(ClaimApplication.getContext());
 	}
 	
