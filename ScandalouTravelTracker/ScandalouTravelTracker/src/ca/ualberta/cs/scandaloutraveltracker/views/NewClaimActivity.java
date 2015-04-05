@@ -29,9 +29,6 @@ import ca.ualberta.cs.scandaloutraveltracker.DestinationListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.R;
 import ca.ualberta.cs.scandaloutraveltracker.TagParser;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import ca.ualberta.cs.scandaloutraveltracker.R.array;
-import ca.ualberta.cs.scandaloutraveltracker.R.id;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
@@ -101,6 +98,11 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	private boolean alertReady;
 	private SpannableString spannableString;
 	
+	/**
+	 * 	Called when the activity is created. Sets up the views 
+	 * 	and controllers while also setting up the listener for 
+	 * 	actually adding the new claim to the list of claims.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -177,6 +179,9 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	
 	}
 
+	/**
+	 * 	Updates destination list view and tags list view with the correct values.
+	 */
 	@Override
 	public void update() {
 		destList.setAdapter(destinationListAdapter);
@@ -184,6 +189,9 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		setClickableTags(tagsString);
 	}
 	
+	/**
+	 *  Sets up the various listeners for the i/o parts of activity_new_claim.xml
+	 */
 	private void setListeners() {
 		// startDate dialog picker
 		sDateSet.setOnClickListener(new View.OnClickListener() {
@@ -338,6 +346,10 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		});					
 	}
 	
+	/**
+	 *  Sets up listeners for the given tags where clicking on them will allow editing or deletion
+	 * @param tagsString - the current list of tags
+	 */
 	private void setClickableTags(String tagsString) {
 		spannableString = new SpannableString(tagsString);
 		Log.d("TAG", tagsString);
@@ -431,7 +443,7 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	}
 	
 	/**
-	 * Given the list of tags this changes it into a string
+	 *  Given the list of tags this changes it into a string
 	 * @param tagsList
 	 * @return string of tags
 	 */
@@ -476,34 +488,66 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	}
 	
 	// TEST METHODS BELOW
+	/**
+	 * 	Used for testing by manually setting the of a new claim
+	 * @param start date of new claim
+	 */
 	public void setStartDate(Date date) {
 		startDate = date;
 	}
 	
+	/**
+	 * 	Used for testing by manually setting the end date of a new claim
+	 * @param end date of new claim
+	 */
 	public void setEndDate(Date date) {
 		endDate = date;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return - the current alertDialog for destinations
+	 */
 	public AlertDialog getDestinationDialog() {
 		return alertDialog;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the current destinations of the new claim
+	 */
 	public ArrayList<Destination> getDestinationsList() {
 		return destinations;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the current alert dialog for tags
+	 */
 	public AlertDialog getAlert() {
 		return alert;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the current tags list of the new claim
+	 */
 	public ArrayList<String> getTagsList() {
 		return tagsList;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the SpinnaleString of tags that are a part of the new claim
+	 */
 	public SpannableString getSpannableString() {
 		return spannableString;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the View of destinations for the current claim
+	 */
 	public View getNewDestView() {
 		return newDestView;
 	}

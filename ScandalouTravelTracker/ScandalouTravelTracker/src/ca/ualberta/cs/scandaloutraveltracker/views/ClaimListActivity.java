@@ -25,10 +25,6 @@ import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.R.array;
-import ca.ualberta.cs.scandaloutraveltracker.R.id;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
-import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
@@ -43,7 +39,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -83,7 +78,10 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	private ArrayList<String> selectedTags = new ArrayList<String>();
 	private CharSequence[] tagsSequence;
 	
-	
+	/**
+	 * 	Called when the activity is created. Sets up the views and 
+	 * 	listeners of the activity depending on the users current role.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,22 +106,36 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		setButtons();
 	}
 	
-	// Used for testing that users have the correct claim list
+	/**
+	 * Used for testing that users have the correct claim list
+	 * @return the claim list
+	 */
 	public ClaimList getCurrentClaimList() {
 		return claimListController.getClaimList();
 	}
 	
+	/**
+	 * 	Called when the activity resumes from a background state. The method updates the screen 
+	 * 	mode and corresponding views depending on if the user is in approver or claimant mode.
+	 */
 	@Override
 	public void onResume() {
 		super.onResume();
 		setScreenMode();
 	}
 
+	/**
+	 * 	notify the claim list adapter of changed data.
+	 */
 	@Override
 	public void update() {
 		claimListAdapter.notifyDataSetChanged();
 	}
 	
+	/**
+	 * 	Creates the unique action bar for the activity that includes various 
+	 * 	options so changing the user role and how the claim list is displayed.
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -132,6 +144,10 @@ public class ClaimListActivity extends Activity implements ViewInterface {
         return super.onCreateOptionsMenu(menu);
 	}
 	
+	/**
+	 * 	Executes options depending on which option the user picked from the action bar dropdown
+	 * 	menu.
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle presses on the action bar items.
@@ -249,6 +265,9 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	    
 	}
 	
+	/**
+	 * 	Set up the listeners for the claim list and other buttons.
+	 */
 	private void setButtons() {
 		// Add claim button on click
 		addClaimButton.setOnClickListener(new View.OnClickListener() {
@@ -467,6 +486,9 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		});
 	}
 	
+	/**
+	 * @return the list of every tag from all claims in the list
+	 */
 	private ArrayList<String> getAllTagsSequence() {
 		ClaimListMapper clm = new ClaimListMapper(getApplicationContext(), currentUser);
 		tagsList = clm.getAllTags();
@@ -476,6 +498,9 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		return tagsList;
 	}
 	
+	/**
+	 * 	Sets the app user to the correct user that the user picked.
+	 */
 	private void setApplicationUser() {
 		ClaimApplication app = (ClaimApplication) getApplicationContext();
 		Intent intent = getIntent();
@@ -483,6 +508,9 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		app.setUser(new User(userId));
 	}
 	
+	/**
+	 * 	Changes the claim list depending on if the user is in claimant mode or approver mode.
+	 */
 	private void setScreenMode() {
 		// Claimant mode
 		if (currentUserController.getMode() == 0) { 
@@ -506,26 +534,50 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	}
 
 	// Methods that are used for testing
+	/**
+	 * 	Used for testing
+	 * @return the current tag alert dialog
+	 */
 	public AlertDialog getTagDialog() {
 		return tagSelectDialog;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the alert dialog of the current claim selected
+	 */
 	public AlertDialog getClaimOptionsDialog() {
 		return claimAlert;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the alert dialog for deleting a claim
+	 */
 	public AlertDialog getDeleteDialog() {
 		return deleteAlert;
 	}
 	
+	/**
+	 *  Used for testing
+	 * @return the user mode alert dialog
+	 */
 	public AlertDialog getUserModeDialog() {
 		return userModeAlert;
 	}
 	
+	/**
+	 *  Used for testing
+	 * @return the current tags list of all claims
+	 */
 	public ArrayList<String> getAllTagsList() {
 		return tagsList;
 	}
 	
+	/**
+	 *  Used for testing
+	 * @return the tags that were selected to filter the claims list by
+	 */
 	public ArrayList<String> getSelectedTags() {
 		return selectedTags;
 	}

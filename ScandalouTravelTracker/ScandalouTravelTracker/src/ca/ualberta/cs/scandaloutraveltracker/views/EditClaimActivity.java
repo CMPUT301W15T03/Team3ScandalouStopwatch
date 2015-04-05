@@ -98,6 +98,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	private boolean canEdit;
 	private boolean alertReady;
 	
+	/**
+	 *	Called when the activity is created. The method sets up the various 
+	 *	views and controllers for editing the claim.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -143,6 +147,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		setButtons();
 	}
 	
+	/**
+	 * 	Sets up the end and start date DialogFragment controllers as well as an 
+	 * 	on item click listener for the tags being displayed.
+	 */
 	private void setButtons() {
         // startDate dialog picker
 		startDateDisplay.setOnClickListener(new View.OnClickListener() {
@@ -267,6 +275,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		});			
 	}
 	
+	/**
+	 * 	Called if the user is not allowed to edit the claim, because of the mode or their current role,
+	 * 	and edits the views and controllers accordingly.
+	 */
 	private void setCantEdit() {
 		updateButton.setVisibility(View.INVISIBLE);
 		newDestinationButton.setVisibility(View.INVISIBLE);
@@ -287,6 +299,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		});
 	}
 	
+	/**
+	 * 	Called if the user is allowed to edit the claim, because of the mode or their current role,
+	 * 	and edits the views and controllers for input accordingly.
+	 */
 	private void setCanEdit() {
 		updateButton.setOnClickListener(new View.OnClickListener(){
 
@@ -487,7 +503,11 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			
 		});			
 	}
-
+	
+	/**
+	 * 	Sets the action bar to include the options to change user and view all tags in the 
+	 * 	dropdown menu.
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -495,6 +515,9 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		return true;
 	}
 	
+	/**
+	 * 	Deals with the user pressing on options in the dropdown menu of the action bar.
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses
@@ -515,6 +538,9 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		}
 	}
 
+	/**
+	 * 	updates the claim views/controllers with the saved claim data.
+	 */
 	@Override
 	public void update() {
 		
@@ -549,6 +575,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 	}
 	
+	/**
+	 *  Sets up listeners for the given tags where clicking on them will allow editing or deletion
+	 * @param tagsString - the current list of tags
+	 */
 	private void setClickableTags(String tagsString) {
 		spannableString = new SpannableString(tagsString);
 
@@ -678,20 +708,40 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	}
 	
 	// TESTING METHODS
+	/**
+	 * 	Used for testing
+	 * 	Gets the current alert dialog for the tags
+	 * @return
+	 */
 	public AlertDialog getAlertDialog() {
 		return alert;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the SpinnaleString of tags that are a part of the current claim
+	 */
 	public SpannableString getSpannableString() {
 		return spannableString;
 	}
 	
+	/**
+	 * Used for testing
+	 * Sets the claim elements to the given values
+	 * @param New start date for the claim.
+	 * @param New end date for the claim.
+	 * @param A new list of destinations
+	 */
 	public void editClaim(Date startDate, Date endDate, ArrayList<Destination> destinations) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.destinations = destinations;
 	}
 	
+	/**
+	 * 	Used for testing
+	 * @return the number of toasts
+	 */
 	public int getToastCount() {
 		return toastsShown;
 	}

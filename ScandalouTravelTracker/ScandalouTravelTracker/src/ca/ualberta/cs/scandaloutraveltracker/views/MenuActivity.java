@@ -19,18 +19,22 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.R.id;
-import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+/**
+ * Changes the action bar menu to have the option to change the user. Instead of extending activity 
+ * every activity that doesn't implement their own action bar changes should extend this.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public abstract class MenuActivity extends Activity {
+	/**
+	 * changes the action bar drop down menu to have difficult menu than normal
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -39,6 +43,10 @@ public abstract class MenuActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
 	}
 	
+	/**
+	 * 	If change user is pressed the activity stack is cleared and the starting activity, UserSelectActivity,
+	 *  is started
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

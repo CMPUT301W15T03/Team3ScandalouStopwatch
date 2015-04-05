@@ -38,7 +38,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -93,6 +92,10 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private LocationManager lm;
 	private Location GPSLocation;
 	
+	/**
+	 * 	Called when the activity is created. Sets up all the views and controllers for 
+	 * 	editing the expense depending on the status of the claim it belongs to.
+	 */
 	@SuppressLint("ClickableViewAccessibility") @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -329,12 +332,13 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		});
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-	
-	//is called when edit button is clicked
+	/**
+	 * 	Is called when the edit button is clicked. The method checks if everything in the 
+	 * 	new version of the expense is permitted and accepts and executes the edit if 
+	 * 	everything is and the claim status permits it to.
+	 * @param v - the current view
+	 */
+	@SuppressLint("DefaultLocale")
 	public void confirmEdit(View v) {
 		
 		if (canEdit) {
@@ -442,6 +446,12 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		}
 	}
 	
+	/**
+	 * 	Get's the index that a given string occurs in the list of a given spinner.
+	 * @param a spinner
+	 * @param a string that's in the spinner
+	 * @return the index in the spinner list that the given string occurs in the given spinner
+	 */
 	//http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position 2015-03-14
 	private int getIndex(Spinner spinner, String string) {
 		int index = 0;
@@ -454,6 +464,9 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		return index;
 	}  
 
+	/**
+	 * 	gets a picture from the user to attach as the receipt for the expense.
+	 */
 	public void takeReceiptPhoto() {
 		
 		// Create the receipts folder if it doesn't exist yet
@@ -478,7 +491,10 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	}	
 	
 	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;	
-	
+	/**
+	 * 	Whenever an activity returns with a result this method is called. This is used for
+	 *  saving a receipt and editing the expense location.
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
@@ -505,6 +521,10 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		
 	}
 	
+	/**
+	 * 	Sets the receipt view to the given photo.
+	 * @param the photo receipt the expense is getting set to.
+	 */
 	protected void setReceiptPhoto(Receipt receipt){
 		
 		if (receiptController.getReceiptPath() != null) {
@@ -532,11 +552,19 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		
 	}
 	
+	/**
+	 * 	Updates the receipt view when called.
+	 */
 	public void update() {
 		setReceiptPhoto(receipt);
 	}
 	
-	// When edit/view location is clicked
+	/**
+	 * 	Called when edit/view location is clicked. Gives the user multiple options to
+	 * 	setting the location such as clearing the current location and setting the location
+	 * 	using their device's gps or a map.
+	 * @param v - the current view
+	 */
 	public void editLocation(View v) {
 		claimController = new ClaimController(new Claim(claimId));
 		canEdit = claimController.getCanEdit();
@@ -600,6 +628,11 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	}
 	
 	// Testing methods
+	/**
+	 * 	Used for testing
+	 * @return the number of toasts corresponding with how many views
+	 *  were clicked that aren't allowed to be edited
+	 */
 	public int getToastCount() {
 		return toastCount;
 	}

@@ -59,6 +59,10 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 	private AlertDialog alert;
 	private boolean canEdit;
 	
+	/**
+	 *	Called when the activity is created. 
+	 *	Sets up listeners and the views for the list of expenses. 
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -179,6 +183,9 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 		});
 	}
 	
+	/**
+	 * refreshes the view of expenses
+	 */
 	// Know that the expense list will always be ArrayList<Expense> so
 	// warning is supressed.
 	@SuppressWarnings("unchecked")
@@ -205,6 +212,9 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 		updateTotals();
 	}
 
+	/**
+	 * notifies the ListView of any data changes for the list of expenses
+	 */
 	@Override
 	public void update() {
 		expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
@@ -222,10 +232,18 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 	}
 	
 	// Testing Methods
+	/**
+	 * 	Used for testing
+	 * @return the alert dialog that is used with an expense is clicked on
+	 */
 	public AlertDialog getAlert() {
 		return alert;
 	}
 	
+	/**
+	 *	Used for testing
+	 * @return the adapter for the expense list
+	 */
 	public ExpenseListAdapter getAdapter() {
 		return expenseListAdapter;
 	}

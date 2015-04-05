@@ -25,28 +25,31 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
-import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 	Shows a location on a map if the location is passed as two intents, one for latitude 
+ * 	and one for longitude, Otherwise the activity is just viewing a map.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class ViewLocationActivity extends MenuActivity {
 
-	private LocationManager lm;
 	private MapView map;
 	private IMapController mapController;
 	private Location previousLocation;
 	private Marker currentLocation;
 	private TextView locationTV;
 	
+	/**
+	 * 	Called when the activity is created. Sets up the map and adds a marker 
+	 * 	if a location was passed as intents to the activity.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,7 +60,6 @@ public class ViewLocationActivity extends MenuActivity {
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(9);
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationTV = (TextView) findViewById(R.id.view_location_text_view);
         
         Intent intent = getIntent();
@@ -82,14 +84,12 @@ public class ViewLocationActivity extends MenuActivity {
 				+ previousLocation.getLongitude());
 		mapController.setCenter(startPoint);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.view_location, menu);
-		return true;
-	}
 	
+	/**
+	 * Called when go to set location is pressed. Sets the map to the location that was passed 
+	 * to this activity if a location was passed.
+	 * @param v - the current view
+	 */
 	public void goToLocation(View v) {
 		GeoPoint startPoint = new GeoPoint(previousLocation);
         mapController.setCenter(startPoint);

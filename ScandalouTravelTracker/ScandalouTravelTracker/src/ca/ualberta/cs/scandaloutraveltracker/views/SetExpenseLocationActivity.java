@@ -27,8 +27,6 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.models.User;
-
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -39,6 +37,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 	Allows the user to pick a spot on a map to be able to save it as the new expense location.
+ * 	If a location is passed to this activity as two intents, one latitude and one longitude, then 
+ * 	it is displayed as the previous location
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class SetExpenseLocationActivity extends MenuActivity {
 	private LocationManager lm;
 	private MapView map;
@@ -50,7 +55,13 @@ public class SetExpenseLocationActivity extends MenuActivity {
 	private Button currentButton;
 	private Location previousLocation;
 	
-    @Override public void onCreate(Bundle savedInstanceState) {
+	/**
+	 * 	Called when the activity is created. Sets up the map and adds a marker if a location 
+	 * 	was passed as intents to the activity. A listener is also made for long clicks on 
+	 * 	spots on the map that sets a marker and the spot long clicked on as the new location.
+	 */
+    @Override 
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_location);
         currentButton = (Button) findViewById(R.id.goCurrentButton);
@@ -110,7 +121,7 @@ public class SetExpenseLocationActivity extends MenuActivity {
 				return false;
 			}
 			
-			// Sets a marker to the current point and deletes old new home location marker
+			// Sets a marker to the current point and deletes old new expense location marker
 			//https://code.google.com/p/osmbonuspack/wiki/Tutorial_0 2015-03-31
 			@Override
 			public boolean longPressHelper(GeoPoint geo) {
@@ -131,7 +142,11 @@ public class SetExpenseLocationActivity extends MenuActivity {
 		map.getOverlays().add(OverlayEventos);
     }
     
-    // When Home button is clicked, goes to destination location if one is set
+    /**
+     *  Called when prev button is clicked, the map goes to previous expense location if 
+     *  one was passed to the activity as an intent
+     * @param v the current view
+     */
     public void goCurrent(View v) {
     	if (currentLocation == null) {
     		Toast.makeText(getApplicationContext(),"Expense location not previously set",Toast.LENGTH_SHORT).show();
@@ -141,7 +156,10 @@ public class SetExpenseLocationActivity extends MenuActivity {
         mapController.setCenter(startPoint);
     }
     
-    // When GPS is clicked, goes to current gps location
+    /**
+     *  Called when GPS is clicked, the map goes to current gps location
+     * @param v the current view
+     */
     public void goToGps(View v) {
         try {
         	new GeoPoint(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
@@ -154,10 +172,15 @@ public class SetExpenseLocationActivity extends MenuActivity {
         mapController.setCenter(startPoint);
     }
     
-    // Saves the location that is set using the map
+    /**
+     *  Called when save new location is clicked. Saves the location that is set using the map by passing 
+     *  the new location back to the activity that called it as an intent
+     * @param v the current view
+     */
     public void saveLocation(View v) {
     	if (newLocation == null) {
-    		Toast.makeText(getApplicationContext(),"Please pick a new location by long clicking a spot on the map.",Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getApplicationContext(),"Please pick a new location by long clicking a spot on the map."
+    				,Toast.LENGTH_SHORT).show();
     		return;
     	}
     	Intent returnIntent = new Intent();

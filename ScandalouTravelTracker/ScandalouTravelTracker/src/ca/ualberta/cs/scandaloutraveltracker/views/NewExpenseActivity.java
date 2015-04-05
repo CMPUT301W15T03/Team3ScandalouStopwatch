@@ -25,8 +25,6 @@ import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.R.id;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
@@ -42,7 +40,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -75,7 +72,10 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private Location GPSLocation;
 	private Button locationButton;
 	
-	
+	/**
+	 * 	Called when the activity is created. Sets up the views, controllers and 
+	 * 	listeners of the activity.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,6 +102,10 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		setUpListeners();
 	}
 	
+	/**
+	 *  Sets up the one click listeners for editing the date of the
+	 * 	expense and pressing add to add the expense to the current claim
+	 */
 	private void setUpListeners() {
 		// Set date onClickListener
 		dateEditText.setOnClickListener(new View.OnClickListener() {
@@ -208,11 +212,19 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		});
 	}
 	
+	/**
+	 * 	Doesn't do anything, don't need to update.
+	 */
 	@Override
 	public void update() {
 		//leave empty, never need to update
 	}
 	
+	/**
+	 * 	Called whenever the add location button is pressed and allows 
+	 * 	the user to add or edit a location to the current expense.
+	 * @param v - the view when the add location button is pressed
+	 */
 	public void addLocation(View v) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(NewExpenseActivity.this);
 		builder.setTitle("Attaching a location")
@@ -259,6 +271,9 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		alert.show();
 	}
 	
+	/**
+	 * 
+	 */
 	//http://stackoverflow.com/questions/10407159/how-to-manage-start-activity-for-result-on-android/10407371#10407371 2015-03-31
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -278,6 +293,10 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	}
 	
 	// TESTING METHODS
+	/**
+	 * Used for testing
+	 * @param date the new expense was incurred
+	 */
 	public void setDate(Date date) {
 		this.date = date;
 	}

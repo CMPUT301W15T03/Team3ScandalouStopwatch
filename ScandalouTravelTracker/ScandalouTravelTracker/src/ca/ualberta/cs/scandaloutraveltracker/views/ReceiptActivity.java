@@ -3,22 +3,27 @@ package ca.ualberta.cs.scandaloutraveltracker.views;
 import java.io.File;
 
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.R.layout;
-import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.view.Menu;
 import android.widget.ImageView;
 
-public class ReceiptActivity extends Activity {
+/**
+ * 	Shows the image that had it's file path passed as an intent to the activity
+ * @author Team3ScandalouStopwatch
+ *
+ */
+public class ReceiptActivity extends MenuActivity {
 
 	private Receipt receipt;
 	private ImageView receiptView;
 	
+	/**
+	 *	Called when the activity is created. 
+	 *	Sets the image view to the passed file path image
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,13 +46,6 @@ public class ReceiptActivity extends Activity {
 			receiptView.setImageDrawable(receiptPhoto);
 	    }
 		
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.receipt, menu);
-		return true;
 	}
 
 }

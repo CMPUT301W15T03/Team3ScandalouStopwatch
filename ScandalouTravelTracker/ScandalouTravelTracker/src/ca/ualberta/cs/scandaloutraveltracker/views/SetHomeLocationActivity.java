@@ -32,7 +32,6 @@ import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -40,6 +39,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 	Allows the user to pick a spot on a map to be able to save it as the new home location.
+ * 	If a location is passed to this activity as two intents, one latitude and one longitude, then 
+ * 	it is displayed as the previous location. The userId of the user that is editing their home
+ * 	location needs to be passed as an intent to the activity as well.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class SetHomeLocationActivity extends MenuActivity {
 	private User currentUser;
 	private UserController currentUserController;
@@ -53,7 +60,13 @@ public class SetHomeLocationActivity extends MenuActivity {
 	private Marker currentLocation;
 	private int userId;
 	
-    @Override public void onCreate(Bundle savedInstanceState) {
+	/**
+	 * 	Called when the activity is created. Sets up the map and adds a marker if a location 
+	 * 	was passed as intents to the activity. A listener is also made for long clicks on spots
+	 *  on the map that sets a marker and the spot long clicked on as the new location.
+	 */
+    @Override 
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_location);
         
@@ -133,10 +146,15 @@ public class SetHomeLocationActivity extends MenuActivity {
 		map.getOverlays().add(OverlayEventos);
     }
     
-    // When Home button is clicked, goes to home location if one is set
+    /**
+     *  Called when home button is clicked, the map goes to previous home location if 
+     *  one was passed to the activity as an intent
+     * @param v the current view
+     */
     public void goCurrent(View v) {
     	try {
-    		GeoPoint startPoint = new GeoPoint(currentUserController.getLocation());
+    		@SuppressWarnings("unused")
+			GeoPoint startPoint = new GeoPoint(currentUserController.getLocation());
     	}
     	catch (NullPointerException e) {
     		Toast.makeText(getApplicationContext(),"Home location not previously set",Toast.LENGTH_SHORT).show();
@@ -146,7 +164,10 @@ public class SetHomeLocationActivity extends MenuActivity {
         mapController.setCenter(startPoint);
     }
     
-    // When GPS is clicked, goes to current gps location
+    /**
+     *  Called when GPS is clicked, the map goes to current gps location
+     * @param v the current view
+     */
     public void goToGps(View v) {
         try {
         	new GeoPoint(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
@@ -159,10 +180,14 @@ public class SetHomeLocationActivity extends MenuActivity {
         mapController.setCenter(startPoint);
     }
     
-    // Saves the location that is set using the map
+    /**
+     *  Called when save new location is clicked. Saves the location as the given users home location
+     * @param v the current view
+     */
     public void saveLocation(View v) {
     	if (newLocation == null) {
-    		Toast.makeText(getApplicationContext(),"Please pick a new location by long clicking a spot on the map.",Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getApplicationContext(),"Please pick a new location by long clicking a spot on the map."
+    				,Toast.LENGTH_SHORT).show();
     		return;
     	}
     	Location temp = new Location("Home Location Provider");
