@@ -190,8 +190,17 @@ public class ClaimController {
 	 * 
 	 * @param expense
 	 */
-	public void addExpense(Expense expense) {
-		currentClaim.addExpense(expense);
+	public void addExpense(Expense expense) throws UserInputException {
+		
+		// Get the updated list
+		ArrayList<Expense> newExpenseList = currentClaim.getExpenses();
+		newExpenseList.add(expense);
+		
+		// Save the new list in storage
+		currentClaim.updateExpenses(newExpenseList);
+		
+		// Save the new list in the current claim
+		currentClaim.setExpenses(newExpenseList);		
 	}
 	
 	/**

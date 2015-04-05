@@ -28,6 +28,7 @@ public class Constants {
 
 	// Labels
 	public final static String claimIdLabel = "ca.ualberta.cs.scandaloutraveltracker.claimId";
+	public static final String receiptPathLabel = "ca.ualberta.cs.scandaloutraveltracker.receiptPath";
 	
 	// Statuses (These should be put in strings.xml or something)
 	public final static String statusInProgress = "In progress";

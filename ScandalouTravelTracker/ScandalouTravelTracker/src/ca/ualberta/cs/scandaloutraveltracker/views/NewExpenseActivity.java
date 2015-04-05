@@ -18,18 +18,22 @@ limitations under the License.
 	
 package ca.ualberta.cs.scandaloutraveltracker.views;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
 import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ReceiptController;
 import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -37,13 +41,18 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,10 +64,15 @@ import android.widget.Toast;
  *
  */
 public class NewExpenseActivity extends MenuActivity implements ViewInterface {
+
+	private int claimId;
+	private Receipt receipt = new Receipt();
+	private ReceiptController receiptController;	
 	private Button addExpenseButton;
 	private Date date;
-	private ClaimController CController;
-	private ExpenseController EController;
+	private boolean canEdit;
+	private ClaimController claimController;
+	private ExpenseController expenseController;
 	private ClaimListController claimListController;
 	private EditText dateEditText;
 	private Spinner categorySpinner;
@@ -71,6 +85,12 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private LocationManager lm;
 	private Location GPSLocation;
 	private Button locationButton;
+	private ImageButton receiptThumbnail;
+	private ImageButton takeReceiptPhotoButton;
+	private ImageButton deleteReceiptButton;
+	private Uri receiptPhotoUri;
+	private String newReceiptPath; // shouldn't be a global; will figure out better way later
+	private TextView addReceiptText;	
 	
 	/**
 	 * 	Called when the activity is created. Sets up the views, controllers and 
@@ -98,6 +118,33 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		descriptionEditText = (EditText)findViewById(R.id.description2);
 		locationTextView = (TextView) findViewById(R.id.new_location_edit_text);
 		locationButton = (Button) findViewById(R.id.add_expense_location_button);
+		receiptThumbnail = (ImageButton) findViewById(R.id.add_expense_receipt_thumbnail);
+		addReceiptText = (TextView) findViewById(R.id.add_expense_add_receipt_text);
+		takeReceiptPhotoButton = (ImageButton) findViewById(R.id.add_expense_take_receipt_photo);
+		deleteReceiptButton = (ImageButton) findViewById(R.id.add_expense_delete_receipt);
+		deleteReceiptButton.setVisibility(View.INVISIBLE);		
+
+		//makes sure that the position of the claim and corresponding 
+		//expense to be edited are actually passed to this activity
+		Bundle extras = getIntent().getExtras();
+		Intent intent = getIntent();
+		claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
+		if (claimId == -1) {
+			Toast.makeText(this, "The Claim Position needs to be added to the " +
+					"EditExpenseActivity intent before startActivity(intent) is called",
+					Toast.LENGTH_LONG).show();
+			finish();
+		}		
+		
+		claimController = new ClaimController(new Claim(claimId));
+		
+		canEdit = claimController.getCanEdit();
+		
+		receipt = new Receipt();
+		receiptController = new ReceiptController(receipt);
+		setReceiptPhoto(receipt);	
+		
+		receiptController.addView(this);
 		
 		setUpListeners();
 	}
@@ -127,6 +174,49 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 				newFragment.show(getFragmentManager(), "datePicker");
 			}
 		});
+			
+		//sets image button for receipt
+		receiptThumbnail.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (receiptController.getReceiptPath() != null){			
+				   Intent intent = new Intent(NewExpenseActivity.this, ReceiptActivity.class);
+				   intent.putExtra(Constants.receiptPathLabel, receiptController.getReceiptPath());
+				   startActivity(intent);
+				} 
+			}
+		});
+		
+		//sets image button for receipt
+		takeReceiptPhotoButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			
+				if (!canEdit) {
+					
+					//Toast.makeText(getApplicationContext(),
+							//claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
+				else {
+					takeReceiptPhoto();
+				}
+			}
+		});
+		
+		deleteReceiptButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			
+				if (!canEdit) {
+					
+					//Toast.makeText(getApplicationContext(),
+							//claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
+				}
+				else {
+					receiptController.saveReceiptPhoto(null);
+				}
+			}
+		});		
 		
 		//create listener for Add button
 		addExpenseButton = (Button)findViewById(R.id.add_expense_button);
@@ -138,13 +228,13 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 				//make controller for current claim
 				Intent intent = getIntent();
 			    int claimId = intent.getIntExtra(Constants.claimIdLabel, 0);
-			    CController = new ClaimController(new Claim(claimId));
+			    claimController = new ClaimController(new Claim(claimId));
 			    
 			    //ensure a valid date has been entered
 			    if (date == null) {
 					Toast.makeText(getApplicationContext(), "Please include a date", Toast.LENGTH_SHORT).show();
 			    }
-			    else if (date.before(CController.getStartDate())) {
+			    else if (date.before(claimController.getStartDate())) {
 					Toast.makeText(getApplicationContext(), "Please include a date after claim's start date", Toast.LENGTH_SHORT).show();
 				}
 			    else {
@@ -152,21 +242,21 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 				    cal.setTime(date);
 				    cal.add(Calendar.DATE, -1);
 				    Date compareDate = cal.getTime();
-					if (compareDate.after(CController.getEndDate())) {
+					if (compareDate.after(claimController.getEndDate())) {
 						Toast.makeText(getApplicationContext(), "Please include a date before claim's end date", Toast.LENGTH_SHORT).show();
 					}
 					else {
 						//create new Expense, fill in values, attach to claim, close activity
 									    			    
 					    //make controller for new expense
-						EController = new ExpenseController(new Expense());
+						expenseController = new ExpenseController(new Expense());
 						
 						//fill in category
 						String category = (String)categorySpinner.getSelectedItem();
-						EController.setCategory(category);
+						expenseController.setCategory(category);
 						
 						//fill in date
-						EController.setDate(date);
+						expenseController.setDate(date);
 						
 						//fill in amount
 						String costString = amountEditText.getText().toString();
@@ -178,46 +268,158 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 						}
 						costString = String.format("%.2f", Double.valueOf(costString));
 						double amount = Double.valueOf(costString);
-						EController.setCost(amount);
+						expenseController.setCost(amount);
 						
 						//fill in currency
 						String currency = (String)currencySpinner.getSelectedItem();
-						EController.setCurrency(currency);
+						expenseController.setCurrency(currency);
 						
 						//fill in description
 						String description = descriptionEditText.getText().toString();
-						EController.setDescription(description);
+						expenseController.setDescription(description);
 						
 						//set location
-						EController.setLocation(location);
+						expenseController.setLocation(location);
 						
-						//make an empty receipt path
-						String receiptPath = null;
-						EController.setReceiptPath(receiptPath);
-						
-						//add new expense to claim
-						CController.addExpense(EController.getExpense());
-						mapper.saveClaimData(claimId, "expenses", CController.getExpenseList());
-						
-						//reload the claim list for the ClaimListActivity
-						claimListController = new ClaimListController();
-						claimListController.removeClaim(claimId);
-						claimListController.addClaim(new Claim(claimId));
-						
-						setResult(RESULT_OK);
-						finish();
+						try {
+							
+							 // If delete button visible, receipt attached 
+							if (deleteReceiptButton.getVisibility() == View.VISIBLE) {
+								expenseController.setReceiptStatus(true);
+							}
+							else if (deleteReceiptButton.getVisibility() == View.INVISIBLE) {
+								expenseController.setReceiptStatus(false);
+							}
+							
+							// Throws exception
+							receiptController.saveReceiptPhotoForGood();
+							
+							receiptController.clearOldReceipts();
+							
+							expenseController.setReceiptPath(receiptController.getReceiptPath());
+							
+							// Throws exception
+							claimController.addExpense(expenseController.getExpense());					
+							
+							// Refresh the claim list
+							ClaimListController claimListController = new ClaimListController();
+							claimListController.removeClaim(claimId);
+							claimListController.addClaim(new Claim(claimId));
+							
+							setResult(RESULT_OK);
+							
+							// Go back to ExpenseList
+							finish();					
+							
+						} catch (UserInputException e) {
+							System.out.println(e.getMessage());
+							Toast.makeText(getApplicationContext(),
+									e.getMessage(), Toast.LENGTH_SHORT).show();
+						}						
+
 					}
 				}
 			}
 		});
 	}
 	
+	
+	
+	
 	/**
-	 * 	Doesn't do anything, don't need to update.
+	 * 	gets a picture from the user to attach as the receipt for the expense.
 	 */
-	@Override
+	public void takeReceiptPhoto() {
+		
+		// Create the receipts folder if it doesn't exist yet
+		String folderPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/receipts_working";
+		File folderFile = new File(folderPath);
+		if (!folderFile.exists()) {
+			folderFile.mkdir();
+		}
+		
+		// Make a new receipt photo file
+		newReceiptPath = folderPath + "/"+ String.valueOf(System.currentTimeMillis()) + ".jpg";
+		File receiptPhoto = new File(newReceiptPath);
+		
+		// Get a URI for the file
+		receiptPhotoUri = Uri.fromFile(receiptPhoto);
+		
+		// Store the picture
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, receiptPhotoUri);
+		
+		startActivityForResult(intent, NewExpenseActivity.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+	}	
+	
+	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;	
+	/**
+	 * 	Whenever an activity returns with a result this method is called. This is used for
+	 *  saving a receipt and editing the expense location.
+	 */
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
+			
+			if (resultCode == RESULT_OK){
+				receiptController.saveReceiptPhoto(newReceiptPath);		
+			}
+			
+		}
+		// for editing location
+		// //http://stackoverflow.com/questions/10407159/how-to-manage-start-activity-for-result-on-android/10407371#10407371 2015-03-31
+		if (requestCode == 1) {
+	        if(resultCode == RESULT_OK){
+	        	location = new Location("Expense Location");
+	        	location.setLatitude(data.getDoubleExtra("latitude", 999));
+	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
+	        	locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
+	        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
+	        	locationButton.setText("Edit/View Location");
+	        	
+	        }
+	        if (resultCode == RESULT_CANCELED) {
+	        }
+	    }
+		
+	}
+	
+	/**
+	 * 	Sets the receipt view to the given photo.
+	 * @param the photo receipt the expense is getting set to.
+	 */
+	protected void setReceiptPhoto(Receipt receipt){
+		
+		if (receiptController.getReceiptPath() != null) {
+			
+			// Get the receipt photo
+			File receiptFile = new File(receiptController.getReceiptPath());
+			Uri receiptFileUri = Uri.fromFile(receiptFile);
+			Drawable receiptPhoto = Drawable.createFromPath(receiptFileUri.getPath());
+			
+			// Update the receipt area
+			receiptThumbnail.setImageDrawable(receiptPhoto);
+			deleteReceiptButton.setVisibility(View.VISIBLE);
+			addReceiptText.setVisibility(View.INVISIBLE);
+			receiptThumbnail.setClickable(true);
+			
+		} else {
+			
+			// Reset the receipt area 
+			// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
+			receiptThumbnail.setImageDrawable(null);
+			deleteReceiptButton.setVisibility(View.INVISIBLE);
+			addReceiptText.setVisibility(View.VISIBLE);
+			receiptThumbnail.setClickable(false);
+		}
+		
+	}
+	
+	/**
+	 * 	Updates the receipt view when called.
+	 */
 	public void update() {
-		//leave empty, never need to update
+		setReceiptPhoto(receipt);
 	}
 	
 	/**
@@ -270,27 +472,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
-	/**
-	 * 
-	 */
-	//http://stackoverflow.com/questions/10407159/how-to-manage-start-activity-for-result-on-android/10407371#10407371 2015-03-31
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == 1) {
-	        if(resultCode == RESULT_OK){
-	        	location = new Location("Expense Location");
-	        	location.setLatitude(data.getDoubleExtra("latitude", 999));
-	        	location.setLongitude(data.getDoubleExtra("longitude", 999));
-	        	locationTextView.setText("Lat: " + String.format("%.4f", location.getLatitude()) 
-	        			+ "\nLong: " + String.format("%.4f", location.getLongitude()));
-	        	locationButton.setText("Edit Location");
-	        	
-	        }
-	        if (resultCode == RESULT_CANCELED) {
-	        }
-	    }
-	}
+
 	
 	// TESTING METHODS
 	/**
