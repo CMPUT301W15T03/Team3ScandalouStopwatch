@@ -13,6 +13,8 @@ public class ApproverModelTest extends TestCase {
 	// Also checks that the approver's name and comment is attached
 	// US07.04.01
 	// US07.05.01
+	// US08.06.01
+	// US08.08.01
 	public void testApproveClaim() {
 		
 		// Try to approve a claim that is not submitted
@@ -39,6 +41,8 @@ public class ApproverModelTest extends TestCase {
 	// Also checks that the approver's name and comment is attached
 	// US07.03.01
 	// US07.05.01
+	// US08.06.01
+	// US08.07.01
 	public void testReturnClaim() {
 		// Try to approve a claim that is not submitted
 		Approver approver = new Approver();

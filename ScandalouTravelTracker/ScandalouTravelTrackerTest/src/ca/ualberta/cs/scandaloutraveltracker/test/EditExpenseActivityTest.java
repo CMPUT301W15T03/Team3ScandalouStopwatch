@@ -172,7 +172,10 @@ public class EditExpenseActivityTest extends
 	// Asserts that the buttons for taking a receipt photo is shown and
 	// is clickable. Clicking on the button can't be tested as it opens
 	// up the camera and the test method loses control of app
+	// Same settings for the approver. Error handling is done in UI when
+	// trying to push the buttons.
 	// US06.01.01, US06.02.01, US06.03.01
+	// US08.06.01
 	public void testTakeViewDeleteReceiptPicture() {
 		assertTrue(takeReceiptPhotoButton.isShown());
 		assertTrue(takeReceiptPhotoButton.isClickable());

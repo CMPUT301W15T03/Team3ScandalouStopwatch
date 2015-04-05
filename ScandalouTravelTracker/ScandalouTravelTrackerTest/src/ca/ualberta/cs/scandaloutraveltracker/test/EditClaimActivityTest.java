@@ -155,7 +155,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	
 	// Tests that the alert box warning appears for when the user tries to submit
 	// a claim that has a flagged expense
-	// US07.01.01
+	// US07.02.01
 	public void testFlagWarning() {
 		instrumentation.runOnMainSync(new Runnable() {
 			@Override
