@@ -1,4 +1,4 @@
-package ca.ualberta.cs.scandaloutraveltracaker.mappers;
+package ca.ualberta.cs.scandaloutraveltracker.mappers;
 
 import java.lang.reflect.Type;
 import java.util.LinkedList;

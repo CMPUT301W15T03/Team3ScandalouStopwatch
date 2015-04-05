@@ -21,7 +21,6 @@ package ca.ualberta.cs.scandaloutraveltracker.views;
 import java.util.Calendar;
 import java.util.Date;
 
-import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
 import ca.ualberta.cs.scandaloutraveltracker.R;
@@ -30,6 +29,7 @@ import ca.ualberta.cs.scandaloutraveltracker.R.layout;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
+import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 

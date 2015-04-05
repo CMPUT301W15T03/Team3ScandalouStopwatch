@@ -20,7 +20,6 @@ package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import java.util.ArrayList;
 
-import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimListMapper;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
@@ -32,6 +31,7 @@ import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
+import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimListMapper;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;

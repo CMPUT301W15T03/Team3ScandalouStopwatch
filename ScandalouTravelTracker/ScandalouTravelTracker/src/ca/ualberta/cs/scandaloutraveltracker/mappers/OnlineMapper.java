@@ -16,7 +16,7 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracaker.mappers;
+package ca.ualberta.cs.scandaloutraveltracker.mappers;
 
 import java.util.LinkedList;
 
