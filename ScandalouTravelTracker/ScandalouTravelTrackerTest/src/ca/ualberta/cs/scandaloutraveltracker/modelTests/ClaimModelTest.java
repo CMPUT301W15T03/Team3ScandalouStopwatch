@@ -2,6 +2,8 @@ package ca.ualberta.cs.scandaloutraveltracker.modelTests;
 
 import java.util.Date;
 
+import android.location.Location;
+
 import junit.framework.TestCase;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
@@ -49,7 +51,7 @@ public class ClaimModelTest extends TestCase {
 	
 	// Edits an expense claim (allowed)
 	// US1.04.01
-	public void cantMakeClaimChanges() {
+	public void testCantMakeClaimChanges() {
 		ClaimGenerator cg = new ClaimGenerator();
 		Claim newClaim = new Claim();
 		Date startDate = cg.createDate(0, 1, 2015);
@@ -90,6 +92,24 @@ public class ClaimModelTest extends TestCase {
 		
 		assertEquals(1, newClaim.getDestinations().size());
 		assertEquals(1, newClaim.getExpenses().size());
+	}
+	
+	// Creates a new claim and destination and attaches a mock location to
+	// the destination and then adds the destination to the claim. The test
+	// asserts that the retrieved destination's location from the claim is
+	// the same as the one created earlier.
+	// US01.07.01
+	public void testAttachGeoLocation() {
+		Claim newClaim = new Claim();
+		Destination newDestination = new Destination("Carson", "Visiting Soul at Magic Disk");
+		Location mockLocation = new Location("Mock Provider");
+		mockLocation.setLatitude(25.67);
+		mockLocation.setLongitude(-36.45);
+		newDestination.setLocation(mockLocation);
+		newClaim.addDestination(newDestination);
+		
+		Destination storedDestination = newClaim.getDestinations().get(0);
+		assertEquals(storedDestination.getLocation(), mockLocation);
 	}
 	
 }

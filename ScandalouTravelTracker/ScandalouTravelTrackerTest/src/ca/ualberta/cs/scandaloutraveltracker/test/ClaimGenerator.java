@@ -30,7 +30,6 @@ import android.location.Location;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
@@ -114,6 +113,53 @@ public class ClaimGenerator {
 		// Create another ClaimList associated with user2
 		newClaimId = clc.createClaim(new Date(), new Date(), "d2", destinations, 
 				tagsList, status, canEdit, expenses, new User(userId2));	
+		
+		// Add the claim to list
+		clc.addClaim(new Claim(newClaimId));
+	}
+	
+	public void createClaimsLocationsAttached(int userId) throws UserInputException {
+		Location l1 = new Location("Mock Provider");
+		Location l2 = new Location("Mock Provider");
+		Location l3 = new Location("Mock Provider");
+		
+		l1.setLatitude(100);
+		l1.setLongitude(100);
+		l2.setLatitude(50);
+		l2.setLongitude(50);
+		l3.setLatitude(5);
+		l3.setLongitude(5);
+		
+		createClaimLocationAttached(userId, l1);
+		createClaimLocationAttached(userId, l2);
+		createClaimLocationAttached(userId, l3);
+	}
+	
+	public void createClaimLocationAttached(int userId, Location location) throws UserInputException {
+		// Create one ClaimList associated with userId
+		ArrayList<Destination> destinations = new ArrayList<Destination>();
+		Destination destination = new Destination("Brooklyn", "Meet with Jay");
+		Location l1 = new Location("Mock Location");
+		l1.setLatitude(location.getLatitude());
+		l1.setLongitude(location.getLongitude());
+		destination.setLocation(l1);
+		destinations.add(destination);
+		ClaimListController clc = new ClaimListController();
+		ArrayList<String> tagsList = new ArrayList<String>();
+		ArrayList<Expense> expenses = new ArrayList<Expense>();
+		int newClaimId = 0;
+		tagsList.add("");
+		tagsList.add("#NY");
+		
+		Date newDate = createDate(0, 1, 2013);
+		
+		// Create the claim
+		try {
+			newClaimId = clc.createClaim(newDate, newDate, "d1", destinations, 
+					tagsList, Constants.statusSubmitted, false, expenses, new User(userId));
+		} catch (UserInputException e) {
+			throw e;
+		}
 		
 		// Add the claim to list
 		clc.addClaim(new Claim(newClaimId));

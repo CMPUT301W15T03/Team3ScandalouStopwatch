@@ -179,7 +179,7 @@ public class ClaimListAdapter extends BaseAdapter {
 		}
 		// http://stackoverflow.com/questions/2020882/how-to-change-progress-bars-progress-color-in-android 2015-04-03
 		else {
-			int progress = getProgress();
+			int progress = currentClaim.getProgress();
 			claimDistancePB.setProgress(progress);
 			// setting appropriate colors
 			if (progress == 0) {
@@ -219,35 +219,6 @@ public class ClaimListAdapter extends BaseAdapter {
 			claimTagsTV.setText("Tags: ");
 		}
 		return convertView;
-	}
-
-	/**
-	 * 
-	 * @return int between 1-100 that corresponds with how close the first 
-	 * 	destination in the claim is to the user's set home location
-	 */
-	private int getProgress() {
-		ClaimListController clc = new ClaimListController(currentClaim.getUser());
-		float[] results = {0,0,0};
-		int maxDistance = clc.getMaxLocation(currentClaim.getUser());;
-		ArrayList<Destination> destinations = currentClaim.getDestinations();
-		
-		if (destinations.size() == 0) {
-			claimLocation = null;
-			return 0;
-		}
-		else {
-			claimLocation = destinations.get(0).getLocation();
-		}
-		homeLocation = currentClaim.getUser().getHomeLocation();
-		Location.distanceBetween(homeLocation.getLatitude(), homeLocation.getLongitude(), 
-			claimLocation.getLatitude(), claimLocation.getLongitude(), results);
-		float distance = (((float) results[0])/maxDistance)*100;
-		if (distance < 5) {
-			return 5;
-		}
-		else
-			return Math.round(distance);
 	}
 	
 }

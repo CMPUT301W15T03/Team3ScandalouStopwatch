@@ -26,10 +26,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map.Entry;
 
+import android.location.Location;
 import android.widget.Toast;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
@@ -698,5 +700,36 @@ public class Claim extends SModel implements Comparable<Claim> {
 		for (Destination dest : this.getDestinations()) {
 			dest.addView(currentView);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return int between 1-100 that corresponds with how close the first 
+	 * 	destination in the claim is to the user's set home location
+	 */
+	public int getProgress() {
+		ClaimListController clc = new ClaimListController(this.getUser());
+		float[] results = {0,0,0};
+		int maxDistance = clc.getMaxLocation(this.getUser());;
+		ArrayList<Destination> destinations = this.getDestinations();
+		Location claimLocation;
+		Location homeLocation;
+		
+		if (destinations.size() == 0) {
+			claimLocation = null;
+			return 0;
+		}
+		else {
+			claimLocation = destinations.get(0).getLocation();
+		}
+		homeLocation = this.getUser().getHomeLocation();
+		Location.distanceBetween(homeLocation.getLatitude(), homeLocation.getLongitude(), 
+			claimLocation.getLatitude(), claimLocation.getLongitude(), results);
+		float distance = (((float) results[0])/maxDistance)*100;
+		if (distance < 5) {
+			return 5;
+		}
+		else
+			return Math.round(distance);
 	}
 }
