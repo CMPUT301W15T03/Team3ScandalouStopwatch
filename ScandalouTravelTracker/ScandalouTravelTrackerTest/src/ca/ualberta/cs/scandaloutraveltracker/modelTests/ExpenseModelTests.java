@@ -25,10 +25,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import junit.framework.TestCase;
+import android.location.Location;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-
-import junit.framework.TestCase;
 
 //JUnit tests for User Cases 4
 public class ExpenseModelTests extends TestCase {
@@ -295,6 +295,25 @@ public class ExpenseModelTests extends TestCase {
 		assertEquals(false, testClaim.getCanEdit());
 		testClaim.deleteExpense(testExpense);
 		assertTrue((testClaim.getExpenses().size() == 1));
+	}
+	
+	// Tests that you can optionally attach a Location to an expense. Asserts
+	// that a new expense has no location and then attaches one and asserts
+	// that the data is same as the one created
+	// US04.09.01
+	public void testExpenseAddLocation() {
+		Expense newExpense = new Expense();
+		assertFalse(newExpense.getLocationAttached());
+		assertEquals(null, newExpense.getLocation());
+		
+		Location newLocation = new Location("Mock Provider");
+		newLocation.setLatitude(20);
+		newLocation.setLongitude(50);
+		newExpense.setLocation(newLocation);
+		
+		Location expenseLocation = newExpense.getLocation();
+		assertTrue(newExpense.getLocationAttached());
+		assertEquals(newLocation, expenseLocation);
 	}
 
 }
