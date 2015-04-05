@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.UserListController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity;
 
@@ -59,7 +61,31 @@ public class ClaimListActivityDestinationTest extends
 		instrumentation = getInstrumentation();
 	}
 	
+	// Test updates the progress counter based on the color that each claim
+	// should have. 1 for green, 2 for yellow, and 3 for red. This test
+	// has one of each color so progressCounter should equal 6 if the
+	// colors are displayed properly
+	// US02.03.01
 	public void testDestinationColors() {
+		int count = claimsListView.getChildCount();
+		int progressCounter = 0;
 		
+		for (int i = 0; i < count; i++) {
+			Claim currentClaim = (Claim) claimsListView.getItemAtPosition(i);
+			int progress = currentClaim.getProgress();
+			
+			if (0 < progress && progress < 25) {
+				progressCounter += 1;
+			}
+			else if (25 < progress && progress < 75) {
+				progressCounter += 2;
+			}
+			else if (progress > 75) {
+				progressCounter += 3;
+			}
+		}
+		
+		assertEquals(6, progressCounter);
+		cg.resetState(ClaimApplication.getContext());
 	}
 }
