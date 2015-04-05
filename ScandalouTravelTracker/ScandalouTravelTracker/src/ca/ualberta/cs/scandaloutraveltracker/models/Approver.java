@@ -41,6 +41,13 @@ public class Approver extends User {
 	}
 	
 	/**
+	 * Constructor used in testing the approver model.
+	 */
+	public Approver() {
+		
+	}
+	
+	/**
 	 * Approves a claim, changes boolean canedit to false, gets approver name,
 	 * and adds a comment
 	 * 

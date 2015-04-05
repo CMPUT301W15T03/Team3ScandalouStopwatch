@@ -18,7 +18,6 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.models;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,13 +26,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map.Entry;
 
+import android.widget.Toast;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
-
-import android.widget.Toast;
 
 /**
  *  Class that contains the Claim model.

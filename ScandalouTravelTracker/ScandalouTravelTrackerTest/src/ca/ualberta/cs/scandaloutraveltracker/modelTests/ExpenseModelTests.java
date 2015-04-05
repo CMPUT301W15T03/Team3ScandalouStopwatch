@@ -16,7 +16,7 @@ limitations under the License.
 
 */
 
-package ca.ualberta.cs.scandaloutraveltracker.test;
+package ca.ualberta.cs.scandaloutraveltracker.modelTests;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,9 +31,9 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import junit.framework.TestCase;
 
 //JUnit tests for User Cases 4
-public class ExpenseOverallTests extends TestCase {
+public class ExpenseModelTests extends TestCase {
 	
-	/*
+
 	// Test UC 04.01.01
 	// Test if expenses can be added to a claim successfully
 	public void testCreateExpense() {
@@ -264,12 +264,37 @@ public class ExpenseOverallTests extends TestCase {
 		assertTrue("Expense deletion unsuccessful", (testClaim.getExpenses().size() == 0));
 	}
 	
-	// Test UC 04.08.01
-	// Test if navigation to add an expense is 2 clicks
-	public void testExpenseNavigation() {
-		//manually test if expense add screen can be added in 2 clicks when app starts up
-		// TODO change to intent test
-		assertTrue("This should always pass",true);
+	// Test UC 04.07.01
+	// Test that you cannot delete a claim if the claim is
+	// in the can't edit state
+	public void testExpenseCantDelete() {
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.US);
+		Date date;
+		try {
+			date = sdf.parse("01/01/2014");
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
+		String category = "Air Fare";
+		String description = "Flight to YEG";
+		//can change type of amount later 
+		double cost = 566;
+		String currencyType = "CAD";
+		
+		Claim testClaim = new Claim();
+		Expense testExpense = new Expense();
+		testExpense.setDate(date);
+		testExpense.setCategory(category);
+		testExpense.setDescription(description);
+		testExpense.setCost(cost);
+		testExpense.setCurrencyType(currencyType);
+		
+		testClaim.addExpense(testExpense);
+		assertTrue((testClaim.getExpenses().size() == 1));
+		testClaim.setCanEdit(false);
+		assertEquals(false, testClaim.getCanEdit());
+		testClaim.deleteExpense(testExpense);
+		assertTrue((testClaim.getExpenses().size() == 1));
 	}
-	*/
+
 }

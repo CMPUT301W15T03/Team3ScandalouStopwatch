@@ -57,6 +57,7 @@ public class ClaimModelTest extends TestCase {
 		Destination d1 = new Destination("Test", "Test");
 		Expense e1 = new Expense();
 		
+		// Edits the claim while in "can edit"
 		newClaim.setStartDate(startDate);
 		newClaim.setEndDate(endDate);
 		newClaim.setDescription("Test");
@@ -90,4 +91,5 @@ public class ClaimModelTest extends TestCase {
 		assertEquals(1, newClaim.getDestinations().size());
 		assertEquals(1, newClaim.getExpenses().size());
 	}
+	
 }
