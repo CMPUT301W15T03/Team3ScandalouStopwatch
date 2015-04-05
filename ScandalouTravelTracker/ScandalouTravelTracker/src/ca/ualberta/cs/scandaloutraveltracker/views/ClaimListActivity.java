@@ -58,7 +58,6 @@ import android.widget.Toast;
  *
  */
 public class ClaimListActivity extends Activity implements ViewInterface {
-	private Button addClaimButton;
 	private ListView claimsListView;
 	private ClaimListAdapter claimListAdapter;
 	private ClaimListController claimListController;
@@ -96,14 +95,13 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		screenTypeTemp = -1;
 		
 		// Set layout elements
-		addClaimButton = (Button) findViewById(R.id.addButtonClaimList);
 		claimsListView = (ListView) findViewById(R.id.claimListActivityList);
 		
 		// Set screen mode (User or Approver)
 		setScreenMode();
 		
 		// Set buttons up on the screen
-		setButtons();
+		setClickListener();
 	}
 	
 	/**
@@ -150,11 +148,21 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+	    Intent intent;
 	    // Handle presses on the action bar items.
 	    switch (item.getItemId()) {
+	    	// Goes to the new claim activity screen
+	    	case R.id.action_add_claim:
+	    		intent = new Intent(ClaimListActivity.this, NewClaimActivity.class);
+				startActivity(intent);
+	    		return true;
+	    	// Lets the user filter the claims via tags
+	    	case R.id.action_search_claims:
+	    		showTagSearchDialog();
+	    		return true;
 	    	// Goes to "main" menu of the app while clearing the activity stack.
 	        case R.id.action_user:
-	        	Intent intent = new Intent(ClaimListActivity.this, UserSelectActivity.class);
+	        	intent = new Intent(ClaimListActivity.this, UserSelectActivity.class);
 	        	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 	            return true;
@@ -209,49 +217,6 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				userModeAlert = builder.create();
 				userModeAlert.show();
 				return true;
-	        case R.id.action_filter_claims:
-	        	tagsList = getAllTagsSequence();
-	        	selectedTags = new ArrayList<String>();
-	        	tagsSequence = tagsList.toArray(new CharSequence[tagsList.size()]);	
-	        	AlertDialog.Builder tagFilterBuilder = new AlertDialog.Builder(ClaimListActivity.this);
-	        	tagFilterBuilder.setTitle("Select Tags to Include")
-	        	.setCancelable(true)
-	        	.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// Clicking on the Cancel button exits dialog
-						return;
-					}
-				})
-				.setMultiChoiceItems(tagsSequence, 
-						tagsBooleanArray, new DialogInterface.OnMultiChoiceClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-						// If item is checked, add it to the list. If the item is in the
-						// list, remove it.
-						if (isChecked) {
-							selectedTags.add( (String) tagsSequence[which]);
-						} else if (selectedTags.contains((String)tagsSequence[which])) {
-							selectedTags.remove((String)tagsSequence[which]);
-						}
-					}
-				})
-				.setPositiveButton("Filter Claims", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						claimListController = new ClaimListController(currentUser, Constants.TAG_MODE, selectedTags);
-						claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
-						claimListController.sortNewFirst();
-						claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
-						claimsListView.setAdapter(claimListAdapter);
-					}
-				});
-	        	tagSelectDialog = tagFilterBuilder.create();
-	        	tagSelectDialog.show();
-	        	return true;
 	        case R.id.action_restore_claims:
 	        	claimListController = new ClaimListController(currentUser);
 				claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
@@ -265,20 +230,54 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	    
 	}
 	
+	private void showTagSearchDialog() {
+    	tagsList = getAllTagsSequence();
+    	selectedTags = new ArrayList<String>();
+    	tagsSequence = tagsList.toArray(new CharSequence[tagsList.size()]);	
+    	AlertDialog.Builder tagFilterBuilder = new AlertDialog.Builder(ClaimListActivity.this);
+    	tagFilterBuilder.setTitle("Select Tags to Include")
+    	.setCancelable(true)
+    	.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// Clicking on the Cancel button exits dialog
+				return;
+			}
+		})
+		.setMultiChoiceItems(tagsSequence, 
+				tagsBooleanArray, new DialogInterface.OnMultiChoiceClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+				// If item is checked, add it to the list. If the item is in the
+				// list, remove it.
+				if (isChecked) {
+					selectedTags.add( (String) tagsSequence[which]);
+				} else if (selectedTags.contains((String)tagsSequence[which])) {
+					selectedTags.remove((String)tagsSequence[which]);
+				}
+			}
+		})
+		.setPositiveButton("Filter Claims", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				claimListController = new ClaimListController(currentUser, Constants.TAG_MODE, selectedTags);
+				claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
+				claimListController.sortNewFirst();
+				claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), false);
+				claimsListView.setAdapter(claimListAdapter);
+			}
+		});
+    	tagSelectDialog = tagFilterBuilder.create();
+    	tagSelectDialog.show();
+	}
+	
 	/**
 	 * 	Set up the listeners for the claim list and other buttons.
 	 */
-	private void setButtons() {
-		// Add claim button on click
-		addClaimButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ClaimListActivity.this, NewClaimActivity.class);
-				startActivity(intent);
-			}
-		});
-		
+	private void setClickListener() {		
 		//when claim is clicked alert dialog appears with edit/view claim, list expenses, add expense, delete claim, approve/reject claim
 		claimsListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override

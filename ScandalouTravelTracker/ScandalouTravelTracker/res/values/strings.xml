@@ -3,6 +3,8 @@
 
     <string name="app_name">ScandalouTravelTracker</string>
     <string name="action_settings">Settings</string>
+    <string name="action_add_claim">Add Claim</string>
+    <string name="action_search_claims">Search Claims</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_view_claim">ViewClaimActivity</string>
     <string name="title_activity_edit_claim">EditClaimActivity</string>
@@ -10,7 +12,7 @@
     <string name="title_activity_edit_expense">EditExpenseActivity</string>
     <string name="title_activity_expense_list">ExpenseListActivity</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
-    <string name="title_activity_claim_list">ClaimListActivity</string>
+    <string name="title_activity_claim_list">Claims</string>
     <string name="claim_tracking_text">Claim Tracking:</string>
     <string name="create_user_text">New User</string>
     <string name="current_users_text">Select a User:</string>
