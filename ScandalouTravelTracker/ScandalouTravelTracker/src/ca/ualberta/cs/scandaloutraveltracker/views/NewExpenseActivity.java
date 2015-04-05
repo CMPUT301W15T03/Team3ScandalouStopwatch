@@ -79,7 +79,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_expense);
+		setContentView(R.layout.activity_new_expense);
 		
 		//set up GPS
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
