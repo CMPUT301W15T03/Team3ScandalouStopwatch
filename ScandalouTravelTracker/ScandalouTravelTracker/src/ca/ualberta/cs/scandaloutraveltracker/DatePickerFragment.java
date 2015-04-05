@@ -33,6 +33,9 @@ import android.widget.DatePicker;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 		
+	/**
+	 * The onCreateDialog uses the current date as the default value in the picker
+	 */
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		// Use current date as a default value in the picker

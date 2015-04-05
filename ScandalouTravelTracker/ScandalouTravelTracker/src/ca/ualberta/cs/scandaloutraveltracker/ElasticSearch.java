@@ -21,23 +21,9 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import java.util.ArrayList;
 
 import android.content.Context;
-
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
-
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 public class ElasticSearch {
 

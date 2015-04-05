@@ -21,18 +21,39 @@ package ca.ualberta.cs.scandaloutraveltracker;
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 import ca.ualberta.cs.scandaloutraveltracker.views.UserSelectActivity;
 
-
+/**
+ * The DialogCreator class helps to create dialogs throughout the application.
+ * The only dialog currently being built in here is the user information alert.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class DialogCreator {
 	private UserInformationDialog dialog;
 
+	/**
+	 * Allows you to retrieve the information pertaining to a particular user via
+	 * a dialog box.
+	 * @return UserInformationDialog Dialog containing user's location and name information
+	 */
 	public UserInformationDialog getDialog() {
 		return dialog;
 	}
 
+	/**
+	 * Sets the dialog within the dialog creator to be the appropriate user
+	 * dialog. 
+	 * @param dialog The created dialog with user information
+	 */
 	public void setDialog(UserInformationDialog dialog) {
 		this.dialog = dialog;
 	}
 
+	/**
+	 * Creates a user information dialog containing the user's name and location's
+	 * latitude and longitude values.
+	 * @param currentUser The user for whose information we want to view
+	 * @param userSelectActivity The activity where these dialogs can be shown
+	 */
 	public void buildUserInfoAlert(User currentUser,
 			UserSelectActivity userSelectActivity) {
 		String name = currentUser.getName();

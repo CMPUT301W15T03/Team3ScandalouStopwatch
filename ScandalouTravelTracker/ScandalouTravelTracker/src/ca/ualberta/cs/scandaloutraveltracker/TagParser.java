@@ -23,16 +23,17 @@ import ca.ualberta.cs.scandaloutraveltracker.models.IntegerPair;
 
 /**
  * TagParser returns a list of starting and ending indices of
- * tags prefixed with a # and post-fixed with a comma.  
- * @author jwu
+ * tags prefixed with a # and post-fixed with a space. The TagParser
+ * class helps the ClickableSpan determine the starting and ending
+ * points of tags so they can be clickable.
+ * @author Team3ScandalouStopwatch
  *
  */
-
 
 public class TagParser {
 	/**
 	 * Takes in a string of tags. The list should have the appearance:
-	 * #tag1, #tag2, ..., #tagN. 
+	 * #tag1 #tag2 ... #tagN
 	 * @param tags
 	 * @return List of starting and ending indices for the tags (start, end)
 	 */

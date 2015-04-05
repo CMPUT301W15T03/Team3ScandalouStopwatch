@@ -20,28 +20,20 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.ClaimList;
 
 /**
  *  The ClaimListAdapter allows essential information from a Claim to
@@ -54,8 +46,6 @@ public class ClaimListAdapter extends BaseAdapter {
 	protected Context context;
 	protected boolean approverMode;
 	private Claim currentClaim;
-	private Location homeLocation;
-	private Location claimLocation;
 	
 	/**
 	 * Context of the activity that list is to be displayed in and
@@ -97,7 +87,10 @@ public class ClaimListAdapter extends BaseAdapter {
 	@Override
 	/**
 	 * The getView method sets up the list to properly show the fields
-	 * of a Claim that we want to show to the user.
+	 * of a Claim that we want to show to the user. The view will set
+	 * visibility of elements based on the current mode that the user is
+	 * in and the claim's status. How far this claim is from the user's
+	 * home location is also set here.
 	 * @param position To locate the right claim to show
 	 * @param convertView To see if a view has been created already
 	 * @param parent Where this view will be displayed

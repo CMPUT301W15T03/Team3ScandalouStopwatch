@@ -70,6 +70,11 @@ public class ExpenseListAdapter extends BaseAdapter {
 	}
 
 	@Override
+	/**
+	 * Creates a view that can display all the expense information that a user may
+	 * want to see. The visibility of the ImageViews are based on if the appropriate
+	 * variable has been set within the expense object itself. 
+	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		if (convertView == null) {
@@ -138,6 +143,11 @@ public class ExpenseListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
+	/**
+	 * Used in testing the adapter to ensure that the flag is properly set within
+	 * the actual adapter/view object.
+	 * @return Boolean based on if the flag is activated or not
+	 */
 	public boolean getFlag() {
 		return flagOn;
 	}

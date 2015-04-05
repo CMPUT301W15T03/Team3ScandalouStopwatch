@@ -18,6 +18,7 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,6 +29,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * The UserInformationDialog is a dialog that has all the relevant information
+ * pertaining to a user that is to be shown before a user logs in to the actual
+ * application. 
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class UserInformationDialog extends DialogFragment {
 	
 	// Information to set views
@@ -44,18 +52,36 @@ public class UserInformationDialog extends DialogFragment {
 	// Used to deliver action events
 	UserInformationDialogListener listener;
 	
+	/**
+	 * Uses an interface so that any class that wishes to use the UserInformationDialog
+	 * should also implement what happens on the positive and negative clicks of the
+	 * alert dialog.
+	 * @author Team3ScandalouStopwatch
+	 *
+	 */
 	public interface UserInformationDialogListener {
 		public void onDialogPositiveClick(DialogFragment dialog);
 		public void onDialogNegativeClick(DialogFragment dialog);
 	}
 	
+	/**
+	 * Sets the views within the dialog to show the correct information
+	 * @param name User's name
+	 * @param latitude The latitude associated with user's home location
+	 * @param longitude The longitude associated with user's home location
+	 */
 	public void setViews(String name, String latitude, String longitude) {
 		this.name = name;
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
 	
+	@SuppressLint("InflateParams") 
 	@Override
+	/**
+	 * The onCreateDialog creates the dialog with the appropriate user information
+	 * that we want to display.
+	 */
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -89,6 +115,11 @@ public class UserInformationDialog extends DialogFragment {
 	}
 	
 	@Override
+	/*
+	 * Overwrites the original onAttach to ensure that the activity that host the dialog
+	 * also implements the interface needed. 
+	 * @see android.app.DialogFragment#onAttach(android.app.Activity)
+	 */
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		

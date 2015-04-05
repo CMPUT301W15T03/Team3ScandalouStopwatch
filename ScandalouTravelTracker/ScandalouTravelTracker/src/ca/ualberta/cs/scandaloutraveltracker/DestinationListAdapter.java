@@ -20,21 +20,10 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 import java.util.ArrayList;
 
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity;
-import ca.ualberta.cs.scandaloutraveltracker.views.EditExpenseActivity;
-import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
-import ca.ualberta.cs.scandaloutraveltracker.views.SetDestinationLocationActivity;
-import ca.ualberta.cs.scandaloutraveltracker.views.SetExpenseLocationActivity;
-import ca.ualberta.cs.scandaloutraveltracker.views.ViewLocationActivity;
-
-import android.R.color;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
@@ -46,6 +35,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.SetDestinationLocationActivity;
+import ca.ualberta.cs.scandaloutraveltracker.views.ViewLocationActivity;
 
 /**
  *  Allows essential information from the Destination class to be displayed
@@ -91,6 +85,12 @@ public class DestinationListAdapter extends BaseAdapter {
 		return position;
 	}
 
+	/**
+	 * The getView will create all the child views necessary to display the appropriate information
+	 * about a destination in a listview. The visibility of certain elements, such as the delete button,
+	 * is based on the canEdit status of the Destination's parent claim. The long click menu is also set
+	 * up within this getView (menu allows adding/editing/deleting of geolocations to a destination).
+	 */
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		

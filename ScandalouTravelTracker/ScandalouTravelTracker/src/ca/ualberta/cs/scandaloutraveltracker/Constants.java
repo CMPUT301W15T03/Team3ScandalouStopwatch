@@ -20,7 +20,9 @@ package ca.ualberta.cs.scandaloutraveltracker;
 
 /**
  *  Class contains all the values that are constant throughout the
- *  application.
+ *  application. The statuses section is especially useful since the
+ *  status is set through various places in the application and is 
+ *  handy not to have to declare the constant in each activity.
  * @author Team3ScandalouStopwatch
  *
  */

@@ -18,11 +18,28 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker;
 
+@SuppressWarnings("serial")
+/**
+ * The UserInputException class helps throughout the application for
+ * dealing with UserInputExceptions. Especially used to help throw
+ * these types of exceptions.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class UserInputException extends Exception {
+	/**
+	 * Constructor
+	 * @param message Text that you wish to throw to the user on exception
+	 */
 	public UserInputException(String message) {
         super(message);
     }
 
+	/**
+	 * Constructor
+	 * @param message Text that you wish to throw to the user on exception
+	 * @param throwable The throwable object that you wish to also throw on exception
+	 */
     public UserInputException(String message, Throwable throwable) {
         super(message, throwable);
     }

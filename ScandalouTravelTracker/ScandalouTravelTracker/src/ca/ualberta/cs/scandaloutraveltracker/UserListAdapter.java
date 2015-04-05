@@ -27,10 +27,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+/**
+ * The UserListAdapter is used when you wish to create a ListView's child view
+ * that shows appropriate user information to the user using the app. 
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class UserListAdapter extends BaseAdapter {
 	protected UserList users;
 	protected Context context;
 	
+	/**
+	 * Constructor
+	 * @param context Activity context for which list is to be displayed
+	 * @param users A list of users that you wish to display
+	 */
 	public UserListAdapter(Context context, UserList users) {
 		this.users = users;
 		this.context = context;
@@ -52,6 +63,9 @@ public class UserListAdapter extends BaseAdapter {
 	}
 
 	@Override
+	/**
+	 * This getView just displays the User's name in the list
+	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		if (convertView == null) {
