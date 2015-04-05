@@ -157,6 +157,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							startDateDisplay.setHint(startDateString);
 							Calendar cal = Calendar.getInstance();
 							cal.set(year, monthOfYear, dayOfMonth);
+					        cal.set(Calendar.HOUR_OF_DAY, 0);
+					        cal.set(Calendar.MINUTE, 0);
+					        cal.set(Calendar.SECOND, 0);
+					        cal.set(Calendar.MILLISECOND, 0);
 							Date date = cal.getTime();
 							startDate = date;
 							startDateDisplay.setText(startDateString);
@@ -188,6 +192,10 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 							endDateDisplay.setHint(endDateString);
 							Calendar cal = Calendar.getInstance();
 							cal.set(year, monthOfYear, dayOfMonth);
+					        cal.set(Calendar.HOUR_OF_DAY, 0);
+					        cal.set(Calendar.MINUTE, 0);
+					        cal.set(Calendar.SECOND, 0);
+					        cal.set(Calendar.MILLISECOND, 0);
 							Date date = cal.getTime();
 							endDate = date;
 							endDateDisplay.setText(endDateString);

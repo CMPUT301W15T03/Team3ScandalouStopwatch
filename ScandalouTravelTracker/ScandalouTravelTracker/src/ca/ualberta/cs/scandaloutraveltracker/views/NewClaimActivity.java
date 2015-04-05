@@ -198,6 +198,10 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 						sDateSet.setHint(startDateString);
 						Calendar cal = Calendar.getInstance();
 						cal.set(year, monthOfYear, dayOfMonth);
+				        cal.set(Calendar.HOUR_OF_DAY, 0);
+				        cal.set(Calendar.MINUTE, 0);
+				        cal.set(Calendar.SECOND, 0);
+				        cal.set(Calendar.MILLISECOND, 0);						
 						Date date = cal.getTime();
 						startDate = date;
 						sDateSet.setText(startDateString);
@@ -221,6 +225,10 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 					eDateSet.setHint(endDateString);
 					Calendar cal = Calendar.getInstance();
 					cal.set(year, monthOfYear, dayOfMonth);
+			        cal.set(Calendar.HOUR_OF_DAY, 0);
+			        cal.set(Calendar.MINUTE, 0);
+			        cal.set(Calendar.SECOND, 0);
+			        cal.set(Calendar.MILLISECOND, 0);
 					Date date = cal.getTime();
 					endDate = date;
 					eDateSet.setText(endDateString);
