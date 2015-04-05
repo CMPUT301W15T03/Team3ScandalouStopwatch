@@ -20,11 +20,11 @@ package ca.ualberta.cs.scandaloutraveltracker.models;
 import java.util.ArrayList;
 import java.util.Date;
 
-import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimListMapper;
-import ca.ualberta.cs.scandaloutraveltracaker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimListMapper;
+import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
 
 /**
  * 	A claim is a statement containing a name, location(s),

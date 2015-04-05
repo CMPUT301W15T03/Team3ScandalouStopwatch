@@ -1,6 +1,6 @@
 package ca.ualberta.cs.scandaloutraveltracker;
 
-import ca.ualberta.cs.scandaloutraveltracaker.mappers.OnlineMapper;
+import ca.ualberta.cs.scandaloutraveltracker.mappers.OnlineMapper;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
