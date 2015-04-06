@@ -30,7 +30,8 @@ public class Constants {
 
 	// Labels
 	public final static String claimIdLabel = "ca.ualberta.cs.scandaloutraveltracker.claimId";
-	public static final String receiptPathLabel = "ca.ualberta.cs.scandaloutraveltracker.receiptPath";
+	//public static final String receiptPathLabel = "ca.ualberta.cs.scandaloutraveltracker.receiptPath";
+	public static final String receiptPhotoLabel = "ca.ualberta.cs.scandaloutraveltracker.receiptPath";
 	
 	// Statuses (These should be put in strings.xml or something)
 	public final static String statusInProgress = "In progress";
@@ -39,7 +40,8 @@ public class Constants {
 	public final static String statusApproved = "Approved";
 	
 	// Misc.
-	public final static String dateFormat = "M/d/yyyy";	
+	public final static String dateFormat = "M/d/yyyy";
+	public static final long MAX_PHOTO_SIZE = 5*1024*1024; // 5 MB	
 	
 	// Modes for the ClaimList
 	public final static String APPROVER_MODE = "approver";

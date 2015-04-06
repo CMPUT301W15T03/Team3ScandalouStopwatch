@@ -18,14 +18,13 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.views;
 
-import java.io.File;
-
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
-import android.net.Uri;
 import android.os.Bundle;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.widget.ImageView;
 
 /**
@@ -35,7 +34,6 @@ import android.widget.ImageView;
  */
 public class ReceiptActivity extends MenuActivity {
 
-	private Receipt receipt;
 	private ImageView receiptView;
 	
 	/**
@@ -49,19 +47,15 @@ public class ReceiptActivity extends MenuActivity {
 		
 	    // Get the message from the intent
 	    Intent intent = getIntent();
-	    String receiptPath = intent.getStringExtra(EditExpenseActivity.receiptPathLabel);
+	    String receiptPhoto = intent.getStringExtra(Constants.receiptPhotoLabel);
 	    
-	    if (receiptPath != null){
-			receipt = new Receipt(receiptPath);
-			File receiptFile = receipt.getPhotoFile();
+	    if (receiptPhoto != null){
+			byte[] decodedString = Base64.decode(receiptPhoto, Base64.DEFAULT);
+			Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);			
 			
-			// Create the drawable
-			Uri receiptFileUri = Uri.fromFile(receiptFile);
-			Drawable receiptPhoto = Drawable.createFromPath(receiptFileUri.getPath());		
-	
 			// Draw the receipt
 			receiptView = (ImageView) findViewById(R.id.receipt_receipt_view);
-			receiptView.setImageDrawable(receiptPhoto);
+			receiptView.setImageBitmap(decodedByte);
 	    }
 		
 	}
