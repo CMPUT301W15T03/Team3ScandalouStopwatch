@@ -399,7 +399,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 				File receiptPhotoFile = new File(receiptPath);
 				if (receiptPhotoFile.length() > Constants.MAX_PHOTO_SIZE){
 					Toast.makeText(this, 
-							"The receipt image cannot exceed " + Long.toString(Constants.MAX_PHOTO_SIZE / (1024*1024)) + " MB", 
+							"The receipt image cannot exceed " + Long.toString(Constants.MAX_PHOTO_SIZE / 1024) + " KB", 
 							Toast.LENGTH_SHORT).show();	
 				} else {			
 					receiptController.saveReceiptPhoto(receiptPath);
