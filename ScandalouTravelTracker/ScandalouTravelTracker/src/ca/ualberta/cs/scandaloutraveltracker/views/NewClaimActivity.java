@@ -28,6 +28,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -79,8 +80,9 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 	private EditText eDateSet;
 	private EditText descriptionSet;
 	private Button claimOkButton;
+	private Button cancelButton;
 	private ImageButton addDestButton;
-	private Button addTagsButton;
+	private ImageButton addTagsButton;
 	private ArrayList<String> tagsList;
 	
 	private ListView destList;
@@ -119,11 +121,12 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
 		
 		tagsTV = (TextView)findViewById(R.id.new_claim_tags_tv);
-		addTagsButton = (Button)findViewById(R.id.new_claim_add_tag);
+		addTagsButton = (ImageButton)findViewById(R.id.new_claim_add_tag);
 		tagsList = new ArrayList<String>();
 		
 		addDestButton = (ImageButton) findViewById(R.id.add_dest_button);		
 		claimOkButton = (Button) findViewById(R.id.claim_ok_button);
+		cancelButton = (Button) findViewById(R.id.new_claim_cancel);			
 		
 		destList = (ListView)findViewById(R.id.destinations_lv);
 		destinationListAdapter = new DestinationListAdapter(this, "newClaim", destinations, true);
@@ -176,6 +179,13 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 			}
 		});			
 		
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
 		setListeners();
 	
 	}
@@ -447,7 +457,15 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 			}, currentIndex.getX(), 
 			   currentIndex.getY(), 0);
 		}
-		tagsTV.setText(spannableString);
+		
+		if(spannableString.length() > 1) {
+			tagsTV.setText(spannableString);
+		} else {
+			tagsTV.setText("Tags");
+			Resources res = context.getResources();
+			int color = res.getColor(R.color.HintGray);
+			tagsTV.setTextColor(color);
+		}
 		tagsTV.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	

@@ -8,6 +8,7 @@
         android:id="@+id/list_destination_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/destinationLocationIcon"
@@ -20,11 +21,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/destinationLocationIcon"
+        android:layout_marginLeft="5dp"
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/list_destination_name"
         android:layout_below="@+id/list_destination_name"
         android:text="@string/destination_reason_filler"
-        android:textColor="#F2F2F2" />
+        android:textColor="#F2F2F2" 
+        android:layout_marginBottom="5dp"/>
 
     <ImageButton
         android:id="@+id/list_destination_delete"
@@ -32,8 +35,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
         android:src="@android:drawable/ic_delete"
-        android:contentDescription="@string/add_destination_button_descr" />
+        android:contentDescription="@string/add_destination_button_descr" 
+        android:background="@null"/>
 
     <ImageView
         android:id="@+id/destinationLocationIcon"
@@ -43,6 +49,8 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/list_destination_delete"
         android:contentDescription="@string/destination_location_icon"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
         android:src="@drawable/mapmarker" 
         android:paddingTop="5dp"
         android:paddingBottom="5dp"

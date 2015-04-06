@@ -106,12 +106,12 @@
         android:layout_alignParentRight="true" >
         
         <Button
-            android:id="@+id/new_claim_add_tag"
+            android:id="@+id/new_claim_cancel"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/add_tag"
+            android:text="@string/cancel"
             android:textColor="#FFFFFF" />
 
         <View style="@style/VerticalDivider" />
@@ -126,15 +126,18 @@
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/new_claim_tags_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/new_claim_buttons_layout"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"
-        android:text="TEST"
-        android:textSize="@dimen/tags" />
+	<TextView
+	    android:id="@+id/new_claim_tags_tv"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/new_claim_buttons_layout"
+	    android:layout_alignBottom="@+id/new_claim_add_tag"
+	    android:layout_alignLeft="@+id/destinations_lv"
+	    android:layout_alignTop="@+id/new_claim_add_tag"
+	    android:layout_toLeftOf="@+id/new_claim_add_tag"
+	    android:gravity="center_vertical"
+	    android:textColor="#F2F2F2"
+	    android:textSize="@dimen/tags" />
 
     <LinearLayout
         android:id="@+id/new_claim_to_from_layout"
@@ -156,5 +159,15 @@
             style="@style/TextFontMedium"
             android:text="@string/to" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/new_claim_add_tag"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/new_claim_buttons_layout"
+        android:layout_alignRight="@+id/destinations_lv"
+        android:contentDescription="@string/add_tag"
+        android:src="@drawable/ic_action_new_label" />
 
 </RelativeLayout>

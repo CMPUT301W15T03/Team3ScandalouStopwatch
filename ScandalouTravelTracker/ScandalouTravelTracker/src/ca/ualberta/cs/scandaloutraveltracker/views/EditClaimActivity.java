@@ -715,7 +715,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		} else {
 			tagsDisplay.setText("Tags");
 			Resources res = context.getResources();
-			int color = res.getColor(R.color.LightGray);
+			int color = res.getColor(R.color.HintGray);
 			tagsDisplay.setTextColor(color);
 		}
 		tagsDisplay.setMovementMethod(LinkMovementMethod.getInstance());
