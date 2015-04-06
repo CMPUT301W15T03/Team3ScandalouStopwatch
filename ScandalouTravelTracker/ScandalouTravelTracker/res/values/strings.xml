@@ -6,7 +6,7 @@
     <string name="action_add_claim">Add Claim</string>
     <string name="action_search_claims">Search Claims</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_view_claim">ViewClaimActivity</string>
+    <string name="title_activity_view_claim">New Claim</string>
     <string name="title_activity_edit_claim">EditClaimActivity</string>
     <string name="title_activity_view_expense">ViewExpenseActivity</string>
     <string name="title_activity_edit_expense">EditExpenseActivity</string>
@@ -64,6 +64,9 @@
     <string name="destination_filler">Destination Name Here</string>
     <string name="destination_reason_filler">Destination Reason Here</string>
     <string name="add_destination_button_descr">Add Destination Button</string>
+    <string name="date_hint">MM/DD/YYYY</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
 
     <string-array name="claim_menu">
         <item>Edit/View Claim</item>

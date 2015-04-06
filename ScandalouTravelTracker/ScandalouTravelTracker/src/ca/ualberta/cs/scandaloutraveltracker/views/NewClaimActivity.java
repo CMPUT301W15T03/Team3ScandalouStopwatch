@@ -22,21 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
-import ca.ualberta.cs.scandaloutraveltracker.DestinationListAdapter;
-import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.TagParser;
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
-import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.models.IntegerPair;
-import ca.ualberta.cs.scandaloutraveltracker.models.User;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
@@ -56,9 +41,24 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
+import ca.ualberta.cs.scandaloutraveltracker.DestinationListAdapter;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.TagParser;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.IntegerPair;
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 /**
  *  Activity that allows the user to add a new claim to the claim list.
@@ -113,8 +113,9 @@ public class NewClaimActivity extends MenuActivity implements ViewInterface{
 		destinations = new ArrayList<Destination>();
 		
 		context = this;
-		sDateSet = (EditText)findViewById(R.id.start_date);	
-		eDateSet = (EditText)findViewById(R.id.end_date);	
+		LinearLayout datesLL = (LinearLayout) findViewById(R.id.new_claim_dates_linear_layout);
+		sDateSet = (EditText)datesLL.findViewById(R.id.start_date);	
+		eDateSet = (EditText)datesLL.findViewById(R.id.end_date);	
 		descriptionSet = (EditText)findViewById(R.id.edit_claim_description);
 		
 		tagsTV = (TextView)findViewById(R.id.new_claim_tags_tv);

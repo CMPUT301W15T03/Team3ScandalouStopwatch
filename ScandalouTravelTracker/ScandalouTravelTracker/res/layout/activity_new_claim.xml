@@ -10,13 +10,6 @@
     tools:context=".EditClaimActivity" >
 
     <TextView
-        android:id="@+id/edit_claim_tv"
-        style="@style/TextFontLarge"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/new_claim" />
-
-    <TextView
         android:id="@+id/claimant_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,8 +27,9 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/add_dest_button"
         android:layout_toRightOf="@+id/tags_sv"
-        android:divider="@drawable/list_view_divider"
-        android:dividerHeight="2dp" >
+        android:divider="#263238"
+        android:dividerHeight="15dp"
+        android:stackFromBottom="false" >
     </ListView>
 
     <ScrollView
@@ -56,59 +50,20 @@
         android:hint="@string/description"
         android:inputType="textMultiLine" />
 
-    <Button
-        android:id="@+id/claim_ok_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/add_claim"
-        android:textColor="#FFFFFF" />
-
-    <TextView
-        android:id="@+id/new_claim_tags_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/claim_ok_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="3dp"
-        android:textSize="@dimen/tags" >
-    </TextView>
-
-    <Button
-        android:id="@+id/new_claim_add_tag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/new_claim_tags_tv"
-        android:layout_below="@+id/new_claim_tags_tv"
-        android:text="@string/add_tag"
-        android:textColor="#FFFFFF" />
-
-    <ImageButton
-        android:id="@+id/add_dest_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:layout_below="@+id/edit_claim_description"
-        android:layout_toRightOf="@+id/new_claim_destinations_label"
-        android:contentDescription="@string/destinations_button_description"
-        android:src="@android:drawable/ic_menu_add" />
-
     <LinearLayout
         android:id="@+id/new_claim_dates_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/new_claim_to_from_layout"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/edit_claim_tv" >
+        android:layout_alignParentRight="true" >
 
         <EditText
             android:id="@+id/start_date"
             style="@style/EditTextColors"
             android:layout_weight="1"
             android:focusableInTouchMode="False"
-            android:hint="@string/start_date"
+            android:hint="@string/date_hint"
             android:inputType="date" >
         </EditText>
 
@@ -117,17 +72,89 @@
             style="@style/EditTextColors"
             android:layout_weight="1"
             android:focusableInTouchMode="False"
-            android:hint="@string/end_date"
+            android:hint="@string/date_hint"
             android:inputType="date" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/add_dest_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/destinations_lv"
+        android:layout_below="@+id/edit_claim_description"
+        android:contentDescription="@string/destinations_button_description"
+        android:src="@android:drawable/ic_menu_add" />
 
     <TextView
         android:id="@+id/new_claim_destinations_label"
         style="@style/TextFontLarge"
         android:layout_alignBottom="@+id/add_dest_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/add_dest_button"
         android:gravity="center_vertical"
         android:text="@string/destinations" />
+
+    <View
+        style="@style/Divider"
+        android:layout_below="@+id/new_claim_tags_tv" />
+
+    <LinearLayout
+        android:id="@+id/new_claim_buttons_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+        
+        <Button
+            android:id="@+id/new_claim_add_tag"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_tag"
+            android:textColor="#FFFFFF" />
+
+        <View style="@style/VerticalDivider" />
+
+        <Button
+            android:id="@+id/claim_ok_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_claim"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/new_claim_tags_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/new_claim_buttons_layout"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:text="TEST"
+        android:textSize="@dimen/tags" />
+
+    <LinearLayout
+        android:id="@+id/new_claim_to_from_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/new_claim_dates_linear_layout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <TextView
+            android:id="@+id/edit_claim_fromTV"
+            android:layout_weight="1"
+            style="@style/TextFontMedium"
+            android:text="@string/from" />
+
+        <TextView
+            android:id="@+id/edit_claim_toTV"
+            android:layout_weight="1"
+            style="@style/TextFontMedium"
+            android:text="@string/to" />
+    </LinearLayout>
 
 </RelativeLayout>
