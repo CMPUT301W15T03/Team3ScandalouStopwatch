@@ -19,7 +19,9 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.models;
 
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.mappers.UserMapper;
+import java.util.ArrayList;
 import android.location.Location;
 
 /**
@@ -106,6 +108,34 @@ public class User extends SModel implements Comparable<User> {
 	@Override
 	public int compareTo(User another) {
 		return name.compareTo(another.getName());
+	}
+
+	/**
+	 * @param destinations
+	 * @return  int between 1-100 that corresponds with how close the first  destination in the claim is to the user's set home location
+	 */
+	public int getProgress(ArrayList<Destination> destinations) {
+		ClaimListController clc = new ClaimListController(this);
+		float[] results = { 0, 0, 0 };
+		int maxDistance = clc.getMaxLocation(this);
+		
+		Location claimLocation;
+		Location homeLocation;
+		if (destinations.size() == 0) {
+			claimLocation = null;
+			return 0;
+		} else {
+			claimLocation = destinations.get(0).getLocation();
+		}
+		homeLocation = getHomeLocation();
+		Location.distanceBetween(homeLocation.getLatitude(),
+				homeLocation.getLongitude(), claimLocation.getLatitude(),
+				claimLocation.getLongitude(), results);
+		float distance = (((float) results[0]) / maxDistance) * 100;
+		if (distance < 5) {
+			return 5;
+		} else
+			return Math.round(distance);
 	}	
 	
 }

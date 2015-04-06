@@ -708,28 +708,6 @@ public class Claim extends SModel implements Comparable<Claim> {
 	 * 	destination in the claim is to the user's set home location
 	 */
 	public int getProgress() {
-		ClaimListController clc = new ClaimListController(this.getUser());
-		float[] results = {0,0,0};
-		int maxDistance = clc.getMaxLocation(this.getUser());;
-		ArrayList<Destination> destinations = this.getDestinations();
-		Location claimLocation;
-		Location homeLocation;
-		
-		if (destinations.size() == 0) {
-			claimLocation = null;
-			return 0;
-		}
-		else {
-			claimLocation = destinations.get(0).getLocation();
-		}
-		homeLocation = this.getUser().getHomeLocation();
-		Location.distanceBetween(homeLocation.getLatitude(), homeLocation.getLongitude(), 
-			claimLocation.getLatitude(), claimLocation.getLongitude(), results);
-		float distance = (((float) results[0])/maxDistance)*100;
-		if (distance < 5) {
-			return 5;
-		}
-		else
-			return Math.round(distance);
+		return user.getProgress(destinations);
 	}
 }

@@ -202,29 +202,26 @@ public class ClaimListAdapter extends BaseAdapter {
 		}
 		
 		// Setting default (empty) values and setting colors of non empty values
+		Resources res = context.getResources();
+		int color = res.getColor(R.color.LightGray);
 		if (currentClaim.destinationsToString().equals("")) {
+			
 			claimDestinationTV.setText("No destinations");
 		} else {
-			claimDestinationTV.setTextColor(getLightGrayColor());
+			claimDestinationTV.setTextColor(color);
 		}
 		if (totalsStr.equals("")) {
 			claimTotalTV.setText("Totals: ");
 		} else {
-			claimTotalTV.setTextColor(getLightGrayColor());
+			claimTotalTV.setTextColor(color);
 		}
 		if (currentClaim.tagsToString().equals("")) {
 			claimTagsTV.setText("Tags: ");
 		} else {
-			claimTagsTV.setTextColor(getLightGrayColor());
+			claimTagsTV.setTextColor(color);
 		}
 		
 		return convertView;
-	}
-	
-	private int getLightGrayColor() {
-		Resources res = context.getResources();
-		int color = res.getColor(R.color.LightGray);
-		return color;
 	}
 	
 }
