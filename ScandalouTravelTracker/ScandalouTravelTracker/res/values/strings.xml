@@ -73,6 +73,28 @@
         <item>Approve/Reject Claim</item>
         <item >View Comments</item>
     </string-array>
+    
+    <string-array name="claim_menu_approver">
+        <item>View Claim</item>
+        <item>View Expenses</item>
+        <item>Approve/Reject Claim</item>   
+    </string-array>
+    
+     <string-array name="claim_menu_claimant_no_comment">
+        <item>Edit/View Claim</item>
+        <item>View Expenses</item>
+        <item>Add Expense</item>
+        <item>Delete Claim</item>
+    </string-array>
+    
+    <string-array name="claim_menu_claimant_comment">
+        <item>Edit/View Claim</item>
+        <item>View Expenses</item>
+        <item>Add Expense</item>
+        <item>Delete Claim</item>
+        <item>View Comments</item>
+    </string-array>
+    
     <string-array name="tag_menu">
         <item>Rename Tag</item>
         <item>Delete Tag</item>

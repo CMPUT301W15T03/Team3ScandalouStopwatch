@@ -374,4 +374,12 @@ public class ClaimController {
 		
 		currentClaim.setDestinationViews(currentView);
 	}
+	
+	/**
+	 * 
+	 * @return String that contains the Approver(s) comments. 
+	 */
+	public String getApproverCommentsString() {
+		return currentClaim.getApproverCommentsString();
+	}
 }
