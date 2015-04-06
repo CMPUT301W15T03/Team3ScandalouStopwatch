@@ -58,6 +58,15 @@ public class ClaimController {
 		currentClaim.setExpenses(expenses);
 	}
 	
+
+	/**
+	 * 
+	 * @return User Id for user that created the claim
+	 */
+	public int getUserId() {
+		return currentClaim.getUser().getId();
+	}
+	
 	/**
 	 * 
 	 * @return True if the claim can be edited and false otherwise
@@ -343,8 +352,8 @@ public class ClaimController {
 	}
 	
 	/**
-	 * Given the list of tags this changes it into a string
-	 * @param tagsList
+	 * Gets the claim's tags and produces a string to display
+	 * the tags.
 	 * @return string of tags
 	 */
 	public String getTagsString(){

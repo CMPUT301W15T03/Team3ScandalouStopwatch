@@ -216,6 +216,9 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				userModeAlert.show();
 				return true;
 	        case R.id.action_restore_claims:
+	        	if (currentUserController.getMode() == 1) {
+	        		currentUserController.setMode(0);
+	        	}
 	        	claimListController = new ClaimListController(currentUser);
 				claimListController.addView(ClaimListActivity.this); // Testing to add view for claimsLists
 				claimListController.sortNewFirst();
@@ -233,7 +236,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
     	selectedTags = new ArrayList<String>();
     	tagsSequence = tagsList.toArray(new CharSequence[tagsList.size()]);	
     	AlertDialog.Builder tagFilterBuilder = new AlertDialog.Builder(ClaimListActivity.this);
-    	tagFilterBuilder.setTitle("Select Tags to Include")
+    	tagFilterBuilder.setTitle("Find Claims Tagged With:")
     	.setCancelable(true)
     	.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
 			
@@ -257,7 +260,7 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 				}
 			}
 		})
-		.setPositiveButton("Filter Claims", new DialogInterface.OnClickListener() {
+		.setPositiveButton("Search Claims", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {

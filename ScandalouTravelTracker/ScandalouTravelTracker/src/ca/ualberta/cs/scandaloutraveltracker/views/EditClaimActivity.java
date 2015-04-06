@@ -38,6 +38,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +50,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
 import ca.ualberta.cs.scandaloutraveltracker.DestinationListAdapter;
@@ -60,6 +62,7 @@ import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.IntegerPair;
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 /**
  *  This activity contains a claim that was selected from the ClaimListActivity
@@ -73,7 +76,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	private Context context;
 	private ClaimController claimController;
 	
-	private TextView statusDisplay;
 	private EditText startDateDisplay;
 	private EditText endDateDisplay;
 	private EditText descriptionDisplay;
@@ -126,8 +128,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		destinationList = (ListView) findViewById(R.id.edit_claim_destinations);
 		addTagsButton = (ImageButton) findViewById(R.id.edit_claim_add_tag);
 		cancelButton = (Button) findViewById(R.id.edit_expense_cancel);	
-		updateButton = (Button) findViewById(R.id.edit_claim_update);
-	    statusDisplay = (TextView) findViewById(R.id.edit_claim_status);		
+		updateButton = (Button) findViewById(R.id.edit_claim_update);	
 		
 	    claimController = new ClaimController(new Claim(claimId));
 	    canEdit = claimController.getCanEdit();
@@ -147,6 +148,15 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		}
 
 		setButtons();
+		
+		// Check if the person viewing is an approver
+		ClaimApplication app = (ClaimApplication) getApplicationContext();
+		User currentUser = app.getUser();
+		
+		if (currentUser.getId() != claimController.getUserId()) {
+			addTagsButton.setVisibility(View.INVISIBLE);
+			tagsDisplay.setText(claimController.getTagsString());
+		}
 	}
 	
 	/**
@@ -299,9 +309,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	 */
 	private void setCantEdit() {
 		updateButton.setVisibility(View.INVISIBLE);
-		newDestinationButton.setVisibility(View.INVISIBLE);
-	    statusDisplay.setText(claimController.getStatus());
-	    statusDisplay.setVisibility(View.VISIBLE);			
+		newDestinationButton.setVisibility(View.INVISIBLE);		
 		
 		descriptionDisplay.setFocusable(false);
 		descriptionDisplay.setOnClickListener(new View.OnClickListener() {
@@ -424,7 +432,8 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.edit_claim, menu);
 		MenuItem sendClaim = menu.findItem(R.id.action_send_claim);
-		if (claimController.getStatus().equals(Constants.statusInProgress)) {
+		if (claimController.getStatus().equals(Constants.statusInProgress) || 
+		    claimController.getStatus().equals(Constants.statusReturned)) {
 			sendClaim.setVisible(true);
 		} else {
 			sendClaim.setVisible(false);
@@ -585,7 +594,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		
 		// Update view elements with claim info
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormat, Locale.US);
-		//statusDisplay.setText(status);
 
 		startDateDisplay.setText(sdf.format(startDate));
 		endDateDisplay.setText(sdf.format(endDate));
