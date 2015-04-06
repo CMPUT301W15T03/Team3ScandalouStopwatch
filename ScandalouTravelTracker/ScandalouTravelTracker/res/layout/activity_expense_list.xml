@@ -15,8 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/expenselistView"
         android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/add_expense"
-        android:layout_toLeftOf="@+id/add_expense"
+        android:layout_alignRight="@+id/expenselistView"
         android:ems="10"
         android:hint="@string/totals_"
         android:maxLines="7"
@@ -29,24 +28,14 @@
 
     <ListView
         android:id="@+id/expenselistView"
-        android:stackFromBottom="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/add_expense"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:divider="#263238"
-        android:dividerHeight="15dp" >
+        android:dividerHeight="15dp"
+        android:stackFromBottom="false" 
+        android:layout_above="@+id/totals">
     </ListView>
 
-    <Button
-        android:id="@+id/add_expense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/add"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF" />
-        
 </RelativeLayout>

@@ -536,9 +536,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
             return true;
-		
-		// Go to activity that displays all the tags
-		case R.id.action_view_all_tags:
 			
 		// Default do nothing
 		default: 

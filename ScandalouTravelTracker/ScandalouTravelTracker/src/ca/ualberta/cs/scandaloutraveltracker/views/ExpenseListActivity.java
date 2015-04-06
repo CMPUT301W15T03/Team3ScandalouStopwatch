@@ -20,11 +20,16 @@ package ca.ualberta.cs.scandaloutraveltracker.views;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -32,9 +37,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.ClaimListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.ExpenseListAdapter;
 import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.R.menu;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
@@ -48,8 +55,7 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
  * @author Team3ScandalouStopwatch
  *
  */
-public class ExpenseListActivity extends MenuActivity implements ViewInterface {
-	private Button addExpenseButton;
+public class ExpenseListActivity extends Activity implements ViewInterface {
 	private ListView expenseListView ;
 	private ExpenseController expenseController;
 	private ExpenseListAdapter expenseListAdapter;
@@ -74,6 +80,8 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 	    claimController = new ClaimController(new Claim(claimId));
 	    canEdit = claimController.getCanEdit();
 	    mapper = new ClaimMapper(this.getApplicationContext());
+
+
 	    if (claimId != 0) {
 	    	setViews();
 	    }
@@ -82,26 +90,6 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 	    if (claimController.getExpenseList() == null) {
 	    	claimController.setExpenses(new ArrayList<Expense>());
 	    }
-
-		//set layout elements
-		addExpenseButton = (Button) findViewById(R.id.add_expense);
-		
-		if (!canEdit) {
-			//hide button
-			addExpenseButton.setVisibility(View.INVISIBLE);
-		} else {
-			//setup add expense listener
-			addExpenseButton.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					//add expense
-					Intent intent = new Intent(ExpenseListActivity.this, NewExpenseActivity.class);
-					intent.putExtra(Constants.claimIdLabel, claimId);
-					startActivity(intent);
-				}
-			});
-		}
 		
 		expenseListView = (ListView) findViewById(R.id.expenselistView);
 		expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
@@ -199,6 +187,40 @@ public class ExpenseListActivity extends MenuActivity implements ViewInterface {
 			expenseListView.setAdapter(expenseListAdapter);
 			setViews();	
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.expense_list, menu);
+        
+        MenuItem addAction = menu.findItem(R.id.action_add_expense);
+		if (canEdit) {
+			addAction.setVisible(true);
+		} else {
+			addAction.setVisible(false);
+		}
+        
+        return super.onCreateOptionsMenu(menu);
+	}
+	
+	/**
+	 * 	Executes options depending on which option the user picked from the action bar dropdown
+	 * 	menu.
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items.
+	    switch (item.getItemId()) {
+	    	case R.id.action_add_expense:
+				Intent intent = new Intent(ExpenseListActivity.this, NewExpenseActivity.class);
+				intent.putExtra(Constants.claimIdLabel, claimId);
+				startActivity(intent);
+	    		return true;
+			default:
+	        	return false;
+	    }
 	}
 	
 	/**
