@@ -113,14 +113,16 @@ public class ClaimListActivityApproverTest extends
 		
 		View claimView = claimsListView.getChildAt(0);
 		assertTrue(claimView.isShown());
-		TextView claimDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDateTV);
+		TextView claimUpperDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListUpperDateTV);
+		TextView claimLowerDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListLowerDateTV);
 		TextView claimDestinationTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDestinationsTV);
 		TextView claimStatusTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListStatusTV);
 		TextView claimTotalTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListTotalsTV);
 		TextView claimTagsTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListTagsTV);
 		
-		assertTrue(claimDateTV.getText().toString().equals("1/14/2013 - 1/15/2013"));
-		assertTrue(claimDestinationTV.getText().toString().equals("Destinations: Brooklyn"));
+		assertTrue(claimUpperDateTV.getText().toString().equals("1/14/2013 - "));
+		assertTrue(claimLowerDateTV.getText().toString().equals("1/15/2013    "));
+		assertTrue(claimDestinationTV.getText().toString().equals("Brooklyn"));
 		assertTrue(claimStatusTV.getText().toString().equals("Status: Submitted"));
 		assertTrue(claimTotalTV.getText().toString().equals("USD 5.00"));
 		assertTrue(claimTagsTV.getText().toString().equals(" #NY"));

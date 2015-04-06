@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -84,9 +85,8 @@ public class ClaimListActivityTest extends
 	// US03.03.01
 	public void testFilterClaims() {
 		getInstrumentation().waitForIdleSync();
-		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
 		getInstrumentation().invokeMenuActionSync(claimListActivity, 
-				ca.ualberta.cs.scandaloutraveltracker.R.id.action_filter_claims, 0);
+				ca.ualberta.cs.scandaloutraveltracker.R.id.action_search_claims, 0);
 		getInstrumentation().waitForIdleSync();
 		
 		AlertDialog alert = claimListActivity.getTagDialog();
@@ -220,14 +220,18 @@ public class ClaimListActivityTest extends
 	public void testClaimInformationShown() {
 		View claimView = claimsListView.getChildAt(0);
 		assertTrue(claimView.isShown());
-		TextView claimDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDateTV);
+		TextView claimUpperDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListUpperDateTV);
+		TextView claimLowerDateTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListLowerDateTV);
 		TextView claimDestinationTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListDestinationsTV);
 		TextView claimStatusTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListStatusTV);
 		TextView claimTotalTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListTotalsTV);
 		TextView claimTagsTV = (TextView) claimView.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.claimListTagsTV);
 		
-		assertTrue(claimDateTV.getText().toString().equals("1/14/2015 - 1/15/2015"));
-		assertTrue(claimDestinationTV.getText().toString().equals("Destinations: Brooklyn"));
+		Log.d("TAG", claimUpperDateTV.getText().toString());
+		Log.d("TAG", claimLowerDateTV.getText().toString());
+		assertTrue(claimUpperDateTV.getText().toString().equals("1/14/2015 - "));
+		assertTrue(claimLowerDateTV.getText().toString().equals("1/15/2015    "));
+		assertTrue(claimDestinationTV.getText().toString().equals("Brooklyn"));
 		assertTrue(claimStatusTV.getText().toString().equals("Status: Submitted"));
 		assertTrue(claimTotalTV.getText().toString().equals("USD 5.00"));
 		assertTrue(claimTagsTV.getText().toString().equals(" #NY"));

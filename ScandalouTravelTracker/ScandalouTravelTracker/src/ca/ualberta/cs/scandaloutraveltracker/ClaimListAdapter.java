@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.view.LayoutInflater;
@@ -161,7 +162,7 @@ public class ClaimListAdapter extends BaseAdapter {
 		claimApproverTV.setText("Approver: " + currentClaim.getApproverName());
 		claimUpperDateTV.setText(currentClaim.getStartDateString() + " - ");
 		claimLowerDateTV.setText(currentClaim.getEndDateString() + "    ");
-		claimDestinationTV.setText("Destinations: " + currentClaim.destinationsToString());
+		claimDestinationTV.setText(currentClaim.destinationsToString());
 		claimStatusTV.setText("Status: " + currentClaim.getStatus());
 		claimTotalTV.setText(totalsStr);
 		claimTagsTV.setText(currentClaim.tagsToString());
@@ -200,17 +201,30 @@ public class ClaimListAdapter extends BaseAdapter {
 			}
 		}
 		
-		// Setting default (empty) values
+		// Setting default (empty) values and setting colors of non empty values
 		if (currentClaim.destinationsToString().equals("")) {
 			claimDestinationTV.setText("No destinations");
+		} else {
+			claimDestinationTV.setTextColor(getLightGrayColor());
 		}
 		if (totalsStr.equals("")) {
 			claimTotalTV.setText("Totals: ");
+		} else {
+			claimTotalTV.setTextColor(getLightGrayColor());
 		}
 		if (currentClaim.tagsToString().equals("")) {
 			claimTagsTV.setText("Tags: ");
+		} else {
+			claimTagsTV.setTextColor(getLightGrayColor());
 		}
+		
 		return convertView;
+	}
+	
+	private int getLightGrayColor() {
+		Resources res = context.getResources();
+		int color = res.getColor(R.color.LightGray);
+		return color;
 	}
 	
 }
