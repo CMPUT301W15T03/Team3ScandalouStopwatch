@@ -19,13 +19,15 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.models;
 
 
-import android.net.Uri;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import android.os.Environment;
-import android.content.Intent;
-import android.provider.MediaStore;
+
 /**
  *  The class Receipt that gets an image of a receipt and changes it to a string.
  * @author Team3ScandalouStopwatch
@@ -33,114 +35,49 @@ import android.provider.MediaStore;
  */
 public class Receipt extends SModel {
 	
-	private String receiptPath;
-	private Uri imageFileUri;
-	
-	public static final long MAX_RECEIPT_SIZE = 5*1024*1024; // 5 MB	
+	private String receiptPhoto;
     
-	public Receipt(String receiptPath){
-		this.receiptPath = receiptPath;
-	}
-	
-	/*
-	 * 
-	 * default constructor is necessary for GSON to serialize
-	 * classes in shared prefs in a way that isn't prone to cause stack
-	 * overflows
-	 * CITATION: http://stackoverflow.com/questions/28743933/android-gson-tojson-throws-stackoverflowerror-on-arraylistoverlayitem, 2015-03-31
-	 * 
-	 * 
-	 */
-	public Receipt(){
-		receiptPath = null;
+	public Receipt(String receiptPhoto){
+		this.receiptPhoto = receiptPhoto;
 	}
 	
 	// Getters and setters
 	/**
-	 * @return receiptPath
+	 * @return receiptPhoto
 	 */
-	public String getReceiptPath() {
-		return receiptPath;
+	public String getReceiptPhoto() {
+		return receiptPhoto;
 	}
 	/**
 	 * 
-	 * @param receiptpath for the current expense
+	 * @param receiptphoto for the current expense
 	 */
-	public void setReceiptPath(String receiptPath) {
-		this.receiptPath = receiptPath;
-	}
-	/**
-	 * @return image file
-	 */
-	public Uri getImageFileUri() {
-		return imageFileUri;
-	}
-	/**
-	 * 
-	 * @param image file for the current expense
-	 */
-
-	public void setImageFileUri(Uri imageFileUri) {
-		this.imageFileUri = imageFileUri;
+	public void setReceiptPhoto(String receiptPhoto) {
+		this.receiptPhoto = receiptPhoto;
 	}
 	
-	// Other methods
-	/**
-	 * @return the photo file
-	 */
-	public File getPhotoFile(){
-		return new File(receiptPath);
-	}
-	/**
-	 * @return size of the photo
-	 */
-	public long getPhotoSize(){
-		File receiptPhoto = new File(receiptPath);
-		return receiptPhoto.length();
-	}	
+	// Other methods	
 	/**
 	 * saves a receipt photo, allow changes to it
 	 */
-	public void saveReceiptPhoto(String newReceiptPath){
+	public void saveReceiptPhoto(String newReceiptPath){// throws UserInputException {
 
-		receiptPath = newReceiptPath;
+		/*if (getPhotoSize(receiptPath) > MAX_RECEIPT_SIZE){
+			throw new UserInputException("The receipt image cannot exceed " +
+					Long.toString(MAX_RECEIPT_SIZE / (1024*1024)) + " MB");
+		}*/
+		
+		if (newReceiptPath == null){
+			receiptPhoto = null;
+		} else {
+			Bitmap bm = BitmapFactory.decodeFile(newReceiptPath);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+			bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object   
+			byte[] b = baos.toByteArray();
+			receiptPhoto = Base64.encodeToString(b, Base64.DEFAULT);
+		}	
 		
 		notifyViews();	
-	}
-	
-	/**
-	 * saves a receipt photo but doesnt allow changes to it
-	 */
-	public void saveReceiptPhotoForGood() throws UserInputException {
-
-		if (receiptPath != null){
-			if (getPhotoSize() > MAX_RECEIPT_SIZE)
-				throw new UserInputException("The receipt image cannot exceed " +
-						Long.toString(MAX_RECEIPT_SIZE / (1024*1024)) + " MB");
-			
-			// Create the receipts folder if it doesn't exist yet
-			String folderPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/receipts";
-			File folderFile = new File(folderPath);
-			if (!folderFile.exists()) {
-				folderFile.mkdir();
-			}		
-
-			// Get the temp receipt path; get the file
-			String fromReceiptPath = receiptPath;
-			File fromReceiptPhoto = new File(fromReceiptPath);
-			
-			// Make a permanent receipt path; make a file
-			String toReceiptPath = folderPath + "/"+ String.valueOf(System.currentTimeMillis()) + ".jpg";
-			File toReceiptPhoto = new File(toReceiptPath);			
-			
-			// Save to the permanent location
-			fromReceiptPhoto.renameTo(toReceiptPhoto);
-			
-			// Delete the temp receipt file
-			fromReceiptPhoto.delete();
-			
-			receiptPath = toReceiptPath;			
-		}
 	}
 	
 }

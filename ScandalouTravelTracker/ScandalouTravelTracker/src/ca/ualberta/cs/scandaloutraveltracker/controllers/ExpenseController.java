@@ -145,6 +145,18 @@ public class ExpenseController {
 	 */
 	public void setReceiptPath(String receiptPath) {
 		currentExpense.setReceiptPath(receiptPath);
+	}
+	
+	public String getReceiptPhoto() {
+		return currentExpense.getReceiptPhoto();
+	}
+	
+	/**
+	 * 
+	 * @param receipt
+	 */
+	public void setReceiptPhoto(String receiptPhoto) {
+		currentExpense.setReceiptPhoto(receiptPhoto);
 	}	
 	
 	/**

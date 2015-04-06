@@ -18,6 +18,7 @@ limitations under the License.
 	
 package ca.ualberta.cs.scandaloutraveltracker.views;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +42,8 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -48,6 +51,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -63,10 +67,10 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class NewExpenseActivity extends MenuActivity implements ViewInterface {
-
+public class NewExpenseActivity extends MenuActivity implements ViewInterface {	
+	
 	private int claimId;
-	private Receipt receipt = new Receipt();
+	private Receipt receipt = new Receipt(null);
 	private ReceiptController receiptController;	
 	private Button addExpenseButton;
 	private Date date;
@@ -89,7 +93,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private ImageButton takeReceiptPhotoButton;
 	private ImageButton deleteReceiptButton;
 	private Uri receiptPhotoUri;
-	private String newReceiptPath; // shouldn't be a global; will figure out better way later
+	private String receiptPath; // shouldn't be a global; will figure out better way later
 	private TextView addReceiptText;	
 	
 	/**
@@ -140,7 +144,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		
 		canEdit = claimController.getCanEdit();
 		
-		receipt = new Receipt();
+		receipt = new Receipt(null);
 		receiptController = new ReceiptController(receipt);
 		setReceiptPhoto(receipt);	
 		
@@ -179,9 +183,9 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		receiptThumbnail.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (receiptController.getReceiptPath() != null){			
+				if (receiptController.getReceiptPhoto() != null){			
 				   Intent intent = new Intent(NewExpenseActivity.this, ReceiptActivity.class);
-				   intent.putExtra(Constants.receiptPathLabel, receiptController.getReceiptPath());
+				   intent.putExtra(Constants.receiptPhotoLabel, receiptController.getReceiptPhoto());
 				   startActivity(intent);
 				} 
 			}
@@ -291,12 +295,9 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 								expenseController.setReceiptStatus(false);
 							}
 							
-							// Throws exception
-							receiptController.saveReceiptPhotoForGood();
+							receiptController.clearReceiptFiles();
 							
-							receiptController.clearOldReceipts();
-							
-							expenseController.setReceiptPath(receiptController.getReceiptPath());
+							expenseController.setReceiptPhoto(receiptController.getReceiptPhoto());
 							
 							// Throws exception
 							claimController.addExpense(expenseController.getExpense());					
@@ -339,8 +340,8 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		}
 		
 		// Make a new receipt photo file
-		newReceiptPath = folderPath + "/"+ String.valueOf(System.currentTimeMillis()) + ".jpg";
-		File receiptPhoto = new File(newReceiptPath);
+		receiptPath = folderPath + "/"+ String.valueOf(System.currentTimeMillis()) + ".jpg";
+		File receiptPhoto = new File(receiptPath);
 		
 		// Get a URI for the file
 		receiptPhotoUri = Uri.fromFile(receiptPhoto);
@@ -362,7 +363,16 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
 			
 			if (resultCode == RESULT_OK){
-				receiptController.saveReceiptPhoto(newReceiptPath);		
+				
+				File receiptPhotoFile = new File(receiptPath);
+				if (receiptPhotoFile.length() > Constants.MAX_PHOTO_SIZE){
+					Toast.makeText(this, 
+							"The receipt image cannot exceed " + Long.toString(Constants.MAX_PHOTO_SIZE / (1024*1024)) + " MB", 
+							Toast.LENGTH_SHORT).show();	
+				} else {			
+					receiptController.saveReceiptPhoto(receiptPath);
+				}	
+				
 			}
 			
 		}
@@ -390,15 +400,14 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	 */
 	protected void setReceiptPhoto(Receipt receipt){
 		
-		if (receiptController.getReceiptPath() != null) {
+		if (receiptController.getReceiptPhoto() != null) {
 			
 			// Get the receipt photo
-			File receiptFile = new File(receiptController.getReceiptPath());
-			Uri receiptFileUri = Uri.fromFile(receiptFile);
-			Drawable receiptPhoto = Drawable.createFromPath(receiptFileUri.getPath());
+			byte[] decodedString = Base64.decode(receiptController.getReceiptPhoto(), Base64.DEFAULT);
+			Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 			
 			// Update the receipt area
-			receiptThumbnail.setImageDrawable(receiptPhoto);
+			receiptThumbnail.setImageBitmap(decodedByte);
 			deleteReceiptButton.setVisibility(View.VISIBLE);
 			addReceiptText.setVisibility(View.INVISIBLE);
 			receiptThumbnail.setClickable(true);

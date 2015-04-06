@@ -44,6 +44,7 @@ public class Expense extends SModel {
 	private boolean receiptAttached;
 	private boolean locationAttached;
 	private String receiptPath;
+	private String receiptPhoto;
 	private Location location;
 	
 	/**
@@ -58,6 +59,7 @@ public class Expense extends SModel {
 		this.flag = false;
 		this.receiptAttached = false;
 		this.receiptPath = null;
+		this.receiptPhoto = null;
 		this.location = null;
 		this.locationAttached = false;
 	}
@@ -190,7 +192,23 @@ public class Expense extends SModel {
 	 */
 	public void setReceiptPath(String receiptPath){
 		this.receiptPath = receiptPath;
-	}	
+	}
+	
+	/**
+	 * 
+	 * @return Photo of the receipt photo
+	 */
+	public String getReceiptPhoto() {
+		return receiptPhoto;
+	}
+	
+	/**
+	 * 
+	 * @param cost
+	 */
+	public void setReceiptPhoto(String receiptPhoto){
+		this.receiptPhoto = receiptPhoto;
+	}		
 	
 	/**
 	 * 

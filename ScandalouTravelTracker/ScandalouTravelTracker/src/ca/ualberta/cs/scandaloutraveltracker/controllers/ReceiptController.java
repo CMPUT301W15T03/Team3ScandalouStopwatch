@@ -34,35 +34,20 @@ public class ReceiptController {
 		this.receipt = receipt;
 	}
 	
-	public String getReceiptPath(){
-		return receipt.getReceiptPath();
+	public String getReceiptPhoto(){
+		return receipt.getReceiptPhoto();
+	}	
+	
+	public void saveReceiptPhoto(String receiptPath) {
+		receipt.saveReceiptPhoto(receiptPath);
 	}
 	
-	public void saveReceiptPhoto(String newReceiptPath){
-		receipt.saveReceiptPhoto(newReceiptPath);
-	}
-	
-	
-	public void saveReceiptPhotoForGood() throws UserInputException {
-		receipt.saveReceiptPhotoForGood();
-	}
-	
-	public void clearOldReceipts (){
+	public void clearReceiptFiles(){
 		File tempReceiptFolderFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/receipts_working");
 		if (tempReceiptFolderFile.exists()) {
 			File[] photoFiles = tempReceiptFolderFile.listFiles();
 			for (File file : photoFiles){
 				file.delete();
-			}
-		}
-		
-		File receiptFolderFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/receipts");
-		if (receiptFolderFile.exists()) {
-			File[] photoFiles = receiptFolderFile.listFiles();
-			for (File file : photoFiles){
-				if (receipt.getReceiptPath() != null  && !receipt.getReceiptPath().equals(file.getAbsolutePath())){
-					file.delete();
-				}
 			}
 		}
 	}
