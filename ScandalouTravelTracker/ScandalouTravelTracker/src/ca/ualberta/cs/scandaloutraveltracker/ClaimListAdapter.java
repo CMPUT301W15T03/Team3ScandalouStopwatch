@@ -107,7 +107,8 @@ public class ClaimListAdapter extends BaseAdapter {
 		// Create TextViewscurrentClaim.get
 		TextView claimNameTV = (TextView) convertView.findViewById(R.id.claimListNameTV);
 		TextView claimApproverTV = (TextView) convertView.findViewById(R.id.claimListApproverTV);
-		TextView claimDateTV = (TextView) convertView.findViewById(R.id.claimListDateTV);
+		TextView claimUpperDateTV = (TextView) convertView.findViewById(R.id.claimListUpperDateTV);
+		TextView claimLowerDateTV = (TextView) convertView.findViewById(R.id.claimListLowerDateTV);
 		TextView claimDestinationTV = (TextView) convertView.findViewById(R.id.claimListDestinationsTV);
 		TextView claimStatusTV = (TextView) convertView.findViewById(R.id.claimListStatusTV);
 		TextView claimTotalTV = (TextView) convertView.findViewById(R.id.claimListTotalsTV);
@@ -158,10 +159,8 @@ public class ClaimListAdapter extends BaseAdapter {
 		// Set TextViews
 		claimNameTV.setText("Claimant: " + currentClaim.getUser().getName());
 		claimApproverTV.setText("Approver: " + currentClaim.getApproverName());
-		claimDateTV.setText(currentClaim.getStartDateString() + 
-							" - " + 
-							currentClaim.getEndDateString());
-		
+		claimUpperDateTV.setText(currentClaim.getStartDateString() + " - ");
+		claimLowerDateTV.setText(currentClaim.getEndDateString() + "    ");
 		claimDestinationTV.setText("Destinations: " + currentClaim.destinationsToString());
 		claimStatusTV.setText("Status: " + currentClaim.getStatus());
 		claimTotalTV.setText(totalsStr);

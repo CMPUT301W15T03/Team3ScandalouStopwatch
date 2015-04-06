@@ -21,35 +21,17 @@
         android:text="@string/approver_text_filler" />
 
     <TextView
-        android:id="@+id/claimListDateTV"
-        style="@style/TextFontMediumLV"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/claimListApproverTV"
-        android:text="@string/date_text_filler" />
-
-    <TextView
         android:id="@+id/claimListDestinationsTV"
         style="@style/TextFontMediumLV"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/claimListDateTV"
+        android:layout_below="@+id/claimListDivider"
         android:text="@string/location_text_filler" />
-
-    <TextView
-        android:id="@+id/claimListStatusTV"
-        style="@style/TextFontMediumLV"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/claimListDestinationsTV"
-        android:text="@string/status_text_filler" />
 
     <TextView
         android:id="@+id/claimListTotalsTV"
         style="@style/TextFontMediumLV"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/claimListStatusTV"
+        android:layout_below="@id/claimListDestinationsTV"
         android:text="@string/total_text_filler" />
 
     <TextView
@@ -77,9 +59,48 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/claimListTagsTV"
         android:hint="@string/progress_bar_description"
+        android:paddingLeft="3dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#F2F2F2"
-        android:textSize="13sp" 
-        android:paddingLeft="3dp"/>
+        android:textSize="13sp" />
+
+    <RelativeLayout
+        android:id="@+id/claimListUpperLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/claimListApproverTV"
+        android:background="#455A64" >
+
+        <TextView
+            android:id="@+id/claimListStatusTV"
+            style="@style/TextFontMediumLV"
+            android:text="@string/status_text_filler" />
+
+        <TextView
+            android:id="@+id/claimListUpperDateTV"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            style="@style/TextFontSmall"
+            android:text="@string/date_upper_text_filler" />
+
+        <TextView
+            android:id="@+id/claimListLowerDateTV"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/claimListUpperDateTV"
+            android:layout_marginRight="4dp"
+            style="@style/TextFontSmall"
+            android:text="@string/date_lower_text_filler" />
+        
+    </RelativeLayout>
+    
+    <View
+        android:id="@+id/claimListDivider"
+        style="@style/Divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/claimListUpperLayout" />
 
 </RelativeLayout>
