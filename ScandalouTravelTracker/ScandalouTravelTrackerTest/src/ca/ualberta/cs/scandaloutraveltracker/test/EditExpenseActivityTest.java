@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,7 +30,6 @@ public class EditExpenseActivityTest extends
 	TextView addReceiptText;
 	ImageButton imageButton;
 	ImageButton deleteReceiptButton;
-	ImageButton takeReceiptPhotoButton;
 	StateSpinner category;
 	StateSpinner currencyType;
 	int newClaimId;
@@ -62,7 +63,6 @@ public class EditExpenseActivityTest extends
 		editExpenseActivity = getActivity();
 		instrumentation = getInstrumentation();
 		
-		takeReceiptPhotoButton = (ImageButton) editExpenseActivity.findViewById(R.id.edit_expense_take_receipt_photo);
 		description = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.description);
 		date = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.date_expense);
 		cost = (EditText) editExpenseActivity.findViewById(ca.ualberta.cs.scandaloutraveltracker.R.id.amount);
@@ -177,8 +177,10 @@ public class EditExpenseActivityTest extends
 	// US06.01.01, US06.02.01, US06.03.01
 	// US08.06.01
 	public void testTakeViewDeleteReceiptPicture() {
-		assertTrue(takeReceiptPhotoButton.isShown());
-		assertTrue(takeReceiptPhotoButton.isClickable());
+		Menu menu = editExpenseActivity.getOptionsMenu();
+		MenuItem photoItem = menu.findItem(R.id.action_take_photo);
+		assertTrue(photoItem.isVisible());
+		assertTrue(photoItem.isEnabled());
 		assertTrue(deleteReceiptButton.isShown());
 		assertTrue(deleteReceiptButton.isClickable());
 		assertTrue(imageButton.isShown());

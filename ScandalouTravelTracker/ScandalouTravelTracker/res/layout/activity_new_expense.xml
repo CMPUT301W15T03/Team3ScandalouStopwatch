@@ -192,7 +192,7 @@
         android:textColor="#F2F2F2" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/description2"
         android:layout_below="@+id/description2" >
@@ -216,7 +216,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="addLocation"
-            android:text="@string/edit_location_button" />
+            android:text="@string/add_location_button" />
     </LinearLayout>
 
 </RelativeLayout>

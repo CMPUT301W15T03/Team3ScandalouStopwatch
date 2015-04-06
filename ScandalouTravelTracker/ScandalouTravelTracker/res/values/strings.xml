@@ -8,7 +8,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_view_claim">New Claim</string>
     <string name="title_activity_edit_claim">Editing Claim</string>
-    <string name="title_activity_view_expense">New Expense</string>
+    <string name="title_activity_view_expense">Editing Expense</string>
     <string name="title_activity_edit_expense">Editing Expense</string>
     <string name="title_activity_expense_list">Expenses</string>
     <string name="title_activity_select_user">SelectUserActivity</string>

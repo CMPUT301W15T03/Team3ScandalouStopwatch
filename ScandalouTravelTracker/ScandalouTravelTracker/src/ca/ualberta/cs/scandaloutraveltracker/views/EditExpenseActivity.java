@@ -94,6 +94,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	private Button locationButton;
 	private LocationManager lm;
 	private Location GPSLocation;
+	private Menu optionsMenu;
 	
 	/**
 	 * 	Called when the activity is created. Sets up all the views and controllers for 
@@ -155,7 +156,9 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			flag = expenseController.getFlag();
 			location = expenseController.getLocation();
 			if (location == null) {
-				locationButton.setText("Add/View Location");
+				locationButton.setText("Add Location");
+			} else {
+				locationButton.setText("View/Edit Location");
 			}
 			
 			String categoryString = claimController.getExpense(expenseId).getCategory();
@@ -340,6 +343,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		} else {
 			photoItem.setVisible(false);
 		}
+		optionsMenu = menu;
 		return true;
 	}
 	
@@ -658,6 +662,14 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	 */
 	public int getToastCount() {
 		return toastCount;
+	}
+	
+	/**
+	 * Used for testing that the camera icon is shown when canEdit is true
+	 * @return Menu containing the options menu for this activity
+	 */
+	public Menu getOptionsMenu() {
+		return optionsMenu;
 	}
 	
 }
