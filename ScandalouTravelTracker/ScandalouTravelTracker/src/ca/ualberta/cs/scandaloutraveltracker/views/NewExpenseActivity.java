@@ -440,8 +440,6 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 			
 			// Update the receipt area
 			receiptThumbnail.setImageBitmap(decodedByte);
-
-			// Update the receipt area
 			addReceiptText.setText("View Attached Receipt");
 			deleteReceiptButton.setVisibility(View.VISIBLE);
 			receiptThumbnail.setClickable(true);
@@ -450,6 +448,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 			
 			// Reset the receipt area 
 			// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
+			receiptThumbnail.setImageDrawable(null);
 			addReceiptText.setText("No Receipt Attached");
 			deleteReceiptButton.setVisibility(View.INVISIBLE);
 			receiptThumbnail.setClickable(false);
