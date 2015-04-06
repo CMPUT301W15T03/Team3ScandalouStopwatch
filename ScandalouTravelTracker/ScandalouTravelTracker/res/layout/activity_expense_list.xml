@@ -10,17 +10,6 @@
     tools:context=".ExpenseListActivity" >
 
     <TextView
-        android:id="@+id/expense_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
-        android:text="@string/expenses"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFFFFF" />
-
-    <TextView
         android:id="@+id/totals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,14 +29,14 @@
 
     <ListView
         android:id="@+id/expenselistView"
+        android:stackFromBottom="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/add_expense"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/expense_list"
-        android:divider="@drawable/list_view_divider"
-        android:dividerHeight="2dp" >
+        android:divider="#263238"
+        android:dividerHeight="15dp" >
     </ListView>
 
     <Button

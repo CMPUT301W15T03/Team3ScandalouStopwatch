@@ -10,7 +10,7 @@
     <string name="title_activity_edit_claim">EditClaimActivity</string>
     <string name="title_activity_view_expense">ViewExpenseActivity</string>
     <string name="title_activity_edit_expense">EditExpenseActivity</string>
-    <string name="title_activity_expense_list">ExpenseListActivity</string>
+    <string name="title_activity_expense_list">Expenses</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="title_activity_claim_list">Claims</string>
     <string name="claim_tracking_text">Claim Tracking:</string>
