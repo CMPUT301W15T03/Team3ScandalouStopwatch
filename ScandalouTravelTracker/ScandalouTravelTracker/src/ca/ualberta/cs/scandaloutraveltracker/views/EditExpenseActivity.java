@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -38,6 +39,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -66,7 +69,7 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
  * @author Team3ScandalouStopwatch
  *
  */
-public class EditExpenseActivity extends MenuActivity implements ViewInterface {
+public class EditExpenseActivity extends Activity implements ViewInterface {
 	
 	public static final String receiptPathLabel = "ca.ualberta.cs.scandaloutraveltracker.receiptPath";	
 	
@@ -79,7 +82,6 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 	private Date newDate;
 	private boolean canEdit;
 	private ImageButton receiptThumbnail;
-	private ImageButton takeReceiptPhotoButton;
 	private ImageButton deleteReceiptButton;
 	private Uri receiptPhotoUri;
 	private String newReceiptPath; // shouldn't be a global; will figure out better way later
@@ -113,7 +115,6 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		StateSpinner currencyType = (StateSpinner) findViewById(R.id.currencyspinner);
 		receiptThumbnail = (ImageButton) findViewById(R.id.edit_expense_receipt_thumbnail);
 		addReceiptText = (TextView) findViewById(R.id.edit_expense_add_receipt_text);
-		takeReceiptPhotoButton = (ImageButton) findViewById(R.id.edit_expense_take_receipt_photo);
 		deleteReceiptButton = (ImageButton) findViewById(R.id.edit_expense_delete_receipt);
 		deleteReceiptButton.setVisibility(View.INVISIBLE);
 		locationTextView = (TextView) findViewById(R.id.edit_location_edit_text);
@@ -262,22 +263,6 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 			}
 		});
 		
-		//sets image button for receipt
-		takeReceiptPhotoButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			
-				if (!canEdit) {
-					
-					Toast.makeText(getApplicationContext(),
-							claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
-				}
-				else {
-					takeReceiptPhoto();
-				}
-			}
-		});
-		
 		deleteReceiptButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -330,6 +315,42 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 				
 			}
 		});
+	}
+	
+	/**
+	 * 	Sets the action bar to include the options to change user and view all tags in the 
+	 * 	dropdown menu.
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.edit_expense, menu);
+		MenuItem photoItem = menu.findItem(R.id.action_take_photo);
+		if(canEdit) {
+			photoItem.setVisible(true);
+		} else {
+			photoItem.setVisible(false);
+		}
+		return true;
+	}
+	
+	/**
+	 * 	Deals with the user pressing on options in the dropdown menu of the action bar.
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses
+		switch(item.getItemId()) {
+		// Go to user select menu
+		case R.id.action_take_photo:
+			if (canEdit) {
+				takeReceiptPhoto();
+			}
+            return true;
+		// Default do nothing
+		default: 
+			return false;
+		}
 	}
 	
 	/**
@@ -529,24 +550,17 @@ public class EditExpenseActivity extends MenuActivity implements ViewInterface {
 		
 		if (receiptController.getReceiptPath() != null) {
 			
-			// Get the receipt photo
-			File receiptFile = new File(receiptController.getReceiptPath());
-			Uri receiptFileUri = Uri.fromFile(receiptFile);
-			Drawable receiptPhoto = Drawable.createFromPath(receiptFileUri.getPath());
-			
 			// Update the receipt area
-			receiptThumbnail.setImageDrawable(receiptPhoto);
+			addReceiptText.setText("View Attached Receipt");
 			deleteReceiptButton.setVisibility(View.VISIBLE);
-			addReceiptText.setVisibility(View.INVISIBLE);
 			receiptThumbnail.setClickable(true);
 			
 		} else {
 			
 			// Reset the receipt area 
 			// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
-			receiptThumbnail.setImageDrawable(null);
+			addReceiptText.setText("No Receipt Attached");
 			deleteReceiptButton.setVisibility(View.INVISIBLE);
-			addReceiptText.setVisibility(View.VISIBLE);
 			receiptThumbnail.setClickable(false);
 		}
 		
