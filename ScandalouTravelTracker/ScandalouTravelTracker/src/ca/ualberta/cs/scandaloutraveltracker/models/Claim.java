@@ -414,7 +414,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 	}
 	/**
 	 * Approves the Claim. This is, setting
-	 * the status to approved and canEdit boolean to false or .
+	 * the status to approved and canEdit boolean to false.
 	 * Uses the ClaimMapper to save updated data.
 	 */
 	public void approveClaim(String approverName, String comment, int claimId){
@@ -427,8 +427,8 @@ public class Claim extends SModel implements Comparable<Claim> {
 		notifyViews();
 	}
 	/**
-	 * Approves the Claim. This is, setting
-	 * the status to returned and canEdit boolean to true or .
+	 * Returns the Claim. This is, setting
+	 * the status to returned and canEdit boolean to true.
 	 * Uses the ClaimMapper to save updated data.
 	 */
 	public void returnClaim(String approverName, String comment, int claimId){
@@ -593,7 +593,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 			i++;
 		}
 		if (this.approverComments.size() != 0) {
-			commentString = "Approver Name: " + this.approverName + "\n" + commentString;
+			commentString = "Approver: " + this.approverName + "\n" + commentString;
 		}
 		return commentString;
 	}

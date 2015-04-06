@@ -166,7 +166,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 	}
 	
 	/**
-	 * 	Sets the action bar to include the options to change user and view all tags in the 
+	 * 	Sets the action bar to include the options to change user and take a receipt photo in the 
 	 * 	dropdown menu.
 	 */
 	@Override
@@ -202,7 +202,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 	}
 	
 	/**
-	 *  Sets up the one click listeners for editing the date of the
+	 *  Sets up the on click listeners for editing the date of the
 	 * 	expense and pressing add to add the expense to the current claim
 	 */
 	private void setUpListeners() {
@@ -239,6 +239,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 			}
 		});
 		
+		//sets delete button for receipt
 		deleteReceiptButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

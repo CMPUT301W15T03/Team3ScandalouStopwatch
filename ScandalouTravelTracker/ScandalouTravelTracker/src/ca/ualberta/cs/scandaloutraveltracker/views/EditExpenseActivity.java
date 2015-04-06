@@ -194,7 +194,6 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			
 		}
 		
-		// Sets all the layout elements if the claim can't be edited
 		cancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -202,6 +201,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			}
 		});
 		
+		// Sets all the layout elements if the claim can't be edited
 		if (!canEdit) {
 			description.setFocusable(false);
 			date.setFocusable(false);
@@ -278,6 +278,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			}
 		});
 		
+		//sets delete button for receipt
 		deleteReceiptButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -333,7 +334,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	}
 	
 	/**
-	 * 	Sets the action bar to include the options to change user and view all tags in the 
+	 * 	Sets the action bar to include the options to change user and take a receipt photo in the 
 	 * 	dropdown menu.
 	 */
 	@Override

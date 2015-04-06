@@ -95,6 +95,7 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		expenseListAdapter = new ExpenseListAdapter(this, claimController.getExpenseList());
 		expenseListView.setAdapter(expenseListAdapter);
 		
+		//give user edit options when an expense is clicked
 		expenseListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -189,6 +190,10 @@ public class ExpenseListActivity extends Activity implements ViewInterface {
 		}
 	}
 	
+	/**
+	 * 	Sets the action bar to include the option to add an expense in the 
+	 * 	dropdown menu.
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
