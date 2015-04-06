@@ -115,7 +115,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 		
 		String currency=null;
 		
-		if (currentExpense.getCurrencyType().contentEquals("--Choose Currency--")){
+		if (currentExpense.getCurrencyType().contentEquals("Select")){
 			
 			currency= "___";
 		}
@@ -128,7 +128,7 @@ public class ExpenseListAdapter extends BaseAdapter {
 		String cost = "Cost: " + formatter.format(currentExpense.getCost()) + " " +
 				  currency;
 		//setting category
-		if (currentExpense.getCategory().contentEquals("--Choose Category--")){
+		if (currentExpense.getCategory().contentEquals("Select")){
 			expenseCategory.setText("Uncategorized");
 		}
 		else{

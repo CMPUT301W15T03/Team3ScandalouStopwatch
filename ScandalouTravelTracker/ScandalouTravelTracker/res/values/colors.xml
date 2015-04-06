@@ -3,4 +3,8 @@
     <color
         name = "LightGray"
         >#F2F2F2</color>
+    
+    <color
+        name = "HintGray"
+        >#CFD8DC</color>
 </resources>

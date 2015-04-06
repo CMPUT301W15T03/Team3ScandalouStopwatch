@@ -8,89 +8,52 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".NewExpenseActivity" >
-
-    <TextView
-        android:id="@+id/add_expense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Add Expense"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:id="@+id/add_expense_button"
+    
+    <LinearLayout
+        android:id="@+id/new_expense_buttons_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:onClick="confirmEdit"
-        android:text="Add"
-        android:textColor="#F2F2F2" />
+        android:layout_alignParentRight="true" >
+        
+        <Button
+            android:id="@+id/new_expense_cancel"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textColor="#FFFFFF" />
 
-    <Button
-        android:id="@+id/add_expense_location_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/add_expense_delete_receipt"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/description2"
-        android:onClick="addLocation"
-        android:text="@string/edit_location_button" />
+        <View style="@style/VerticalDivider" />
 
-    <TextView
-        android:id="@+id/new_location_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/add_expense_location_button"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/description2"
-        android:layout_toLeftOf="@+id/add_expense_location_button"
-        android:hint="@string/expense_add_location_filler"
-        android:maxLines="2"
-        android:padding="12dp"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbars="vertical"
-        android:singleLine="false"
-        android:textColor="#FFFFFF" />
+	    <Button
+	        android:id="@+id/add_expense_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:onClick="confirmEdit"
+	        android:text="Add"
+	        android:textColor="#F2F2F2"
+	        style="?android:attr/borderlessButtonStyle"/>
+	    
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/add_expense_receipt_thumbnail"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/add_expense_button"
-        android:layout_below="@+id/add_expense_location_button"
-        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/new_expense_buttons_layout"
+        android:layout_alignLeft="@+id/new_expense_buttons_layout"
+        android:layout_alignRight="@+id/new_expense_buttons_layout"
+        android:layout_alignTop="@+id/add_expense_delete_receipt"
         android:src="@null" />
-
-    <ImageButton
-        android:id="@+id/add_expense_delete_receipt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/add_expense_receipt_thumbnail"
-        android:layout_below="@+id/add_expense_location_button"
-        android:src="@android:drawable/ic_delete" />
-
-    <ImageButton
-        android:id="@+id/add_expense_take_receipt_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/add_expense_receipt_thumbnail"
-        android:layout_alignRight="@+id/add_expense_receipt_thumbnail"
-        android:src="@android:drawable/ic_menu_camera" />
-
-    <TextView
-        android:id="@+id/add_expense_add_receipt_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/add_expense_delete_receipt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:text="No receipt attached"
-        android:textColor="#F2F2F2" />
+    
+    <View
+        style="@style/Divider"
+        android:layout_below="@+id/add_expense_receipt_thumbnail" />
 
     <LinearLayout
         android:id="@+id/addExpenseCurrencyAmountLayout"
@@ -98,11 +61,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/add_expense" >
+        android:layout_marginBottom="15dp"
+        android:layout_below="@+id/new_expense_category_date_titles_layout" >
 
         <ca.ualberta.cs.scandaloutraveltracker.StateSpinner
             android:id="@+id/category"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:entries="@array/Category"
@@ -111,11 +75,12 @@
         <EditText
             android:id="@+id/amount2"
             style="@style/EditTextColors"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:hint="@string/amount"
             android:inputType="numberDecimal" >
-
         </EditText>
+        
     </LinearLayout>
 
     <EditText
@@ -128,6 +93,56 @@
         android:ems="10"
         android:hint="@string/description"
         android:textColor="#F2F2F2" />
+    
+    <LinearLayout
+        android:id="@+id/new_expense_category_date_titles_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/addExpenseCurrencyAmountLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/addExpenseCurrencyAmountLayout" >
+
+        <TextView
+            android:id="@+id/new_expense_categoryTV"
+            style="@style/TextFontMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.58"
+            android:text="@string/category" />
+
+        <TextView
+            android:id="@+id/new_expense_amountTV"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            style="@style/TextFontMedium"
+            android:text="@string/cost" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/new_expense_date_currency_titles_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/addExpenseCurrencyAmountLayout"
+        android:layout_alignRight="@+id/addExpenseCurrencyAmountLayout"
+        android:layout_below="@+id/addExpenseCurrencyAmountLayout" >
+
+        <TextView
+            android:id="@+id/new_expense_dateTV"
+            style="@style/TextFontMedium"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/date" />
+
+        <TextView
+            android:id="@+id/new_expense_currencyTV"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            style="@style/TextFontMedium"
+            android:text="@string/currency" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/addExpenseDateAndCurrencyLayout"
@@ -135,23 +150,73 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/addExpenseCurrencyAmountLayout" >
+        android:layout_below="@+id/new_expense_date_currency_titles_layout"
+        android:layout_marginBottom="15dp" >
 
         <EditText
             android:id="@+id/date_expense2"
             style="@style/EditTextColors"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:focusableInTouchMode="False"
-            android:hint="@string/date"
+            android:hint="@string/date_hint"
             android:inputType="date" />
 
         <ca.ualberta.cs.scandaloutraveltracker.StateSpinner
             android:id="@+id/currency"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:entries="@array/Currency"
             android:textColor="#F2F2F2" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/add_expense_delete_receipt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/new_expense_buttons_layout"
+        android:layout_alignRight="@+id/add_expense_receipt_thumbnail"
+        android:src="@android:drawable/ic_delete"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <TextView
+        android:id="@+id/add_expense_add_receipt_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/add_expense_receipt_thumbnail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:text="No receipt attached"
+        android:textColor="#F2F2F2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/description2"
+        android:layout_below="@+id/description2" >
+
+        <TextView
+            android:id="@+id/new_location_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/expense_add_location_filler"
+            android:maxLines="2"
+            android:padding="12dp"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:textColor="#FFFFFF" />
+        
+       <Button
+            android:id="@+id/add_expense_location_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="addLocation"
+            android:text="@string/add_location_button" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
      <string-array name="Category" >
-        <item>--Choose Category--</item>
+        <item>Select</item>
 		<item >Air Fare</item>
 		<item >Ground Transport</item>
 		<item >Vehicle Rental</item>

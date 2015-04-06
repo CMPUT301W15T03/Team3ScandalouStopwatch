@@ -23,20 +23,8 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
-import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
-import ca.ualberta.cs.scandaloutraveltracker.R;
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
-import ca.ualberta.cs.scandaloutraveltracker.controllers.ReceiptController;
-import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
-import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
-import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
-
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -52,14 +40,29 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
+import ca.ualberta.cs.scandaloutraveltracker.DatePickerFragment;
+import ca.ualberta.cs.scandaloutraveltracker.R;
+import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
+import ca.ualberta.cs.scandaloutraveltracker.controllers.ReceiptController;
+import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
+import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
+import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
+import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
 
 /**
  *  This is the activity that provides functionality for adding a new
@@ -67,8 +70,9 @@ import android.widget.Toast;
  * @author Team3ScandalouStopwatch
  *
  */
-public class NewExpenseActivity extends MenuActivity implements ViewInterface {	
-	
+
+public class NewExpenseActivity extends Activity implements ViewInterface {
+
 	private int claimId;
 	private Receipt receipt = new Receipt(null);
 	private ReceiptController receiptController;	
@@ -78,6 +82,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private ClaimController claimController;
 	private ExpenseController expenseController;
 	private ClaimListController claimListController;
+	private Button cancel;
 	private EditText dateEditText;
 	private Spinner categorySpinner;
 	private EditText amountEditText;
@@ -90,7 +95,6 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 	private Location GPSLocation;
 	private Button locationButton;
 	private ImageButton receiptThumbnail;
-	private ImageButton takeReceiptPhotoButton;
 	private ImageButton deleteReceiptButton;
 	private Uri receiptPhotoUri;
 	private String receiptPath; // shouldn't be a global; will figure out better way later
@@ -113,7 +117,8 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		mapper = new ClaimMapper(this.getApplicationContext());
 		
 		//create date picker
-		dateEditText = (EditText)findViewById(R.id.date_expense2);
+		LinearLayout dateCurrencyLL = (LinearLayout) findViewById(R.id.addExpenseDateAndCurrencyLayout);
+		dateEditText = (EditText) dateCurrencyLL.findViewById(R.id.date_expense2);
 	
 		//get widgets
 		categorySpinner = (Spinner)findViewById(R.id.category);
@@ -124,7 +129,7 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		locationButton = (Button) findViewById(R.id.add_expense_location_button);
 		receiptThumbnail = (ImageButton) findViewById(R.id.add_expense_receipt_thumbnail);
 		addReceiptText = (TextView) findViewById(R.id.add_expense_add_receipt_text);
-		takeReceiptPhotoButton = (ImageButton) findViewById(R.id.add_expense_take_receipt_photo);
+		cancel = (Button) findViewById(R.id.new_expense_cancel);
 		deleteReceiptButton = (ImageButton) findViewById(R.id.add_expense_delete_receipt);
 		deleteReceiptButton.setVisibility(View.INVISIBLE);		
 
@@ -151,6 +156,49 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 		receiptController.addView(this);
 		
 		setUpListeners();
+		
+		cancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();	
+			}
+		});
+	}
+	
+	/**
+	 * 	Sets the action bar to include the options to change user and view all tags in the 
+	 * 	dropdown menu.
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.view_expense, menu);
+		MenuItem photoItem = menu.findItem(R.id.action_take_photo);
+		if(canEdit) {
+			photoItem.setVisible(true);
+		} else {
+			photoItem.setVisible(false);
+		}
+		return true;
+	}
+	
+	/**
+	 * 	Deals with the user pressing on options in the dropdown menu of the action bar.
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses
+		switch(item.getItemId()) {
+		// Go to user select menu
+		case R.id.action_take_photo:
+			if (canEdit) {
+				takeReceiptPhoto();
+			}
+            return true;
+		// Default do nothing
+		default: 
+			return false;
+		}
 	}
 	
 	/**
@@ -188,22 +236,6 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 				   intent.putExtra(Constants.receiptPhotoLabel, receiptController.getReceiptPhoto());
 				   startActivity(intent);
 				} 
-			}
-		});
-		
-		//sets image button for receipt
-		takeReceiptPhotoButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			
-				if (!canEdit) {
-					
-					//Toast.makeText(getApplicationContext(),
-							//claimController.getStatus() + " claims cannot be edited.", Toast.LENGTH_SHORT).show();
-				}
-				else {
-					takeReceiptPhoto();
-				}
 			}
 		});
 		
@@ -408,17 +440,18 @@ public class NewExpenseActivity extends MenuActivity implements ViewInterface {
 			
 			// Update the receipt area
 			receiptThumbnail.setImageBitmap(decodedByte);
+
+			// Update the receipt area
+			addReceiptText.setText("View Attached Receipt");
 			deleteReceiptButton.setVisibility(View.VISIBLE);
-			addReceiptText.setVisibility(View.INVISIBLE);
 			receiptThumbnail.setClickable(true);
 			
 		} else {
 			
 			// Reset the receipt area 
 			// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
-			receiptThumbnail.setImageDrawable(null);
+			addReceiptText.setText("No Receipt Attached");
 			deleteReceiptButton.setVisibility(View.INVISIBLE);
-			addReceiptText.setVisibility(View.VISIBLE);
 			receiptThumbnail.setClickable(false);
 		}
 		

@@ -7,9 +7,9 @@
     <string name="action_search_claims">Search Claims</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_view_claim">New Claim</string>
-    <string name="title_activity_edit_claim">EditClaimActivity</string>
-    <string name="title_activity_view_expense">ViewExpenseActivity</string>
-    <string name="title_activity_edit_expense">EditExpenseActivity</string>
+    <string name="title_activity_edit_claim">Editing Claim</string>
+    <string name="title_activity_view_expense">Editing Expense</string>
+    <string name="title_activity_edit_expense">Editing Expense</string>
     <string name="title_activity_expense_list">Expenses</string>
     <string name="title_activity_select_user">SelectUserActivity</string>
     <string name="title_activity_claim_list">Claims</string>
@@ -17,7 +17,7 @@
     <string name="create_user_text">New User</string>
     <string name="current_users_text">Select a User:</string>
     <string name="amount">Amount</string>
-    <string name="date">Date</string>
+    <string name="date">Date:</string>
     <string name="description">Description</string>
     <string name="add_update">Add/update</string>
     <string name="edit_claim">Edit Claim</string>
@@ -27,7 +27,7 @@
     <string name="send">Send</string>
     <string name="add_claim">Add Claim</string>
     <string name="tags_tv">tags (separate by comma)</string>
-    <string name="title_activity_add_expense">AddExpenseActivity</string>
+    <string name="title_activity_add_expense">New Expense</string>
     <string name="add_expense">Add Expense</string>
     <string name="title_activity_view_expense_list">ViewExpenseListActivity</string>
     <string name="name_text_filler">User who made claim goes here </string>
@@ -70,7 +70,11 @@
     <string name="save">Save</string>
 	<string name="cancel">Cancel</string>
 	<string name="send_claim">Send Claim</string>
-    
+	<string name="cost">Cost:</string>
+	<string name="category">Category:</string>
+	<string name="currency">Currency:</string>
+	<string name="action_photo">Take Receipt Photo</string>
+	
     <string-array name="claim_menu">
         <item>Edit/View Claim</item>
         <item>List Expenses for Claim</item>
