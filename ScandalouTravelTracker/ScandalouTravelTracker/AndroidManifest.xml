@@ -60,16 +60,17 @@
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.views.NewClaimActivity"
             android:label="@string/title_activity_view_claim"
-            android:windowSoftInputMode="adjustNothing" >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.views.EditClaimActivity"
             android:label="@string/title_activity_edit_claim"
-            android:windowSoftInputMode="adjustNothing" >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.views.EditExpenseActivity"
-            android:label="@string/title_activity_view_expense" >
+            android:label="@string/title_activity_view_expense"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.views.ExpenseListActivity"
@@ -78,7 +79,8 @@
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.views.NewExpenseActivity"
-            android:label="@string/title_activity_add_expense" >
+            android:label="@string/title_activity_add_expense"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.scandaloutraveltracker.views.ClaimListActivity"

@@ -81,6 +81,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	private int expenseId;
 	private Date newDate;
 	private boolean canEdit;
+	private Button cancel;
 	private ImageButton receiptThumbnail;
 	private ImageButton deleteReceiptButton;
 	private Uri receiptPhotoUri;
@@ -121,6 +122,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		locationButton = (Button) findViewById(R.id.edit_expense_location_button);
 		
 		Button editButton = (Button) findViewById(R.id.edit_expense_button);
+		Button cancel = (Button) findViewById(R.id.edit_expense_cancel);
 
 		
 		//makes sure that the position of the claim and corresponding 
@@ -187,6 +189,13 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		}
 		
 		// Sets all the layout elements if the claim can't be edited
+		cancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();	
+			}
+		});
+		
 		if (!canEdit) {
 			description.setFocusable(false);
 			date.setFocusable(false);

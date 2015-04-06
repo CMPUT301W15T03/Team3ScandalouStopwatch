@@ -125,7 +125,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 		newDestinationButton = (ImageButton) findViewById(R.id.edit_claim_new_destination);
 		destinationList = (ListView) findViewById(R.id.edit_claim_destinations);
 		addTagsButton = (ImageButton) findViewById(R.id.edit_claim_add_tag);
-		cancelButton = (Button) findViewById(R.id.edit_claim_cancel);	
+		cancelButton = (Button) findViewById(R.id.edit_expense_cancel);	
 		updateButton = (Button) findViewById(R.id.edit_claim_update);
 	    statusDisplay = (TextView) findViewById(R.id.edit_claim_status);		
 		

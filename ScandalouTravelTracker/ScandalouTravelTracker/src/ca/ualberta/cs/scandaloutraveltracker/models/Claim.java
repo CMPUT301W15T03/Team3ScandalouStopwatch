@@ -509,7 +509,7 @@ public class Claim extends SModel implements Comparable<Claim> {
 				} else {
 					old_total = 0;
 				}
-				if (expense.getCurrencyType().contentEquals("--Choose Currency--")){
+				if (expense.getCurrencyType().contentEquals("Select")){
 					totals.put("Other", old_total + expense.getCost());
 				}
 				else{

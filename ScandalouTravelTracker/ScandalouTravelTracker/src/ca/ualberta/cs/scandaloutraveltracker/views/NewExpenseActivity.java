@@ -77,6 +77,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 	private ClaimController claimController;
 	private ExpenseController expenseController;
 	private ClaimListController claimListController;
+	private Button cancel;
 	private EditText dateEditText;
 	private Spinner categorySpinner;
 	private EditText amountEditText;
@@ -123,6 +124,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 		locationButton = (Button) findViewById(R.id.add_expense_location_button);
 		receiptThumbnail = (ImageButton) findViewById(R.id.add_expense_receipt_thumbnail);
 		addReceiptText = (TextView) findViewById(R.id.add_expense_add_receipt_text);
+		cancel = (Button) findViewById(R.id.new_expense_cancel);
 		deleteReceiptButton = (ImageButton) findViewById(R.id.add_expense_delete_receipt);
 		deleteReceiptButton.setVisibility(View.INVISIBLE);		
 
@@ -149,6 +151,13 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 		receiptController.addView(this);
 		
 		setUpListeners();
+		
+		cancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();	
+			}
+		});
 	}
 	
 	/**
