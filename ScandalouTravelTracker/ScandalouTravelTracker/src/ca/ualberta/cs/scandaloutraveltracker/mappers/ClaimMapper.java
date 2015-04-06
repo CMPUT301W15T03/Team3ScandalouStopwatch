@@ -193,7 +193,7 @@ public class ClaimMapper {
 	@SuppressWarnings("unchecked")
 	public void saveClaimData(int claimId, String key, Object data){
 		
-		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
+		SharedPreferences claimFile = this.context.getSharedPreferences(getClaimFileName(claimId), 0);
 		Editor editor = claimFile.edit();
 		Gson gson = new Gson();
 		
@@ -262,7 +262,7 @@ public class ClaimMapper {
 	public Object loadClaimData(int claimId, String key){
 		
 		Object data = 0;
-		SharedPreferences claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
+		SharedPreferences claimFile = this.context.getSharedPreferences(getClaimFileName(claimId), 0);
 	    Gson gson = new Gson();
 		
 	    if (key.equals("id")){
@@ -321,7 +321,7 @@ public class ClaimMapper {
 		SharedPreferences claimFile;
 		Editor editor;
 		
-		claimFile = this.context.getSharedPreferences("claim"+Integer.toString(claimId), 0);
+		claimFile = this.context.getSharedPreferences(getClaimFileName(claimId), 0);
 		editor = claimFile.edit();
 		editor.clear();
 		editor.commit();
@@ -330,19 +330,15 @@ public class ClaimMapper {
 	}
 	
 	private void saveOnline(int claimId){
-		if (Constants.CONNECTIVITY_STATUS == true){
-			onlineMapper.save("claim"+Integer.toString(claimId), new Claim(claimId));
-		} else {
-			onlineMapper.saveWhenConnected("claim"+Integer.toString(claimId), new Claim(claimId));
-		}
+		onlineMapper.save(getClaimFileName(claimId), new Claim(claimId));
 	}
 	
 	private void deleteOnline(int claimId){
-		if (Constants.CONNECTIVITY_STATUS == true){
-			onlineMapper.delete("claim"+Integer.toString(claimId));
-		} else {
-			onlineMapper.deleteWhenConnected("claim"+Integer.toString(claimId));
-		}
+		onlineMapper.delete(getClaimFileName(claimId));
+	}
+	
+	private String getClaimFileName(int claimId){
+		return "claim"+Integer.toString(claimId);
 	}
 	
 }
