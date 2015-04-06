@@ -8,9 +8,35 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".EditClaimActivity" >
+    
+    <LinearLayout
+        android:id="@+id/edit_claim_to_from_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editClaimDateLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <TextView
+            android:id="@+id/edit_claim_fromTV"
+            style="@style/TextFontMedium"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/from" />
+
+        <TextView
+            android:id="@+id/edit_claim_toTV"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            style="@style/TextFontMedium"
+            android:text="@string/to" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/editClaimDateLayout"
+        android:layout_below="@+id/edit_claim_to_from_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -19,24 +45,30 @@
         <EditText
             android:id="@+id/appr_edit_claim_start_date"
             style="@style/EditTextColors"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
             android:focusableInTouchMode="False"
-            android:hint="@string/start_date"
+            android:hint="@string/date_hint"
             android:inputType="date" >
         </EditText>
 
         <EditText
             android:id="@+id/edit_claim_end_date"
             style="@style/EditTextColors"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
             android:focusableInTouchMode="False"
-            android:hint="@string/end_date"
+            android:hint="@string/date_hint"
             android:inputType="date" />
     </LinearLayout>
 
     <EditText
         android:id="@+id/edit_claim_descr"
         style="@style/EditTextColors"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/editClaimDateLayout"
@@ -48,11 +80,11 @@
         android:id="@+id/edit_claim_destinations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_claim_send"
+        android:layout_above="@+id/edit_claim_tags"
         android:layout_alignLeft="@+id/edit_claim_descr"
         android:layout_below="@+id/edit_claim_new_destination"
-        android:divider="@drawable/list_view_divider"
-        android:dividerHeight="2dp" >
+        android:divider="#263238"
+        android:dividerHeight="15dp" >
     </ListView>
 
     <TextView
@@ -67,61 +99,56 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/edit_claim_destinations_label"
-        style="@style/TextFontLarge"
-        android:layout_alignBottom="@+id/edit_claim_new_destination"
-        android:layout_alignLeft="@+id/edit_claim_destinations"
-        android:layout_below="@+id/edit_claim_descr"
-        android:gravity="center_vertical"
-        android:text="@string/destinations" />
-
-    <TextView
         android:id="@+id/edit_claim_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/edit_claim_buttons_layout"
         android:layout_alignBottom="@+id/edit_claim_add_tag"
-        android:layout_alignLeft="@+id/edit_claim_update"
+        android:layout_alignLeft="@+id/edit_claim_destinations"
         android:layout_alignTop="@+id/edit_claim_add_tag"
         android:layout_toLeftOf="@+id/edit_claim_add_tag"
         android:gravity="center_vertical"
         android:textColor="#F2F2F2"
         android:textSize="@dimen/tags" />
+    
+    <View
+        style="@style/Divider"
+        android:layout_below="@+id/edit_claim_tags" />
 
-    <Button
-        android:id="@+id/edit_claim_add_tag"
+    <LinearLayout
+        android:id="@+id/edit_claim_buttons_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/edit_claim_send"
-        android:text="@string/add_tag"
-        android:textColor="#F2F2F2" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+        
+	    <Button
+	        android:id="@+id/edit_claim_cancel"
+	        style="?android:attr/borderlessButtonStyle"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="@string/cancel"
+	        android:textColor="#F2F2F2" />
 
-    <Button
-        android:id="@+id/edit_claim_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_claim_add_tag"
-        android:layout_alignRight="@+id/edit_claim_destinations"
-        android:text="@string/submit"
-        android:textColor="#F2F2F2" />
+        <View style="@style/VerticalDivider" />
 
-    <Button
-        android:id="@+id/edit_claim_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_claim_tags"
-        android:layout_alignLeft="@+id/edit_claim_destinations"
-        android:text="@string/update"
-        android:textColor="#F2F2F2" />
+	    <Button
+	        android:id="@+id/edit_claim_update"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_weight="1"
+	        android:text="@string/save"
+	        android:textColor="#F2F2F2"
+	        style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/edit_claim_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_claim_send"
-        android:layout_alignLeft="@+id/edit_claim_send"
-        android:layout_alignRight="@+id/edit_claim_send"
-        android:layout_alignTop="@+id/edit_claim_send"
+		android:text="TEST"
         android:textColor="#F2F2F2"
         android:visibility="gone" />
 
@@ -132,6 +159,25 @@
         android:layout_alignRight="@+id/edit_claim_destinations"
         android:layout_below="@+id/edit_claim_descr"
         android:contentDescription="@string/destinations_button_description"
+        android:src="@android:drawable/ic_menu_add" 
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <ImageButton
+        android:id="@+id/edit_claim_add_tag"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/edit_claim_buttons_layout"
+        android:layout_alignRight="@+id/edit_claim_destinations"
+        android:contentDescription="@string/add_tag"
         android:src="@android:drawable/ic_menu_add" />
+
+    <TextView
+        android:id="@+id/edit_claim_destinations_label"
+        style="@style/TextFontLarge"
+        android:layout_alignBottom="@+id/edit_claim_new_destination"
+        android:layout_alignLeft="@+id/edit_claim_destinations"
+        android:gravity="center_vertical"
+        android:text="@string/destinations" />
 
 </RelativeLayout>

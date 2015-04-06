@@ -145,13 +145,13 @@
         android:layout_alignParentTop="true" >
 
         <TextView
-            android:id="@+id/edit_claim_fromTV"
+            android:id="@+id/new_claim_fromTV"
             android:layout_weight="1"
             style="@style/TextFontMedium"
             android:text="@string/from" />
 
         <TextView
-            android:id="@+id/edit_claim_toTV"
+            android:id="@+id/new_claim_toTV"
             android:layout_weight="1"
             style="@style/TextFontMedium"
             android:text="@string/to" />

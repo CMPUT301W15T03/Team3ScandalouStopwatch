@@ -67,7 +67,10 @@
     <string name="date_hint">MM/DD/YYYY</string>
     <string name="from">From:</string>
     <string name="to">To:</string>
-
+    <string name="save">Save</string>
+	<string name="cancel">Cancel</string>
+	<string name="send_claim">Send Claim</string>
+    
     <string-array name="claim_menu">
         <item>Edit/View Claim</item>
         <item>List Expenses for Claim</item>
