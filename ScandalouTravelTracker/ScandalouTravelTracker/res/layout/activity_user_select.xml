@@ -2,33 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#263238" >
+    android:background="#263238"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
 
     <ListView
         android:id="@+id/userSelectUsersLV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/userSelectCreateUserButton"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/userSelectCurrentUsersTV"
         android:divider="@drawable/list_view_divider"
         android:dividerHeight="3.5dp" >
+
     </ListView>
 
     <Button
         android:id="@+id/userSelectCreateUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_margin="5dp"
-        android:textColor="#F2F2F2"
-        android:text="@string/create_user_text" />
+        android:text="@string/create_user_text"
+        android:textColor="#F2F2F2" />
 
     <TextView
         android:id="@+id/userSelectCurrentUsersTV"
-    	style="@style/TextFontLarge"
-        android:layout_below="@+id/userSelectCreateUserButton"
+        style="@style/TextFontLarge"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="@string/current_users_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />

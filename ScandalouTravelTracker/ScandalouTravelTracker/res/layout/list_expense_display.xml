@@ -11,9 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="3dp"
         android:layout_below="@+id/expenseUpperLayout"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/expenseTotalsExpenseListTV"
         android:text="@string/expense_description_text_filler"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#EEEEEE" />
@@ -70,11 +71,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:layout_marginBottom="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/expenseDateExpenseListTV"
             android:text="@string/expense_category_text_filler"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF" />
+
     </RelativeLayout>
 
     <!-- Layout containing the ImageViews for attachments/flag to the expense -->
