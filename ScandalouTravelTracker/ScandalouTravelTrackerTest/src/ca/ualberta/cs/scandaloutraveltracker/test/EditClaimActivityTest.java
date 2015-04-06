@@ -26,6 +26,8 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -46,9 +48,8 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	Instrumentation instrumentation;
 	EditClaimActivity activity;
 	ClaimController cc;
-	Button subButton;
 	Button updateButton;
-	Button addTagButton;
+	ImageButton addTagButton;
 	ImageButton addDestButton;
 	Toast testToast;
 	TextView tagsTV;
@@ -90,7 +91,6 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		instrumentation = getInstrumentation();
 		activity = getActivity();
 		
-		subButton = (Button) activity.findViewById(R.id.edit_claim_send);
 		startDateET = (EditText) activity.findViewById(R.id.appr_edit_claim_start_date);
 		endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
 		destinationsLV = (ListView) activity.findViewById(R.id.edit_claim_destinations);
@@ -98,7 +98,7 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		updateButton = (Button) activity.findViewById(R.id.edit_claim_update);
 		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
 		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
-		addTagButton = (Button)activity.findViewById(R.id.edit_claim_add_tag);
+		addTagButton = (ImageButton)activity.findViewById(R.id.edit_claim_add_tag);
 	}
 	
 	// Tests that the mock claim has all its data properly displayed in the
@@ -157,12 +157,8 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	// a claim that has a flagged expense
 	// US07.02.01
 	public void testFlagWarning() {
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				subButton.performClick();
-			}
-		});
+		instrumentation.invokeMenuActionSync(activity, 
+				ca.ualberta.cs.scandaloutraveltracker.R.id.action_send_claim, 0);
 		getInstrumentation().waitForIdleSync();
 		
 		AlertDialog alert = activity.getAlertDialog();
@@ -189,10 +185,13 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 	    });
 	    getInstrumentation().waitForIdleSync();
 	    
+	    Menu menu = activity.getOptionsMenu();
+	    MenuItem send = menu.findItem(R.id.action_send_claim);
+	    
 		assertEquals(3, activity.getToastCount());
 		assertFalse(updateButton.isShown());
 		assertFalse(addDestButton.isShown());
-		assertFalse(subButton.isShown());
+		assertFalse(send.isVisible());
 		cg.resetState(ClaimApplication.getContext());
 	}
 	
@@ -221,7 +220,13 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		}
 		
 		// Adding a tag to the list and asserting the size increased
-		performClick(addTagButton);
+		getInstrumentation().runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				addTagButton.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
 		alert = activity.getAlertDialog();
 		assertTrue(alert.isShowing());
 		
@@ -290,11 +295,10 @@ public class EditClaimActivityTest extends ActivityInstrumentationTestCase2<Edit
 		startDateET = (EditText) activity.findViewById(R.id.appr_edit_claim_start_date);
 		endDateET = (EditText) activity.findViewById(R.id.edit_claim_end_date);
 		descriptionET = (EditText) activity.findViewById(R.id.edit_claim_descr);
-		subButton = (Button) activity.findViewById(R.id.edit_claim_send);
 		updateButton = (Button) activity.findViewById(R.id.edit_claim_update);
 		addDestButton = (ImageButton) activity.findViewById(R.id.edit_claim_new_destination);
 		tagsTV = (TextView) activity.findViewById(R.id.edit_claim_tags);
-		addTagButton = (Button)activity.findViewById(R.id.edit_claim_add_tag);
+		addTagButton = (ImageButton)activity.findViewById(R.id.edit_claim_add_tag);
 		cg.resetState(ClaimApplication.getContext());
 	}
 

@@ -91,6 +91,7 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	private SpannableString spannableString;
 	private ArrayList<IntegerPair> indices;
 	private int toastsShown;
+	private Menu optionsMenu;
 	
 	private Date startDate;
 	private Date endDate;
@@ -153,6 +154,14 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	 * 	on item click listener for the tags being displayed.
 	 */
 	private void setButtons() {
+		// Cancel button
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
         // startDate dialog picker
 		startDateDisplay.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -404,12 +413,6 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 				alertDialog.show();
 			}
 		});
-		cancelButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
 	}
 	
 	/**
@@ -420,6 +423,14 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.edit_claim, menu);
+		MenuItem sendClaim = menu.findItem(R.id.action_send_claim);
+		if (claimController.getStatus().equals(Constants.statusInProgress)) {
+			sendClaim.setVisible(true);
+		} else {
+			sendClaim.setVisible(false);
+		}
+		
+		optionsMenu = menu;
 		return true;
 	}
 	
@@ -765,6 +776,15 @@ public class EditClaimActivity extends Activity implements ViewInterface {
 	 */
 	public int getToastCount() {
 		return toastsShown;
+	}
+	
+	/**
+	 * Used for testing that the send option is visible when it should
+	 * and shouldn't be
+	 * @return Current options menu
+	 */
+	public Menu getOptionsMenu() {
+		return optionsMenu;
 	}
 	
 }
