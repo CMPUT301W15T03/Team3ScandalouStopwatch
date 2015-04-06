@@ -41,7 +41,7 @@ public class Constants {
 	
 	// Misc.
 	public final static String dateFormat = "M/d/yyyy";
-	public static final long MAX_PHOTO_SIZE = 5*1024*1024; // 5 MB	
+	public static final long MAX_PHOTO_SIZE = 65536; // 64 KB	
 	
 	// Modes for the ClaimList
 	public final static String APPROVER_MODE = "approver";

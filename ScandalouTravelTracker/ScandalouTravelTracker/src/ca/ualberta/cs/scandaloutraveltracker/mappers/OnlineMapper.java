@@ -27,6 +27,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.SyncQueueItem;
 
 import com.google.gson.Gson;
@@ -53,15 +54,23 @@ public class OnlineMapper {
 	}
 
 	public void save(String filename, Object data){
-		delete(filename);		
-		
-		Thread saveThread = new SaveThread(filename, data);
-		saveThread.start();
+		if (Constants.CONNECTIVITY_STATUS == true){
+			delete(filename);		
+			
+			Thread saveThread = new SaveThread(filename, data);
+			saveThread.start();
+		} else {
+			saveWhenConnected(filename, data);
+		}
 	}
 	
 	public void delete(String filename){
-		Thread deleteThread = new DeleteThread(filename);
-		deleteThread.start();
+		if (Constants.CONNECTIVITY_STATUS == true){
+			Thread deleteThread = new DeleteThread(filename);
+			deleteThread.start();
+		} else {
+			deleteWhenConnected(filename);
+		}
 	}
 	
 	public void sync(){

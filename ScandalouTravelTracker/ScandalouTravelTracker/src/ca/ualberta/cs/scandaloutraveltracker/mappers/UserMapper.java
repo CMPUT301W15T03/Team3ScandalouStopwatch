@@ -26,6 +26,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Location;
 
+import ca.ualberta.cs.scandaloutraveltracker.models.User;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -40,6 +42,7 @@ import com.google.gson.reflect.TypeToken;
 public class UserMapper {
 
 	private Context context;
+	OnlineMapper onlineMapper;
 	
 	/**
 	 * UserMapper needs the context to run
@@ -47,6 +50,7 @@ public class UserMapper {
 	 */
 	public UserMapper(Context context){
 		this.context = context;
+		onlineMapper = new OnlineMapper(context);
 	}
 	
 	public int createUser(String name){
@@ -56,7 +60,14 @@ public class UserMapper {
 		saveUserData(userId, "id", userId);
 		saveUserData(userId, "name", name);
 		
+		saveOnline(userId);
+		
 		return userId;
+	}
+	
+	public void updateLocation(int userId, Location location){	
+		saveUserData(userId, "location", location);
+		saveOnline(userId);
 	}
 	
 	/**
@@ -90,7 +101,7 @@ public class UserMapper {
 	 */
 	public void saveUserData(int userId, String key, Object data){
 		
-		SharedPreferences userFile = this.context.getSharedPreferences("user"+Integer.toString(userId), 0);
+		SharedPreferences userFile = this.context.getSharedPreferences(getUserFileName(userId), 0);
 		Editor editor = userFile.edit();		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Location.class, new LocationDeserializer());
@@ -119,7 +130,7 @@ public class UserMapper {
 	public Object loadUserData(int userId, String key){
 		
 		Object data = 0;
-		SharedPreferences userFile = this.context.getSharedPreferences("user"+Integer.toString(userId), 0);
+		SharedPreferences userFile = this.context.getSharedPreferences(getUserFileName(userId), 0);
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Location.class, new LocationDeserializer());
 		gsonBuilder.registerTypeAdapter(Location.class, new LocationSerializer());
@@ -147,19 +158,31 @@ public class UserMapper {
 		SharedPreferences userFile;
 		Editor editor;
 		
-		userFile = this.context.getSharedPreferences("user"+Integer.toString(userId), 0);
+		userFile = this.context.getSharedPreferences(getUserFileName(userId), 0);
 		
 		editor = userFile.edit();
 		editor.clear();
 		editor.commit();
+		
+		deleteOnline(userId);
+	}
+	
+	private void saveOnline(int userId){
+		onlineMapper.save(getUserFileName(userId), new User(userId));
+	}
+	
+	private void deleteOnline(int userId){
+		onlineMapper.delete(getUserFileName(userId));
+	}
+	
+	private String getUserFileName(int userId){
+		return "user"+Integer.toString(userId);
 	}	
 	
 }
 
-//http://stackoverflow.com/questions/13944346/runtimeexception-in-gson-parsing-json-failed-to-invoke-protected-java-lang-clas
-//03/26/2015
-class LocationSerializer implements JsonSerializer<Location>
-{
+// http://stackoverflow.com/questions/13944346/runtimeexception-in-gson-parsing-json-failed-to-invoke-protected-java-lang-clas, 03/26/2015
+class LocationSerializer implements JsonSerializer<Location> {
 	@Override
 	public JsonElement serialize(Location location, Type arg1,
 			JsonSerializationContext arg2) {
@@ -175,8 +198,7 @@ class LocationSerializer implements JsonSerializer<Location>
 
 }
 
-class LocationDeserializer implements JsonDeserializer<Location>
-{
+class LocationDeserializer implements JsonDeserializer<Location> {
 	@Override
 	public Location deserialize(JsonElement element, Type arg1,
 			JsonDeserializationContext jdc) throws JsonParseException {
