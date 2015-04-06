@@ -306,252 +306,86 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		});
 	}
 	
+	/**
+	 * Builds the claim options with options for the approver
+	 * @param builder The builder that has built the base of the alert dialog
+	 * @param claimId The claim's Id
+	 * @param claimPos The claim's position within
+	 */
 	private void buildApproversOption(AlertDialog.Builder builder, final int claimId, final long claimPos) {
 		builder.setItems(R.array.claim_menu_approver, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-         	   //when view claim is pressed
-         	   if (which == 0){ 
-         		   Intent intent = new Intent(ClaimListActivity.this, EditClaimActivity.class);
-         		   intent.putExtra(Constants.claimIdLabel, claimId);
-         		   startActivity(intent);
-         	   }
-         	   //when view expenses is pressed
-         	   else if (which == 1){
-         		   Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
-					   intent.putExtra(Constants.claimIdLabel, claimId);
-					   startActivity(intent);
-         	   }
+          	   //when edit/view claim is pressed
+          	   if (which == 0){ 
+          		   viewClaimPressed(claimId);
+          	   }
+          	   //when list expenses is pressed
+          	   else if (which == 1){
+          		   viewExpensesForClaimPressed(claimId);
+          	   }
          	   //when rejecting/approving claim is pressed
          	   else if (which == 2) {
-         		   statusTemp = -1;
-         		   if (currentUser.getMode() == 0) {
-         			   Toast.makeText(getApplicationContext(), 
-     					   		 "Can only change claim status in approver mode!", 
-     					   		  Toast.LENGTH_SHORT).show();
-         		   }
-         		   if (currentUser.getMode() == 1) {
-         			   if (!(new Claim(claimId).getApproverName().equals(""))) {
-         				   if (!new Claim(claimId).getApproverName().equals(currentUser.getName())) {
-         					   Toast.makeText(getApplicationContext(), "Only " + new Claim(claimId).getApproverName() 
-         							   + " is allowed to change the status of this claim",Toast.LENGTH_LONG).show();
-         					   return;
-         				   }
-         			   }
-         			   final EditText input = new EditText(ClaimListActivity.this);
-         			   input.setHint("Add comment here");
-         			   input.setLines(10);
-         			   AlertDialog.Builder b = new AlertDialog.Builder(ClaimListActivity.this);
-         			   b.setTitle("Change Claim Status")
-         			   .setCancelable(true)
-         			   .setView(input)
-         			   .setSingleChoiceItems(R.array.approver_choices, -1, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								if (which == 0) {
-									statusTemp = 0;
-								}
-								if (which == 1) {
-									statusTemp = 1;
-								}
-							}
-         			   	})
-         			   	.setPositiveButton("Cancel", new OnClickListener() {
-								
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									return;
-								}
-							})
-							.setNegativeButton("Confirm", null)
-         			   	;
-         			   	final AlertDialog alert = b.create();
-         			   	alert.show();  
-         			   	//http://stackoverflow.com/questions/2620444/how-to-prevent-a-dialog-from-closing-when-a-button-is-clicked 2015-03-28
-         			   	alert.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
-								
-								@Override
-								public void onClick(View v) {
-									ClaimController claimController = new ClaimController(new Claim(claimId));
-									if (statusTemp == -1) {
-										Toast.makeText(getApplicationContext(), "You need to pick a status to change the claim to"
-												,Toast.LENGTH_SHORT).show();
-										alert.show();
-										return;
-									}
-									Editable value = input.getText();
-									if (value.toString().equals("")) {
-										input.setError("A comment needs to be included");
-										input.requestFocus();
-										alert.show();
-										return;
-									}
-									// Change the claim status to Approved
-									if (statusTemp == 0) {
-										claimController.approveClaim(currentUser.getName(), value.toString(), claimId);
-									}
-									// Change the claim status to Returned
-									else if (statusTemp == 1) {
-										claimController.returnClaim(currentUser.getName(), value.toString(), claimId);
-									}
-									// should never reach this, just in case
-									else {
-										try {
-											throw new Exception();
-										} catch (Exception e) {
-											throw new RuntimeException(e);
-										}
-									}
-									claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
-									claimListController.addView(ClaimListActivity.this);
-									claimListController.sortLastFirst();
-									claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
-									claimsListView.setAdapter(claimListAdapter);
-									update();
-									alert.dismiss();
-								}
-							});
-         		   }   
+         		   rejectOrApproveClaim(claimId); 
          	   }
             }
 		});
 	}
 	
+	/**
+	 * Builds the default claim options
+	 * @param builder The builder that has built the base of the alert dialog
+	 * @param claimId The claim's Id
+	 * @param claimPos The claim's position within
+	 */
 	private void buildNoCommentsOption(AlertDialog.Builder builder, final int claimId, final long claimPos) {
 		builder.setItems(R.array.claim_menu_claimant_no_comment, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
          	   //when edit/view claim is pressed
          	   if (which == 0){ 
-         		   Intent intent = new Intent(ClaimListActivity.this, EditClaimActivity.class);
-         		   intent.putExtra(Constants.claimIdLabel, claimId);
-         		   startActivity(intent);
+         		   viewClaimPressed(claimId);
          	   }
          	   //when list expenses is pressed
          	   else if (which == 1){
-         		   Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
-					   intent.putExtra(Constants.claimIdLabel, claimId);
-					   startActivity(intent);
+         		   viewExpensesForClaimPressed(claimId);
          	   }
          	   //when add expense is pressed
          	   else if(which == 2){
-         		   Claim currentClaim = claimListController.getClaim((int)claimPos);
-         		   
-         		   // If/Else Checks if the Claim can actually be edited
-         		   if (currentClaim.getCanEdit()) {
-         			   Intent intent = new Intent(ClaimListActivity.this, NewExpenseActivity.class);
-						   intent.putExtra(Constants.claimIdLabel, claimId);
-	            		   startActivity(intent);
-         		   }
-         		   else {
-         			   Toast.makeText(getApplicationContext(), 
-         					   		  currentClaim.getStatus() + " claims can not be edited.", 
-         					   		  Toast.LENGTH_SHORT).show();
-         		   }
+         		   addExpenseToClaimPressed(claimPos, claimId);
          	   }
          	   //when delete claim is pressed
          	   else if (which == 3){
-         		   Claim currentClaim = claimListController.getClaim((int)claimPos);
-         		   
-         		   // If/Else Checks if the Claim can actually be edited
-         		   if (currentClaim.getCanEdit()) {
-         			   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
-	            		   builder.setMessage("This will delete the claim and the corresponding expenses. Are you sure?")
-	            		   		.setCancelable(true)
-	            		   .setPositiveButton("No", new DialogInterface.OnClickListener() {
-	                           public void onClick(DialogInterface dialog, int id) {
-	                        	   
-	                           }
-	                       })
-	                       .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-	                           public void onClick(DialogInterface dialog, int id) {
-	                        	   
-	                        	   // Remove the claim from the list
-	                        	   claimListController.removeClaim(claimId);
-	                        	   // Delete the claim from storage
-	                        	   claimListController.deleteClaim(claimId);
-	                        	   
-	                        	   // Update ListView
-	                        	   update();
-	                           }
-	                       });
-	            		   deleteAlert = builder.create();
-	            		   deleteAlert.show();
-         		   }
-         		   else {
-         			   Toast.makeText(getApplicationContext(), 
-         					   		  currentClaim.getStatus() + " claims can not be edited.", 
-         					   		  Toast.LENGTH_SHORT).show();
-         		   }
+         		   deleteClaimSelected(claimId, claimPos);
          	   }
             }
 		});
 	}
 	
+	/**
+	 * Builds the claim options with an option to view the attached comment.
+	 * @param builder The builder that has built the base of the alert dialog
+	 * @param claimId The claim's Id
+	 * @param claimPos The claim's position within
+	 */
 	private void buildWithCommentsOption(AlertDialog.Builder builder, final int claimId, final long claimPos) {
 		builder.setItems(R.array.claim_menu_claimant_comment, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-         	   //when edit/view claim is pressed
-         	   if (which == 0){ 
-         		   Intent intent = new Intent(ClaimListActivity.this, EditClaimActivity.class);
-         		   intent.putExtra(Constants.claimIdLabel, claimId);
-         		   startActivity(intent);
-         	   }
-         	   //when list expenses is pressed
-         	   else if (which == 1){
-         		   Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
-					   intent.putExtra(Constants.claimIdLabel, claimId);
-					   startActivity(intent);
-         	   }
-         	   //when add expense is pressed
-         	   else if(which == 2){
-         		   Claim currentClaim = claimListController.getClaim((int)claimPos);
-         		   
-         		   // If/Else Checks if the Claim can actually be edited
-         		   if (currentClaim.getCanEdit()) {
-         			   Intent intent = new Intent(ClaimListActivity.this, NewExpenseActivity.class);
-						   intent.putExtra(Constants.claimIdLabel, claimId);
-	            		   startActivity(intent);
-         		   }
-         		   else {
-         			   Toast.makeText(getApplicationContext(), 
-         					   		  currentClaim.getStatus() + " claims can not be edited.", 
-         					   		  Toast.LENGTH_SHORT).show();
-         		   }
-         	   }
-         	   //when delete claim is pressed
-         	   else if (which == 3){
-         		   Claim currentClaim = claimListController.getClaim((int)claimPos);
-         		   
-         		   // If/Else Checks if the Claim can actually be edited
-         		   if (currentClaim.getCanEdit()) {
-         			   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
-	            		   builder.setMessage("This will delete the claim and the corresponding expenses. Are you sure?")
-	            		   		.setCancelable(true)
-	            		   .setPositiveButton("No", new DialogInterface.OnClickListener() {
-	                           public void onClick(DialogInterface dialog, int id) {
-	                        	   
-	                           }
-	                       })
-	                       .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-	                           public void onClick(DialogInterface dialog, int id) {
-	                        	   
-	                        	   // Remove the claim from the list
-	                        	   claimListController.removeClaim(claimId);
-	                        	   // Delete the claim from storage
-	                        	   claimListController.deleteClaim(claimId);
-	                        	   
-	                        	   // Update ListView
-	                        	   update();
-	                           }
-	                       });
-	            		   deleteAlert = builder.create();
-	            		   deleteAlert.show();
-         		   }
-         		   else {
-         			   Toast.makeText(getApplicationContext(), 
-         					   		  currentClaim.getStatus() + " claims can not be edited.", 
-         					   		  Toast.LENGTH_SHORT).show();
-         		   }
-         	   }
+
+          	   //when edit/view claim is pressed
+          	   if (which == 0){ 
+          		   viewClaimPressed(claimId);
+          	   }
+          	   //when list expenses is pressed
+          	   else if (which == 1){
+          		   viewExpensesForClaimPressed(claimId);
+          	   }
+          	   //when add expense is pressed
+          	   else if(which == 2){
+          		   addExpenseToClaimPressed(claimPos, claimId);
+          	   }
+          	   //when delete claim is pressed
+          	   else if (which == 3){
+          		   deleteClaimSelected(claimId, claimPos);
+          	   }
          	   //when view comments is pressed
          	   else if (which == 4) {
          		   ClaimListActivity.this.showCommentsDialog(claimPos);
@@ -561,6 +395,188 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 		});
 	}
 	
+	/**
+	 * Deletes the claim at the selected position of the claims list view
+	 * @param claimId The claim's Id
+	 * @param claimPos The claim's position within
+	 */
+	private void deleteClaimSelected(final int claimId, final long claimPos) {
+		Claim currentClaim = claimListController.getClaim((int)claimPos);
+		   
+		   // If/Else Checks if the Claim can actually be edited
+		   if (currentClaim.getCanEdit()) {
+			   AlertDialog.Builder builder = new AlertDialog.Builder(ClaimListActivity.this);
+     		   builder.setMessage("This will delete the claim and the corresponding expenses. Are you sure?")
+     		   		.setCancelable(true)
+     		   .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                 	   
+                    }
+                })
+                .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                 	   
+                 	   // Remove the claim from the list
+                 	   claimListController.removeClaim(claimId);
+                 	   // Delete the claim from storage
+                 	   claimListController.deleteClaim(claimId);
+                 	   
+                 	   // Update ListView
+                 	   update();
+                    }
+                });
+     		   deleteAlert = builder.create();
+     		   deleteAlert.show();
+		   }
+		   else {
+			   Toast.makeText(getApplicationContext(), 
+					   		  currentClaim.getStatus() + " claims can not be edited.", 
+					   		  Toast.LENGTH_SHORT).show();
+		   }
+	}
+	
+	/**
+	 * View the claim at the selected position of the claims list view
+	 * @param claimId The claim's Id
+	 * @param claimPos The claim's position within
+	 */
+	private void viewClaimPressed(int claimId) {
+		Intent intent = new Intent(ClaimListActivity.this, EditClaimActivity.class);
+		intent.putExtra(Constants.claimIdLabel, claimId);
+		startActivity(intent);
+	}
+	
+	/**
+	 * Shows expenses for the claim at the selected position of the claims list view
+	 * @param claimId The claim's Id
+	 * @param claimPos The claim's position within
+	 */
+	private void viewExpensesForClaimPressed(int claimId) {
+		Intent intent = new Intent(ClaimListActivity.this, ExpenseListActivity.class);
+	    intent.putExtra(Constants.claimIdLabel, claimId);
+	    startActivity(intent);
+	}
+	
+	/**
+	 * Adds an expense to the claim selected from the listview.
+	 * @param claimId The claim's Id
+	 * @param claimPos The claim's position within
+	 */
+	private void addExpenseToClaimPressed(final long claimPos, int claimId) {
+	    Claim currentClaim = claimListController.getClaim((int)claimPos);
+	   
+	    // If/Else Checks if the Claim can actually be edited
+	    if (currentClaim.getCanEdit()) {
+		    Intent intent = new Intent(ClaimListActivity.this, NewExpenseActivity.class);
+		 	intent.putExtra(Constants.claimIdLabel, claimId);
+ 		    startActivity(intent);
+	   }
+	   else {
+		   Toast.makeText(getApplicationContext(), 
+				   		  currentClaim.getStatus() + " claims can not be edited.", 
+				   		  Toast.LENGTH_SHORT).show();
+	   }
+	}
+	
+	/**
+	 * Allows the approver to reject or approve the claim associated with the claimId passed
+	 * @param claimId The claim's Id
+	 */
+	private void rejectOrApproveClaim(final int claimId) {
+	   statusTemp = -1;
+	   if (currentUser.getMode() == 0) {
+		   Toast.makeText(getApplicationContext(), 
+			   		 "Can only change claim status in approver mode!", 
+			   		  Toast.LENGTH_SHORT).show();
+	   }
+	   if (currentUser.getMode() == 1) {
+		   if (!(new Claim(claimId).getApproverName().equals(""))) {
+			   if (!new Claim(claimId).getApproverName().equals(currentUser.getName())) {
+				   Toast.makeText(getApplicationContext(), "Only " + new Claim(claimId).getApproverName() 
+						   + " is allowed to change the status of this claim",Toast.LENGTH_LONG).show();
+				   return;
+			   }
+		   }
+		   final EditText input = new EditText(ClaimListActivity.this);
+		   input.setHint("Add comment here");
+		   input.setLines(10);
+		   AlertDialog.Builder b = new AlertDialog.Builder(ClaimListActivity.this);
+		   b.setTitle("Change Claim Status")
+		   .setCancelable(true)
+		   .setView(input)
+		   .setSingleChoiceItems(R.array.approver_choices, -1, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (which == 0) {
+						statusTemp = 0;
+					}
+					if (which == 1) {
+						statusTemp = 1;
+					}
+				}
+		   	})
+		   	.setPositiveButton("Cancel", new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						return;
+					}
+				})
+				.setNegativeButton("Confirm", null)
+		   	;
+		   	final AlertDialog alert = b.create();
+		   	alert.show();  
+		   	//http://stackoverflow.com/questions/2620444/how-to-prevent-a-dialog-from-closing-when-a-button-is-clicked 2015-03-28
+		   	alert.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						ClaimController claimController = new ClaimController(new Claim(claimId));
+						if (statusTemp == -1) {
+							Toast.makeText(getApplicationContext(), "You need to pick a status to change the claim to"
+									,Toast.LENGTH_SHORT).show();
+							alert.show();
+							return;
+						}
+						Editable value = input.getText();
+						if (value.toString().equals("")) {
+							input.setError("A comment needs to be included");
+							input.requestFocus();
+							alert.show();
+							return;
+						}
+						// Change the claim status to Approved
+						if (statusTemp == 0) {
+							claimController.approveClaim(currentUser.getName(), value.toString(), claimId);
+						}
+						// Change the claim status to Returned
+						else if (statusTemp == 1) {
+							claimController.returnClaim(currentUser.getName(), value.toString(), claimId);
+						}
+						// should never reach this, just in case
+						else {
+							try {
+								throw new Exception();
+							} catch (Exception e) {
+								throw new RuntimeException(e);
+							}
+						}
+						claimListController = new ClaimListController(currentUser, Constants.APPROVER_MODE);
+						claimListController.addView(ClaimListActivity.this);
+						claimListController.sortLastFirst();
+						claimListAdapter = new ClaimListAdapter(ClaimListActivity.this, claimListController.getClaimList(), true);
+						claimsListView.setAdapter(claimListAdapter);
+						update();
+						alert.dismiss();
+					}
+				});
+	   }  
+	}
+	
+	/**
+	 * Shows the comments dialog for the selected claim in the list view. 
+	 * @param claimPos The claim's position within
+	 */
 	private void showCommentsDialog(final long claimPos) {
 		int currentClaimId = claimListController.getClaim((int)claimPos).getId();
 		ClaimController cc = new ClaimController(new Claim(currentClaimId));
