@@ -140,7 +140,7 @@ public class ClaimMapper {
 	 */
 	public void updateExpenses(int claimId, ArrayList<Expense> expenses){
 		saveClaimData(claimId, "expenses", expenses);
-		//saveOnline(claimId); Leave this commented out until Abram confirms whether pushing a base64-encoded picture to the server is ok
+		saveOnline(claimId);
 	}	
 	
 	/**
