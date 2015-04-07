@@ -175,7 +175,7 @@ public class UserMapper {
 		onlineMapper.delete(getUserFileName(userId));
 	}
 	
-	private String getUserFileName(int userId){
+	public String getUserFileName(int userId){
 		return "user"+Integer.toString(userId);
 	}	
 	

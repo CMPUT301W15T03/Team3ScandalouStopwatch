@@ -337,7 +337,7 @@ public class ClaimMapper {
 		onlineMapper.delete(getClaimFileName(claimId));
 	}
 	
-	private String getClaimFileName(int claimId){
+	public String getClaimFileName(int claimId){
 		return "claim"+Integer.toString(claimId);
 	}
 	

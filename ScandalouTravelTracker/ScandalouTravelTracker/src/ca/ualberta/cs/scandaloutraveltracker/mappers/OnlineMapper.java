@@ -52,6 +52,10 @@ public class OnlineMapper {
 		syncQueue = syncQueueMapper.loadSyncQueue();
 		if (syncQueue == null) syncQueue = new LinkedList<SyncQueueItem>();
 	}
+	
+	public String getResourceURL(){
+		return RESOURCE_URL;
+	}
 
 	public void save(String filename, Object data){
 		if (Constants.CONNECTIVITY_STATUS == true){
@@ -181,7 +185,7 @@ public class OnlineMapper {
 
 		} catch (Exception e) {
 			//Log.d("Test1", "exception called");
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	/**
@@ -197,7 +201,8 @@ public class OnlineMapper {
 
 			HttpResponse response = httpClient.execute(deleteRequest);
 			String status = response.getStatusLine().toString();
-			Log.d("SaveFile", status);
+			
+			//Log.d("SaveFile", status);
 
 		} catch (Exception e) {
 			e.printStackTrace();
