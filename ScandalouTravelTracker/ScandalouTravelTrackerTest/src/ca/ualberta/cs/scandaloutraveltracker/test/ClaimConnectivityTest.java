@@ -21,18 +21,15 @@ package ca.ualberta.cs.scandaloutraveltracker.test;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
+import junit.framework.TestCase;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import ca.ualberta.cs.scandaloutraveltracker.ClaimApplication;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
@@ -40,7 +37,8 @@ import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.mappers.OnlineMapper;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 
-import junit.framework.TestCase;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class ClaimConnectivityTest extends TestCase {
 	
