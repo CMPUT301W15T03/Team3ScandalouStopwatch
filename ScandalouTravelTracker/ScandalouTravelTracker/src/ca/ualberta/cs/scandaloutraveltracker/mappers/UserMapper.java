@@ -196,7 +196,7 @@ public class UserMapper {
 
 // http://stackoverflow.com/questions/13944346/runtimeexception-in-gson-parsing-json-failed-to-invoke-protected-java-lang-clas, 03/26/2015
 /**
- * Helps to seralize a Location object so it can be saved in sharedpreferences
+ * Helps to serialize a Location object so it can be saved in sharedpreferences
  * @author Team3ScandalouStopwatch
  *
  */
@@ -217,7 +217,7 @@ class LocationSerializer implements JsonSerializer<Location> {
 }
 
 /**
- * Helpts to deserialize a location that was serialized and stored in sharedpreferences
+ * Helps to deserialize a location that was serialized and stored in sharedpreferences
  * @author Team3ScandalouStopwatch
  *
  */

@@ -34,7 +34,7 @@ public class ExpenseController {
 	private Expense currentExpense;
 	
 	/**
-	 * ExpenseController needs the expense it is to edit as a paramter.
+	 * ExpenseController needs the expense it is to edit as a parameter.
 	 * @param currentExpense
 	 */
 	public ExpenseController(Expense currentExpense) {
@@ -150,14 +150,14 @@ public class ExpenseController {
 	
 	/**
 	 * 
-	 * @return String that is a path to the photo
+	 * @return Receipt photo as an encoded string
 	 */
 	public String getReceiptPhoto() {
 		return currentExpense.getReceiptPhoto();
 	}
 	
 	/**
-	 * Set the string where the receipt photo is stored
+	 * Set the receipt photo as an encoded string
 	 * @param receipt
 	 */
 	public void setReceiptPhoto(String receiptPhoto) {

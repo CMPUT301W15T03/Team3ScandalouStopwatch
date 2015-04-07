@@ -43,24 +43,25 @@ public class ReceiptController {
 	}
 	
 	/**
-	 * Get the receipt photo's path
-	 * @return String that is the path to the receipt photo
+	 * Get the receipt photo as an encoded string
+	 * @return String that is the encoded receipt photo
 	 */
 	public String getReceiptPhoto(){
 		return receipt.getReceiptPhoto();
 	}	
 	
 	/**
-	 * Saves the receipt file given the receiptPath
-	 * @param receiptPath is the location where you want to save the photo
+	 * Saves the receipt file given the receiptPhoto
+	 * @param receiptPhoto is an encoded string representing the receipt photo
 	 */
-	public void saveReceiptPhoto(String receiptPath) {
-		receipt.saveReceiptPhoto(receiptPath);
+	public void saveReceiptPhoto(String receiptPhoto) {
+		receipt.saveReceiptPhoto(receiptPhoto);
 	}
 	
 	/**
-	 * Clears the receipt file of the receipt that is passed to the controller
-	 * upon construction. The receipt will be empty after this command.
+	 * Clears all the receipt photo files that were uploaded during an instance
+	 * of creating/editing an expense (the receipt photo to be kept, if any,
+	 * gets encoded as a string and saved as that string)
 	 */
 	public void clearReceiptFiles(){
 		File tempReceiptFolderFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/receipts_working");

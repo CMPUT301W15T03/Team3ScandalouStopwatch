@@ -43,7 +43,7 @@ public class UserListMapper {
 	}	
 	
 	/**
-	 * 
+	 * Load all the users saved on the app
 	 * @return List of all the saved users
 	 */
 	public ArrayList<User> loadUsers(){

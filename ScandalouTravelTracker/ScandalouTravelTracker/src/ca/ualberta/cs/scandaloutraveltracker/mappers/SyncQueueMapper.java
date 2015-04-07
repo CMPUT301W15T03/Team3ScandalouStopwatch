@@ -30,7 +30,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * Load/Saves a queue of items that still need to be saved to the online server.
+ * Persistently saves a queue of changes that still need to be saved to the online server,
+ * for when local changes were made without an internet connection
  * @author Team3ScandalouStopwatch
  *
  */
@@ -47,9 +48,10 @@ public class SyncQueueMapper {
 	}
 	
 	/**
-	 * Given the passed syncQueue, will update the queue with what is passed
+	 * Saves changes to the queue
 	 * @param syncQueue that you wish to be the new syncQueue
 	 */
+	@SuppressWarnings("rawtypes")
 	public void updateSyncQueue(LinkedList syncQueue){
 		
 		SharedPreferences syncQueueFile = this.context.getSharedPreferences("syncQueue", 0);
@@ -66,6 +68,7 @@ public class SyncQueueMapper {
 	 * Loads the claims that still need to be synced to the online server
 	 * @return LinkedList of items tha need to be synced
 	 */
+	@SuppressWarnings("rawtypes")
 	public LinkedList loadSyncQueue(){
 		
 		LinkedList syncQueue;

@@ -192,8 +192,9 @@ public class ClaimController {
 	}
 	
 	/**
-	 * 
-	 * @param expense
+	 * Adds the expense to the claim's list of expenses. 
+	 * @param i
+	 * @param e
 	 */
 	public void addExpense(Expense expense) throws UserInputException {
 		
@@ -243,7 +244,7 @@ public class ClaimController {
 	}
 	
 	/**
-	 * Updates the claim with the paramters passed.
+	 * Updates the claim with the parameters passed.
 	 * @param startDate
 	 * @param endDate
 	 * @param description
@@ -258,7 +259,7 @@ public class ClaimController {
 	}	
 	
 	/**
-	 * Updates the expense (e) located at position i. 
+	 * Updates the expense (e) located at position i in the claim's list of expenses. 
 	 * @param i
 	 * @param e
 	 */

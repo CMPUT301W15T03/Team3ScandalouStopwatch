@@ -108,7 +108,7 @@ public class ClaimListController {
 	}	
 	
 	/**
-	 * Creates a new claim.
+	 * Save a new claim in persistent storage
 	 * @param name
 	 * @param startDate
 	 * @param endDate
@@ -132,7 +132,7 @@ public class ClaimListController {
 	}
 	
 	/**
-	 * Deletes the claim from storage
+	 * Deletes the claim indexed by claimId from storage
 	 * @param claimId
 	 */
 	public void deleteClaim(int claimId){
@@ -140,7 +140,7 @@ public class ClaimListController {
 	}	
 	
 	/**
-	 * 
+	 * Adds the claim to the list
 	 * @param claim
 	 */
 	public void addClaim(Claim claim) {
@@ -158,7 +158,7 @@ public class ClaimListController {
 	/**
 	 * 
 	 * @param position
-	 * @return
+	 * @return claim located at the given position in the list
 	 */
 	public Claim getClaim(int position) {
 		return claimList.getClaim(position);
@@ -166,7 +166,7 @@ public class ClaimListController {
 	
 	/**
 	 * 
-	 * @return
+	 * @return List of claims
 	 */
 	public ClaimList getClaimList() {
 		return claimList;
@@ -203,7 +203,7 @@ public class ClaimListController {
 	}
 	
 	/**
-	 * Deletes all of the claims associated with the passed userId.
+	 * Deletes all of the claims associated with the passed userId from persistent storage.
 	 * @param userId Id of user whose claims you wish to delete
 	 */
 	public void deleteUserClaims(int userId) {

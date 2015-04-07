@@ -28,7 +28,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * ClaimListMapper loads all the claims in the list using ClaimMapper.
+ * ClaimListMapper loads all the claims in the list using ClaimMapper (i.e. from persistent storage).
  * @author Team3ScandalouStopwatch
  *
  */
@@ -51,7 +51,7 @@ public class ClaimListMapper {
 	}
 
 	/**
-	 * 
+	 *  Loads all the claims on the app
 	 * @return List of all the saved claims
 	 */
 	public ArrayList<Claim> loadClaims(){
@@ -74,7 +74,7 @@ public class ClaimListMapper {
 	}	
 	
 	/**
-	 * 
+	 * Loads all the claims from a specified user
 	 * @param user whose claims you wish to load
 	 * @return ArrayList<Claim> that is associated with passed User
 	 */

@@ -33,14 +33,15 @@ import ca.ualberta.cs.scandaloutraveltracker.SyncQueueItem;
 
 import com.google.gson.Gson;
 
-// CITATION https://github.com/joshua2ua/AndroidElasticSearch, 2015-04-03
 /**
- * Helps save offline data onto the online server
+ * Saves local data online. Code for making server requests was
+ * inspired by https://github.com/joshua2ua/AndroidElasticSearch, 2015-04-03
  * @author Team3ScandalouStopwatch
  *
  */
 public class OnlineMapper {
 
+	@SuppressWarnings("unused")
 	private Context context;
 	private SyncQueueMapper syncQueueMapper;
 	private static LinkedList<SyncQueueItem> syncQueue;
@@ -53,6 +54,7 @@ public class OnlineMapper {
 	 * Constructor
 	 * @param context of application
 	 */
+	@SuppressWarnings("unchecked")
 	public OnlineMapper(Context context){
 		this.context = context;
 		syncQueueMapper = new SyncQueueMapper(context);
@@ -187,6 +189,7 @@ public class OnlineMapper {
 	class DeleteThread extends Thread {
 
 		private String filename;
+		@SuppressWarnings("unused")
 		private Object data;
 		
 		public DeleteThread (String filename){
@@ -210,6 +213,7 @@ public class OnlineMapper {
 	 * @param filename of file you wish to save
 	 * @param data that you wish to save
 	 */
+	@SuppressWarnings("unused")
 	public void saveFile(String filename, Object data) {
 		HttpClient httpClient = new DefaultHttpClient();
 		try {
@@ -236,6 +240,7 @@ public class OnlineMapper {
 	 * @param filename of file you wish to delete
 	 * @param data that you wish to delete
 	 */
+	@SuppressWarnings("unused")
 	public void deleteFile(String filename) {
 		HttpClient httpClient = new DefaultHttpClient();
 

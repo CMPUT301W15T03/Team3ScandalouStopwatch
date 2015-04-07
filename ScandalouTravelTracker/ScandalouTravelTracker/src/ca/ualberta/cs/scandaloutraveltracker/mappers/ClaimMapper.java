@@ -33,7 +33,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * The ClaimMapper helps us save all the data related to a claim. 
+ * The ClaimMapper helps us save all the data related to a claim persistently. 
  * @author Team3ScandalouStopwatch
  *
  */
@@ -164,12 +164,24 @@ public class ClaimMapper {
 		saveClaimData(claimId, "canEdit", canEdit);
 		saveOnline(claimId);
 	}
-	
+
+	/**
+	 * Updates the approver name.
+	 * @param claimId
+	 * @param status
+	 * @param canEdit
+	 */	
 	public void changeApproverName(int claimId, String approverName) {
 		saveClaimData(claimId, "approverName", approverName);
 		saveOnline(claimId);		
 	}
 
+	/**
+	 * Updates the comments.
+	 * @param claimId
+	 * @param status
+	 * @param canEdit
+	 */	
 	public void updateComments(int claimId, ArrayList<String> comments) {
 		saveClaimData(claimId, "approverComments", comments);
 		saveOnline(claimId);		

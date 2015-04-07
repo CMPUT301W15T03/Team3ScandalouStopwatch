@@ -71,7 +71,7 @@ public class Expense extends SModel {
 
 	/**
 	 * 
-	 * @param date Date the expense occurred
+	 * @param Date the expense occurred
 	 */
 	public void setDate(Date date) {
 		this.date = date;
