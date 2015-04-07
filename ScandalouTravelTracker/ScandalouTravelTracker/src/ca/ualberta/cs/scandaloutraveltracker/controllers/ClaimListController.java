@@ -24,7 +24,6 @@ import java.util.Comparator;
 import java.util.Date;
 
 import android.location.Location;
-import android.util.Log;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
@@ -52,16 +51,32 @@ public class ClaimListController {
 		claimList = new ClaimList();
 	}
 	
+	/**
+	 * Constructor that is used in getting a specific user's Claim List
+	 * @param user User whose Claim List you want
+	 */
 	public ClaimListController(User user) {
 		claimList = new ClaimList(user);
 	}
 	
+	/**
+	 * ClaimController constructor that is used for when you are viewing
+	 * the claims in Approver Mode.
+	 * @param user The current User that is logged in
+	 * @param mode The mode you wish to search in
+	 */
 	public ClaimListController(User user, String mode) {
 		if (mode.equals(Constants.APPROVER_MODE)) {
 			claimList = new ClaimList(user, mode);
 		}
 	}
 	
+	/**
+	 * ClaimController constructor that is used for searching for tags
+	 * @param user The current user whose claims you wish to search
+	 * @param mode The mode you are searching in (Tags Mode)
+	 * @param selectedTags An arraylist of tags that you wish to search
+	 */
 	public ClaimListController(User user, String mode, ArrayList<String> selectedTags) {
 		if (mode.equals(Constants.TAG_MODE)) {
 			claimList = new ClaimList(user, mode, selectedTags);
@@ -187,6 +202,10 @@ public class ClaimListController {
 		claimList.claims = temp;
 	}
 	
+	/**
+	 * Deletes all of the claims associated with the passed userId.
+	 * @param userId Id of user whose claims you wish to delete
+	 */
 	public void deleteUserClaims(int userId) {
 		claimList.deleteUserClaims(userId);
 	}

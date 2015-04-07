@@ -27,15 +27,18 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.content.Context;
 import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.SyncQueueItem;
 
 import com.google.gson.Gson;
 
-import android.content.Context;
-import android.util.Log;
-
 // CITATION https://github.com/joshua2ua/AndroidElasticSearch, 2015-04-03
+/**
+ * Helps save offline data onto the online server
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class OnlineMapper {
 
 	private Context context;
@@ -46,6 +49,10 @@ public class OnlineMapper {
 	private static int SAVE = 1;
 	private static int DELETE = 2;
 	
+	/**
+	 * Constructor
+	 * @param context of application
+	 */
 	public OnlineMapper(Context context){
 		this.context = context;
 		syncQueueMapper = new SyncQueueMapper(context);
@@ -53,10 +60,19 @@ public class OnlineMapper {
 		if (syncQueue == null) syncQueue = new LinkedList<SyncQueueItem>();
 	}
 	
+	/**
+	 * Gets the resource url for the online server
+	 * @return
+	 */
 	public String getResourceURL(){
 		return RESOURCE_URL;
 	}
 
+	/**
+	 * Saves the data to the server
+	 * @param filename of file you wish to save
+	 * @param data that you wish to save
+	 */
 	public void save(String filename, Object data){
 		if (Constants.CONNECTIVITY_STATUS == true){
 			delete(filename);		
@@ -68,6 +84,10 @@ public class OnlineMapper {
 		}
 	}
 	
+	/**
+	 * Deletes file associated with filename from the server
+	 * @param filename of file you wish to delete
+	 */
 	public void delete(String filename){
 		if (Constants.CONNECTIVITY_STATUS == true){
 			Thread deleteThread = new DeleteThread(filename);
@@ -77,6 +97,9 @@ public class OnlineMapper {
 		}
 	}
 	
+	/**
+	 * Syncs the local information with the information online
+	 */
 	public void sync(){
 		while (!syncQueue.isEmpty()){
 			SyncQueueItem item = syncQueue.remove();
@@ -90,6 +113,11 @@ public class OnlineMapper {
 		syncQueueMapper.updateSyncQueue(syncQueue);
 	}
 	
+	/**
+	 * Saves the local data to the online server when connected to the server
+	 * @param objectName of object you wish to save
+	 * @param object that you wish to save
+	 */
 	public void saveWhenConnected(String objectName, Object object){
 		int i = 0;
 		boolean old  = false;
@@ -106,6 +134,10 @@ public class OnlineMapper {
 		syncQueueMapper.updateSyncQueue(syncQueue);
 	}
 	
+	/**
+	 * Deletes the object associated with objectName when connected to the server
+	 * @param objectName of object you wish to delete
+	 */
 	public void deleteWhenConnected(String objectName){
 		int i = 0;
 		boolean old  = false;
@@ -121,7 +153,11 @@ public class OnlineMapper {
 		
 		syncQueueMapper.updateSyncQueue(syncQueue);
 	}	
-
+	
+	/**
+	 * Saves the current thread
+	 * @author Team3ScandalouStopwatch
+	 */
 	class SaveThread extends Thread {
 
 		private String filename;
@@ -144,6 +180,10 @@ public class OnlineMapper {
 		}
 	}
 	
+	/**
+	 * Deletes the current thread
+	 * @author Team3ScandalouStopwatch
+	 */
 	class DeleteThread extends Thread {
 
 		private String filename;
@@ -167,6 +207,8 @@ public class OnlineMapper {
 	
 	/**
 	 * Saves a file
+	 * @param filename of file you wish to save
+	 * @param data that you wish to save
 	 */
 	public void saveFile(String filename, Object data) {
 		HttpClient httpClient = new DefaultHttpClient();
@@ -188,8 +230,11 @@ public class OnlineMapper {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Deletes a file
+	 * @param filename of file you wish to delete
+	 * @param data that you wish to delete
 	 */
 	public void deleteFile(String filename) {
 		HttpClient httpClient = new DefaultHttpClient();

@@ -17,7 +17,6 @@ limitations under the License.
 */
 package ca.ualberta.cs.scandaloutraveltracker.controllers;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,9 +26,6 @@ import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
-
-import android.os.Environment;
-import android.view.View;
 
 /**
  *  The Claim Controller class is used for making changes to a Claim that
@@ -319,19 +315,6 @@ public class ClaimController {
 	 */
 	public void updateTags(ArrayList<String> tags){
 		currentClaim.updateTags(tags);	
-	}
-	
-	/**
-	 * 
-	 * @param comment
-	 * @param approverName
-	 * @param changeStatus
-	 */
-	public void addComment(String comment, String approverName, String changeStatus) {
-		String finalComment = approverName + "changed the status of the claim to " 
-				+ changeStatus + " and left the comment: '" + comment + "'";
-		//currentClaim.addApproverComment(finalComment);
-		
 	}
 	
 	/**

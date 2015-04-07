@@ -23,9 +23,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.location.Location;
-import android.os.Environment;
-
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 /**

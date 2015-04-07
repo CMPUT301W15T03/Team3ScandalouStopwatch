@@ -1,1 +1,5 @@
 ca.ualberta.cs.scandaloutraveltracker
+ca.ualberta.cs.scandaloutraveltracker.controllers
+ca.ualberta.cs.scandaloutraveltracker.mappers
+ca.ualberta.cs.scandaloutraveltracker.models
+ca.ualberta.cs.scandaloutraveltracker.views

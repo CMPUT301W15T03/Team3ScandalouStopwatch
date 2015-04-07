@@ -49,11 +49,21 @@ public class ClaimList extends SModel {
 		claims = mapper.loadClaims();
 	}
 	
+	/**
+	 * Constructor that is used in getting a specific user's Claim List
+	 * @param user User whose Claim List you want
+	 */
 	public ClaimList(User user) {
 		ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
 		claims = mapper.loadUserClaims(user);
 	}
 	
+	/**
+	 * ClaimController constructor that is used for when you are viewing
+	 * the claims in Approver Mode.
+	 * @param user The current User that is logged in
+	 * @param mode The mode you wish to search in
+	 */
 	public ClaimList(User user, String mode) {
 		if (mode.equals(Constants.APPROVER_MODE)) {
 			ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());
@@ -61,6 +71,12 @@ public class ClaimList extends SModel {
 		} 
 	}
 	
+	/**
+	 * ClaimController constructor that is used for searching for tags
+	 * @param user The current user whose claims you wish to search
+	 * @param mode The mode you are searching in (Tags Mode)
+	 * @param selectedTags An arraylist of tags that you wish to search
+	 */
 	public ClaimList(User user, String mode, ArrayList<String> selectedTags) {
 		if (mode.equals(Constants.TAG_MODE)) {
 			ClaimListMapper mapper = new ClaimListMapper(ClaimApplication.getContext());

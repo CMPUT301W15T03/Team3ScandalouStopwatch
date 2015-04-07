@@ -231,6 +231,10 @@ public class ClaimListActivity extends Activity implements ViewInterface {
 	    
 	}
 	
+	/**
+	 * Shows a dialog containing all the tags the user has entered and allows
+	 * the user to select tags they wish to search for
+	 */
 	private void showTagSearchDialog() {
     	tagsList = getAllTagsSequence();
     	selectedTags = new ArrayList<String>();

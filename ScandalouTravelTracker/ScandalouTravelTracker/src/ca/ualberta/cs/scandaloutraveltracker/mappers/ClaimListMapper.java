@@ -73,6 +73,11 @@ public class ClaimListMapper {
 		
 	}	
 	
+	/**
+	 * 
+	 * @param user whose claims you wish to load
+	 * @return ArrayList<Claim> that is associated with passed User
+	 */
 	public ArrayList<Claim> loadUserClaims(User user) {
 		ArrayList<Claim> claims = new ArrayList<Claim>();
 		
@@ -98,6 +103,11 @@ public class ClaimListMapper {
 		return claims;
 	}
 	
+	/**
+	 * Deletes all the claims associated with passed userId
+	 * @param userId whose claims you wish to delete
+	 * @param context of the application
+	 */
 	public void deleteUserClaims(int userId, Context context) {
 		SharedPreferences claimCounterFile = this.context.getSharedPreferences("claimCounter", 0);
 		int mostRecentClaimId = claimCounterFile.getInt("claimCount", 0);	
@@ -119,6 +129,11 @@ public class ClaimListMapper {
 		}
 	}
 	
+	/**
+	 * Loads all the claims that are not the passed users
+	 * @param user whose claims you wish to NOT load
+	 * @return ArrayList<Claim> associated with everyone that's not the passed user
+	 */
 	public ArrayList<Claim> loadNotUserClaims(User user) {
 		ArrayList<Claim> claims = new ArrayList<Claim>();
 		
@@ -149,6 +164,10 @@ public class ClaimListMapper {
 		return claims;
 	}
 	
+	/**
+	 * Searches all of the users claims all the tags attached to each  claim
+	 * @return ArrayList<String> containing all the tags for a users set of claims
+	 */
 	public ArrayList<String> getAllTags() {
 		ArrayList<String> tags = new ArrayList<String>();
 		ArrayList<String> currentTags;
@@ -184,6 +203,12 @@ public class ClaimListMapper {
 		return tags;
 	}
 	
+	/**
+	 * Returns a list of users' claims that include at least one of the selectedTags passed
+	 * @param user whose claims you wish to search through
+	 * @param selectedTags that you wish to include in the search
+	 * @return ArrayList<Claim> belonging to passed user containing at least one of the selected tags
+	 */
 	public ArrayList<Claim> getFilteredClaims(User user, ArrayList<String> selectedTags) {
 		ArrayList<Claim> claims = new ArrayList<Claim>();
 		

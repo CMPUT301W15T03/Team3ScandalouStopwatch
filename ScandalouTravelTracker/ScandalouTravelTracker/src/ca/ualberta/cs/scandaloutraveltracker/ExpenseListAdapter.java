@@ -48,6 +48,11 @@ public class ExpenseListAdapter extends BaseAdapter {
 	private Context context;
 	private boolean flagOn;
 	
+	/**
+	 * Constructor
+	 * @param context Current context of the application
+	 * @param expenses ArrayList of Expenses you wish to display
+	 */
 	public ExpenseListAdapter(Context context, ArrayList<Expense> expenses) {
 		this.expenses = expenses;
 		this.context = context;

@@ -21,15 +21,19 @@ package ca.ualberta.cs.scandaloutraveltracker.mappers;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import ca.ualberta.cs.scandaloutraveltracker.SyncQueueItem;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-
+/**
+ * Load/Saves a queue of items that still need to be saved to the online server.
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class SyncQueueMapper {
 
 	private Context context;
@@ -42,6 +46,10 @@ public class SyncQueueMapper {
 		this.context = context;
 	}
 	
+	/**
+	 * Given the passed syncQueue, will update the queue with what is passed
+	 * @param syncQueue that you wish to be the new syncQueue
+	 */
 	public void updateSyncQueue(LinkedList syncQueue){
 		
 		SharedPreferences syncQueueFile = this.context.getSharedPreferences("syncQueue", 0);
@@ -54,6 +62,10 @@ public class SyncQueueMapper {
 		editor.commit();		
 	}
 	
+	/**
+	 * Loads the claims that still need to be synced to the online server
+	 * @return LinkedList of items tha need to be synced
+	 */
 	public LinkedList loadSyncQueue(){
 		
 		LinkedList syncQueue;

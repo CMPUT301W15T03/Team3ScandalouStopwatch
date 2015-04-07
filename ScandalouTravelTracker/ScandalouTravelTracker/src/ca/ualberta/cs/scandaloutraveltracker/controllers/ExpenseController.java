@@ -21,10 +21,7 @@ package ca.ualberta.cs.scandaloutraveltracker.controllers;
 import java.util.Date;
 
 import android.location.Location;
-
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
-import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
 import ca.ualberta.cs.scandaloutraveltracker.views.ViewInterface;
 
 /**
@@ -45,7 +42,7 @@ public class ExpenseController {
 	}
 	
 	/**
-	 * 
+	 * Set the description of the expense
 	 * @param description
 	 */
 	public void setDescription(String description) {
@@ -53,7 +50,7 @@ public class ExpenseController {
 	}
 	
 	/**
-	 * 
+	 * Set the category of the expense
 	 * @param category
 	 */
 	public void setCategory(String category) {
@@ -63,7 +60,7 @@ public class ExpenseController {
 	
 	
 	/**
-	 * 
+	 * Set the currency of the expense
 	 * @param currency
 	 */
 	public void setCurrency(String currency) {
@@ -71,7 +68,7 @@ public class ExpenseController {
 	}
 	
 	/**
-	 * 
+	 * Set if the expense is flagged or not
 	 * @param flag
 	 */
 	public void setFlag(boolean flag) {
@@ -87,7 +84,7 @@ public class ExpenseController {
 	}
 	
 	/**
-	 * 
+	 * Set the cost of the current expense
 	 * @param cost
 	 */
 	public void setCost(double cost) {
@@ -95,7 +92,7 @@ public class ExpenseController {
 	}
 	
 	/**
-	 * 
+	 * Set the date the current expense occurred
 	 * @param date
 	 */
 	public void setDate(Date date) {
@@ -119,7 +116,7 @@ public class ExpenseController {
 	}
 	
 	/**
-	 * 
+	 * Add a view to the expense (listener)
 	 * @param view
 	 */
 	public void addView(ViewInterface view) {
@@ -127,7 +124,7 @@ public class ExpenseController {
 	}
 	
 	/**
-	 * 
+	 * Remove a view from the expense
 	 * @param view
 	 */
 	public void removeView(ViewInterface view) {
@@ -135,24 +132,32 @@ public class ExpenseController {
 	}
 
 
+	/**
+	 * Get the receipt path associated with the expense
+	 * @return String that is a path to the receipt photo
+	 */
 	public String getReceiptPath() {
 		return currentExpense.getReceiptPath();
 	}
 	
 	/**
-	 * 
+	 * Set the path to the expense's receipt
 	 * @param receipt
 	 */
 	public void setReceiptPath(String receiptPath) {
 		currentExpense.setReceiptPath(receiptPath);
 	}
 	
+	/**
+	 * 
+	 * @return String that is a path to the photo
+	 */
 	public String getReceiptPhoto() {
 		return currentExpense.getReceiptPhoto();
 	}
 	
 	/**
-	 * 
+	 * Set the string where the receipt photo is stored
 	 * @param receipt
 	 */
 	public void setReceiptPhoto(String receiptPhoto) {
@@ -176,10 +181,18 @@ public class ExpenseController {
 		currentExpense.notifyViews();
 	}
 	
+	/**
+	 * Returns the receipts status (if one is attached)
+	 * @return boolean
+	 */
 	public boolean getReceiptStatus() {
 		return currentExpense.getReceiptAttached();
 	}
 	
+	/**
+	 * Set that a receipt has been attached to the expense
+	 * @param status
+	 */
 	public void setReceiptStatus(boolean status) {
 		currentExpense.setReceiptAttached(status);
 	}

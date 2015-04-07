@@ -40,6 +40,10 @@ public class UserController {
 		this.currentUser = currentUser;
 	}
 	
+	/**
+	 * Sets the User's current location to the location passed
+	 * @param location you wish to set as User's current location
+	 */
 	public void setCurrentLocation(Location location) {
 		this.currentUser.setCurrentLocation(location);
 	}

@@ -18,9 +18,11 @@ limitations under the License.
 
 package ca.ualberta.cs.scandaloutraveltracker.models;
 /**
- * Basic class that just stores two integers in an object.
+ * Basic class that just stores two integers in an object. Used in
+ * storing the starting character and ending character location in
+ * a tag. 
  * 
- * @author jwu
+ * @author Team3ScandalouStopwatch
  *
  */
 public class IntegerPair {

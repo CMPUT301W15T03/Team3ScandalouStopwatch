@@ -18,7 +18,6 @@ limitations under the License.
 	
 package ca.ualberta.cs.scandaloutraveltracker.views;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,7 +31,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -59,7 +57,6 @@ import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ClaimListController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ExpenseController;
 import ca.ualberta.cs.scandaloutraveltracker.controllers.ReceiptController;
-import ca.ualberta.cs.scandaloutraveltracker.mappers.ClaimMapper;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
 import ca.ualberta.cs.scandaloutraveltracker.models.Receipt;
@@ -81,7 +78,6 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 	private boolean canEdit;
 	private ClaimController claimController;
 	private ExpenseController expenseController;
-	private ClaimListController claimListController;
 	private Button cancel;
 	private EditText dateEditText;
 	private Spinner categorySpinner;
@@ -89,7 +85,6 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 	private Spinner currencySpinner;
 	private EditText descriptionEditText;
 	private TextView locationTextView;
-	private ClaimMapper mapper;
 	private Location location = null;
 	private LocationManager lm;
 	private Location GPSLocation;
@@ -113,9 +108,6 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		GPSLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
-		//create ClaimMapper for saving data
-		mapper = new ClaimMapper(this.getApplicationContext());
-		
 		//create date picker
 		LinearLayout dateCurrencyLL = (LinearLayout) findViewById(R.id.addExpenseDateAndCurrencyLayout);
 		dateEditText = (EditText) dateCurrencyLL.findViewById(R.id.date_expense2);
@@ -135,7 +127,6 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 
 		//makes sure that the position of the claim and corresponding 
 		//expense to be edited are actually passed to this activity
-		Bundle extras = getIntent().getExtras();
 		Intent intent = getIntent();
 		claimId = (int) intent.getIntExtra(Constants.claimIdLabel, -1);
 		if (claimId == -1) {

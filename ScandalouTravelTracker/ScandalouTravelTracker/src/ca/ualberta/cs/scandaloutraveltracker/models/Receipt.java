@@ -20,13 +20,10 @@ package ca.ualberta.cs.scandaloutraveltracker.models;
 
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-
-import ca.ualberta.cs.scandaloutraveltracker.UserInputException;
 
 /**
  *  The class Receipt that gets an image of a receipt and changes it to a string.
@@ -37,6 +34,10 @@ public class Receipt extends SModel {
 	
 	private String receiptPhoto;
     
+	/**
+	 * Constructor
+	 * @param receiptPhoto path to the photo
+	 */
 	public Receipt(String receiptPhoto){
 		this.receiptPhoto = receiptPhoto;
 	}

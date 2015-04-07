@@ -19,13 +19,11 @@ limitations under the License.
 package ca.ualberta.cs.scandaloutraveltracker.mappers;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Location;
-
 import ca.ualberta.cs.scandaloutraveltracker.models.User;
 
 import com.google.gson.Gson;
@@ -39,6 +37,11 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * UserMapper load/save a user
+ * @author Team3ScandalouStopwatch
+ *
+ */
 public class UserMapper {
 
 	private Context context;
@@ -53,6 +56,11 @@ public class UserMapper {
 		onlineMapper = new OnlineMapper(context);
 	}
 	
+	/**
+	 * Creates a user and saves the associated information
+	 * @param name of user you wish to create
+	 * @return userId of newly created user
+	 */
 	public int createUser(String name){
 		
 		int userId = incrementUserCounter();		
@@ -65,6 +73,11 @@ public class UserMapper {
 		return userId;
 	}
 	
+	/**
+	 * Updates the location of the given user
+	 * @param userId of user whose location you want to update
+	 * @param location new location you want to update user with
+	 */
 	public void updateLocation(int userId, Location location){	
 		saveUserData(userId, "location", location);
 		saveOnline(userId);
@@ -182,6 +195,11 @@ public class UserMapper {
 }
 
 // http://stackoverflow.com/questions/13944346/runtimeexception-in-gson-parsing-json-failed-to-invoke-protected-java-lang-clas, 03/26/2015
+/**
+ * Helps to seralize a Location object so it can be saved in sharedpreferences
+ * @author Team3ScandalouStopwatch
+ *
+ */
 class LocationSerializer implements JsonSerializer<Location> {
 	@Override
 	public JsonElement serialize(Location location, Type arg1,
@@ -198,6 +216,11 @@ class LocationSerializer implements JsonSerializer<Location> {
 
 }
 
+/**
+ * Helpts to deserialize a location that was serialized and stored in sharedpreferences
+ * @author Team3ScandalouStopwatch
+ *
+ */
 class LocationDeserializer implements JsonDeserializer<Location> {
 	@Override
 	public Location deserialize(JsonElement element, Type arg1,

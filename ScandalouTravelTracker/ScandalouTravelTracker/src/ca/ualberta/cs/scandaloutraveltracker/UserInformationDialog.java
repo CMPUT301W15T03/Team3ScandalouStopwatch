@@ -115,7 +115,7 @@ public class UserInformationDialog extends DialogFragment {
 	}
 	
 	@Override
-	/*
+	/**
 	 * Overwrites the original onAttach to ensure that the activity that host the dialog
 	 * also implements the interface needed. 
 	 * @see android.app.DialogFragment#onAttach(android.app.Activity)

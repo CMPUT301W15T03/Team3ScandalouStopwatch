@@ -21,16 +21,10 @@ package ca.ualberta.cs.scandaloutraveltracker.mappers;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
-import android.widget.Toast;
-
-import ca.ualberta.cs.scandaloutraveltracker.ConnectivityChangeReceiver;
-import ca.ualberta.cs.scandaloutraveltracker.Constants;
 import ca.ualberta.cs.scandaloutraveltracker.models.Claim;
 import ca.ualberta.cs.scandaloutraveltracker.models.Destination;
 import ca.ualberta.cs.scandaloutraveltracker.models.Expense;
@@ -329,14 +323,27 @@ public class ClaimMapper {
 		deleteOnline(claimId);
 	}
 	
+	/**
+	 * Saves the claim to the online server
+	 * @param claimId that you wish to save
+	 */
 	private void saveOnline(int claimId){
 		onlineMapper.save(getClaimFileName(claimId), new Claim(claimId));
 	}
 	
+	/**
+	 * Deletes the claim from the online servr
+	 * @param claimId that you wish to delete
+	 */
 	private void deleteOnline(int claimId){
 		onlineMapper.delete(getClaimFileName(claimId));
 	}
 	
+	/**
+	 * Gets the file name of the associated claim
+	 * @param claimId whose file name you want
+	 * @return String that is the claims filename
+	 */
 	public String getClaimFileName(int claimId){
 		return "claim"+Integer.toString(claimId);
 	}

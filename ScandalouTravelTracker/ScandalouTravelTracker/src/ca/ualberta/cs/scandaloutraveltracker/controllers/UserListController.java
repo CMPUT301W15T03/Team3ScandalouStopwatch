@@ -51,8 +51,8 @@ public class UserListController {
 	}
 
 	/**
-	 * 
-	 * @param view
+	 * Removes a view from the UserList
+	 * @param view that you wish to remove
 	 */
 	public void removeView(ViewInterface view) {
 		userList.removeView(view);
@@ -80,16 +80,17 @@ public class UserListController {
 	}
 	
 	/**
-	 * Deletes the user from storage
-	 * @param userId
+	 * Deletes the user associated with the passed id from storage
+	 * @param userId of user you wish to delete
 	 */
 	public void deleteUser(int userId){
 		userList.deleteUser(userId);
 	}	
 	
 	/**
-	 * 
-	 * @param user
+	 * Adds the User passed as a parameter to the UserList and
+	 * then sorts the list based on most recent users
+	 * @param user 
 	 */
 	public void addUser(User user) {
 		userList.addUser(user);
@@ -105,17 +106,17 @@ public class UserListController {
 	}
 	
 	/**
-	 * 
-	 * @param position
-	 * @return
+	 * Gets a User
+	 * @param position of the user in the list
+	 * @return User in the position passed
 	 */
 	public User getUser(int position) {
 		return userList.getUser(position);
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Gets the UserList
+	 * @return UserList associated with the application
 	 */
 	public UserList getUserList() {
 		return userList;
