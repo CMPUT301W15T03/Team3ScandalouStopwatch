@@ -2,7 +2,7 @@ Pre-Demo:
     Have an approver already made and set a location
     Approver named one of group members
 Demo:
-    F8 - toggle queue
+    F8 - toggle connectivity (Show elastic search works)
     Create new user named Justin
         Set home location via map to Edmonton
         Log in
