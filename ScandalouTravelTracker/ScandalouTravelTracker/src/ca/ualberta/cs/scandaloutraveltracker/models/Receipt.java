@@ -68,6 +68,7 @@ public class Receipt extends SModel {
 					Long.toString(MAX_RECEIPT_SIZE / (1024*1024)) + " MB");
 		}*/
 		
+		// CITATION http://stackoverflow.com/questions/4830711/how-to-convert-a-image-into-base64-string, 2015-04-07
 		if (newReceiptPath == null){
 			receiptPhoto = null;
 		} else {

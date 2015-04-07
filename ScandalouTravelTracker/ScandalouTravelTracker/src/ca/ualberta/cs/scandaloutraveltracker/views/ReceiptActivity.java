@@ -50,6 +50,8 @@ public class ReceiptActivity extends MenuActivity {
 	    String receiptPhoto = intent.getStringExtra(Constants.receiptPhotoLabel);
 	    
 	    if (receiptPhoto != null){
+	    	
+	    	// CITATION http://stackoverflow.com/questions/15683032/android-convert-base64-encoded-string-into-image-view, 2015-04-07
 			byte[] decodedString = Base64.decode(receiptPhoto, Base64.DEFAULT);
 			Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);			
 			
