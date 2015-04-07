@@ -57,6 +57,8 @@ public class ClaimConnectivityTest extends TestCase {
 	ClaimGenerator cg = new ClaimGenerator();
 	ClaimListController claimListController;
 	
+	int waitTime = 6000; // 6 seconds
+	
 	QueryObject searchResult;
 	
 	// Tests that a claim gets pushed online when created (assuming there's an internet connection)
@@ -79,7 +81,7 @@ public class ClaimConnectivityTest extends TestCase {
 		newClaimId++; // ID of claim that will be created
 
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);		
+		Thread.sleep(waitTime);		
 		
 		// Search the server at the claim id we just made
 		searchResult = searchServer(newClaimId);
@@ -95,7 +97,7 @@ public class ClaimConnectivityTest extends TestCase {
 				mockClaim.getUser());
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);
+		Thread.sleep(waitTime);
 		
 		// Search the server at the claim id we just made again
 		searchResult = searchServer(newClaimId);
@@ -133,7 +135,7 @@ public class ClaimConnectivityTest extends TestCase {
 		mockClaim = new Claim(newClaimId);
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);		
+		Thread.sleep(waitTime);		
 		
 		// Search the server at the claim id we just made
 		searchResult = searchServer(newClaimId);
@@ -146,7 +148,7 @@ public class ClaimConnectivityTest extends TestCase {
 				"Test 2", mockClaim.getDestinations(), mockClaim.getCanEdit());
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);	
+		Thread.sleep(waitTime);	
 		
 		// Search the server at the claim id we just made again
 		searchResult = searchServer(newClaimId);
@@ -184,7 +186,7 @@ public class ClaimConnectivityTest extends TestCase {
 		mockClaim = new Claim(newClaimId);
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);		
+		Thread.sleep(waitTime);		
 		
 		// Search the server at the claim id we just made
 		searchResult = searchServer(newClaimId);
@@ -195,7 +197,7 @@ public class ClaimConnectivityTest extends TestCase {
 		claimListController.deleteClaim(newClaimId);
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);	
+		Thread.sleep(waitTime);	
 		
 		// Search again
 		searchResult = searchServer(newClaimId);
@@ -203,7 +205,7 @@ public class ClaimConnectivityTest extends TestCase {
 			
 	}
 	
-	// Tests that changes to multiple claim while offline get synced online when an internet connection
+	// Tests that changes to multiple claims while offline get synced online when an internet connection
 	// returns
 	// US 09.01.01
 	public void testSyncClaims() throws Throwable {
@@ -239,7 +241,7 @@ public class ClaimConnectivityTest extends TestCase {
 		mockClaim1 = new Claim(newClaimId1);
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);		
+		Thread.sleep(waitTime);		
 		
 		// Search the server at the claim id we just made
 		searchResult = searchServer(newClaimId1);
@@ -264,7 +266,7 @@ public class ClaimConnectivityTest extends TestCase {
 		mockClaim2 = new Claim(newClaimId2);
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);		
+		Thread.sleep(waitTime);		
 		
 		// Search the server at the claim id we just made
 		searchResult = searchServer(newClaimId2);
@@ -277,7 +279,7 @@ public class ClaimConnectivityTest extends TestCase {
 		
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);		
+		Thread.sleep(waitTime);		
 		
 		// Search the server at the claim ids we just made
 		searchResult = searchServer(newClaimId1);
@@ -323,7 +325,7 @@ public class ClaimConnectivityTest extends TestCase {
 		mockClaim = new Claim(newClaimId);
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);		
+		Thread.sleep(waitTime);		
 		
 		// Search the server at the claim id we just made
 		searchResult = searchServer(newClaimId);
@@ -337,7 +339,7 @@ public class ClaimConnectivityTest extends TestCase {
 				"Test 2", mockClaim.getDestinations(), mockClaim.getCanEdit());
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);	
+		Thread.sleep(waitTime);	
 		
 		// Search the server at the claim id we just made again
 		searchResult = searchServer(newClaimId);
@@ -351,7 +353,7 @@ public class ClaimConnectivityTest extends TestCase {
 		onlineMapper.sync();
 		
 		// Wait for the claim data to get pushed
-		Thread.sleep(3000);		
+		Thread.sleep(waitTime);		
 		
 		// Only the most recent change should be there
 		searchResult = searchServer(newClaimId);
