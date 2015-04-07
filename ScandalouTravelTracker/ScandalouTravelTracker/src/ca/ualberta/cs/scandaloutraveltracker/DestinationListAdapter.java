@@ -273,11 +273,4 @@ public class DestinationListAdapter extends BaseAdapter {
 		return convertView;
 	}
 	
-	/**
-	 * return the changed list of destinations
-	 */
-	public ArrayList<Destination> getDestinations() {
-		return destinations;
-	}
-	
 }
