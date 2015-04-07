@@ -181,8 +181,6 @@ public class EditExpenseActivityTest extends
 		MenuItem photoItem = menu.findItem(R.id.action_take_photo);
 		assertTrue(photoItem.isVisible());
 		assertTrue(photoItem.isEnabled());
-		assertTrue(deleteReceiptButton.isShown());
-		assertTrue(deleteReceiptButton.isClickable());
 		assertTrue(imageButton.isShown());
 		assertTrue(imageButton.isClickable());
 		cg.resetState(ClaimApplication.getContext());

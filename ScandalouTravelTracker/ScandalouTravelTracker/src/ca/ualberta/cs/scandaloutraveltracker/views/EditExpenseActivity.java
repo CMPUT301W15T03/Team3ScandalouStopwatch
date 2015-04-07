@@ -84,6 +84,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 	private int expenseId;
 	private Date newDate;
 	private boolean canEdit;
+	private Button editButton;
 	private Button cancel;
 	private ImageButton receiptThumbnail;
 	private ImageButton deleteReceiptButton;
@@ -125,8 +126,8 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		locationTextView = (TextView) findViewById(R.id.edit_location_edit_text);
 		locationButton = (Button) findViewById(R.id.edit_expense_location_button);
 		
-		Button editButton = (Button) findViewById(R.id.edit_expense_button);
-		Button cancel = (Button) findViewById(R.id.edit_expense_cancel);
+		editButton = (Button) findViewById(R.id.edit_expense_button);
+		cancel = (Button) findViewById(R.id.edit_expense_cancel);
 
 		
 		//makes sure that the position of the claim and corresponding 

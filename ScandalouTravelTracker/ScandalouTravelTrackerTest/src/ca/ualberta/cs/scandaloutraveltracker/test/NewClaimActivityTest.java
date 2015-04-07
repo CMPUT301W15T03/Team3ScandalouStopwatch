@@ -51,7 +51,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 	TextView tagsTV;
 	ListView destinationsList;
 	Button submitButton;
-	Button addTagsButton;
+	ImageButton addTagsButton;
 	ImageButton destinationButton;
 	int userId;
 	Instrumentation instrumentation;
@@ -86,7 +86,7 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 	    submitButton = (Button) newClaimActivity.findViewById(R.id.claim_ok_button);
 	    destinationButton = (ImageButton) newClaimActivity.findViewById(R.id.add_dest_button);
 	    destinationsList = (ListView) newClaimActivity.findViewById(R.id.destinations_lv);
-	    addTagsButton = (Button) newClaimActivity.findViewById(R.id.new_claim_add_tag);
+	    addTagsButton = (ImageButton) newClaimActivity.findViewById(R.id.new_claim_add_tag);
 	}
 	
 	// Tests adding a new claim
@@ -167,7 +167,13 @@ public class NewClaimActivityTest extends ActivityInstrumentationTestCase2<NewCl
 		ArrayList<String> currentTags;
 		SpannableString ss;
 		
-		performClick(addTagsButton);
+		instrumentation.runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				addTagsButton.performClick();
+			}
+		});
+		instrumentation.waitForIdleSync();
 		alert = newClaimActivity.getAlert();
 		assertTrue(alert.isShowing());
 		
