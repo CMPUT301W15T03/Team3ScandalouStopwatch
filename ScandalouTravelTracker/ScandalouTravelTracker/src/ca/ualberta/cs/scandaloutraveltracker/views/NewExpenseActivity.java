@@ -29,15 +29,12 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -426,12 +423,7 @@ public class NewExpenseActivity extends Activity implements ViewInterface {
 		
 		if (receiptController.getReceiptPhoto() != null) {
 			
-			// Get the receipt photo
-			byte[] decodedString = Base64.decode(receiptController.getReceiptPhoto(), Base64.DEFAULT);
-			Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-			
 			// Update the receipt area
-			receiptThumbnail.setImageBitmap(decodedByte);
 			addReceiptText.setText("View Attached Receipt");
 			deleteReceiptButton.setVisibility(View.VISIBLE);
 			receiptThumbnail.setClickable(true);

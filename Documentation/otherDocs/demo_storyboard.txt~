@@ -1,0 +1,74 @@
+Pre-Demo:
+    Have an approver already made and set a location
+    Approver named one of group members
+Demo:
+    F8 - toggle queue
+    Create new user named Justin
+        Set home location via map to Edmonton
+        Log in
+        
+    Create a new claim
+        April 8th - April 15th
+        Just livin' the Edmonton life
+        Add destination
+            Whyte Avenue
+            Shopping with friends
+        Add tags
+            Friends, Shopping, Chillin
+            Delete Friends
+            Rename Chillin to Friends
+        Try to add Claim
+        Add location to destination
+        Set location in Edmonton
+        Add claim
+        Try to send claim
+    Create another Claim
+        April 9th - April 11th
+        Visiting St. Albert
+        No destination
+        Add Claim
+    Edit Created Claim
+        Add destination
+            St. Albert
+            Visiting friends
+        Add tags
+            Friends
+    Create Third Claim
+        April 7th - April 9th
+        Add destination
+            Leduc
+            Work related trip
+            Set desination in Leduc
+        Add Claim
+    
+    Filter tags for #Shopping #Friends
+    Filter tags for #Friends
+    Restore list
+    
+    Add expense to the Whyte Ave claim
+        Meal, April 8th, CAD, Eatin' with Q - Add
+    Go to listing expenses
+    Flag and then edit only expense
+        Set location, add a photo and save
+    
+    Submit Whyte Avenue claim
+    Go into claim and add new tag: Q
+    Switch to approver screen - empty
+    Go to log in screen
+    
+    Sign in as an approver and switch views
+    View expenses and go to only expense
+        View reciept 
+    Go back and View claim
+    Reject Claim: "This claim is horrible"
+    Sign out and sign in as Justin
+    
+    View commnent on returned claim
+    Show everything editable again
+    Re-Send claim
+    
+    Log in as Approver
+    Approve claim: "I guess this claim is better"
+    
+    Log in as Justin
+    View claim comments

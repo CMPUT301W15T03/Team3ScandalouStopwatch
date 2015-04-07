@@ -32,15 +32,12 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -572,12 +569,7 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 		
 		if (receiptController.getReceiptPhoto() != null) {
 			
-			// Get the receipt photo
-			byte[] decodedString = Base64.decode(receiptController.getReceiptPhoto(), Base64.DEFAULT);
-			Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-			
 			// Update the receipt area
-			receiptThumbnail.setImageBitmap(decodedByte);
 			addReceiptText.setText("View Attached Receipt");
 			deleteReceiptButton.setVisibility(View.VISIBLE);
 			receiptThumbnail.setClickable(true);
@@ -586,7 +578,6 @@ public class EditExpenseActivity extends Activity implements ViewInterface {
 			
 			// Reset the receipt area 
 			// http://stackoverflow.com/questions/8642823/using-setimagedrawable-dynamically-to-set-image-in-an-imageview, 2015-03-28
-			receiptThumbnail.setImageDrawable(null);
 			addReceiptText.setText("No Receipt Attached");
 			deleteReceiptButton.setVisibility(View.INVISIBLE);
 			receiptThumbnail.setClickable(false);
