@@ -190,7 +190,10 @@ public class DestinationListAdapter extends BaseAdapter {
 							}
 							else {
 								Destination temp = destinations.get(position);
-								temp.setLocation(GPSLocation);
+								Location locationTemp = new Location("Destination Location");
+								locationTemp.setLatitude(GPSLocation.getLatitude());
+								locationTemp.setLongitude(GPSLocation.getLongitude());
+								temp.setLocation(locationTemp);
 								destinations.set(position, temp);
 								locationImage.setImageResource(R.drawable.mapmarker);
 							}
